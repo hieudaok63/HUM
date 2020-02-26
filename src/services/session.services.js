@@ -25,12 +25,13 @@ const get360JSON = (
   level = '1',
   style = 'default',
   room = 'default',
-  roomUse = []
+  uses = [],
+  mode = 'day'
 ) =>
   getConfiguration().then((builderInfo) => {
     const { builderId, propertyId, layoutName } = builderInfo;
     return fetch(
-      `${ThreeSixtyAppApiProd}${lang}/360s/${builderId}/${propertyId}/${layoutName}/${level}/${style}/${room.trim()}`,
+      `${ThreeSixtyAppApiProd}${lang}/360s/room-use/${builderId}/${propertyId}/${layoutName}/${level}/${style}/${room.trim()}/${mode}`,
       {
         method: 'POST',
         headers: {
@@ -38,17 +39,22 @@ const get360JSON = (
           'x-api-key': xApiKey360
         },
         body: JSON.stringify({
-          roomUse
+          uses
         })
       }
     ).then((response) => response.json());
   });
 
-const get360Scenes = (lang = 'en', level = '1', style = 'default') =>
+const get360Scenes = (
+  lang = 'en',
+  level = '1',
+  style = 'default',
+  mode = 'day'
+) =>
   getConfiguration().then((builderInfo) => {
     const { builderId, propertyId, layoutName } = builderInfo;
     return fetch(
-      `${ThreeSixtyAppApiProd}${lang}/360s/scenes/${builderId}/${propertyId}/${layoutName}/${level}/${style}`,
+      `${ThreeSixtyAppApiProd}${lang}/360s/rooms/${builderId}/${propertyId}/${layoutName}/${level}/${style}/${mode}`,
       {
         method: 'GET',
         headers: {
@@ -106,11 +112,16 @@ const countClickFurniture = (language, body) =>
     body: JSON.stringify(body)
   }).then((res) => res.json());
 
-const get360Styles = (lang = 'en', level = '1', room = 'default') =>
+const get360Styles = (
+  lang = 'en',
+  level = '1',
+  room = 'default',
+  mode = 'day'
+) =>
   getConfiguration().then((builderInfo) => {
     const { builderId, propertyId, layoutName } = builderInfo;
     return fetch(
-      `${ThreeSixtyAppApiProd}${lang}/360s/v2/styles-room/${builderId}/${propertyId}/${layoutName}/${level}/${room}`,
+      `${ThreeSixtyAppApiProd}${lang}/360s/styles-room/${builderId}/${propertyId}/${layoutName}/${level}/${room}/${mode}`,
       {
         method: 'GET',
         headers: {

@@ -25,13 +25,13 @@ const StylesMenu = ({
       className={`styles-menu sub-menu ${show ? '' : 'display-none'}`}
     >
       {options.map((option, index) => {
-        const { name, type, image } = option;
+        const { style, type, image } = option;
         return (
           <ImageMenuItem
             key={type}
             type={type}
-            keyName={name}
-            name={name}
+            keyName={type}
+            name={style}
             index={index}
             onClick={styleChange}
             img={image}

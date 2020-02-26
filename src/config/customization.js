@@ -18,16 +18,16 @@ export const autoPlay = false;
 export const autoPlayInterval = 10000;
 export const showInstructions = false;
 
-/*
 export const mapSize = {
   width: 306,
   height: 306
 };
-*/
+/*
 export const mapSize = {
   width: 598,
   height: 598
 };
+*/
 export const mapSizeDesktop = {
   width: 607,
   height: 607

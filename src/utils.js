@@ -1,4 +1,5 @@
 import queryString from 'query-string';
+import { Viewer } from './lib/panolens.module';
 
 /* eslint-disable no-param-reassign */
 
@@ -72,17 +73,40 @@ const getLevelData = (levels, currentLevel) => {
 
 const get360Style = (style, menu) => {
   const menuStyle = menu.filter((item) =>
-    item.type.toLowerCase() === style.toLowerCase() ||
-    item.name.toLowerCase() === style.toLowerCase()
+    item.name.toLowerCase() === style.toLowerCase() ||
+    item.key.toLowerCase() === style.toLowerCase()
       ? item
       : null
   );
-  return menuStyle && menuStyle[0].name;
+  return menuStyle && menuStyle[0].key;
 };
+
+const get360Use = (roomKey, scene) => {
+  const use = scene.filter((item) =>
+    item.key.toLowerCase() === roomKey.toLowerCase() ? item : null
+  );
+  return use && use[0];
+};
+
+const get360Uses = (uses) => {
+  if (uses.length > 1) {
+    return uses.map((use) => {
+      const { key, name, image } = use;
+      return {
+        key,
+        name,
+        image
+      };
+    });
+  }
+  return [];
+};
+
+const getCurrentRoomUse = (use) => use.key;
 
 const get360DataStyle = (currentStyle, styles) => {
   const style = styles.filter((item) =>
-    item.name === currentStyle ? item : null
+    item.key.toLowerCase() === currentStyle ? item : null
   );
   return style && style[0];
 };
@@ -125,6 +149,128 @@ const hasGyroscope = () => {
   return false;
 };
 
+const getRoomToRequest = (roomUse, uses, defaultUse) => {
+  let room = null;
+  if (roomUse !== '' && roomUse !== null && roomUse !== undefined) {
+    room = roomUse;
+  } else {
+    room = defaultUse;
+  }
+  const exist = uses.find((use) => use.key === room);
+
+  return exist ? room : defaultUse;
+};
+
+const getProcessed360Data = (data, level, style, room, roomUse) => {
+  const levelData = getLevelData(data.levels, level);
+  if (levelData) {
+    const { menu } = data;
+    const styleToRequest = style === 'default' ? data.defaultStyle : style;
+    const menuStyle = get360Style(styleToRequest, menu);
+    const jsonStyle = get360DataStyle(
+      menuStyle.toLowerCase(),
+      levelData.styles
+    );
+    if (jsonStyle) {
+      const roomToRequest = room === 'default' ? levelData.defaultScene : room;
+      const jsonScene = get360Scene(roomToRequest, jsonStyle.scenes);
+      if (jsonScene) {
+        const roomUseToRequest = getRoomToRequest(
+          roomUse,
+          jsonScene.uses,
+          jsonScene.defaultUse
+        );
+        const use = get360Use(roomUseToRequest, jsonScene.uses);
+        const uses = get360Uses(jsonScene.uses);
+        const currentRoomUse = getCurrentRoomUse(use);
+        if (use) {
+          const { startScenePosition, key: sceneKey, hotspots } = jsonScene;
+          return {
+            use,
+            uses,
+            currentRoomUse,
+            levelData,
+            jsonStyle,
+            startScenePosition,
+            menuStyle,
+            sceneKey,
+            hotspots
+          };
+        }
+      }
+    }
+  }
+  return null;
+};
+
+const createViewer = (viewer) => {
+  if (viewer !== null) {
+    return viewer;
+  }
+  return new Viewer({
+    // A DOM Element container
+    container: document.getElementById('viewer'),
+
+    // Vsibility of bottom control bar
+    controlBar: true,
+
+    // Buttons array in the control bar. Default to ['fullscreen', 'setting', 'video']
+    controlButtons: [],
+
+    // Auto hide control bar
+    autoHideControlBar: false,
+
+    // Auto hide infospots
+    autoHideInfospot: false,
+
+    // Allow only horizontal camera control
+    horizontalView: false,
+
+    // Camera field of view in degree
+    cameraFov: 75,
+
+    // Reverse orbit control direction
+    reverseDragging: false,
+
+    // Enable reticle for mouseless interaction
+    enableReticle: false,
+
+    // Dwell time for reticle selection in millisecond
+    dwellTime: 1500,
+
+    // Auto select a clickable target after dwellTime
+    autoReticleSelect: true,
+
+    // Adds an angle view indicator in upper left corner
+    viewIndicator: false,
+
+    // Size of View Indicator
+    indicatorSize: 30,
+
+    // Whether and where to output infospot position. Could be 'console' or 'overlay'
+    output: 'console',
+
+    // Auto rotate
+    autoRotate: false,
+
+    // Auto rotate speed as in degree per second. Positive is counter-clockwise and negative is clockwise.
+    autoRotateSpeed: 0.5,
+
+    // Duration before auto rotatation when no user interactivity in ms
+    autoRotateActivationDuration: 20000
+  });
+};
+
+const getViewerDependingOnPreview = (preview, viewer) => {
+  if (preview) {
+    viewer.scene.children[0].children.forEach((child) => {
+      const element = child;
+      element.visible = false;
+    });
+  }
+  return viewer;
+};
+
 export {
   getClosest,
   callFilter,
@@ -144,5 +290,12 @@ export {
   get360Style,
   titleCase,
   hasGyroscope,
-  isPortrait
+  isPortrait,
+  get360Use,
+  get360Uses,
+  getRoomToRequest,
+  getCurrentRoomUse,
+  getProcessed360Data,
+  createViewer,
+  getViewerDependingOnPreview
 };

@@ -77,9 +77,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (isPreview()) {
-      this.loadContent();
-    }
+    this.loadContent();
   }
 
   changeStep = () => {
@@ -117,7 +115,7 @@ class App extends Component {
       selectedStyleName,
       selectedScene,
       null,
-      [],
+      null,
       isPreview(),
       isSurveyCompleted()
     );
@@ -213,14 +211,16 @@ class App extends Component {
       viewer,
       currentLevel,
       selectedScene,
-      sessionActions: actionsFromSession
+      sessionActions: actionsFromSession,
+      currentRoomUse
     } = this.props;
     actionsFromSession.get360JSON(
       lang,
       currentLevel,
       style,
       selectedScene || 'default',
-      viewer
+      viewer,
+      currentRoomUse
     );
   };
 
@@ -238,8 +238,8 @@ class App extends Component {
       currentRoomUse === undefined ||
       currentRoomUse === null ||
       currentRoomUse === ''
-        ? []
-        : [currentRoomUse];
+        ? ''
+        : currentRoomUse;
     actionsFromSession.get360Styles(lang, currentLevel, name);
     actionsFromSession.get360JSON(
       lang,
@@ -259,7 +259,8 @@ class App extends Component {
       selectedScene,
       sessionActions: actionsFromSession
     } = this.props;
-    const roomType = roomName === 'default' ? [] : [roomName];
+    console.log('roomName', roomName);
+    const roomType = roomName === 'default' ? null : roomName;
     actionsFromSession.get360JSON(
       lang,
       currentLevel,

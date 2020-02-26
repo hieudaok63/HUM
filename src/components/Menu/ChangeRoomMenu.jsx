@@ -3,19 +3,18 @@ import { string, bool, arrayOf, shape, func } from 'prop-types';
 import ImageMenuItem from './ImageMenuItem';
 
 const ChangeRoomMenu = ({ show, roomItemClick, roomUse, currentRoomUse }) => {
-  const childElements = roomUse.map((room, index) => {
-    return (
-      <ImageMenuItem
-        key={room.key}
-        keyName={room.key}
-        name={room.name}
-        index={index}
-        onClick={roomItemClick}
-        img={room.image}
-        selected={currentRoomUse}
-      />
-    );
-  });
+  console.log(currentRoomUse);
+  const childElements = roomUse.map((room, index) => (
+    <ImageMenuItem
+      key={room.key}
+      keyName={room.key}
+      name={room.name}
+      index={index}
+      onClick={roomItemClick}
+      img={room.image}
+      selected={currentRoomUse}
+    />
+  ));
   return (
     <div
       className={`menu-properties-container d-flex flex-column justify-content-start align-items-start ${

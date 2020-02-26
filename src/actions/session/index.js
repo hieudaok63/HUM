@@ -8,18 +8,12 @@ import {
   rotationMessage,
   shopCar
 } from '../../config/customization';
-import {
-  ImagePanorama,
-  Viewer,
-  Infospot,
-  DataImage
-} from '../../lib/panolens.module';
+import { ImagePanorama, Infospot, DataImage } from '../../lib/panolens.module';
 import {
   isMobileDevice,
-  getLevelData,
-  get360DataStyle,
-  get360Scene,
-  get360Style
+  getProcessed360Data,
+  createViewer,
+  getViewerDependingOnPreview
 } from '../../utils';
 
 const loginStart = () => ({
@@ -367,69 +361,14 @@ const activateCardBoardMode = (viewer, cardBoardMode, callback) => (
     toggleCardBoard(viewer, cardBoardMode);
     callback();
   } else {
-    console.log('NO DEVICE DETECTED');
+    console.error('NO DEVICE DETECTED');
   }
 };
 
-const createViewer = () => {
-  const viewer = new Viewer({
-    // A DOM Element container
-    container: document.getElementById('viewer'),
-
-    // Vsibility of bottom control bar
-    controlBar: true,
-
-    // Buttons array in the control bar. Default to ['fullscreen', 'setting', 'video']
-    controlButtons: [],
-
-    // Auto hide control bar
-    autoHideControlBar: false,
-
-    // Auto hide infospots
-    autoHideInfospot: false,
-
-    // Allow only horizontal camera control
-    horizontalView: false,
-
-    // Camera field of view in degree
-    cameraFov: 75,
-
-    // Reverse orbit control direction
-    reverseDragging: false,
-
-    // Enable reticle for mouseless interaction
-    enableReticle: false,
-
-    // Dwell time for reticle selection in millisecond
-    dwellTime: 1500,
-
-    // Auto select a clickable target after dwellTime
-    autoReticleSelect: true,
-
-    // Adds an angle view indicator in upper left corner
-    viewIndicator: false,
-
-    // Size of View Indicator
-    indicatorSize: 30,
-
-    // Whether and where to output infospot position. Could be 'console' or 'overlay'
-    output: 'console',
-
-    // Auto rotate
-    autoRotate: false,
-
-    // Auto rotate speed as in degree per second. Positive is counter-clockwise and negative is clockwise.
-    autoRotateSpeed: 0.5,
-
-    // Duration before auto rotatation when no user interactivity in ms
-    autoRotateActivationDuration: 20000
-  });
-
-  return viewer;
-};
-
-const build360Scene = (scene) => (dispatch) => {
-  const { hotspots = [], name, startScenePosition, furniture, key } = scene;
+const build360Scene = (scene, hotspots = [], startScenePosition) => (
+  dispatch
+) => {
+  const { name, furniture, key } = scene;
   const time = new Date().getTime();
   const uri = `${scene.image}?${time}`;
   const panorama = new ImagePanorama(uri);
@@ -458,81 +397,83 @@ const get360JSON = (
   style = 'default',
   room = 'default',
   viewer = null,
-  roomUse = [],
+  roomUse,
   isPreview = false,
-  isSurveyCompleted = false
+  isSurveyCompleted = false,
+  mode = 'day'
 ) => (dispatch) => {
   dispatch(getScenesStart());
   services
-    .get360JSON(lang, level, style, room, roomUse)
+    .get360JSON(lang, level, style, room, [], mode)
     .then((json) => {
       const { data, response } = json;
       if (response === 'success') {
-        const levelData = getLevelData(data.levels, level);
-        if (levelData) {
-          const { menu } = data;
-          const styleToRequest = style === 'default' ? data.firstStyle : style;
-          const menuStyle = get360Style(styleToRequest, menu);
-          const jsonStyle = get360DataStyle(
-            menuStyle.toLowerCase(),
-            levelData.styles
+        const processedData = getProcessed360Data(
+          data,
+          level,
+          style,
+          room,
+          roomUse
+        );
+        if (processedData !== null) {
+          const {
+            use,
+            uses,
+            currentRoomUse,
+            levelData,
+            jsonStyle,
+            startScenePosition,
+            menuStyle,
+            sceneKey,
+            hotspots
+          } = processedData;
+          const scene = dispatch(
+            build360Scene(use, hotspots, startScenePosition)
           );
-          if (jsonStyle) {
-            const roomToRequest =
-              room === 'default' ? levelData.firstScene : room;
-            const jsonScene = get360Scene(roomToRequest, jsonStyle.scenes);
-            if (jsonScene) {
-              const scene = dispatch(build360Scene(jsonScene));
-              let newViewer = null;
-              if (viewer === null) {
-                newViewer = createViewer(isPreview);
-              }
-              const definedViewer = newViewer || viewer;
-              const viewerWithPanorama = dispatch(
-                // eslint-disable-next-line no-use-before-define
-                build360Panorama(
-                  scene,
-                  definedViewer,
-                  levelData.levelNumber,
-                  jsonStyle.name,
-                  roomUse
-                )
-              );
-              if (isPreview) {
-                viewerWithPanorama.scene.children[0].children.forEach(
-                  (child) => {
-                    const element = child;
-                    element.visible = false;
-                  }
-                );
-              }
-              dispatch(createViewSuccess(viewerWithPanorama));
-              dispatch(setIsPreview(isPreview));
-              dispatch(setIsSurveyCompleted(isSurveyCompleted));
-              // TODO Make new set360 Data with a single level single scene, necesitamos poder agrerar el length, de leveles, y escenas, y regresar las imagenes a mostrar en el menu
-              setTimeout(() => {
-                dispatch(
-                  set360Data(
-                    levelMenu,
-                    data.displayName,
-                    menuStyle,
-                    jsonStyle.key,
-                    data.personalized,
-                    levelData.minimap.image,
-                    levelData.levelNumber,
-                    Math.ceil(8 / 3),
-                    jsonScene.key.toLowerCase(),
-                    levelData.minimap.hotspots,
-                    data.totalLevels,
-                    data.layoutName,
-                    jsonScene.roomUse || [],
-                    roomUse[0] || 'default',
-                    jsonScene.furniture
-                  )
-                );
-              }, 2000);
-            }
-          }
+          const definedViewer = createViewer(viewer);
+          let viewerWithPanorama = dispatch(
+            // eslint-disable-next-line no-use-before-define
+            build360Panorama(
+              scene,
+              definedViewer,
+              levelData.levelNumber,
+              jsonStyle.key,
+              roomUse
+            )
+          );
+
+          viewerWithPanorama = getViewerDependingOnPreview(
+            isPreview,
+            viewerWithPanorama
+          );
+
+          dispatch(createViewSuccess(viewerWithPanorama));
+          dispatch(setIsPreview(isPreview));
+          dispatch(setIsSurveyCompleted(isSurveyCompleted));
+          // TODO Make new set360 Data with a single level single scene, necesitamos poder agrerar el length, de leveles, y escenas, y regresar las imagenes a mostrar en el menu
+          setTimeout(() => {
+            dispatch(
+              set360Data(
+                levelMenu,
+                data.displayName,
+                menuStyle,
+                jsonStyle.key,
+                data.personalized,
+                levelData.minimap.image,
+                levelData.levelNumber,
+                Math.ceil(8 / 3),
+                sceneKey.toLowerCase(),
+                levelData.minimap.hotspots,
+                data.totalLevels,
+                data.layoutName,
+                uses,
+                currentRoomUse,
+                use.furniture
+              )
+            );
+          }, 2000);
+        } else {
+          dispatch(getScenesFail('Fail, processesing Data'));
         }
       } else if (response === 'error') {
         const { message } = data;
@@ -558,12 +499,15 @@ const get360StylesFail = (error) => ({
   error
 });
 
-const get360Styles = (lang = 'en', level = '1', room = 'default') => (
-  dispatch
-) => {
+const get360Styles = (
+  lang = 'en',
+  level = '1',
+  room = 'default',
+  mode = 'day'
+) => (dispatch) => {
   dispatch(get360StylesStart());
   services
-    .get360Styles(lang, level, room)
+    .get360Styles(lang, level, room, mode)
     .then((json) => {
       const { data, response } = json;
       if (response === 'success') {
@@ -592,12 +536,15 @@ const getViewMenuFail = (error) => ({
   error
 });
 
-const get360Scenes = (lang = 'en', level = '1', style = 'default') => (
-  dispatch
-) => {
+const get360Scenes = (
+  lang = 'en',
+  level = '1',
+  style = 'default',
+  mode = 'day'
+) => (dispatch) => {
   dispatch(getViewMenuStart());
   services
-    .get360Scenes(lang, level, style)
+    .get360Scenes(lang, level, style, mode)
     .then((json) => {
       const { data, response } = json;
       if (response === 'success') {
@@ -612,9 +559,14 @@ const get360Scenes = (lang = 'en', level = '1', style = 'default') => (
     });
 };
 
-const build360Panorama = (scene, viewer, level, style, roomUse) => (
-  dispatch
-) => {
+const build360Panorama = (
+  scene,
+  viewer,
+  level,
+  style,
+  roomUse,
+  mode = 'day'
+) => (dispatch) => {
   const { panorama, hotspots, startScenePosition } = scene;
   const sceneInitial = new Vector3(
     startScenePosition.x,
@@ -634,22 +586,22 @@ const build360Panorama = (scene, viewer, level, style, roomUse) => (
     }
     hotspot.position.set(spot.x, spot.y, spot.z);
     hotspot.addHoverText(spot.name);
-    console.log('spot.level', spot.level);
     if (typeof spot.level === 'undefined') {
       hotspot.addEventListener('click', () => {
-        dispatch(get360JSON('en', level, style, spot.key, viewer, roomUse));
-        dispatch(get360Styles('en', level, spot.key));
+        dispatch(
+          get360JSON('en', level, style, spot.key, viewer, roomUse, mode)
+        );
+        dispatch(get360Styles('en', level, spot.key, mode));
         dispatch(setSelectedScene(spot.key));
         hotspot.removeHoverElement();
       });
     } else {
       hotspot.addEventListener('click', () => {
-        console.log('HeyListen!', spot.level);
         dispatch(
-          get360JSON('en', spot.level, style, spot.key, viewer, roomUse)
+          get360JSON('en', spot.level, style, spot.key, viewer, roomUse, mode)
         );
-        dispatch(get360Styles('en', spot.level, spot.key));
-        dispatch(get360Scenes('en', spot.level, style));
+        dispatch(get360Styles('en', spot.level, spot.key, mode));
+        dispatch(get360Scenes('en', spot.level, style, mode));
         dispatch(setSelectedScene(spot.key));
         hotspot.removeHoverElement();
       });
