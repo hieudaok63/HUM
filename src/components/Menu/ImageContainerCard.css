@@ -1,0 +1,71 @@
+.sub-menu .image-container-card {
+  width: 270px;
+  height: 144px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 1021;
+}
+
+.sub-menu .image-container-card .image_title_card {
+  background: #252525;
+  width: 100%;
+  height: 26px;
+  border-radius: 3.5px;
+}
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.gradient.element1 {
+  width: 100%;
+  height: 100%;
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background: #ededed;
+  background: linear-gradient(to right, #ededed 8%, #f4f4f4 38%, #ededed 54%);
+  background-size: 100%;
+}
+
+.gradient.element3 {
+  width: 142px;
+  height: 11px;
+  margin-left: 15px;
+  background-color: #464646;
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background: linear-gradient(to right, #464646 8%, #545454 38%, #464646 54%);
+  background-size: 100%;
+}
+
+.mobile-submenu .image-container-card {
+  width: 100%;
+  height: 144px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 1021;
+}
+
+.mobile-submenu .image-container-card .image_title_card {
+  background: #252525;
+  width: 100%;
+  height: 26px;
+  border-radius: 3.5px;
+}

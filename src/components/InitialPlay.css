@@ -1,0 +1,30 @@
+#initial-play {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+}
+#initial-play img {
+  cursor: pointer;
+  max-width: 90%;
+}
+#loader.scene {
+  background-color: transparent;
+}
+#loader.hide {
+  transition: opacity 1s ease-out;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+}
+#loader.display-none {
+  display: 'none';
+}

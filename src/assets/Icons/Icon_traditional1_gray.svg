@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>Components / Icons / 360 / Icon_traditional1  gray</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M12,7.5 C12.5522847,7.5 13,7.05228475 13,6.5 C13,5.94771525 12.5522847,5.5 12,5.5 C11.4477153,5.5 11,5.94771525 11,6.5 C11,7.05228475 11.4477153,7.5 12,7.5 Z M12,3 C9.794,3 8,4.57 8,6.5 C8,8.43 9.794,10 12,10 C14.206,10 16,8.43 16,6.5 C16,4.57 14.206,3 12,3 M9.88903333,13.25 L14.1109667,13.25 L14.3955482,11.5425108 C13.6614443,11.8367017 12.8511675,12 12,12 C11.1488325,12 10.3385557,11.8367017 9.6044518,11.5425108 L9.88903333,13.25 Z M7.86136667,13.25 L7.30687208,9.92303247 C6.48918039,8.98292818 6,7.79272714 6,6.5 C6,3.468 8.691,1 12,1 C15.309,1 18,3.468 18,6.5 C18,7.79272714 17.5108196,8.98292818 16.6931279,9.92303247 L16.1386333,13.25 L18.867,13.25 L18.867,15.25 L18.0384433,15.25 L18.9918,22.8759 L17.0078,23.1239 L16.0235625,15.25 L15,15.25 L15,22 L13,22 L13,15.25 L11,15.25 L11,22 L9,22 L9,15.25 L7.9762,15.25 L6.992,23.1236 L5.008,22.8756 L5.96131916,15.25 L5,15.25 L5,13.25 L7.86136667,13.25 Z" id="path-1"></path>
+    </defs>
+    <g id="Components-/-Icons-/-360-/-Icon_traditional1--gray" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Combined-Shape" fill="#4A4A4A" fill-rule="nonzero" xlink:href="#path-1"></use>
+    </g>
+</svg>

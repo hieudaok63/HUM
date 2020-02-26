@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>Components / Icons / 360 / Icon_layout_empty room  gray</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M12,3 L20.7483097,7.29480781 C20.9023738,7.3704425 21,7.52712636 21,7.69875489 L21,20.8169478 C21,20.8461999 20.9928708,20.8750114 20.9792295,20.9008881 C20.9328706,20.9888281 20.8239998,21.0225362 20.7360597,20.9761773 L11.7804878,16.2551103 L3.26717109,20.9674319 C3.2404905,20.9822003 3.21049521,20.989948 3.18,20.989948 C3.08058875,20.989948 3,20.9093592 3,20.809948 L3,7.69875489 C3,7.52712636 3.09762615,7.3704425 3.25169025,7.29480781 L12,3 Z M13,5.74493102 L13,15.0522357 L19,18.1683601 L19,8.61866978 L13,5.74493102 Z M4.76711592,18.1683601 L11,14.8104677 L11,5.74493102 L4.76711592,8.8610554 L4.76711592,18.1683601 Z" id="path-1"></path>
+    </defs>
+    <g id="Components-/-Icons-/-360-/-Icon_layout_empty-room--gray" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Combined-Shape" fill="#4A4A4A" fill-rule="nonzero" xlink:href="#path-1"></use>
+    </g>
+</svg>

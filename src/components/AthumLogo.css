@@ -1,0 +1,13 @@
+.icon {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  top: 16px;
+  left: 16px;
+  object-fit: contain;
+  z-index: 1000;
+}
+
+.icon:hover {
+  cursor: pointer;
+}

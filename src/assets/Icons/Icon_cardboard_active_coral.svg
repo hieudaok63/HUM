@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>Components / Icons / 360 / Icon_cardboard_active_coral</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M8.20476291,20 L3,20 C2.44771525,20 2,19.5522847 2,19 L2,6 C2,5.44771525 2.44771525,5 3,5 L21,5 C21.5522847,5 22,5.44771525 22,6 L22,19 C22,19.5522847 21.5522847,20 21,20 L15.7348128,20 C15.3861877,20 15.0627267,19.8184373 14.8811523,19.5208298 L12.8448342,16.1832247 C12.5571878,15.711761 11.9418075,15.5627476 11.4703438,15.850394 C11.3371713,15.9316443 11.2248551,16.0429249 11.1423746,16.175339 L9.053562,19.5287155 C8.8709817,19.8218297 8.55009096,20 8.20476291,20 Z M17,14 C18.1045695,14 19,13.1045695 19,12 C19,10.8954305 18.1045695,10 17,10 C15.8954305,10 15,10.8954305 15,12 C15,13.1045695 15.8954305,14 17,14 Z M7,14 C8.1045695,14 9,13.1045695 9,12 C9,10.8954305 8.1045695,10 7,10 C5.8954305,10 5,10.8954305 5,12 C5,13.1045695 5.8954305,14 7,14 Z" id="path-1"></path>
+    </defs>
+    <g id="Components-/-Icons-/-360-/-Icon_cardboard_active_coral" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Mask" fill="#ED6B6A" xlink:href="#path-1"></use>
+    </g>
+</svg>
