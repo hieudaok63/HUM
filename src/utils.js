@@ -78,7 +78,7 @@ const get360Style = (style, menu) => {
       ? item
       : null
   );
-  return menuStyle && menuStyle[0].key;
+  return menuStyle && menuStyle[0];
 };
 
 const get360Use = (roomKey, scene) => {
@@ -167,8 +167,9 @@ const getProcessed360Data = (data, level, style, room, roomUse) => {
     const { menu } = data;
     const styleToRequest = style === 'default' ? data.defaultStyle : style;
     const menuStyle = get360Style(styleToRequest, menu);
+
     const jsonStyle = get360DataStyle(
-      menuStyle.toLowerCase(),
+      menuStyle.key.toLowerCase(),
       levelData.styles
     );
     if (jsonStyle) {

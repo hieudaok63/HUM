@@ -456,7 +456,7 @@ const get360JSON = (
               set360Data(
                 levelMenu,
                 data.displayName,
-                menuStyle,
+                menuStyle.name,
                 jsonStyle.key,
                 data.personalized,
                 levelData.minimap.image,

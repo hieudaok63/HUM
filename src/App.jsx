@@ -228,7 +228,7 @@ class App extends Component {
     const {
       viewer,
       currentLevel,
-      selectedStyleName,
+      selectedStyle,
       sessionActions: actionsFromSession,
       currentRoomUse
     } = this.props;
@@ -244,7 +244,7 @@ class App extends Component {
     actionsFromSession.get360JSON(
       lang,
       currentLevel,
-      selectedStyleName,
+      selectedStyle,
       name || 'default',
       viewer,
       roomType
@@ -255,7 +255,7 @@ class App extends Component {
     const {
       viewer,
       currentLevel,
-      selectedStyleName,
+      selectedStyle,
       selectedScene,
       sessionActions: actionsFromSession
     } = this.props;
@@ -264,7 +264,7 @@ class App extends Component {
     actionsFromSession.get360JSON(
       lang,
       currentLevel,
-      selectedStyleName,
+      selectedStyle,
       selectedScene || 'default',
       viewer,
       roomType
@@ -331,17 +331,17 @@ class App extends Component {
   updateLevels = (newLevel) => {
     const {
       viewer,
-      selectedStyleName,
+      selectedStyle,
       sessionActions: actionsFromSession
     } = this.props;
     actionsFromSession.get360JSON(
       lang,
       newLevel,
-      selectedStyleName,
+      selectedStyle,
       'default',
       viewer
     );
-    actionsFromSession.get360Scenes(lang, newLevel, selectedStyleName);
+    actionsFromSession.get360Scenes(lang, newLevel, selectedStyle);
   };
 
   upOneFloor = () => {
@@ -446,13 +446,13 @@ class App extends Component {
   activateShoppingMenu = () => {
     const {
       selectedScene,
-      selectedStyleName,
+      selectedStyle,
       token,
       layoutName,
       currentLevel,
       sessionActions: actionsFromSession
     } = this.props;
-    const styles = [selectedStyleName.toLowerCase()];
+    const styles = [selectedStyle.toLowerCase()];
     if (token === '') {
       actionsFromSession.getGuestFurniture360ByStyles(
         lang,
@@ -477,12 +477,12 @@ class App extends Component {
     const {
       token,
       selectedScene,
-      selectedStyleName,
+      selectedStyle,
       layoutName,
       currentLevel,
       sessionActions: actionsFromSession
     } = this.props;
-    const styles = [selectedStyleName.toLowerCase()];
+    const styles = [selectedStyle.toLowerCase()];
     if (token) {
       actionsFromSession.getFurniture360ByStyles(
         token,
@@ -516,7 +516,7 @@ class App extends Component {
 
   clickFavFurniture = (id, fav) => {
     const {
-      selectedStyleName,
+      selectedStyle,
       selectedScene,
       token,
       furniture,
@@ -525,7 +525,7 @@ class App extends Component {
     if (token) {
       const bodyObj = {
         assetId: id,
-        style: selectedStyleName.toLowerCase(),
+        style: selectedStyle.toLowerCase(),
         roomType: selectedScene,
         favorite: fav
       };
@@ -553,7 +553,7 @@ class App extends Component {
     const {
       viewer,
       currentLevel,
-      selectedStyleName,
+      selectedStyle,
       scenes,
       selectedScene,
       sessionActions: actionsFromSession
@@ -566,7 +566,7 @@ class App extends Component {
       actionsFromSession.get360JSON(
         lang,
         currentLevel,
-        selectedStyleName,
+        selectedStyle,
         scenes[autoTourScene].key || 'default',
         viewer
       );
