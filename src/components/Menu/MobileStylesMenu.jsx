@@ -13,13 +13,14 @@ const MobileStylesMenu = (props) => {
     personalizeButtonClick
   } = props;
   const childElements = options.map((option, index) => {
-    const { type, name, image } = option;
+    console.log(option);
+    const { type, style, image } = option;
     return (
       <ImageMenuItem
         key={type}
-        keyName={name}
+        keyName={type}
         type={type}
-        name={name}
+        name={style}
         index={index}
         onClick={styleChange}
         img={image}
