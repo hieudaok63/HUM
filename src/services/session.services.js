@@ -161,6 +161,24 @@ const getGuestFurniture360ByStyles = (
 };
 // End Guest
 
+const saveLog = (language, log) => {
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  headers.append('x-api-key', xApiKey360);
+  const bodyObj = {
+    ...log
+  };
+  const init = {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(bodyObj)
+  };
+  return fetch(
+    `${ThreeSixtyAppApiProd}${language}/360s/logs`,
+    init
+  ).then((response) => response.json());
+};
+
 export {
   login,
   getFurniture360ByStyles,
@@ -170,5 +188,6 @@ export {
   get360Scenes,
   get360Styles,
   // Guest
-  getGuestFurniture360ByStyles
+  getGuestFurniture360ByStyles,
+  saveLog
 };

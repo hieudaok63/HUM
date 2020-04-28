@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Component, Fragment } from 'react';
-import { string, bool, shape, arrayOf, number } from 'prop-types';
+import { string, bool, shape, arrayOf, number, oneOfType } from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import queryString from 'query-string';
@@ -78,7 +78,28 @@ class App extends Component {
 
   componentDidMount() {
     this.loadContent();
+    setTimeout(() => {
+      this.saveLog();
+    }, 8000);
   }
+
+  saveLog = () => {
+    const {
+      sessionActions: actionsFromSession,
+      builderId,
+      projectId,
+      displayName
+    } = this.props;
+
+    const log = {
+      builderId,
+      projectId,
+      layoutName: displayName,
+      logs: []
+    };
+
+    actionsFromSession.saveLog(lang, log);
+  };
 
   changeStep = () => {
     const { steps, stepIndex, runSteps } = this.state;
@@ -207,6 +228,7 @@ class App extends Component {
   };
 
   setStyle = (e, style) => {
+    console.log(style);
     const {
       viewer,
       currentLevel,
@@ -951,7 +973,9 @@ const mapStateToProps = (state) => {
     roomUse,
     currentRoomUse,
     firstLoad,
-    cardboardMessage
+    cardboardMessage,
+    builderId,
+    projectId
   } = state.session;
   return {
     loading,
@@ -983,7 +1007,9 @@ const mapStateToProps = (state) => {
     roomUse,
     currentRoomUse,
     firstLoad,
-    cardboardMessage
+    cardboardMessage,
+    builderId,
+    projectId
   };
 };
 
@@ -1015,7 +1041,9 @@ App.propTypes = {
   viewer: shape({}).isRequired,
   sessionActions: shape({}).isRequired,
   takeTestUri: string.isRequired,
-  layoutName: string.isRequired
+  layoutName: string.isRequired,
+  builderId: string.isRequired,
+  projectId: oneOfType([string, number]).isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({

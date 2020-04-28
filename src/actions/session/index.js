@@ -287,7 +287,9 @@ const set360Data = (
   layoutName,
   roomUse,
   currentRoomUse,
-  furniture
+  furniture,
+  builderId,
+  projectId
 ) => (dispatch) => {
   dispatch({
     type: types.SET_360_DATA,
@@ -310,7 +312,9 @@ const set360Data = (
     layoutName,
     roomUse,
     currentRoomUse,
-    furniture
+    furniture,
+    builderId,
+    projectId
   });
 };
 
@@ -391,6 +395,25 @@ const build360Scene = (scene, hotspots = [], startScenePosition) => (
   };
 };
 
+const addToLogSuccess = () => ({
+  type: types.ADD_LOG
+});
+
+const addToLogFail = () => ({
+  type: types.ADD_LOG_FAIL
+});
+
+const saveLog = (lang, log) => (dispatch) => {
+  services.saveLog(lang, log).then((json) => {
+    const { response } = json;
+    if (response === 'success') {
+      dispatch(addToLogSuccess());
+    } else if (response === 'error') {
+      dispatch(addToLogFail());
+    }
+  });
+};
+
 const get360JSON = (
   lang = 'en',
   level = '1',
@@ -468,7 +491,9 @@ const get360JSON = (
                 data.layoutName,
                 uses,
                 currentRoomUse,
-                use.furniture
+                use.furniture,
+                data.builderId,
+                data.projectId
               )
             );
           }, 2000);
@@ -626,5 +651,7 @@ export {
   get360Scenes,
   get360Styles,
   // Guest
-  getGuestFurniture360ByStyles
+  getGuestFurniture360ByStyles,
+  // Log
+  saveLog
 };

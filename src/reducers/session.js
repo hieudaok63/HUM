@@ -53,7 +53,10 @@ const initialState = {
   roomUse: [],
   miniMapHotspots: [],
   currentRoomUse: 'default',
-  cardboardMessage: false
+  cardboardMessage: false,
+  log: {},
+  builderId: '',
+  projectId: ''
 };
 
 export default (state = initialState, action) => {
@@ -210,7 +213,9 @@ export default (state = initialState, action) => {
         layoutName,
         roomUse,
         currentRoomUse,
-        furniture
+        furniture,
+        builderId,
+        projectId
       } = action;
       return {
         ...state,
@@ -233,7 +238,9 @@ export default (state = initialState, action) => {
         layoutName,
         roomUse,
         currentRoomUse,
-        furniture
+        furniture,
+        builderId,
+        projectId
       };
     }
     case Types.SET_SELECTED_SCENE: {
@@ -318,6 +325,14 @@ export default (state = initialState, action) => {
     case Types.RESET:
       return {
         ...initialState
+      };
+    case Types.ADD_LOG:
+      return {
+        ...state
+      };
+    case Types.ADD_LOG_FAIL:
+      return {
+        ...state
       };
     default:
       return state;
