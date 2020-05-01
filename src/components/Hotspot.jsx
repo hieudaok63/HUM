@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { string, bool, oneOfType, func, number } from 'prop-types';
 import InstructionTooltip from './Tooltip/InstructionTooltip';
-import { mapSize } from '../config/customization';
+import { mapSizeDesktop } from '../config/customization';
 
 const MiniMapHotSpot = (props) => {
   const {
@@ -16,10 +16,8 @@ const MiniMapHotSpot = (props) => {
     changeStep,
     loading
   } = props;
-  const sumTop = 0;
-  const sumLeft = 0;
-  const newTop = (top * 100) / mapSize.height + sumTop;
-  const newLeft = (left * 100) / mapSize.width + sumLeft;
+  const newTop = (top / mapSizeDesktop.height) * 100;
+  const newLeft = (left / mapSizeDesktop.width) * 100;
   return (
     <Fragment>
       <div

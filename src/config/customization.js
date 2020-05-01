@@ -1,6 +1,3 @@
-export const builderId = '2793b14b-de1f-49fd-a097-bdeee72eb4f6';
-export const propertyId = 9;
-export const layoutName = 'Tennyson02';
 export const levelMenu = {
   bottom: '81px',
   right: '23px'
