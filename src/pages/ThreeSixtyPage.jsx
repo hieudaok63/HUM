@@ -11,23 +11,23 @@ import {
   isSurveyCompleted,
   isTablet,
   isPortrait
-} from './utils';
-import Loader from './components/Loader';
-import InitialPlay from './components/InitialPlay';
-import Menu from './components/Menu/Menu';
-import MobileMenu from './components/Menu/MobileMenu';
-import MiniMap from './components/MiniMap';
-import ErrorModal from './components/ErrorModal';
-import CurrentViewStyle from './components/CurrentViewStyle';
-import RotationModal from './components/RotationModal';
-import Autoplay from './components/Autoplay';
-import Cardboard from './components/Cardboard';
-import LoginModal from './components/LoginModal';
-import CardboardTooltip from './components/Tooltip/CardboardTooltip';
-import DesktopAthumLogo from './components/DesktopAthumLogo';
-import Instructions from './components/Instructions';
-import InstructionTooltip from './components/Tooltip/InstructionTooltip';
-import * as sessionActions from './actions/session';
+} from '../utils';
+import Loader from '../components/Loader';
+import InitialPlay from '../components/InitialPlay';
+import Menu from '../components/Menu/Menu';
+import MobileMenu from '../components/Menu/MobileMenu';
+import MiniMap from '../components/MiniMap';
+import ErrorModal from '../components/ErrorModal';
+import CurrentViewStyle from '../components/CurrentViewStyle';
+import RotationModal from '../components/RotationModal';
+import Autoplay from '../components/Autoplay';
+import Cardboard from '../components/Cardboard';
+import LoginModal from '../components/LoginModal';
+import CardboardTooltip from '../components/Tooltip/CardboardTooltip';
+import DesktopAthumLogo from '../components/DesktopAthumLogo';
+import Instructions from '../components/Instructions';
+import InstructionTooltip from '../components/Tooltip/InstructionTooltip';
+import * as sessionActions from '../actions/session';
 import {
   lang,
   autoPlay,
@@ -36,7 +36,7 @@ import {
 } from './config/customization';
 import './App.css';
 
-class App extends Component {
+class ThreeSixtyPage extends Component {
   constructor(props) {
     super(props);
     this.atHUMViewer = React.createRef();
@@ -126,31 +126,11 @@ class App extends Component {
       sessionActions: actionsFromSession,
       currentLevel,
       selectedStyleName,
-      selectedScene,
-      match
-    } = this.props;
-    const { builderId, projectId, layoutName } = match.params;
-    console.log(builderId, projectId);
-    actionsFromSession.get360Scenes(
-      builderId,
-      projectId,
-      layoutName,
-      lang,
-      currentLevel,
-      selectedStyleName
-    );
-    actionsFromSession.get360Styles(
-      builderId,
-      projectId,
-      layoutName,
-      lang,
-      currentLevel,
       selectedScene
-    );
+    } = this.props;
+    actionsFromSession.get360Scenes(lang, currentLevel, selectedStyleName);
+    actionsFromSession.get360Styles(lang, currentLevel, selectedScene);
     actionsFromSession.get360JSON(
-      builderId,
-      projectId,
-      layoutName,
       lang,
       currentLevel,
       selectedStyleName,
@@ -254,14 +234,9 @@ class App extends Component {
       currentLevel,
       selectedScene,
       sessionActions: actionsFromSession,
-      currentRoomUse,
-      match
+      currentRoomUse
     } = this.props;
-    const { builderId, projectId, layoutName } = match.params;
     actionsFromSession.get360JSON(
-      builderId,
-      projectId,
-      layoutName,
       lang,
       currentLevel,
       style,
@@ -277,10 +252,8 @@ class App extends Component {
       currentLevel,
       selectedStyle,
       sessionActions: actionsFromSession,
-      currentRoomUse,
-      match
+      currentRoomUse
     } = this.props;
-    const { builderId, projectId, layoutName } = match.params;
     const name = targetName || e.target.name || e.target.getAttribute('name');
     const roomType =
       currentRoomUse === 'undefined' ||
@@ -289,18 +262,8 @@ class App extends Component {
       currentRoomUse === ''
         ? ''
         : currentRoomUse;
-    actionsFromSession.get360Styles(
-      builderId,
-      projectId,
-      layoutName,
-      lang,
-      currentLevel,
-      name
-    );
+    actionsFromSession.get360Styles(lang, currentLevel, name);
     actionsFromSession.get360JSON(
-      builderId,
-      projectId,
-      layoutName,
       lang,
       currentLevel,
       selectedStyle,
@@ -316,15 +279,11 @@ class App extends Component {
       currentLevel,
       selectedStyle,
       selectedScene,
-      sessionActions: actionsFromSession,
-      match
+      sessionActions: actionsFromSession
     } = this.props;
-    const { builderId, projectId, layoutName } = match.params;
+    console.log('roomName', roomName);
     const roomType = roomName === 'default' ? null : roomName;
     actionsFromSession.get360JSON(
-      builderId,
-      projectId,
-      layoutName,
       lang,
       currentLevel,
       selectedStyle,
@@ -395,28 +354,16 @@ class App extends Component {
     const {
       viewer,
       selectedStyle,
-      sessionActions: actionsFromSession,
-      match
+      sessionActions: actionsFromSession
     } = this.props;
-    const { builderId, projectId, layoutName } = match.params;
     actionsFromSession.get360JSON(
-      builderId,
-      projectId,
-      layoutName,
       lang,
       newLevel,
       selectedStyle,
       'default',
       viewer
     );
-    actionsFromSession.get360Scenes(
-      builderId,
-      projectId,
-      layoutName,
-      lang,
-      newLevel,
-      selectedStyle
-    );
+    actionsFromSession.get360Scenes(lang, newLevel, selectedStyle);
   };
 
   upOneFloor = () => {
@@ -525,15 +472,11 @@ class App extends Component {
       token,
       layoutName,
       currentLevel,
-      sessionActions: actionsFromSession,
-      match
+      sessionActions: actionsFromSession
     } = this.props;
-    const { builderId, projectId } = match.params;
     const styles = [selectedStyle.toLowerCase()];
     if (token === '') {
       actionsFromSession.getGuestFurniture360ByStyles(
-        builderId,
-        projectId,
         lang,
         styles,
         selectedScene,
@@ -542,8 +485,6 @@ class App extends Component {
       );
     } else {
       actionsFromSession.getFurniture360ByStyles(
-        builderId,
-        projectId,
         token,
         lang,
         styles,
@@ -561,15 +502,11 @@ class App extends Component {
       selectedStyle,
       layoutName,
       currentLevel,
-      sessionActions: actionsFromSession,
-      match
+      sessionActions: actionsFromSession
     } = this.props;
-    const { builderId, projectId } = match.params;
     const styles = [selectedStyle.toLowerCase()];
     if (token) {
       actionsFromSession.getFurniture360ByStyles(
-        builderId,
-        projectId,
         token,
         lang,
         styles,
@@ -641,19 +578,14 @@ class App extends Component {
       selectedStyle,
       scenes,
       selectedScene,
-      sessionActions: actionsFromSession,
-      match
+      sessionActions: actionsFromSession
     } = this.props;
-    const { builderId, projectId, layoutName } = match.params;
     const { autoTourScene } = this.state;
     if (
       scenes[autoTourScene].key !== selectedScene &&
       scenes.length > autoTourScene
     ) {
       actionsFromSession.get360JSON(
-        builderId,
-        projectId,
-        layoutName,
         lang,
         currentLevel,
         selectedStyle,
@@ -1081,7 +1013,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-App.propTypes = {
+ThreeSixtyPage.propTypes = {
   error: string.isRequired,
   token: string.isRequired,
   loading: bool.isRequired,
@@ -1111,12 +1043,11 @@ App.propTypes = {
   takeTestUri: string.isRequired,
   layoutName: string.isRequired,
   builderId: string.isRequired,
-  projectId: oneOfType([string, number]).isRequired,
-  match: shape({}).isRequired
+  projectId: oneOfType([string, number]).isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
   sessionActions: bindActionCreators(sessionActions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(ThreeSixtyPage);

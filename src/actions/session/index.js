@@ -415,6 +415,9 @@ const saveLog = (lang, log) => (dispatch) => {
 };
 
 const get360JSON = (
+  builderId,
+  projectId,
+  layoutName,
   lang = 'en',
   level = '1',
   style = 'default',
@@ -427,7 +430,17 @@ const get360JSON = (
 ) => (dispatch) => {
   dispatch(getScenesStart());
   services
-    .get360JSON(lang, level, style, room, [], mode)
+    .get360JSON(
+      builderId,
+      projectId,
+      layoutName,
+      lang,
+      level,
+      style,
+      room,
+      [],
+      mode
+    )
     .then((json) => {
       const { data, response } = json;
       if (response === 'success') {
@@ -457,6 +470,9 @@ const get360JSON = (
           let viewerWithPanorama = dispatch(
             // eslint-disable-next-line no-use-before-define
             build360Panorama(
+              builderId,
+              projectId,
+              layoutName,
               scene,
               definedViewer,
               levelData.levelNumber,
@@ -525,6 +541,9 @@ const get360StylesFail = (error) => ({
 });
 
 const get360Styles = (
+  builderId = '',
+  projectId = '',
+  layoutName,
   lang = 'en',
   level = '1',
   room = 'default',
@@ -532,7 +551,7 @@ const get360Styles = (
 ) => (dispatch) => {
   dispatch(get360StylesStart());
   services
-    .get360Styles(lang, level, room, mode)
+    .get360Styles(builderId, projectId, layoutName, lang, level, room, mode)
     .then((json) => {
       const { data, response } = json;
       if (response === 'success') {
@@ -562,6 +581,9 @@ const getViewMenuFail = (error) => ({
 });
 
 const get360Scenes = (
+  builderId = '',
+  projectId = '',
+  layoutName,
   lang = 'en',
   level = '1',
   style = 'default',
@@ -569,7 +591,7 @@ const get360Scenes = (
 ) => (dispatch) => {
   dispatch(getViewMenuStart());
   services
-    .get360Scenes(lang, level, style, mode)
+    .get360Scenes(builderId, projectId, layoutName, lang, level, style, mode)
     .then((json) => {
       const { data, response } = json;
       if (response === 'success') {
@@ -585,6 +607,9 @@ const get360Scenes = (
 };
 
 const build360Panorama = (
+  builderId,
+  projectId,
+  layoutName,
   scene,
   viewer,
   level,
@@ -614,19 +639,71 @@ const build360Panorama = (
     if (typeof spot.level === 'undefined') {
       hotspot.addEventListener('click', () => {
         dispatch(
-          get360JSON('en', level, style, spot.key, viewer, roomUse, mode)
+          get360JSON(
+            builderId,
+            projectId,
+            layoutName,
+            'en',
+            level,
+            style,
+            spot.key,
+            viewer,
+            roomUse,
+            mode
+          )
         );
-        dispatch(get360Styles('en', level, spot.key, mode));
+        dispatch(
+          get360Styles(
+            builderId,
+            projectId,
+            layoutName,
+            'en',
+            level,
+            spot.key,
+            mode
+          )
+        );
         dispatch(setSelectedScene(spot.key));
         hotspot.removeHoverElement();
       });
     } else {
       hotspot.addEventListener('click', () => {
         dispatch(
-          get360JSON('en', spot.level, style, spot.key, viewer, roomUse, mode)
+          get360JSON(
+            builderId,
+            projectId,
+            layoutName,
+            'en',
+            spot.level,
+            style,
+            spot.key,
+            viewer,
+            roomUse,
+            mode
+          )
         );
-        dispatch(get360Styles('en', spot.level, spot.key, mode));
-        dispatch(get360Scenes('en', spot.level, style, mode));
+        dispatch(
+          get360Styles(
+            builderId,
+            projectId,
+            layoutName,
+            'en',
+            spot.level,
+            spot.key,
+            mode
+          )
+        );
+        dispatch(
+          get360Scenes(
+            builderId,
+            projectId,
+            layoutName,
+            'en',
+            spot.level,
+            style,
+            mode
+          )
+        );
         dispatch(setSelectedScene(spot.key));
         hotspot.removeHoverElement();
       });

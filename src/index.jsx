@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
-import App from './App';
+import AppRouter from './routers/AppRouter';
 import configureStore from './store/configureStore';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <Provider store={configureStore()}>
-    <App />
+    <AppRouter />
   </Provider>,
   document.getElementById('root')
 );

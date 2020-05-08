@@ -5,9 +5,6 @@ import {
   THREE_SIXTY_API
 } from '../config/endpoints';
 
-const getConfiguration = () =>
-  fetch('config.json').then((response) => response.json());
-
 const login = (email, password, language = 'en') =>
   fetch(`${WEBAPP_API}/${language}/login`, {
     method: 'POST',
@@ -21,6 +18,9 @@ const login = (email, password, language = 'en') =>
   }).then((res) => res.json());
 
 const get360JSON = (
+  builderId = '',
+  propertyId = '',
+  layoutName,
   lang = 'en',
   level = '1',
   style = 'default',
@@ -28,44 +28,43 @@ const get360JSON = (
   uses = [],
   mode = 'day'
 ) =>
-  getConfiguration().then((builderInfo) => {
-    const { builderId, propertyId, layoutName } = builderInfo;
-    return fetch(
-      `${THREE_SIXTY_API}${lang}/360s/room-use/${builderId}/${propertyId}/${layoutName}/${level}/${style}/${room.trim()}/${mode}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': THREE_SIXTY_API_KEY
-        },
-        body: JSON.stringify({
-          uses
-        })
-      }
-    ).then((response) => response.json());
-  });
+  fetch(
+    `${THREE_SIXTY_API}${lang}/360s/room-use/${builderId}/${propertyId}/${layoutName}V3/${level}/${style}/${room.trim()}/${mode}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': THREE_SIXTY_API_KEY
+      },
+      body: JSON.stringify({
+        uses
+      })
+    }
+  ).then((response) => response.json());
 
 const get360Scenes = (
+  builderId = '',
+  propertyId = '',
+  layoutName,
   lang = 'en',
   level = '1',
   style = 'default',
   mode = 'day'
 ) =>
-  getConfiguration().then((builderInfo) => {
-    const { builderId, propertyId, layoutName } = builderInfo;
-    return fetch(
-      `${THREE_SIXTY_API}${lang}/360s/rooms/${builderId}/${propertyId}/${layoutName}/${level}/${style}/${mode}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': THREE_SIXTY_API_KEY
-        }
+  fetch(
+    `${THREE_SIXTY_API}${lang}/360s/rooms/${builderId}/${propertyId}/${layoutName}V3/${level}/${style}/${mode}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': THREE_SIXTY_API_KEY
       }
-    ).then((response) => response.json());
-  });
+    }
+  ).then((response) => response.json());
 
 const getFurniture360ByStyles = (
+  builderId,
+  propertyId,
   authToken,
   language,
   styles = ['contemporary', 'scandinavian', 'transitional'],
@@ -84,13 +83,10 @@ const getFurniture360ByStyles = (
     headers,
     body: JSON.stringify(bodyObj)
   };
-  return getConfiguration().then((builderInfo) => {
-    const { builderId, propertyId } = builderInfo;
-    return fetch(
-      `${WEBAPP_API}/${language}/furniture/360/${builderId}/${propertyId}/${layout}/${level}/${scene}`,
-      init
-    ).then((response) => response.json());
-  });
+  return fetch(
+    `${WEBAPP_API}/${language}/furniture/360/${builderId}/${propertyId}/${layout}/${level}/${scene}`,
+    init
+  ).then((response) => response.json());
 };
 
 const saveFavoriteFurniture = (authToken, language, body) =>
@@ -113,27 +109,29 @@ const countClickFurniture = (language, body) =>
   }).then((res) => res.json());
 
 const get360Styles = (
+  builderId = '',
+  propertyId = '',
+  layoutName,
   lang = 'en',
   level = '1',
   room = 'default',
   mode = 'day'
 ) =>
-  getConfiguration().then((builderInfo) => {
-    const { builderId, propertyId, layoutName } = builderInfo;
-    return fetch(
-      `${THREE_SIXTY_API}${lang}/360s/styles-room/${builderId}/${propertyId}/${layoutName}/${level}/${room}/${mode}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': THREE_SIXTY_API_KEY
-        }
+  fetch(
+    `${THREE_SIXTY_API}${lang}/360s/styles-room/${builderId}/${propertyId}/${layoutName}V3/${level}/${room}/${mode}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': THREE_SIXTY_API_KEY
       }
-    ).then((response) => response.json());
-  });
+    }
+  ).then((response) => response.json());
 
 // Guest
 const getGuestFurniture360ByStyles = (
+  builderId,
+  propertyId,
   language,
   styles = ['contemporary', 'scandinavian', 'transitional'],
   scene,
@@ -151,13 +149,10 @@ const getGuestFurniture360ByStyles = (
     headers,
     body: JSON.stringify(bodyObj)
   };
-  return getConfiguration((builderInfo) => {
-    const { builderId, propertyId } = builderInfo;
-    return fetch(
-      `${WEBAPP_API}/${language}/furniture/360/guest/${builderId}/${propertyId}/${layout}/${level}/${scene}`,
-      init
-    ).then((response) => response.json());
-  });
+  return fetch(
+    `${WEBAPP_API}/${language}/furniture/360/guest/${builderId}/${propertyId}/${layout}/${level}/${scene}`,
+    init
+  ).then((response) => response.json());
 };
 // End Guest
 
