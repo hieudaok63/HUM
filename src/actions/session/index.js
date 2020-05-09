@@ -289,7 +289,8 @@ const set360Data = (
   currentRoomUse,
   furniture,
   builderId,
-  projectId
+  projectId,
+  mapSize
 ) => (dispatch) => {
   dispatch({
     type: types.SET_360_DATA,
@@ -314,7 +315,8 @@ const set360Data = (
     currentRoomUse,
     furniture,
     builderId,
-    projectId
+    projectId,
+    mapSize
   });
 };
 
@@ -491,6 +493,7 @@ const get360JSON = (
           dispatch(setIsSurveyCompleted(isSurveyCompleted));
           // TODO Make new set360 Data with a single level single scene, necesitamos poder agrerar el length, de leveles, y escenas, y regresar las imagenes a mostrar en el menu
           setTimeout(() => {
+            console.log('Hey', levelData.minimap.mapSize);
             dispatch(
               set360Data(
                 levelMenu,
@@ -509,7 +512,8 @@ const get360JSON = (
                 currentRoomUse,
                 use.furniture,
                 data.builderId,
-                data.projectId
+                data.projectId,
+                levelData.minimap.mapSize
               )
             );
           }, 2000);

@@ -69,7 +69,8 @@ export default class MobileMenu extends Component {
       clickFavFurniture,
       title,
       token,
-      showTabletPortrait
+      showTabletPortrait,
+      mapSize
     } = this.props;
     const { menuOpen } = this.state;
     const menuOptionsFiltered = menuOptions.filter((option) => {
@@ -149,6 +150,7 @@ export default class MobileMenu extends Component {
             clickFavFurniture={clickFavFurniture}
             title={title}
             token={token}
+            mapSize={mapSize}
           />
         </div>
         {!menuOpen && !loading && !showTabletPortrait && (
@@ -195,7 +197,8 @@ MobileMenu.propTypes = {
   pageUp: func.isRequired,
   pageDown: func.isRequired,
   miniMapHotspots: arrayOf(shape({})).isRequired,
-  layoutName: string.isRequired
+  layoutName: string.isRequired,
+  mapSize: shape({}).isRequired
 };
 
 MobileMenu.defaultProps = {

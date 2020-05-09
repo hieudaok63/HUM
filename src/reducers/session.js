@@ -56,7 +56,8 @@ const initialState = {
   cardboardMessage: false,
   log: {},
   builderId: '',
-  projectId: ''
+  projectId: '',
+  mapSize: {}
 };
 
 export default (state = initialState, action) => {
@@ -215,7 +216,8 @@ export default (state = initialState, action) => {
         currentRoomUse,
         furniture,
         builderId,
-        projectId
+        projectId,
+        mapSize
       } = action;
       return {
         ...state,
@@ -240,7 +242,8 @@ export default (state = initialState, action) => {
         currentRoomUse,
         furniture,
         builderId,
-        projectId
+        projectId,
+        mapSize
       };
     }
     case Types.SET_SELECTED_SCENE: {

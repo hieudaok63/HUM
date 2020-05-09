@@ -791,7 +791,8 @@ class App extends Component {
       totalLevels,
       roomUse,
       currentRoomUse,
-      firstLoad
+      firstLoad,
+      mapSize
     } = this.props;
     const personalizePositionInstruction = this.getPersonalizePosition();
     return (
@@ -868,28 +869,31 @@ class App extends Component {
                 menuRef={this.menu}
               />
               <Fragment>
-                <MiniMap
-                  scenes={miniMapHotspots}
-                  selectedScene={selectedScene}
-                  classes="mini-map"
-                  isPreview={isPreview()}
-                  loading={loading}
-                  onClick={this.setChildScene}
-                  error={error}
-                  getPosition={this.getClickPosition}
-                  url={levelMinimap}
-                  hide={isPreview()}
-                  totalFloors={totalLevels}
-                  currentFloor={currentLevel}
-                  upOneFloor={this.upOneFloor}
-                  downOneFloor={this.downOneFloor}
-                  positioning={levelPosition}
-                  onSelectedMenuOption={this.onSelectedMenuOption}
-                  show={selectedMenuOption === 'mini-map'}
-                  runSteps={runSteps}
-                  step={steps[stepIndex]}
-                  changeStep={this.changeStep}
-                />
+                {JSON.stringify(mapSize) !== '{}' && (
+                  <MiniMap
+                    scenes={miniMapHotspots}
+                    selectedScene={selectedScene}
+                    classes="mini-map"
+                    isPreview={isPreview()}
+                    loading={loading}
+                    onClick={this.setChildScene}
+                    error={error}
+                    getPosition={this.getClickPosition}
+                    url={levelMinimap}
+                    hide={isPreview()}
+                    totalFloors={totalLevels}
+                    currentFloor={currentLevel}
+                    upOneFloor={this.upOneFloor}
+                    downOneFloor={this.downOneFloor}
+                    positioning={levelPosition}
+                    onSelectedMenuOption={this.onSelectedMenuOption}
+                    show={selectedMenuOption === 'mini-map'}
+                    runSteps={runSteps}
+                    step={steps[stepIndex]}
+                    changeStep={this.changeStep}
+                    mapSize={mapSize}
+                  />
+                )}
               </Fragment>
               <MobileMenu
                 styleMenu={menu}
@@ -928,6 +932,7 @@ class App extends Component {
                 title={shoppingMenuTitle}
                 token={token}
                 showTabletPortrait={showTabletPortrait}
+                mapSize={mapSize}
               />
               <CurrentViewStyle
                 layoutName={displayName}
@@ -1043,7 +1048,8 @@ const mapStateToProps = (state) => {
     firstLoad,
     cardboardMessage,
     builderId,
-    projectId
+    projectId,
+    mapSize
   } = state.session;
   return {
     loading,
@@ -1077,7 +1083,8 @@ const mapStateToProps = (state) => {
     firstLoad,
     cardboardMessage,
     builderId,
-    projectId
+    projectId,
+    mapSize
   };
 };
 
@@ -1112,7 +1119,8 @@ App.propTypes = {
   layoutName: string.isRequired,
   builderId: string.isRequired,
   projectId: oneOfType([string, number]).isRequired,
-  match: shape({}).isRequired
+  match: shape({}).isRequired,
+  mapSize: shape({}).isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({

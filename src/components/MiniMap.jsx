@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { arrayOf, string, func, number, shape, bool } from 'prop-types';
 import Hotspot from './Hotspot';
 import { deleteWhiteSpaces } from '../utils';
-import { mapSizeDesktop } from '../config/customization';
 import FloorsMenu from './FloorsMenu';
 import './MiniMap.scss';
 
@@ -45,58 +44,60 @@ class MiniMap extends Component {
       show,
       runSteps,
       step,
-      changeStep
+      changeStep,
+      mapSize
     } = this.props;
+    console.log('Hey', mapSize);
     const { isPortrait } = this.state;
     const maxMapHeight =
       Math.round(
-        ((window.innerWidth - 160) * mapSizeDesktop.width) /
-          mapSizeDesktop.height
+        ((window.innerWidth - 160) * mapSize.desktop.width) /
+          mapSize.desktop.height
       ) <
       window.innerHeight - 160
         ? Math.round(
-            ((window.innerWidth - 160) * mapSizeDesktop.width) /
-              mapSizeDesktop.height
+            ((window.innerWidth - 160) * mapSize.desktop.width) /
+              mapSize.desktop.height
           )
         : window.innerHeight - 160;
     const maxMapWidth =
       Math.round(
-        ((window.innerWidth - 160) * mapSizeDesktop.width) /
-          mapSizeDesktop.height
+        ((window.innerWidth - 160) * mapSize.desktop.width) /
+          mapSize.desktop.height
       ) <
       window.innerHeight - 160
         ? Math.round(
-            ((window.innerWidth - 160) * mapSizeDesktop.height) /
-              mapSizeDesktop.width
+            ((window.innerWidth - 160) * mapSize.desktop.height) /
+              mapSize.desktop.width
           )
         : Math.round(
-            ((window.innerHeight - 160) * mapSizeDesktop.height) /
-              mapSizeDesktop.width
+            ((window.innerHeight - 160) * mapSize.desktop.height) /
+              mapSize.desktop.width
           );
-    const mapSize =
-      isPortrait && mapSizeDesktop.width > mapSizeDesktop.height
+    const size =
+      isPortrait && mapSize.desktop.width > mapSize.desktop.height
         ? {
             width:
-              window.innerWidth - 160 < mapSizeDesktop.width
+              window.innerWidth - 160 < mapSize.desktop.width
                 ? maxMapHeight
-                : mapSizeDesktop.width,
+                : mapSize.desktop.width,
             height:
-              window.innerWidth - 160 < mapSizeDesktop.width
+              window.innerWidth - 160 < mapSize.desktop.width
                 ? maxMapWidth
-                : mapSizeDesktop.height
+                : mapSize.desktop.height
           }
         : {
             width:
-              window.innerWidth - 160 < mapSizeDesktop.width
+              window.innerWidth - 160 < mapSize.desktop.width
                 ? window.innerWidth - 160
-                : mapSizeDesktop.width,
+                : mapSize.desktop.width,
             height:
-              window.innerWidth - 160 < mapSizeDesktop.width
+              window.innerWidth - 160 < mapSize.desktop.width
                 ? Math.round(
-                    ((window.innerWidth - 160) * mapSizeDesktop.height) /
-                      mapSizeDesktop.width
+                    ((window.innerWidth - 160) * mapSize.desktop.height) /
+                      mapSize.desktop.width
                   )
-                : mapSizeDesktop.height
+                : mapSize.desktop.height
           };
     return (
       <div
@@ -108,9 +109,9 @@ class MiniMap extends Component {
           className="mini-map-container"
           style={{
             height:
-              isPortrait && mapSizeDesktop.width > mapSizeDesktop.height
-                ? mapSize.width
-                : mapSize.height
+              isPortrait && mapSize.desktop.width > mapSize.desktop.height
+                ? size.width
+                : size.height
           }}
         >
           <div className="map-container d-flex justify-content-center align-items-center">
@@ -119,14 +120,14 @@ class MiniMap extends Component {
               className={`${classes} ${
                 loading ? 'display-none' : ''
               } ${isPortrait &&
-                mapSizeDesktop.width > mapSizeDesktop.height &&
+                mapSize.desktop.width > mapSize.desktop.height &&
                 'verticalPortrait'}`}
               onClick={getPosition}
               style={{
                 backgroundImage: `url(${url})`,
-                width: mapSize.width,
-                height: mapSize.height,
-                backgroundSize: `${mapSize.width}px ${mapSize.height}px`,
+                width: size.width,
+                height: size.height,
+                backgroundSize: `${size.width}px ${size.height}px`,
                 backgroundRepeat: 'no-repeat',
                 position: 'absolute'
               }}
@@ -168,9 +169,9 @@ class MiniMap extends Component {
             downOneFloor={downOneFloor}
             loading={loading}
             mapSizeHeight={
-              isPortrait && mapSizeDesktop.width > mapSizeDesktop.height
-                ? mapSize.width
-                : mapSize.height
+              isPortrait && mapSize.desktop.width > mapSize.desktop.height
+                ? size.width
+                : size.height
             }
           />
         </div>
@@ -197,7 +198,8 @@ MiniMap.propTypes = {
   show: bool.isRequired,
   runSteps: bool.isRequired,
   step: string.isRequired,
-  changeStep: func.isRequired
+  changeStep: func.isRequired,
+  mapSize: shape({}).isRequired
 };
 
 MiniMap.defaultProps = {

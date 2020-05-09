@@ -35,7 +35,8 @@ const MobileSubMenu = ({
   clickFurniture,
   clickFavFurniture,
   title,
-  token
+  token,
+  mapSize
 }) => (
   <div id="sub-mobile-menu" className="sub-mobile-menu-container">
     {selectedMenuOption === 'styles' && (
@@ -97,21 +98,26 @@ const MobileSubMenu = ({
     )}
     {selectedMenuOption === 'minimap-mobile' && (
       <Fragment>
-        <MiniMapMobile
-          scenes={miniMapHotspots}
-          selectedScene={selectedScene}
-          classes="map-mobile-menu map-mobile-container sub-mobile-menu d-flex flex-column justify-content-center align-items-center"
-          onClick={onClickHotspot}
-          url={url}
-          closeMenu={closeMenu}
-          layoutName={layoutName}
-        />
-        <FloorsMenuMobile
-          totalFloors={totalFloors}
-          currentFloor={currentFloor}
-          upOneFloor={upOneFloor}
-          downOneFloor={downOneFloor}
-        />
+        {JSON.stringify(mapSize) !== '{}' && (
+          <>
+            <MiniMapMobile
+              scenes={miniMapHotspots}
+              selectedScene={selectedScene}
+              classes="map-mobile-menu map-mobile-container sub-mobile-menu d-flex flex-column justify-content-center align-items-center"
+              onClick={onClickHotspot}
+              url={url}
+              closeMenu={closeMenu}
+              layoutName={layoutName}
+              mapSize={mapSize}
+            />
+            <FloorsMenuMobile
+              totalFloors={totalFloors}
+              currentFloor={currentFloor}
+              upOneFloor={upOneFloor}
+              downOneFloor={downOneFloor}
+            />
+          </>
+        )}
       </Fragment>
     )}
   </div>
@@ -145,7 +151,8 @@ MobileSubMenu.propTypes = {
   clickFurniture: func.isRequired,
   clickFavFurniture: func.isRequired,
   title: string.isRequired,
-  token: string.isRequired
+  token: string.isRequired,
+  mapSize: shape({}).isRequired
 };
 
 export default MobileSubMenu;
