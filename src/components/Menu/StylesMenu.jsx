@@ -11,7 +11,8 @@ const StylesMenu = ({
   personalized,
   personalizeButtonClick,
   isSurveyCompleted,
-  subMenuRef
+  subMenuRef,
+  showPersonalize
 }) => (
   <div
     className={`menu-properties-container d-flex flex-column justify-content-start align-items-start ${
@@ -39,11 +40,13 @@ const StylesMenu = ({
           />
         );
       })}
-      <PersonalizeMenu
-        personalized={personalized}
-        personalizeButtonClick={personalizeButtonClick}
-        isSurveyCompleted={isSurveyCompleted}
-      />
+      {showPersonalize && (
+        <PersonalizeMenu
+          personalized={personalized}
+          personalizeButtonClick={personalizeButtonClick}
+          isSurveyCompleted={isSurveyCompleted}
+        />
+      )}
     </div>
   </div>
 );
@@ -55,6 +58,7 @@ StylesMenu.propTypes = {
   selectedStyle: string.isRequired,
   personalized: shape({}).isRequired,
   personalizeButtonClick: func.isRequired,
-  isSurveyCompleted: bool.isRequired
+  isSurveyCompleted: bool.isRequired,
+  showPersonalize: bool.isRequired
 };
 export default StylesMenu;

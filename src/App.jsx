@@ -792,9 +792,11 @@ class App extends Component {
       roomUse,
       currentRoomUse,
       firstLoad,
-      mapSize
+      mapSize,
+      takeTestUri
     } = this.props;
     const personalizePositionInstruction = this.getPersonalizePosition();
+    console.log(takeTestUri);
     return (
       <Fragment>
         {showContent && (
@@ -841,6 +843,7 @@ class App extends Component {
                 viewItemClick={this.setChildScene}
                 personalized={personalized}
                 personalizeButtonClick={this.onTakeTestButtonClick}
+                showPersonalize={takeTestUri !== 'null'}
                 selectedStyle={selectedStyle}
                 loading={loading}
                 error={error}
@@ -904,6 +907,7 @@ class App extends Component {
                 viewItemClick={this.setChildScene}
                 personalized={personalized}
                 personalizeButtonClick={this.onTakeTestButtonClick}
+                showPersonalize={takeTestUri !== 'null'}
                 selectedScene={selectedScene}
                 loading={loading}
                 onClickHotspot={this.setChildScene}

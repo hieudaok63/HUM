@@ -3,7 +3,6 @@ import * as services from '../../services/session.services';
 import * as types from './types';
 import {
   levelMenu,
-  takeTestUri,
   registerUri,
   rotationMessage,
   shopCar
@@ -290,7 +289,8 @@ const set360Data = (
   furniture,
   builderId,
   projectId,
-  mapSize
+  mapSize,
+  takeTestUri
 ) => (dispatch) => {
   dispatch({
     type: types.SET_360_DATA,
@@ -513,7 +513,8 @@ const get360JSON = (
                 use.furniture,
                 data.builderId,
                 data.projectId,
-                levelData.minimap.mapSize
+                levelData.minimap.mapSize,
+                data.urls.avria
               )
             );
           }, 2000);

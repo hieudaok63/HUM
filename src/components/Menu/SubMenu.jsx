@@ -25,7 +25,8 @@ const SubMenu = ({
   token,
   showSubMenuElements,
   subMenuRef,
-  changeStep
+  changeStep,
+  showPersonalize
 }) => (
   <div
     id="sub-menu"
@@ -45,6 +46,7 @@ const SubMenu = ({
         isSurveyCompleted={isSurveyCompleted}
         subMenuRef={subMenuRef}
         changeStep={changeStep}
+        showPersonalize={showPersonalize}
       />
     )}
     {selectedMenuOption === 'views' && (
@@ -94,7 +96,8 @@ SubMenu.propTypes = {
   clickFurniture: func.isRequired,
   clickFavFurniture: func.isRequired,
   token: string.isRequired,
-  showSubMenuElements: bool.isRequired
+  showSubMenuElements: bool.isRequired,
+  showPersonalize: bool.isRequired
 };
 
 SubMenu.defaultProps = {

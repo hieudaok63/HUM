@@ -10,7 +10,8 @@ const MobileStylesMenu = (props) => {
     styleChange,
     selectedStyle,
     closeMenu,
-    personalizeButtonClick
+    personalizeButtonClick,
+    showPersonalize
   } = props;
   const childElements = options.map((option, index) => {
     console.log(option);
@@ -41,26 +42,28 @@ const MobileStylesMenu = (props) => {
       >
         {childElements}
       </div>
-      <div className="mobile-personalize-container d-flex align-items-center">
-        <div className="mobile-personalize-intro">
-          Take a quick consultation with our AI Interior Designer and discover
-          your own style.
+      {showPersonalize && (
+        <div className="mobile-personalize-container d-flex align-items-center">
+          <div className="mobile-personalize-intro">
+            Take a quick consultation with our AI Interior Designer and discover
+            your own style.
+          </div>
+          <button
+            type="button"
+            className="mobile-personalize-button d-flex justify-content-center align-items-center"
+            onClick={() => {
+              personalizeButtonClick();
+            }}
+          >
+            <img
+              src={personalizeIcon}
+              alt="Personalize"
+              className="mobile-personalize-button-icon"
+            />
+            Personalize
+          </button>
         </div>
-        <button
-          type="button"
-          className="mobile-personalize-button d-flex justify-content-center align-items-center"
-          onClick={() => {
-            personalizeButtonClick();
-          }}
-        >
-          <img
-            src={personalizeIcon}
-            alt="Personalize"
-            className="mobile-personalize-button-icon"
-          />
-          Personalize
-        </button>
-      </div>
+      )}
     </Fragment>
   );
 };
@@ -71,7 +74,8 @@ MobileStylesMenu.propTypes = {
   styleChange: func.isRequired,
   selectedStyle: string.isRequired,
   closeMenu: func.isRequired,
-  personalizeButtonClick: func.isRequired
+  personalizeButtonClick: func.isRequired,
+  showPersonalize: bool.isRequired
 };
 
 export default MobileStylesMenu;

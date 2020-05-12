@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
-import { string, bool, oneOfType, func, number } from 'prop-types';
+import { string, bool, oneOfType, func, number, shape } from 'prop-types';
 import InstructionTooltip from './Tooltip/InstructionTooltip';
-import { mapSizeDesktop } from '../config/customization';
 
 const MiniMapHotSpot = (props) => {
   const {
@@ -14,10 +13,11 @@ const MiniMapHotSpot = (props) => {
     left,
     showTooltip,
     changeStep,
-    loading
+    loading,
+    mapSize
   } = props;
-  const newTop = (top / mapSizeDesktop.height) * 100;
-  const newLeft = (left / mapSizeDesktop.width) * 100;
+  const newTop = (top / mapSize.desktop.height) * 100;
+  const newLeft = (left / mapSize.desktop.width) * 100;
   return (
     <Fragment>
       <div
@@ -70,7 +70,8 @@ MiniMapHotSpot.propTypes = {
   left: oneOfType([number, string]).isRequired,
   showTooltip: bool,
   changeStep: func,
-  loading: bool
+  loading: bool,
+  mapSize: shape({}).isRequired
 };
 
 MiniMapHotSpot.defaultProps = {

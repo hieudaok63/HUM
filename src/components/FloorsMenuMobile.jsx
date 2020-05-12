@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
+import { number, func } from 'prop-types';
 import iconLevel from '../assets/Icons/icon_levels_gray.svg';
 import iconShow from '../assets/Icons/Icon_show_gray.svg';
 import iconHide from '../assets/Icons/Icon_hide_gray.svg';
 import './FloorsMenu.css';
-import { number, func } from 'prop-types';
 
 const FloorsMenuMobile = ({
   currentFloor,

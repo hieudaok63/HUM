@@ -154,6 +154,7 @@ class MiniMap extends Component {
                     }
                     changeStep={changeStep}
                     loading={loading}
+                    mapSize={mapSize}
                   />
                 ))}
               </div>

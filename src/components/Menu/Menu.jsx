@@ -37,7 +37,8 @@ const Menu = ({
   step,
   changeStep,
   subMenuRef,
-  menuRef
+  menuRef,
+  showPersonalize
 }) => {
   const menuOptionsFiltered = menuOptions.filter((option) => {
     let showIcon = true;
@@ -98,6 +99,7 @@ const Menu = ({
           showSubMenuElements={showSubMenuElements}
           subMenuRef={subMenuRef}
           changeStep={changeStep}
+          showPersonalize={showPersonalize}
         />
       </div>
       <nav
@@ -159,7 +161,8 @@ Menu.propTypes = {
   onTransitionEnd: func.isRequired,
   runSteps: bool.isRequired,
   step: string.isRequired,
-  changeStep: func.isRequired
+  changeStep: func.isRequired,
+  showPersonalize: bool.isRequired
 };
 
 Menu.defaultProps = {

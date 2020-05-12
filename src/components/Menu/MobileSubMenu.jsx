@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { string, func, number, arrayOf, shape } from 'prop-types';
+import { string, func, number, arrayOf, shape, bool } from 'prop-types';
 import MobileStylesMenu from './MobileStylesMenu';
 import MobileViewsMenu from './MobileViewsMenu';
 import MobileChangeRoomsMenu from './MobileChangeRoomsMenu';
@@ -36,7 +36,8 @@ const MobileSubMenu = ({
   clickFavFurniture,
   title,
   token,
-  mapSize
+  mapSize,
+  showPersonalize
 }) => (
   <div id="sub-mobile-menu" className="sub-mobile-menu-container">
     {selectedMenuOption === 'styles' && (
@@ -47,6 +48,7 @@ const MobileSubMenu = ({
         selectedStyle={selectedStyle}
         closeMenu={closeMenu}
         personalizeButtonClick={personalizeButtonClick}
+        showPersonalize={showPersonalize}
       />
     )}
     {selectedMenuOption === 'views' && (
@@ -152,7 +154,8 @@ MobileSubMenu.propTypes = {
   clickFavFurniture: func.isRequired,
   title: string.isRequired,
   token: string.isRequired,
-  mapSize: shape({}).isRequired
+  mapSize: shape({}).isRequired,
+  showPersonalize: bool.isRequired
 };
 
 export default MobileSubMenu;

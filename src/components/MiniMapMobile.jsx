@@ -112,6 +112,7 @@ class MiniMap extends Component {
                   closeMenu={closeMenu}
                   top={scene.y}
                   left={scene.x}
+                  mapSize={mapSize}
                 />
               ))}
             </div>
