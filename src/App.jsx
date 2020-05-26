@@ -673,6 +673,7 @@ class App extends Component {
   };
 
   handleKeyPress = (event) => {
+    console.log(event.keyCode);
     if (event.keyCode === 32) {
       const { autoPlayStatus } = this.state;
       if (autoPlayStatus) {
@@ -680,6 +681,10 @@ class App extends Component {
       } else {
         this.startInterval();
       }
+    } else if (event.keyCode === 57) {
+      this.getCameraMatrix();
+    } else if (event.keyCode === 56) {
+      this.getViewerMatrix();
     }
   };
 
@@ -739,6 +744,21 @@ class App extends Component {
       }
     }
     return top;
+  };
+
+  getCameraMatrix = () => {
+    const { viewer } = this.props;
+    const camera = viewer.getCamera();
+    console.log(camera.projectionMatrix);
+  };
+
+  getViewerMatrix = () => {
+    const { viewer } = this.props;
+    const scene = viewer.getScene();
+    const panorama = scene.children;
+    console.log('Panorama', panorama[0]);
+    console.log('MatrixWorld', panorama[0].matrixWorld);
+    console.log('Matrix', panorama[0].matrix);
   };
 
   render() {
