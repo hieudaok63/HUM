@@ -21,7 +21,7 @@
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "three": "^0.105.2"
+    "three": "^0.116.1"
   },
   "scripts": {
     "start": "env REACT_APP_ENV=production react-scripts start",
