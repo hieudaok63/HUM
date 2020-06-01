@@ -603,3 +603,28 @@
 .react-joyride__beacon span {
   border: 2px solid #ed6b6a !important;
 }
+
+.tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  background: #4a4a4a;
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  text-align: center;
+  line-height: 1.5;
+  letter-spacing: normal;
+  border-radius: 10%;
+  color: rgba(255, 255, 255);
+  transform: translate3d(-50%, -100%, 0);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.tooltip.is-active {
+  opacity: 0.75;
+  transform: translate3d(-50%, calc(-100% - 80px), 0);
+}

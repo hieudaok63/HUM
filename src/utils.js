@@ -1,4 +1,5 @@
 import queryString from 'query-string';
+import Data from './assets/Data';
 import { Viewer } from './lib/panolens.module';
 
 /* eslint-disable no-param-reassign */
@@ -161,6 +162,17 @@ const getRoomToRequest = (roomUse, uses, defaultUse) => {
   return exist ? room : defaultUse;
 };
 
+const assignHotspotImage = (hotspots) =>
+  hotspots.map((hotspot) => {
+    const current = hotspot;
+    if (typeof current.level === 'undefined') {
+      current.img = Data.AvriaHotspotNew;
+    } else {
+      current.img = Data.AvriaHotspotStairs;
+    }
+    return current;
+  });
+
 const getProcessed360Data = (data, level, style, room, roomUse) => {
   const levelData = getLevelData(data.levels, level);
   console.log('level', levelData, level);
@@ -187,6 +199,7 @@ const getProcessed360Data = (data, level, style, room, roomUse) => {
         const currentRoomUse = getCurrentRoomUse(use);
         if (use) {
           const { startScenePosition, key: sceneKey, hotspots } = jsonScene;
+          const hotspotsWithAssignedImage = assignHotspotImage(hotspots);
           return {
             use,
             uses,
@@ -196,7 +209,7 @@ const getProcessed360Data = (data, level, style, room, roomUse) => {
             startScenePosition,
             menuStyle,
             sceneKey,
-            hotspots
+            hotspots: hotspotsWithAssignedImage
           };
         }
       }
@@ -273,6 +286,23 @@ const getViewerDependingOnPreview = (preview, viewer) => {
   return viewer;
 };
 
+const build360Scene = (scene, hotspots = [], startScenePosition) => {
+  const { name, furniture, key } = scene;
+  const time = new Date().getTime();
+  const uri = `${scene.image}?${time}`;
+  const panorama = {};
+  panorama.uri = uri;
+  panorama.name = key;
+  return {
+    name,
+    key,
+    panorama,
+    hotspots,
+    startScenePosition,
+    furniture
+  };
+};
+
 export {
   getClosest,
   callFilter,
@@ -299,5 +329,6 @@ export {
   getCurrentRoomUse,
   getProcessed360Data,
   createViewer,
-  getViewerDependingOnPreview
+  getViewerDependingOnPreview,
+  build360Scene
 };

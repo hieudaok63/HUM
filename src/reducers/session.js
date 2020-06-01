@@ -243,7 +243,8 @@ export default (state = initialState, action) => {
         furniture,
         builderId,
         projectId,
-        mapSize
+        mapSize,
+        loading: false
       };
     }
     case Types.SET_SELECTED_SCENE: {

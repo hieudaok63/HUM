@@ -34,12 +34,13 @@ import {
   autoPlayInterval,
   showInstructions
 } from './config/customization';
+import './components/Loader.scss';
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.atHUMViewer = React.createRef();
+    this.atHUMViewer = null;
     this.subMenuRef = React.createRef();
     this.menu = React.createRef();
     this.state = {
@@ -130,7 +131,6 @@ class App extends Component {
       match
     } = this.props;
     const { builderId, projectId, layoutName } = match.params;
-    console.log(builderId, projectId);
     actionsFromSession.get360Scenes(
       builderId,
       projectId,
@@ -155,7 +155,7 @@ class App extends Component {
       currentLevel,
       selectedStyleName,
       selectedScene,
-      null,
+      this.atHUMViewer,
       null,
       isPreview(),
       isSurveyCompleted()
@@ -185,7 +185,7 @@ class App extends Component {
 
     if (addEventListener) {
       setTimeout(() => {
-        const node = this.atHUMViewer.current;
+        const node = this.atHUMViewer;
         node.addEventListener('click', this.onBodyClick);
       }, 5000);
     }
@@ -198,25 +198,21 @@ class App extends Component {
   };
 
   resize = () => {
-    const { viewer } = this.props;
     this.setShowTabletPortrait(isTablet() && isPortrait());
-    viewer.onWindowResize(window.innerWidth, window.innerHeight);
   };
 
   startInterval = () => {
-    const { viewer } = this.props;
+    // Add start autorotate for THREESIXTY CLASS
     const interval = setInterval(() => {
       this.startTour();
     }, autoPlayInterval);
-    viewer.enableAutoRate();
     this.setState({ interval, autoPlayStatus: true });
   };
 
   stopInterval = () => {
+    // Add stop autorotate for THREESIXTY CLASS
     const { interval } = this.state;
-    const { viewer } = this.props;
     clearInterval(interval);
-    viewer.disableAutoRate();
     this.setState({ autoPlayStatus: false });
   };
 
@@ -342,13 +338,13 @@ class App extends Component {
   };
 
   onSelectedMenuOption = (selectedMenuOption) => {
+    // add stop autorotate
     const {
       selectedMenuOption: stateSelectedMenuOption,
       autoPlayStatus
     } = this.state;
     const { viewer } = this.props;
     this.stopInterval();
-    viewer.disableAutoRate();
     if (
       stateSelectedMenuOption === selectedMenuOption ||
       selectedMenuOption === ''
@@ -811,187 +807,177 @@ class App extends Component {
       totalLevels,
       roomUse,
       currentRoomUse,
-      firstLoad,
       mapSize,
       takeTestUri
     } = this.props;
     const personalizePositionInstruction = this.getPersonalizePosition();
-    console.log(takeTestUri);
+    console.log('hey', loading);
     return (
       <Fragment>
-        {showContent && (
-          <Fragment>
-            <Loader loading={loading} firstLoad={firstLoad} />
-            <div className="w-100 h-100">
-              <Cardboard
-                isPreview={isPreview()}
-                cardBoardMode={cardBoardMode}
-                activateCardBoardMode={this.activateCardBoardMode}
-                show={showCardboard}
-                loading={loading}
-                blur={selectedMenuOption === 'mini-map' || loading === true}
-                onMouseOver={this.onFeatureHover}
-                showStatus={showStatusCardboard}
-                cardboardMessage={showCardboardActivateMessage}
-                inactive={inactiveCardboard}
-                onFocus={() => {}}
-              />
-              <Autoplay
-                isPreview={isPreview()}
-                activateAutoplayMode={
-                  autoPlayStatus ? this.stopInterval : this.startInterval
-                }
-                loading={loading}
-                autoPlayStatus={autoPlayStatus}
-                blur={selectedMenuOption === 'mini-map' || loading === true}
-                onMouseOver={this.onFeatureHover}
-                showStatus={showStatusAutoPlay}
-                inactive={inactiveAutoPlay}
-                onFocus={() => {}}
-              />
-              <DesktopAthumLogo
-                loading={loading}
-                error={error}
-                hide={isPreview()}
-                blur={selectedMenuOption === 'mini-map' || loading === true}
-                showTabletPortrait={showTabletPortrait}
-              />
-              <Menu
-                styleMenu={menu}
-                styleChange={this.setStyle}
-                scenes={scenes}
-                viewItemClick={this.setChildScene}
-                personalized={personalized}
-                personalizeButtonClick={this.onTakeTestButtonClick}
-                showPersonalize={takeTestUri !== 'null'}
-                selectedStyle={selectedStyle}
-                loading={loading}
-                error={error}
-                onSelectedMenuOption={this.onSelectedMenuOption}
-                selectedMenuOption={selectedMenuOption}
-                expanded={expanded}
-                hide={isPreview()}
-                isSurveyCompleted={isSurveyCompleted()}
-                selectedScene={selectedScene}
-                roomUse={roomUse}
-                show={selectedMenuOption === 'change-room'}
-                roomItemClick={this.changeRoomType}
-                currentRoomUse={currentRoomUse}
-                shoppingCarItems={furniture}
-                clickFurniture={this.clickFurniture}
-                clickFavFurniture={this.clickFavFurniture}
-                title={shoppingMenuTitle}
-                token={token}
-                showTabletPortrait={showTabletPortrait}
-                showSubMenuElements={showSubMenuElements}
-                onTransitionEnd={this.onTransitionFinished}
-                runSteps={runSteps}
-                step={steps[stepIndex]}
-                changeStep={this.changeStep}
-                subMenuRef={this.subMenuRef}
-                menuRef={this.menu}
-              />
-              <Fragment>
-                {JSON.stringify(mapSize) !== '{}' && (
-                  <MiniMap
-                    scenes={miniMapHotspots}
-                    selectedScene={selectedScene}
-                    classes="mini-map"
-                    isPreview={isPreview()}
-                    loading={loading}
-                    onClick={this.setChildScene}
-                    error={error}
-                    getPosition={this.getClickPosition}
-                    url={levelMinimap}
-                    hide={isPreview()}
-                    totalFloors={totalLevels}
-                    currentFloor={currentLevel}
-                    upOneFloor={this.upOneFloor}
-                    downOneFloor={this.downOneFloor}
-                    positioning={levelPosition}
-                    onSelectedMenuOption={this.onSelectedMenuOption}
-                    show={selectedMenuOption === 'mini-map'}
-                    runSteps={runSteps}
-                    step={steps[stepIndex]}
-                    changeStep={this.changeStep}
-                    mapSize={mapSize}
-                  />
-                )}
-              </Fragment>
-              <MobileMenu
-                styleMenu={menu}
-                selectedStyle={selectedStyle}
-                styleChange={this.setStyle}
-                scenes={scenes}
-                error={error}
-                viewItemClick={this.setChildScene}
-                personalized={personalized}
-                personalizeButtonClick={this.onTakeTestButtonClick}
-                showPersonalize={takeTestUri !== 'null'}
-                selectedScene={selectedScene}
-                loading={loading}
-                onClickHotspot={this.setChildScene}
-                onSelectedMenuOption={this.onSelectedMobileMenuOption}
-                selectedMenuOption={selectedMobileMenuOption}
-                totalFloors={totalLevels}
-                currentFloor={currentLevel}
-                upOneFloor={this.upOneFloor}
-                downOneFloor={this.downOneFloor}
-                url={levelMinimap}
-                hide={isPreview()}
-                isSurveyCompleted={isSurveyCompleted()}
-                totalPages={totalPages}
-                perPage={perPage}
-                currentPage={currentPage}
-                pageUp={this.handleMoveUp}
-                pageDown={this.handleMoveDown}
-                miniMapHotspots={miniMapHotspots}
-                layoutName={displayName}
-                roomUse={roomUse}
-                changeRoomType={this.changeRoomType}
-                currentRoomUse={currentRoomUse}
-                shoppingCarItems={furniture}
-                clickFurniture={this.clickFurniture}
-                clickFavFurniture={this.clickFavFurniture}
-                title={shoppingMenuTitle}
-                token={token}
-                showTabletPortrait={showTabletPortrait}
-                mapSize={mapSize}
-              />
-              <CurrentViewStyle
-                layoutName={displayName}
-                decorationStyle={selectedStyleName}
-                loading={loading}
-                error={error}
-                hide={isPreview()}
-                blur={selectedMenuOption === 'mini-map' || loading === true}
-              />
-              <div
-                id="viewer"
-                ref={this.atHUMViewer}
-                className={`${
-                  error ||
-                  rotationModal ||
-                  selectedMenuOption === 'mini-map' ||
-                  loading
-                    ? 'blur'
-                    : ''
-                }`}
-              />
-              <ErrorModal show={errorScenes} />
-            </div>
-            <div className={rotationModal ? 'd-block' : 'd-none'}>
-              <RotationModal show={rotationModal} message={rotationMessage} />
-            </div>
-            <LoginModal
-              login={this.login}
-              showModal={showLoginModal}
-              setInput={this.setInput}
-              onClick={this.closeModal}
-              registerUrl={registerUrl}
+        <Fragment>
+          <div className="w-100 h-100">
+            <Cardboard
+              isPreview={isPreview()}
+              cardBoardMode={cardBoardMode}
+              activateCardBoardMode={this.activateCardBoardMode}
+              show={showCardboard}
+              loading={loading}
+              blur={selectedMenuOption === 'mini-map' || loading === true}
+              onMouseOver={this.onFeatureHover}
+              showStatus={showStatusCardboard}
+              cardboardMessage={showCardboardActivateMessage}
+              inactive={inactiveCardboard}
+              onFocus={() => {}}
             />
-          </Fragment>
-        )}
+            <Autoplay
+              isPreview={isPreview()}
+              activateAutoplayMode={
+                autoPlayStatus ? this.stopInterval : this.startInterval
+              }
+              loading={loading}
+              autoPlayStatus={autoPlayStatus}
+              blur={selectedMenuOption === 'mini-map' || loading === true}
+              onMouseOver={this.onFeatureHover}
+              showStatus={showStatusAutoPlay}
+              inactive={inactiveAutoPlay}
+              onFocus={() => {}}
+            />
+            <DesktopAthumLogo
+              loading={loading}
+              error={error}
+              hide={isPreview()}
+              blur={selectedMenuOption === 'mini-map' || loading === true}
+              showTabletPortrait={showTabletPortrait}
+            />
+            <Menu
+              styleMenu={menu}
+              styleChange={this.setStyle}
+              scenes={scenes}
+              viewItemClick={this.setChildScene}
+              personalized={personalized}
+              personalizeButtonClick={this.onTakeTestButtonClick}
+              showPersonalize={takeTestUri !== 'null'}
+              selectedStyle={selectedStyle}
+              loading={loading}
+              error={error}
+              onSelectedMenuOption={this.onSelectedMenuOption}
+              selectedMenuOption={selectedMenuOption}
+              expanded={expanded}
+              hide={isPreview()}
+              isSurveyCompleted={isSurveyCompleted()}
+              selectedScene={selectedScene}
+              roomUse={roomUse}
+              show={selectedMenuOption === 'change-room'}
+              roomItemClick={this.changeRoomType}
+              currentRoomUse={currentRoomUse}
+              shoppingCarItems={furniture}
+              clickFurniture={this.clickFurniture}
+              clickFavFurniture={this.clickFavFurniture}
+              title={shoppingMenuTitle}
+              token={token}
+              showTabletPortrait={showTabletPortrait}
+              showSubMenuElements={showSubMenuElements}
+              onTransitionEnd={this.onTransitionFinished}
+              runSteps={runSteps}
+              step={steps[stepIndex]}
+              changeStep={this.changeStep}
+              subMenuRef={this.subMenuRef}
+              menuRef={this.menu}
+            />
+            <Fragment>
+              {JSON.stringify(mapSize) !== '{}' && (
+                <MiniMap
+                  scenes={miniMapHotspots}
+                  selectedScene={selectedScene}
+                  classes="mini-map"
+                  isPreview={isPreview()}
+                  loading={loading}
+                  onClick={this.setChildScene}
+                  error={error}
+                  getPosition={this.getClickPosition}
+                  url={levelMinimap}
+                  hide={isPreview()}
+                  totalFloors={totalLevels}
+                  currentFloor={currentLevel}
+                  upOneFloor={this.upOneFloor}
+                  downOneFloor={this.downOneFloor}
+                  positioning={levelPosition}
+                  onSelectedMenuOption={this.onSelectedMenuOption}
+                  show={selectedMenuOption === 'mini-map'}
+                  runSteps={runSteps}
+                  step={steps[stepIndex]}
+                  changeStep={this.changeStep}
+                  mapSize={mapSize}
+                />
+              )}
+            </Fragment>
+            <MobileMenu
+              styleMenu={menu}
+              selectedStyle={selectedStyle}
+              styleChange={this.setStyle}
+              scenes={scenes}
+              error={error}
+              viewItemClick={this.setChildScene}
+              personalized={personalized}
+              personalizeButtonClick={this.onTakeTestButtonClick}
+              showPersonalize={takeTestUri !== 'null'}
+              selectedScene={selectedScene}
+              loading={loading}
+              onClickHotspot={this.setChildScene}
+              onSelectedMenuOption={this.onSelectedMobileMenuOption}
+              selectedMenuOption={selectedMobileMenuOption}
+              totalFloors={totalLevels}
+              currentFloor={currentLevel}
+              upOneFloor={this.upOneFloor}
+              downOneFloor={this.downOneFloor}
+              url={levelMinimap}
+              hide={isPreview()}
+              isSurveyCompleted={isSurveyCompleted()}
+              totalPages={totalPages}
+              perPage={perPage}
+              currentPage={currentPage}
+              pageUp={this.handleMoveUp}
+              pageDown={this.handleMoveDown}
+              miniMapHotspots={miniMapHotspots}
+              layoutName={displayName}
+              roomUse={roomUse}
+              changeRoomType={this.changeRoomType}
+              currentRoomUse={currentRoomUse}
+              shoppingCarItems={furniture}
+              clickFurniture={this.clickFurniture}
+              clickFavFurniture={this.clickFavFurniture}
+              title={shoppingMenuTitle}
+              token={token}
+              showTabletPortrait={showTabletPortrait}
+              mapSize={mapSize}
+            />
+            <CurrentViewStyle
+              layoutName={displayName}
+              decorationStyle={selectedStyleName}
+              loading={loading}
+              error={error}
+              hide={isPreview()}
+              blur={selectedMenuOption === 'mini-map' || loading === true}
+            />
+            <div
+              id="viewer"
+              ref={(ref) => {
+                this.atHUMViewer = ref;
+              }}
+            />
+            <ErrorModal show={errorScenes} />
+          </div>
+          <div className={rotationModal ? 'd-block' : 'd-none'}>
+            <RotationModal show={rotationModal} message={rotationMessage} />
+          </div>
+          <LoginModal
+            login={this.login}
+            showModal={showLoginModal}
+            setInput={this.setInput}
+            onClick={this.closeModal}
+            registerUrl={registerUrl}
+          />
+        </Fragment>
         {!showContent && <InitialPlay onClick={this.loadContent} />}
         {!loading && (
           <CardboardTooltip
@@ -1069,7 +1055,6 @@ const mapStateToProps = (state) => {
     layoutName,
     roomUse,
     currentRoomUse,
-    firstLoad,
     cardboardMessage,
     builderId,
     projectId,
@@ -1104,7 +1089,6 @@ const mapStateToProps = (state) => {
     layoutName,
     roomUse,
     currentRoomUse,
-    firstLoad,
     cardboardMessage,
     builderId,
     projectId,
@@ -1136,7 +1120,6 @@ App.propTypes = {
   totalLevels: number.isRequired,
   roomUse: arrayOf(shape({})).isRequired,
   currentRoomUse: string.isRequired,
-  firstLoad: bool.isRequired,
   viewer: shape({}).isRequired,
   sessionActions: shape({}).isRequired,
   takeTestUri: string.isRequired,

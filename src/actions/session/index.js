@@ -1,5 +1,5 @@
-import { Vector3 } from 'three';
 import * as services from '../../services/session.services';
+import loader from '../../assets/home-white.gif';
 import * as types from './types';
 import {
   levelMenu,
@@ -7,13 +7,12 @@ import {
   rotationMessage,
   shopCar
 } from '../../config/customization';
-import { ImagePanorama, Infospot, DataImage } from '../../lib/panolens.module';
 import {
   isMobileDevice,
   getProcessed360Data,
-  createViewer,
-  getViewerDependingOnPreview
+  build360Scene
 } from '../../utils';
+import THREESIXTY from '../../classes/ThreeSixty';
 
 const loginStart = () => ({
   type: types.LOGIN_START
@@ -257,20 +256,6 @@ const setSelectedScene = (selectedScene) => (dispatch) => {
   });
 };
 
-const setLoading = (loading) => (dispatch) => {
-  dispatch({
-    type: types.SET_LOADING,
-    loading
-  });
-};
-
-const createViewSuccess = (viewer) => (dispatch) => {
-  dispatch({
-    type: types.SET_VIEWER,
-    viewer
-  });
-};
-
 const set360Data = (
   levelPosition,
   displayName,
@@ -320,11 +305,7 @@ const set360Data = (
   });
 };
 
-const getStyle = (style, menu) => {
-  return menu.filter((item) => {
-    return item.type === style;
-  });
-};
+const getStyle = (style, menu) => menu.filter((item) => item.type === style);
 
 const getCookie = (name, menu) => {
   const v = document.cookie.match(`(^|;) ?${name}=([^;]*)(;|$)`);
@@ -332,6 +313,7 @@ const getCookie = (name, menu) => {
     const style = getStyle(v[2], menu);
     return style.length > 0 ? style[0] : null;
   }
+  return undefined;
 };
 
 const activateCardBoardStart = () => ({
@@ -371,32 +353,6 @@ const activateCardBoardMode = (viewer, cardBoardMode, callback) => (
   }
 };
 
-const build360Scene = (scene, hotspots = [], startScenePosition) => (
-  dispatch
-) => {
-  const { name, furniture, key } = scene;
-  const time = new Date().getTime();
-  const uri = `${scene.image}?${time}`;
-  const panorama = new ImagePanorama(uri);
-  panorama.name = key;
-  panorama.addEventListener('progress', (event) => {
-    const percentage = (event.progress.loaded / event.progress.total) * 100;
-    if (percentage >= 100) {
-      setTimeout(() => {
-        dispatch(setLoading(false));
-      }, 1000);
-    }
-  });
-  return {
-    name,
-    key,
-    panorama,
-    hotspots,
-    startScenePosition,
-    furniture
-  };
-};
-
 const addToLogSuccess = () => ({
   type: types.ADD_LOG
 });
@@ -424,7 +380,7 @@ const get360JSON = (
   level = '1',
   style = 'default',
   room = 'default',
-  viewer = null,
+  container = null,
   roomUse,
   isPreview = false,
   isSurveyCompleted = false,
@@ -453,6 +409,7 @@ const get360JSON = (
           room,
           roomUse
         );
+        console.log('PROCESSEDDATA', processedData);
         if (processedData !== null) {
           const {
             use,
@@ -465,30 +422,29 @@ const get360JSON = (
             sceneKey,
             hotspots
           } = processedData;
-          const scene = dispatch(
-            build360Scene(use, hotspots, startScenePosition)
+          const scene = build360Scene(use, hotspots, startScenePosition);
+          console.log('SCENE', scene);
+          const threeSixty = new THREESIXTY();
+          const properties = {
+            container,
+            image: scene.panorama.uri,
+            width: window.innerWidth,
+            height: window.innerHeight,
+            radius: 50,
+            widthSegments: 100,
+            heightSegments: 100,
+            hotspots,
+            loader
+          };
+          threeSixty.init(properties);
+          threeSixty.animate();
+          window.addEventListener(
+            'resize',
+            () => {
+              threeSixty.onWindowResize(window.innerWidth, window.innerHeight);
+            },
+            false
           );
-          const definedViewer = createViewer(viewer);
-          let viewerWithPanorama = dispatch(
-            // eslint-disable-next-line no-use-before-define
-            build360Panorama(
-              builderId,
-              projectId,
-              layoutName,
-              scene,
-              definedViewer,
-              levelData.levelNumber,
-              jsonStyle.key,
-              roomUse
-            )
-          );
-
-          viewerWithPanorama = getViewerDependingOnPreview(
-            isPreview,
-            viewerWithPanorama
-          );
-
-          dispatch(createViewSuccess(viewerWithPanorama));
           dispatch(setIsPreview(isPreview));
           dispatch(setIsSurveyCompleted(isSurveyCompleted));
           // TODO Make new set360 Data with a single level single scene, necesitamos poder agrerar el length, de leveles, y escenas, y regresar las imagenes a mostrar en el menu
@@ -609,115 +565,6 @@ const get360Scenes = (
     .catch((er) => {
       console.error('er', er);
     });
-};
-
-const build360Panorama = (
-  builderId,
-  projectId,
-  layoutName,
-  scene,
-  viewer,
-  level,
-  style,
-  roomUse,
-  mode = 'day'
-) => (dispatch) => {
-  const { panorama, hotspots, startScenePosition } = scene;
-  const sceneInitial = new Vector3(
-    startScenePosition.x,
-    startScenePosition.y,
-    startScenePosition.z
-  );
-  hotspots.forEach((spot) => {
-    panorama.addEventListener('enter-fade-start', () => {
-      viewer.tweenControlCenter(sceneInitial, 1);
-    });
-    const hotspotSize = window.innerWidth < 768 ? 13 : 10;
-    let hotspot = null;
-    if (typeof spot.level !== 'undefined') {
-      hotspot = new Infospot(hotspotSize, DataImage.AvriaHotspotStairs);
-    } else {
-      hotspot = new Infospot(hotspotSize, DataImage.AvriaHotspotNew);
-    }
-    hotspot.position.set(spot.x, spot.y, spot.z);
-    hotspot.addHoverText(spot.name);
-    if (typeof spot.level === 'undefined') {
-      hotspot.addEventListener('click', () => {
-        dispatch(
-          get360JSON(
-            builderId,
-            projectId,
-            layoutName,
-            'en',
-            level,
-            style,
-            spot.key,
-            viewer,
-            roomUse,
-            mode
-          )
-        );
-        dispatch(
-          get360Styles(
-            builderId,
-            projectId,
-            layoutName,
-            'en',
-            level,
-            spot.key,
-            mode
-          )
-        );
-        dispatch(setSelectedScene(spot.key));
-        hotspot.removeHoverElement();
-      });
-    } else {
-      hotspot.addEventListener('click', () => {
-        dispatch(
-          get360JSON(
-            builderId,
-            projectId,
-            layoutName,
-            'en',
-            spot.level,
-            style,
-            spot.key,
-            viewer,
-            roomUse,
-            mode
-          )
-        );
-        dispatch(
-          get360Styles(
-            builderId,
-            projectId,
-            layoutName,
-            'en',
-            spot.level,
-            spot.key,
-            mode
-          )
-        );
-        dispatch(
-          get360Scenes(
-            builderId,
-            projectId,
-            layoutName,
-            'en',
-            spot.level,
-            style,
-            mode
-          )
-        );
-        dispatch(setSelectedScene(spot.key));
-        hotspot.removeHoverElement();
-      });
-    }
-    panorama.add(hotspot);
-  });
-  viewer.add(panorama);
-  viewer.setPanorama(panorama);
-  return viewer;
 };
 
 export {
