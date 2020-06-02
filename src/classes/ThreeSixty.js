@@ -69,6 +69,7 @@ class ThreeSixtySphere {
     this.loader = loader;
     this.loaderContainer = this.createLoader();
     this.container.appendChild(this.loaderContainer);
+    this.blurContainer = this.createBlur();
     this.tooltip = this.createTooltip();
     this.image = image;
     this.width = width;
@@ -94,9 +95,10 @@ class ThreeSixtySphere {
   };
 
   sceneUpdate = ({ image, hotspots }) => {
-    Tween.removeAll();
+    this.stopHotstposAnimation();
     this.image = image;
     this.hotspots = hotspots;
+    this.container.appendChild(this.blurContainer);
     this.container.appendChild(this.loaderContainer);
     this.mesh.children = [];
     this.initializeTexture(this.image);
@@ -128,9 +130,16 @@ class ThreeSixtySphere {
     return loaderContainer;
   };
 
+  createBlur = () => {
+    const blurContainer = document.createElement('div');
+    blurContainer.classList.add('three-sixty-blur');
+    return blurContainer;
+  };
+
   LoadingManager = () => {
     if (this.loaderContainer) {
       this.loaderContainer.classList.add('none');
+      this.blurContainer.classList.add('none');
       this.mesh.material = this.material;
       this.mesh.material.needsUpdate = true;
       this.loaderContainer.addEventListener(
@@ -142,6 +151,10 @@ class ThreeSixtySphere {
 
   onTransitionEnd = (event) => {
     event.target.remove();
+    const el = document.querySelector('.three-sixty-blur');
+    if (el) {
+      el.remove();
+    }
     if (this.loadingCallBack !== null) {
       this.loadingCallBack(false);
     }
@@ -150,7 +163,7 @@ class ThreeSixtySphere {
     this.firstLoad = false;
     this.loaderContainer.classList.remove('white-background');
     this.loaderContainer.classList.remove('none');
-    // this.loaderContainer.classList.add('blur');
+    this.blurContainer.classList.remove('none');
   };
 
   initializeCamera = () => {
@@ -282,6 +295,15 @@ class ThreeSixtySphere {
     );
   };
 
+  stopHotstposAnimation = () => {
+    this.easingAnimationUp.forEach((animation) => animation.stop());
+    this.easingAnimationDown.forEach((animation) => animation.stop());
+    this.easingAnimationUp = [];
+    this.easingAnimationDown = [];
+    Tween.removeAll();
+    clearInterval(this.interval);
+  };
+
   animateHotspot = () => {
     if (!this.container) {
       return;
@@ -316,7 +338,7 @@ class ThreeSixtySphere {
     });
 
     let timesRuning = 1;
-    setInterval(() => {
+    this.interval = setInterval(() => {
       this.startAnimation(timesRuning);
       if (timesRuning % 4 === 0) {
         setTimeout(() => {

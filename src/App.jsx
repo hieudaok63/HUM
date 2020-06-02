@@ -12,7 +12,6 @@ import {
   isTablet,
   isPortrait
 } from './utils';
-import Loader from './components/Loader';
 import InitialPlay from './components/InitialPlay';
 import Menu from './components/Menu/Menu';
 import MobileMenu from './components/Menu/MobileMenu';
