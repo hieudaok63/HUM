@@ -14,7 +14,6 @@ const MobileStylesMenu = (props) => {
     showPersonalize
   } = props;
   const childElements = options.map((option, index) => {
-    console.log(option);
     const { type, style, image } = option;
     return (
       <ImageMenuItem

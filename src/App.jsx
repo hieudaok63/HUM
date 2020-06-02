@@ -200,17 +200,19 @@ class App extends Component {
   };
 
   startInterval = () => {
-    // Add start autorotate for THREESIXTY CLASS
+    const { threeSixty } = this.props;
     const interval = setInterval(() => {
       this.startTour();
     }, autoPlayInterval);
+    threeSixty.activateAutoRotate(true);
     this.setState({ interval, autoPlayStatus: true });
   };
 
   stopInterval = () => {
-    // Add stop autorotate for THREESIXTY CLASS
     const { interval } = this.state;
+    const { threeSixty } = this.props;
     clearInterval(interval);
+    threeSixty.activateAutoRotate(false);
     this.setState({ autoPlayStatus: false });
   };
 
@@ -243,7 +245,7 @@ class App extends Component {
 
   setStyle = (e, style) => {
     const {
-      viewer,
+      threeSixty,
       currentLevel,
       selectedScene,
       sessionActions: actionsFromSession,
@@ -251,7 +253,7 @@ class App extends Component {
       match
     } = this.props;
     const { builderId, projectId, layoutName } = match.params;
-    actionsFromSession.get360JSON(
+    actionsFromSession.updateScene(
       builderId,
       projectId,
       layoutName,
@@ -259,14 +261,16 @@ class App extends Component {
       currentLevel,
       style,
       selectedScene || 'default',
-      viewer,
-      currentRoomUse
+      currentRoomUse,
+      'day',
+      threeSixty,
+      threeSixty.getCameraPosition()
     );
   };
 
   setChildScene = (e, targetName) => {
     const {
-      viewer,
+      threeSixty,
       currentLevel,
       selectedStyle,
       sessionActions: actionsFromSession,
@@ -290,7 +294,7 @@ class App extends Component {
       currentLevel,
       name
     );
-    actionsFromSession.get360JSON(
+    actionsFromSession.updateScene(
       builderId,
       projectId,
       layoutName,
@@ -298,14 +302,16 @@ class App extends Component {
       currentLevel,
       selectedStyle,
       name || 'default',
-      viewer,
-      roomType
+      roomType,
+      'day',
+      threeSixty,
+      threeSixty.getCameraPosition()
     );
   };
 
   changeRoomType = (e, roomName) => {
     const {
-      viewer,
+      threeSixty,
       currentLevel,
       selectedStyle,
       selectedScene,
@@ -314,7 +320,7 @@ class App extends Component {
     } = this.props;
     const { builderId, projectId, layoutName } = match.params;
     const roomType = roomName === 'default' ? null : roomName;
-    actionsFromSession.get360JSON(
+    actionsFromSession.updateScene(
       builderId,
       projectId,
       layoutName,
@@ -322,8 +328,10 @@ class App extends Component {
       currentLevel,
       selectedStyle,
       selectedScene || 'default',
-      viewer,
-      roomType
+      roomType,
+      'day',
+      threeSixty,
+      threeSixty.getCameraPosition()
     );
   };
 
@@ -335,12 +343,11 @@ class App extends Component {
   };
 
   onSelectedMenuOption = (selectedMenuOption) => {
-    // add stop autorotate
     const {
       selectedMenuOption: stateSelectedMenuOption,
       autoPlayStatus
     } = this.state;
-    const { viewer } = this.props;
+    const { threeSixty } = this.props;
     this.stopInterval();
     if (
       stateSelectedMenuOption === selectedMenuOption ||
@@ -352,7 +359,7 @@ class App extends Component {
         showSubMenuElements: false
       });
       if (autoPlayStatus) {
-        viewer.enableAutoRate();
+        threeSixty.activateAutoRotate(true);
       }
     } else {
       this.setState({ selectedMenuOption, expanded: true });
@@ -386,13 +393,13 @@ class App extends Component {
 
   updateLevels = (newLevel) => {
     const {
-      viewer,
+      threeSixty,
       selectedStyle,
       sessionActions: actionsFromSession,
       match
     } = this.props;
     const { builderId, projectId, layoutName } = match.params;
-    actionsFromSession.get360JSON(
+    actionsFromSession.updateScene(
       builderId,
       projectId,
       layoutName,
@@ -400,7 +407,8 @@ class App extends Component {
       newLevel,
       selectedStyle,
       'default',
-      viewer
+      'day',
+      threeSixty
     );
     actionsFromSession.get360Scenes(
       builderId,
@@ -629,7 +637,7 @@ class App extends Component {
 
   startTour = () => {
     const {
-      viewer,
+      threeSixty,
       currentLevel,
       selectedStyle,
       scenes,
@@ -643,7 +651,7 @@ class App extends Component {
       scenes[autoTourScene].key !== selectedScene &&
       scenes.length > autoTourScene
     ) {
-      actionsFromSession.get360JSON(
+      actionsFromSession.updateScene(
         builderId,
         projectId,
         layoutName,
@@ -651,7 +659,9 @@ class App extends Component {
         currentLevel,
         selectedStyle,
         scenes[autoTourScene].key || 'default',
-        viewer
+        selectedScene,
+        'day',
+        threeSixty
       );
     }
     if (autoTourScene === scenes.length - 1) {
@@ -1053,7 +1063,8 @@ const mapStateToProps = (state) => {
     cardboardMessage,
     builderId,
     projectId,
-    mapSize
+    mapSize,
+    threeSixty
   } = state.session;
   return {
     loading,
@@ -1087,7 +1098,8 @@ const mapStateToProps = (state) => {
     cardboardMessage,
     builderId,
     projectId,
-    mapSize
+    mapSize,
+    threeSixty
   };
 };
 
@@ -1122,7 +1134,8 @@ App.propTypes = {
   builderId: string.isRequired,
   projectId: oneOfType([string, number]).isRequired,
   match: shape({}).isRequired,
-  mapSize: shape({}).isRequired
+  mapSize: shape({}).isRequired,
+  threeSixty: shape({}).isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({

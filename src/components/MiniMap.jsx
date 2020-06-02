@@ -47,7 +47,6 @@ class MiniMap extends Component {
       changeStep,
       mapSize
     } = this.props;
-    console.log('Hey', mapSize);
     const { isPortrait } = this.state;
     const maxMapHeight =
       Math.round(

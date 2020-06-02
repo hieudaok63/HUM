@@ -3,7 +3,6 @@ import { string, bool, arrayOf, shape, func } from 'prop-types';
 import ImageMenuItem from './ImageMenuItem';
 
 const ChangeRoomMenu = ({ show, roomItemClick, roomUse, currentRoomUse }) => {
-  console.log(currentRoomUse);
   const childElements = roomUse.map((room, index) => (
     <ImageMenuItem
       key={room.key}

@@ -175,7 +175,6 @@ const assignHotspotImage = (hotspots) =>
 
 const getProcessed360Data = (data, level, style, room, roomUse) => {
   const levelData = getLevelData(data.levels, level);
-  console.log('level', levelData, level);
   if (levelData) {
     const { menu } = data;
     const styleToRequest = style === 'default' ? data.defaultStyle : style;

@@ -57,7 +57,8 @@ const initialState = {
   log: {},
   builderId: '',
   projectId: '',
-  mapSize: {}
+  mapSize: {},
+  threeSixty: {}
 };
 
 export default (state = initialState, action) => {
@@ -217,7 +218,8 @@ export default (state = initialState, action) => {
         furniture,
         builderId,
         projectId,
-        mapSize
+        mapSize,
+        threeSixty
       } = action;
       return {
         ...state,
@@ -243,7 +245,8 @@ export default (state = initialState, action) => {
         furniture,
         builderId,
         projectId,
-        mapSize
+        mapSize,
+        threeSixty
       };
     }
     case Types.SET_SELECTED_SCENE: {

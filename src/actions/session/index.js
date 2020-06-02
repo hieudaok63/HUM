@@ -275,7 +275,8 @@ const set360Data = (
   builderId,
   projectId,
   mapSize,
-  takeTestUri
+  takeTestUri,
+  threeSixty
 ) => (dispatch) => {
   dispatch({
     type: types.SET_360_DATA,
@@ -301,7 +302,8 @@ const set360Data = (
     furniture,
     builderId,
     projectId,
-    mapSize
+    mapSize,
+    threeSixty
   });
 };
 
@@ -387,9 +389,11 @@ const updateScene = (
   room = 'default',
   roomUse,
   mode = 'day',
-  threeSixty
+  threeSixty,
+  lastCameraPosition = null
 ) => (dispatch) => {
   dispatch(getScenesStart());
+  console.log(mode);
   services
     .get360JSON(
       builderId,
@@ -412,7 +416,6 @@ const updateScene = (
           room,
           roomUse
         );
-        console.log('PROCESSEDDATA', processedData);
         if (processedData !== null) {
           const {
             use,
@@ -431,6 +434,16 @@ const updateScene = (
             hotspots
           };
           threeSixty.sceneUpdate(properties);
+          if (lastCameraPosition !== null) {
+            threeSixty.updateCameraPosition(lastCameraPosition);
+          } else {
+            threeSixty.updateCameraPosition({
+              x: 0.00964106833161872,
+              y: 6.123233995736772e-19,
+              z: -0.002655146215382272
+            });
+          }
+
           dispatch(setSelectedScene(scene.panorama.name));
           dispatch(
             set360Data(
@@ -452,7 +465,8 @@ const updateScene = (
               data.builderId,
               data.projectId,
               levelData.minimap.mapSize,
-              data.urls.avria
+              data.urls.avria,
+              threeSixty
             )
           );
         } else {
@@ -505,7 +519,6 @@ const createScene = (
           room,
           roomUse
         );
-        console.log('PROCESSEDDATA', processedData);
         if (processedData !== null) {
           const {
             use,
@@ -519,7 +532,6 @@ const createScene = (
             hotspots
           } = processedData;
           const scene = build360Scene(use, hotspots, startScenePosition);
-          console.log(scene);
           const threeSixty = new THREESIXTY();
           const properties = {
             container,
@@ -549,9 +561,15 @@ const createScene = (
                   obj
                 )
               );
-            }
+            },
+            startScenePosition
           };
           threeSixty.init(properties);
+          threeSixty.updateCameraPosition({
+            x: 0.00964106833161872,
+            y: 6.123233995736772e-19,
+            z: -0.002655146215382272
+          });
           threeSixty.animate();
           window.addEventListener(
             'resize',
@@ -583,7 +601,8 @@ const createScene = (
               data.builderId,
               data.projectId,
               levelData.minimap.mapSize,
-              data.urls.avria
+              data.urls.avria,
+              threeSixty
             )
           );
         } else {

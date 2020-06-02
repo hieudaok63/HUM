@@ -41,6 +41,7 @@ class ThreeSixtySphere {
     this.scaleDownAnimation = new Tween.Tween();
     this.easingAnimationUp = [];
     this.easingAnimationDown = [];
+    this.showAnimation = [];
     this.hotspots = [];
     this.createdHotspots = [];
     this.scaled = null;
@@ -63,7 +64,8 @@ class ThreeSixtySphere {
     hotspots,
     loader,
     loadingCallBack = null,
-    updateCallBack = null
+    updateCallBack = null,
+    startScenePosition
   }) => {
     this.container = container;
     this.loader = loader;
@@ -80,6 +82,7 @@ class ThreeSixtySphere {
     this.hotspots = hotspots;
     this.loadingCallBack = loadingCallBack !== null ? loadingCallBack : null;
     this.updateCallBack = updateCallBack !== null ? updateCallBack : null;
+    this.startScenePosition = startScenePosition;
     this.initializeCamera();
     this.initializeScene();
     this.initializeGeometry();
@@ -174,7 +177,7 @@ class ThreeSixtySphere {
       1100
     );
     this.camera.target = new THREE.Vector3(0, 0, 0);
-    this.camera.position.z = 0.01;
+    this.camera.position.z = Math.PI;
   };
 
   initializeScene = () => {
@@ -347,7 +350,7 @@ class ThreeSixtySphere {
       } else {
         timesRuning += 1;
       }
-    }, 2000);
+    }, 1500);
   };
 
   startAnimation = (timesRuning) => {
@@ -414,10 +417,8 @@ class ThreeSixtySphere {
       case 60:
         this.ctrl = true;
         break;
-      case 32:
-        this.activateAutoRotate();
-        break;
-      case 103:
+      case 45:
+        console.log('HEY');
         this.activateGyro();
         break;
       case 161:
@@ -426,9 +427,6 @@ class ThreeSixtySphere {
           6.123233995736772e-19,
           -0.002655146215382272
         );
-        break;
-      case 45:
-        this.animateHotspot();
         break;
 
       default:
@@ -514,7 +512,8 @@ class ThreeSixtySphere {
     const intersection = this.raycaster.intersectObject(this.mesh);
     if (intersection.length > 0) {
       const { point } = intersection[0];
-      console.log(point);
+      console.log('hotspot location', point);
+      console.log('camera position', this.camera.position);
     }
   };
 
@@ -618,7 +617,7 @@ class ThreeSixtySphere {
     this.renderer.render(this.scene, this.camera);
   };
 
-  updateCameraPosition = (x, y, z) => {
+  updateCameraPosition = ({ x, y, z }) => {
     this.camera.position.set(x, y, z);
   };
 
@@ -626,11 +625,12 @@ class ThreeSixtySphere {
 
   getCamera = () => this.camera;
 
+  getCameraPosition = () => this.camera.position;
+
   getScene = () => this.scene;
 
-  activateAutoRotate = () => {
-    this.autoRotate = !this.autoRotate;
-    this.control.autoRotate = this.autoRotate;
+  activateAutoRotate = (autoRotate) => {
+    this.control.autoRotate = autoRotate;
   };
 
   animate = () => {
