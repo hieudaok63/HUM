@@ -27,8 +27,9 @@ const get360JSON = (
   room = 'default',
   uses = [],
   mode = 'day'
-) =>
-  fetch(
+) => {
+  console.log(uses);
+  return fetch(
     `${THREE_SIXTY_API}${lang}/360s/room-use/${builderId}/${propertyId}/${layoutName}V3/${level}/${style}/${room.trim()}/${mode}`,
     {
       method: 'POST',
@@ -41,6 +42,7 @@ const get360JSON = (
       })
     }
   ).then((response) => response.json());
+};
 
 const get360Scenes = (
   builderId = '',

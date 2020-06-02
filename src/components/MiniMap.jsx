@@ -101,7 +101,7 @@ class MiniMap extends Component {
     return (
       <div
         className={`d-none ${!isPreview ? 'd-lg-block d-md-block' : ''} ${
-          !show ? 'scale-cero' : 'map-open'
+          !show || loading ? 'scale-cero' : 'map-open'
         }`}
       >
         <div
@@ -160,7 +160,11 @@ class MiniMap extends Component {
             </div>
           </div>
         </div>
-        <div className={`${!show ? 'scale-cero' : 'map-open'}`}>
+        <div
+          className={`${!show ? 'scale-cero' : 'map-open'} ${
+            loading ? 'display-none' : ''
+          }`}
+        >
           <FloorsMenu
             hide={hide}
             totalFloors={totalFloors}

@@ -407,6 +407,7 @@ class App extends Component {
       newLevel,
       selectedStyle,
       'default',
+      'default',
       'day',
       threeSixty
     );

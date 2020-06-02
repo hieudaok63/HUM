@@ -254,6 +254,7 @@ class ThreeSixtySphere {
 
   updateHotspots = () => {
     this.hotspots.forEach((hotspot) => {
+      console.log(hotspot);
       this.createHotspot(hotspot);
     });
   };
@@ -372,7 +373,7 @@ class ThreeSixtySphere {
     }
   };
 
-  createHotspot = ({ x, y, z, name, key, img }) => {
+  createHotspot = ({ x, y, z, name, key, img, level }) => {
     const point = new THREE.Vector3(x, y, z);
     const texture = new TextureLoader.Load(img);
     const spriteMaterial = new THREE.SpriteMaterial({
@@ -388,6 +389,9 @@ class ThreeSixtySphere {
         .normalize()
         .multiplyScalar(10)
     );
+    if (level) {
+      sprite.level = level;
+    }
     this.createdHotspots.push(sprite);
     this.mesh.add(sprite);
   };
@@ -501,7 +505,12 @@ class ThreeSixtySphere {
         this.CLICKEDSPRITE.isHotspot
       ) {
         if (this.updateCallBack) {
-          this.updateCallBack(this, this.CLICKEDSPRITE.key);
+          console.log(this.CLICKEDSPRITE);
+          this.updateCallBack(
+            this,
+            this.CLICKEDSPRITE.key,
+            this.CLICKEDSPRITE.level
+          );
         }
         console.log(this.CLICKEDSPRITE.name, this.CLICKEDSPRITE.key);
       }

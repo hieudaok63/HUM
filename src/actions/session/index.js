@@ -403,7 +403,7 @@ const updateScene = (
       level,
       style,
       room,
-      [],
+      roomUse ? [roomUse] : [],
       mode
     )
     .then((json) => {
@@ -546,14 +546,16 @@ const createScene = (
             loadingCallBack: (loading) => {
               dispatch(setLoading(loading));
             },
-            updateCallBack: (obj, updateRoom) => {
+            updateCallBack: (obj, updateRoom, newLevel) => {
+              console.log(newLevel);
+              const levelToRequest = newLevel || level;
               dispatch(
                 updateScene(
                   builderId,
                   projectId,
                   layoutName,
                   lang,
-                  level,
+                  levelToRequest,
                   style,
                   updateRoom,
                   roomUse,
