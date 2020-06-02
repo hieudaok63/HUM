@@ -372,7 +372,103 @@ const saveLog = (lang, log) => (dispatch) => {
   });
 };
 
-const get360JSON = (
+const setLoading = (loading) => ({
+  type: types.SET_LOADING,
+  loading
+});
+
+const updateScene = (
+  builderId,
+  projectId,
+  layoutName,
+  lang = 'en',
+  level = '1',
+  style = 'default',
+  room = 'default',
+  roomUse,
+  mode = 'day',
+  threeSixty
+) => (dispatch) => {
+  dispatch(getScenesStart());
+  services
+    .get360JSON(
+      builderId,
+      projectId,
+      layoutName,
+      lang,
+      level,
+      style,
+      room,
+      [],
+      mode
+    )
+    .then((json) => {
+      const { data, response } = json;
+      if (response === 'success') {
+        const processedData = getProcessed360Data(
+          data,
+          level,
+          style,
+          room,
+          roomUse
+        );
+        console.log('PROCESSEDDATA', processedData);
+        if (processedData !== null) {
+          const {
+            use,
+            uses,
+            currentRoomUse,
+            levelData,
+            jsonStyle,
+            startScenePosition,
+            menuStyle,
+            sceneKey,
+            hotspots
+          } = processedData;
+          const scene = build360Scene(use, hotspots, startScenePosition);
+          const properties = {
+            image: scene.panorama.uri,
+            hotspots
+          };
+          threeSixty.sceneUpdate(properties);
+          dispatch(setSelectedScene(scene.panorama.name));
+          dispatch(
+            set360Data(
+              levelMenu,
+              data.displayName,
+              menuStyle.name,
+              jsonStyle.key,
+              data.personalized,
+              levelData.minimap.image,
+              levelData.levelNumber,
+              Math.ceil(8 / 3),
+              sceneKey.toLowerCase(),
+              levelData.minimap.hotspots,
+              data.totalLevels,
+              data.layoutName,
+              uses,
+              currentRoomUse,
+              use.furniture,
+              data.builderId,
+              data.projectId,
+              levelData.minimap.mapSize,
+              data.urls.avria
+            )
+          );
+        } else {
+          dispatch(getScenesFail('Fail, processesing Data'));
+        }
+      } else if (response === 'error') {
+        const { message } = data;
+        dispatch(getScenesFail(message));
+      }
+    })
+    .catch((er) => {
+      console.error('er', er);
+    });
+};
+
+const createScene = (
   builderId,
   projectId,
   layoutName,
@@ -423,7 +519,7 @@ const get360JSON = (
             hotspots
           } = processedData;
           const scene = build360Scene(use, hotspots, startScenePosition);
-          console.log('SCENE', scene);
+          console.log(scene);
           const threeSixty = new THREESIXTY();
           const properties = {
             container,
@@ -434,7 +530,26 @@ const get360JSON = (
             widthSegments: 100,
             heightSegments: 100,
             hotspots,
-            loader
+            loader,
+            loadingCallBack: (loading) => {
+              dispatch(setLoading(loading));
+            },
+            updateCallBack: (obj, updateRoom) => {
+              dispatch(
+                updateScene(
+                  builderId,
+                  projectId,
+                  layoutName,
+                  lang,
+                  level,
+                  style,
+                  updateRoom,
+                  roomUse,
+                  mode,
+                  obj
+                )
+              );
+            }
           };
           threeSixty.init(properties);
           threeSixty.animate();
@@ -445,35 +560,32 @@ const get360JSON = (
             },
             false
           );
+          dispatch(setSelectedScene(scene.panorama.name));
           dispatch(setIsPreview(isPreview));
           dispatch(setIsSurveyCompleted(isSurveyCompleted));
-          // TODO Make new set360 Data with a single level single scene, necesitamos poder agrerar el length, de leveles, y escenas, y regresar las imagenes a mostrar en el menu
-          setTimeout(() => {
-            console.log('Hey', levelData.minimap.mapSize);
-            dispatch(
-              set360Data(
-                levelMenu,
-                data.displayName,
-                menuStyle.name,
-                jsonStyle.key,
-                data.personalized,
-                levelData.minimap.image,
-                levelData.levelNumber,
-                Math.ceil(8 / 3),
-                sceneKey.toLowerCase(),
-                levelData.minimap.hotspots,
-                data.totalLevels,
-                data.layoutName,
-                uses,
-                currentRoomUse,
-                use.furniture,
-                data.builderId,
-                data.projectId,
-                levelData.minimap.mapSize,
-                data.urls.avria
-              )
-            );
-          }, 2000);
+          dispatch(
+            set360Data(
+              levelMenu,
+              data.displayName,
+              menuStyle.name,
+              jsonStyle.key,
+              data.personalized,
+              levelData.minimap.image,
+              levelData.levelNumber,
+              Math.ceil(8 / 3),
+              sceneKey.toLowerCase(),
+              levelData.minimap.hotspots,
+              data.totalLevels,
+              data.layoutName,
+              uses,
+              currentRoomUse,
+              use.furniture,
+              data.builderId,
+              data.projectId,
+              levelData.minimap.mapSize,
+              data.urls.avria
+            )
+          );
         } else {
           dispatch(getScenesFail('Fail, processesing Data'));
         }
@@ -576,7 +688,8 @@ export {
   activateCardBoardMode,
   reset,
   getCookie,
-  get360JSON,
+  createScene,
+  updateScene,
   get360Scenes,
   get360Styles,
   // Guest

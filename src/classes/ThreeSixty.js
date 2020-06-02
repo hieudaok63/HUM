@@ -48,6 +48,8 @@ class ThreeSixtySphere {
     this.INTERSECTED = '';
     this.loaded = false;
     this.firstLoad = true;
+    this.loadingCallBack = null;
+    this.updateCallBack = null;
   }
 
   init = ({
@@ -59,7 +61,9 @@ class ThreeSixtySphere {
     widthSegments,
     heightSegments,
     hotspots,
-    loader
+    loader,
+    loadingCallBack = null,
+    updateCallBack = null
   }) => {
     this.container = container;
     this.loader = loader;
@@ -73,19 +77,30 @@ class ThreeSixtySphere {
     this.widthSegments = widthSegments;
     this.heightSegments = heightSegments;
     this.hotspots = hotspots;
+    this.loadingCallBack = loadingCallBack !== null ? loadingCallBack : null;
+    this.updateCallBack = updateCallBack !== null ? updateCallBack : null;
     this.initializeCamera();
     this.initializeScene();
     this.initializeGeometry();
-    this.initializeTexture();
+    this.initializeTexture(this.image);
     this.initializeMaterial();
     this.initializeMesh();
     this.initializeRaycaster();
     this.addToScene(this.mesh);
     this.initializeRenderer();
     this.initializeControls();
-    this.updateHotspots();
     this.bindEventListeners();
     this.container.appendChild(this.renderer.domElement);
+  };
+
+  sceneUpdate = ({ image, hotspots }) => {
+    Tween.removeAll();
+    this.image = image;
+    this.hotspots = hotspots;
+    this.container.appendChild(this.loaderContainer);
+    this.mesh.children = [];
+    this.initializeTexture(this.image);
+    this.initializeMaterial();
   };
 
   createTooltip = () => {
@@ -116,6 +131,8 @@ class ThreeSixtySphere {
   LoadingManager = () => {
     if (this.loaderContainer) {
       this.loaderContainer.classList.add('none');
+      this.mesh.material = this.material;
+      this.mesh.material.needsUpdate = true;
       this.loaderContainer.addEventListener(
         'transitionend',
         this.onTransitionEnd
@@ -125,7 +142,15 @@ class ThreeSixtySphere {
 
   onTransitionEnd = (event) => {
     event.target.remove();
+    if (this.loadingCallBack !== null) {
+      this.loadingCallBack(false);
+    }
+    this.updateHotspots();
+    this.animateHotspot();
     this.firstLoad = false;
+    this.loaderContainer.classList.remove('white-background');
+    this.loaderContainer.classList.remove('none');
+    // this.loaderContainer.classList.add('blur');
   };
 
   initializeCamera = () => {
@@ -152,8 +177,8 @@ class ThreeSixtySphere {
     this.geometry.scale(-1, 1, 1);
   };
 
-  initializeTexture = () => {
-    this.texture = new THREE.TextureLoader().load(this.image, () => {
+  initializeTexture = (image) => {
+    this.texture = new THREE.TextureLoader().load(image, () => {
       setTimeout(() => {
         this.LoadingManager();
         this.loaded = true;
@@ -455,7 +480,9 @@ class ThreeSixtySphere {
         this.CLICKEDSPRITE.type === 'Sprite' &&
         this.CLICKEDSPRITE.isHotspot
       ) {
-        this.loaded = false;
+        if (this.updateCallBack) {
+          this.updateCallBack(this, this.CLICKEDSPRITE.key);
+        }
         console.log(this.CLICKEDSPRITE.name, this.CLICKEDSPRITE.key);
       }
     }
@@ -499,16 +526,16 @@ class ThreeSixtySphere {
       })
       .easing(Tween.Easing.Elastic.Out);
 
-  showWorlAnimation = () =>
-    new Tween.Tween(this.mesh)
+  showAnimation = (obj) =>
+    new Tween.Tween(obj)
       .to({ opacity: 1 }, 500)
       .onStart(() => {
         console.log('start');
       })
       .easing(Tween.Easing.Quartic.Out);
 
-  hideWorldAnimation = () =>
-    new Tween.Tween(this.mesh.material)
+  hideAnimation = (obj) =>
+    new Tween.Tween(obj)
       .to({ opacity: 0 }, 500)
       .easing(Tween.Easing.Quartic.Out);
 
@@ -561,8 +588,8 @@ class ThreeSixtySphere {
 
   update = () => {
     this.control.update();
-    Tween.update();
     this.render();
+    Tween.update();
   };
 
   render = () => {

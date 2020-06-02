@@ -1,6 +1,6 @@
 import React from 'react';
 import { string, bool } from 'prop-types';
-import './CurrentViewStyle.css';
+import './CurrentViewStyle.scss';
 
 const CurrentViewStyle = ({
   layoutName,
@@ -11,8 +11,8 @@ const CurrentViewStyle = ({
   blur
 }) => (
   <div
-    className={`d-lg-block ${
-      loading || error || hide ? 'display-none' : ''
+    className={`d-lg-block indicator ${
+      loading || error || hide ? 'hide' : ''
     } ${blur && 'blur'}`}
   >
     <div className="indicator-container d-flex flex-row justify-content-center align-items-center">

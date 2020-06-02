@@ -64,9 +64,7 @@ const Menu = ({
       <div
         ref={menuRef}
         className={`nav-container d-flex flex-row justify-content-end
-      ${menuClass ? 'expanded' : 'closed'} ${
-          loading || hide ? 'display-none' : ''
-        }`}
+      ${menuClass ? 'expanded' : 'closed'} ${loading || hide ? 'hide' : ''}`}
         onTransitionEnd={() => {
           onTransitionEnd(menuClass);
         }}

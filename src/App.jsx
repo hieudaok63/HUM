@@ -107,7 +107,6 @@ class App extends Component {
     if (runSteps) {
       if (steps[stepIndex + 1] === 'personalize') {
         this.subMenuRef.current.scrollTop = this.subMenuRef.current.scrollHeight;
-        console.log(this.subMenuRef);
       }
       if (stepIndex + 1 > steps.length) {
         this.setState({
@@ -147,7 +146,7 @@ class App extends Component {
       currentLevel,
       selectedScene
     );
-    actionsFromSession.get360JSON(
+    actionsFromSession.createScene(
       builderId,
       projectId,
       layoutName,
@@ -244,7 +243,6 @@ class App extends Component {
   };
 
   setStyle = (e, style) => {
-    console.log(style);
     const {
       viewer,
       currentLevel,
@@ -669,7 +667,6 @@ class App extends Component {
   };
 
   handleKeyPress = (event) => {
-    console.log(event.keyCode);
     if (event.keyCode === 32) {
       const { autoPlayStatus } = this.state;
       if (autoPlayStatus) {
@@ -811,7 +808,6 @@ class App extends Component {
       takeTestUri
     } = this.props;
     const personalizePositionInstruction = this.getPersonalizePosition();
-    console.log('hey', loading);
     return (
       <Fragment>
         <Fragment>

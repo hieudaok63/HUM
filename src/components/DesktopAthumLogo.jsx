@@ -1,7 +1,7 @@
 import React from 'react';
 import { bool, string } from 'prop-types';
 import AthumLogo from '../assets/athum.png';
-import './AthumLogo.css';
+import './AthumLogo.scss';
 
 const DesktopAthumLogo = ({
   loading,
@@ -11,8 +11,8 @@ const DesktopAthumLogo = ({
   showTabletPortrait
 }) => (
   <div
-    className={`d-none d-lg-block icon flex-column justify-content-center align-items-center ${
-      loading || error || hide ? 'display-none' : ''
+    className={`d-none d-lg-block icon flex-column justify-content-center align-items-center athum-logo${
+      loading || error || hide ? 'hide' : ''
     } ${blur && 'blur'} ${showTabletPortrait ? 'd-md-block' : 'd-md-none'}`}
   >
     <img

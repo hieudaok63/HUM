@@ -18,7 +18,7 @@ const Autoplay = ({
   <React.Fragment>
     <div
       className={`feature-container autoplay d-flex justify-content-start align-items-center ${isPreview &&
-        'display-none'} ${loading && 'display-none'} ${blur && 'blur'}`}
+        'display-none'} ${loading && 'hide'} ${blur && 'blur'}`}
     >
       <div
         className="autoplay-icon"

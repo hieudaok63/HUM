@@ -243,8 +243,7 @@ export default (state = initialState, action) => {
         furniture,
         builderId,
         projectId,
-        mapSize,
-        loading: false
+        mapSize
       };
     }
     case Types.SET_SELECTED_SCENE: {
@@ -272,10 +271,10 @@ export default (state = initialState, action) => {
         loading: true
       };
     case Types.SET_LOADING:
+      console.log('LOADING');
       return {
         ...state,
-        loading: action.loading,
-        firstLoad: false
+        loading: action.loading
       };
     case Types.GET_360_VIEW_MENU_START:
       return {
