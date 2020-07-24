@@ -27,3 +27,5 @@ export const THREE_SIXTY_API_KEY =
   process.env.REACT_APP_ENV === 'production'
     ? THREE_SIXTY_API_PROD_KEY
     : THREE_SIXTY_API_DEV_KEY;
+
+export const VERSION = process.env.REACT_APP_VERSION;

@@ -351,7 +351,7 @@ class ThreeSixtySphere {
       } else {
         timesRuning += 1;
       }
-    }, 1500);
+    }, 2000);
   };
 
   startAnimation = (timesRuning) => {
@@ -598,6 +598,7 @@ class ThreeSixtySphere {
               const position = this.INTERSECTED.position
                 .clone()
                 .project(this.camera);
+              console.log(position);
               this.tooltip.style.top = `${((-1 * position.y + 1) *
                 this.height) /
                 2}px`;
@@ -630,6 +631,10 @@ class ThreeSixtySphere {
     this.camera.position.set(x, y, z);
   };
 
+  setStartingScenePosition = ({ x, y, z }) => {
+    this.camera.position.set(x, y, z);
+  };
+
   getRenderer = () => this.renderer;
 
   getCamera = () => this.camera;
@@ -637,6 +642,11 @@ class ThreeSixtySphere {
   getCameraPosition = () => this.camera.position;
 
   getScene = () => this.scene;
+
+  getMatrix = () => {
+    console.log('MatrixWorld', this.scene.children[0].matrixWorld);
+    console.log('Matrix', this.scene.children[0].matrix);
+  };
 
   activateAutoRotate = (autoRotate) => {
     this.control.autoRotate = autoRotate;

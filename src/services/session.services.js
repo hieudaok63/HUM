@@ -2,7 +2,8 @@ import {
   WEBAPP_API,
   WEBAPP_API_KEY,
   THREE_SIXTY_API_KEY,
-  THREE_SIXTY_API
+  THREE_SIXTY_API,
+  VERSION
 } from '../config/endpoints';
 
 const login = (email, password, language = 'en') =>
@@ -30,7 +31,7 @@ const get360JSON = (
 ) => {
   console.log(uses);
   return fetch(
-    `${THREE_SIXTY_API}${lang}/360s/room-use/${builderId}/${propertyId}/${layoutName}V3/${level}/${style}/${room.trim()}/${mode}`,
+    `${THREE_SIXTY_API}${lang}/360s/room-use/${builderId}/${propertyId}/${layoutName}${VERSION}/${level}/${style}/${room.trim()}/${mode}`,
     {
       method: 'POST',
       headers: {
@@ -54,7 +55,7 @@ const get360Scenes = (
   mode = 'day'
 ) =>
   fetch(
-    `${THREE_SIXTY_API}${lang}/360s/rooms/${builderId}/${propertyId}/${layoutName}V3/${level}/${style}/${mode}`,
+    `${THREE_SIXTY_API}${lang}/360s/rooms/${builderId}/${propertyId}/${layoutName}${VERSION}/${level}/${style}/${mode}`,
     {
       method: 'GET',
       headers: {
@@ -120,7 +121,7 @@ const get360Styles = (
   mode = 'day'
 ) =>
   fetch(
-    `${THREE_SIXTY_API}${lang}/360s/styles-room/${builderId}/${propertyId}/${layoutName}V3/${level}/${room}/${mode}`,
+    `${THREE_SIXTY_API}${lang}/360s/styles-room/${builderId}/${propertyId}/${layoutName}${VERSION}/${level}/${room}/${mode}`,
     {
       method: 'GET',
       headers: {

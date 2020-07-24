@@ -756,12 +756,8 @@ class App extends Component {
   };
 
   getViewerMatrix = () => {
-    const { viewer } = this.props;
-    const scene = viewer.getScene();
-    const panorama = scene.children;
-    console.log('Panorama', panorama[0]);
-    console.log('MatrixWorld', panorama[0].matrixWorld);
-    console.log('Matrix', panorama[0].matrix);
+    const { threeSixty } = this.props;
+    threeSixty.getMatrix();
   };
 
   render() {

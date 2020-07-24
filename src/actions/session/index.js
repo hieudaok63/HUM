@@ -393,7 +393,6 @@ const updateScene = (
   lastCameraPosition = null
 ) => (dispatch) => {
   dispatch(getScenesStart());
-  console.log(mode);
   services
     .get360JSON(
       builderId,
@@ -538,7 +537,7 @@ const createScene = (
             image: scene.panorama.uri,
             width: window.innerWidth,
             height: window.innerHeight,
-            radius: 50,
+            radius: 100,
             widthSegments: 100,
             heightSegments: 100,
             hotspots,
@@ -547,7 +546,6 @@ const createScene = (
               dispatch(setLoading(loading));
             },
             updateCallBack: (obj, updateRoom, newLevel) => {
-              console.log(newLevel);
               const levelToRequest = newLevel || level;
               dispatch(
                 updateScene(
@@ -566,8 +564,9 @@ const createScene = (
             },
             startScenePosition
           };
+          console.log('HEY', startScenePosition);
           threeSixty.init(properties);
-          threeSixty.updateCameraPosition({
+          threeSixty.setStartingScenePosition({
             x: 0.00964106833161872,
             y: 6.123233995736772e-19,
             z: -0.002655146215382272
