@@ -266,6 +266,9 @@ class ThreeSixtySphere {
     this.container.addEventListener('mousemove', this.onPointerMove, {
       passive: true
     });
+    this.canvas.addEventListener('touchstart', this.onPointerStart);
+    this.canvas.addEventListener('touchend', this.onPointerEnd);
+    this.canvas.addEventListener('touchcancel', this.onPointerEnd);
     document.addEventListener('keypress', this.handleKeyPress);
     document.addEventListener('keyup', this.handleKeyUp);
   };
