@@ -253,6 +253,7 @@ class App extends Component {
       match
     } = this.props;
     const { builderId, projectId, layoutName } = match.params;
+    threeSixty.setCurrentStyle(style);
     actionsFromSession.updateScene(
       builderId,
       projectId,

@@ -545,7 +545,12 @@ const createScene = (
             loadingCallBack: (loading) => {
               dispatch(setLoading(loading));
             },
-            updateCallBack: (obj, updateRoom, newLevel) => {
+            updateCallBack: (
+              obj,
+              updateRoom,
+              newLevel,
+              currentStyle = 'default'
+            ) => {
               const levelToRequest = newLevel || level;
               dispatch(
                 updateScene(
@@ -554,7 +559,7 @@ const createScene = (
                   layoutName,
                   lang,
                   levelToRequest,
-                  style,
+                  currentStyle,
                   updateRoom,
                   roomUse,
                   mode,

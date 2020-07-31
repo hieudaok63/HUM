@@ -51,6 +51,7 @@ class ThreeSixtySphere {
     this.firstLoad = true;
     this.loadingCallBack = null;
     this.updateCallBack = null;
+    this.currentStylle = 'default';
   }
 
   init = ({
@@ -509,7 +510,8 @@ class ThreeSixtySphere {
           this.updateCallBack(
             this,
             this.CLICKEDSPRITE.key,
-            this.CLICKEDSPRITE.level
+            this.CLICKEDSPRITE.level,
+            this.currentStylle
           );
         }
         console.log(this.CLICKEDSPRITE.name, this.CLICKEDSPRITE.key);
@@ -646,6 +648,10 @@ class ThreeSixtySphere {
   getMatrix = () => {
     console.log('MatrixWorld', this.scene.children[0].matrixWorld);
     console.log('Matrix', this.scene.children[0].matrix);
+  };
+
+  setCurrentStyle = (currentStylle) => {
+    this.currentStylle = currentStylle;
   };
 
   activateAutoRotate = (autoRotate) => {
