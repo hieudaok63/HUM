@@ -12,7 +12,7 @@ export const shopCar = {
 };
 export const lang = 'es';
 export const autoPlay = false;
-export const autoPlayInterval = 10000;
+export const autoPlayInterval = 15000;
 export const showInstructions = false;
 
 export const mapSize = {
