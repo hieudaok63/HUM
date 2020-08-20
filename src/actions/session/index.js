@@ -493,7 +493,8 @@ const createScene = (
   roomUse,
   isPreview = false,
   isSurveyCompleted = false,
-  mode = 'day'
+  mode = 'day',
+  log = false
 ) => (dispatch) => {
   dispatch(getScenesStart());
   services
@@ -584,6 +585,16 @@ const createScene = (
             },
             false
           );
+          if (log) {
+            const newLog = {
+              builderId: data.builderId,
+              projectId: data.projectId,
+              layoutName: data.displayName,
+              logs: []
+            };
+            console.log('LOG', newLog);
+            dispatch(saveLog(lang, newLog));
+          }
           dispatch(setSelectedScene(scene.panorama.name));
           dispatch(setIsPreview(isPreview));
           dispatch(setIsSurveyCompleted(isSurveyCompleted));

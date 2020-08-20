@@ -78,9 +78,6 @@ class App extends Component {
 
   componentDidMount() {
     this.loadContent();
-    setTimeout(() => {
-      this.saveLog();
-    }, 8000);
   }
 
   saveLog = () => {
@@ -97,7 +94,7 @@ class App extends Component {
       layoutName: displayName,
       logs: []
     };
-
+    console.log(log);
     actionsFromSession.saveLog(lang, log);
   };
 
@@ -156,7 +153,9 @@ class App extends Component {
       this.atHUMViewer,
       null,
       isPreview(),
-      isSurveyCompleted()
+      isSurveyCompleted(),
+      'day',
+      true
     );
 
     let addEventListener = true;

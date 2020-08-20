@@ -78,6 +78,7 @@ class ThreeSixtyPage extends Component {
 
   componentDidMount() {
     this.loadContent();
+    console.log('ugh');
     setTimeout(() => {
       this.saveLog();
     }, 8000);
