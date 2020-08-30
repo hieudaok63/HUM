@@ -23,6 +23,7 @@ const initialState = {
   selectedStyle: 'default',
   selectedStyleName: 'default',
   selectedScene: 'default',
+  selectedFinish: 'default',
   selectedMenuOption: '',
   selectedMobileMenuOption: '',
   expanded: true,
@@ -58,7 +59,8 @@ const initialState = {
   builderId: '',
   projectId: '',
   mapSize: {},
-  threeSixty: {}
+  threeSixty: {},
+  finishScenes: {}
 };
 
 export default (state = initialState, action) => {
@@ -219,7 +221,8 @@ export default (state = initialState, action) => {
         builderId,
         projectId,
         mapSize,
-        threeSixty
+        threeSixty,
+        finishScenes
       } = action;
       return {
         ...state,
@@ -246,7 +249,8 @@ export default (state = initialState, action) => {
         builderId,
         projectId,
         mapSize,
-        threeSixty
+        threeSixty,
+        finishScenes
       };
     }
     case Types.SET_SELECTED_SCENE: {
@@ -256,6 +260,11 @@ export default (state = initialState, action) => {
         selectedScene: newSelectedScene
       };
     }
+    case Types.SET_SELECTED_FINISH:
+      return {
+        ...state,
+        selectedFinish: action.selectedScene
+      };
     case Types.SET_LEVEL_UPDATED: {
       const { data } = action;
       return {
@@ -274,7 +283,6 @@ export default (state = initialState, action) => {
         loading: true
       };
     case Types.SET_LOADING:
-      console.log('LOADING');
       return {
         ...state,
         loading: action.loading

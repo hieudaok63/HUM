@@ -72,7 +72,8 @@ class App extends Component {
         'styles',
         'styles-menu',
         'personalize'
-      ]
+      ],
+      mode: 'day'
     };
   }
 
@@ -94,7 +95,6 @@ class App extends Component {
       layoutName: displayName,
       logs: []
     };
-    console.log(log);
     actionsFromSession.saveLog(lang, log);
   };
 
@@ -335,6 +335,42 @@ class App extends Component {
     );
   };
 
+  changeFinish = (e, finish) => {
+    const {
+      threeSixty,
+      currentLevel,
+      selectedStyle,
+      selectedScene,
+      sessionActions: actionsFromSession,
+      match,
+      currentRoomUse
+    } = this.props;
+    const { builderId, projectId, layoutName } = match.params;
+    const finishType = finish === 'default' ? null : finish;
+    const roomType =
+      currentRoomUse === 'undefined' ||
+      currentRoomUse === undefined ||
+      currentRoomUse === null ||
+      currentRoomUse === ''
+        ? ''
+        : currentRoomUse;
+    console.log(finishType);
+    actionsFromSession.updateScene(
+      builderId,
+      projectId,
+      layoutName,
+      lang,
+      currentLevel,
+      selectedStyle,
+      selectedScene || 'default',
+      roomType,
+      'day',
+      threeSixty,
+      threeSixty.getCameraPosition(),
+      finishType
+    );
+  };
+
   onExpantion = () => {
     this.setState((prevState) => ({
       expanded: !prevState.expanded,
@@ -384,7 +420,6 @@ class App extends Component {
   };
 
   onBodyClick = () => {
-    console.log('hey!');
     this.setState({
       selectedMenuOption: '',
       expanded: false
@@ -783,7 +818,8 @@ class App extends Component {
       showSubMenuElements,
       runSteps,
       steps,
-      stepIndex
+      stepIndex,
+      mode
     } = this.state;
 
     const {
@@ -811,7 +847,9 @@ class App extends Component {
       roomUse,
       currentRoomUse,
       mapSize,
-      takeTestUri
+      takeTestUri,
+      finishScenes,
+      selectedFinish
     } = this.props;
     const personalizePositionInstruction = this.getPersonalizePosition();
     return (
@@ -885,6 +923,10 @@ class App extends Component {
               changeStep={this.changeStep}
               subMenuRef={this.subMenuRef}
               menuRef={this.menu}
+              selectedFinish={selectedFinish}
+              finishScenes={finishScenes}
+              finishItemClick={this.changeFinish}
+              mode={mode}
             />
             <Fragment>
               {JSON.stringify(mapSize) !== '{}' && (
@@ -952,6 +994,10 @@ class App extends Component {
               token={token}
               showTabletPortrait={showTabletPortrait}
               mapSize={mapSize}
+              selectedFinish={selectedFinish}
+              finishScenes={finishScenes}
+              finishItemClick={this.changeFinish}
+              mode={mode}
             />
             <CurrentViewStyle
               layoutName={displayName}
@@ -966,6 +1012,11 @@ class App extends Component {
               ref={(ref) => {
                 this.atHUMViewer = ref;
               }}
+              className={`${
+                error || rotationModal || selectedMenuOption === 'mini-map'
+                  ? 'blur'
+                  : ''
+              }`}
             />
             <ErrorModal show={errorScenes} />
           </div>
@@ -1061,7 +1112,9 @@ const mapStateToProps = (state) => {
     builderId,
     projectId,
     mapSize,
-    threeSixty
+    threeSixty,
+    finishScenes,
+    selectedFinish
   } = state.session;
   return {
     loading,
@@ -1096,7 +1149,9 @@ const mapStateToProps = (state) => {
     builderId,
     projectId,
     mapSize,
-    threeSixty
+    threeSixty,
+    finishScenes,
+    selectedFinish
   };
 };
 
@@ -1112,6 +1167,7 @@ App.propTypes = {
   selectedStyleName: string.isRequired,
   selectedStyle: string.isRequired,
   selectedScene: string.isRequired,
+  selectedFinish: string.isRequired,
   personalized: shape({}).isRequired,
   levelMinimap: string.isRequired,
   currentLevel: number.isRequired,
@@ -1132,7 +1188,8 @@ App.propTypes = {
   projectId: oneOfType([string, number]).isRequired,
   match: shape({}).isRequired,
   mapSize: shape({}).isRequired,
-  threeSixty: shape({}).isRequired
+  threeSixty: shape({}).isRequired,
+  finishScenes: shape({}).isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({

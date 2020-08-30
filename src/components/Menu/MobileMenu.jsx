@@ -11,9 +11,9 @@ const menuOptions = [
   'views',
   'styles',
   'cart',
-  'room-change'
+  'room-change',
   // "night",
-  // "finishes"
+  'finishes'
 ];
 
 export default class MobileMenu extends Component {
@@ -71,7 +71,11 @@ export default class MobileMenu extends Component {
       token,
       showTabletPortrait,
       mapSize,
-      showPersonalize
+      showPersonalize,
+      finishScenes,
+      mode,
+      selectedFinish,
+      finishItemClick
     } = this.props;
     const { menuOpen } = this.state;
     const menuOptionsFiltered = menuOptions.filter((option) => {
@@ -82,6 +86,10 @@ export default class MobileMenu extends Component {
       if (option === 'room-change') {
         showIcon = roomUse.length > 0;
       }
+      if (option === 'finishes') {
+        showIcon = finishScenes.length > 0;
+      }
+
       return showIcon;
     });
     const selectedMenuOptionAdjust =
@@ -153,6 +161,10 @@ export default class MobileMenu extends Component {
             token={token}
             mapSize={mapSize}
             showPersonalize={showPersonalize}
+            selectedFinish={selectedFinish}
+            finishScenes={finishScenes}
+            finishItemClick={finishItemClick}
+            mode={mode}
           />
         </div>
         {!menuOpen && !loading && !showTabletPortrait && (
@@ -178,6 +190,7 @@ MobileMenu.propTypes = {
   hide: bool.isRequired,
   isSurveyCompleted: bool.isRequired,
   selectedScene: string.isRequired,
+  selectedFinish: string.isRequired,
   roomUse: arrayOf(shape({})).isRequired,
   currentRoomUse: string.isRequired,
   shoppingCarItems: arrayOf(shape({})).isRequired,
@@ -201,7 +214,10 @@ MobileMenu.propTypes = {
   miniMapHotspots: arrayOf(shape({})).isRequired,
   layoutName: string.isRequired,
   mapSize: shape({}).isRequired,
-  showPersonalize: bool.isRequired
+  showPersonalize: bool.isRequired,
+  finishScenes: shape({}).isRequired,
+  mode: string.isRequired,
+  finishItemClick: func.isRequired
 };
 
 MobileMenu.defaultProps = {

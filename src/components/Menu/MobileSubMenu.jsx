@@ -6,6 +6,7 @@ import MobileChangeRoomsMenu from './MobileChangeRoomsMenu';
 import MiniMapMobile from '../MiniMapMobile';
 import FloorsMenuMobile from '../FloorsMenuMobile';
 import ShoppingCarMenuMobile from './ShoppingCarMenuMobile';
+import MobileFinishMenu from './MobileFinishMenu';
 
 const MobileSubMenu = ({
   selectedMenuOption,
@@ -37,7 +38,11 @@ const MobileSubMenu = ({
   title,
   token,
   mapSize,
-  showPersonalize
+  showPersonalize,
+  finishScenes,
+  mode,
+  selectedFinish,
+  finishItemClick
 }) => (
   <div id="sub-mobile-menu" className="sub-mobile-menu-container">
     {selectedMenuOption === 'styles' && (
@@ -122,6 +127,16 @@ const MobileSubMenu = ({
         )}
       </Fragment>
     )}
+    {selectedMenuOption === 'finishes' && (
+      <MobileFinishMenu
+        scenes={finishScenes}
+        show={selectedMenuOption === 'finishes'}
+        finishItemClick={finishItemClick}
+        selectedScene={selectedFinish}
+        closeMenu={closeMenu}
+        mode={mode}
+      />
+    )}
   </div>
 );
 
@@ -135,6 +150,7 @@ MobileSubMenu.propTypes = {
   closeMenu: func.isRequired,
   personalizeButtonClick: func.isRequired,
   selectedScene: string.isRequired,
+  selectedFinish: string.isRequired,
   onClickHotspot: func.isRequired,
   totalFloors: number.isRequired,
   currentFloor: number.isRequired,
@@ -155,7 +171,10 @@ MobileSubMenu.propTypes = {
   title: string.isRequired,
   token: string.isRequired,
   mapSize: shape({}).isRequired,
-  showPersonalize: bool.isRequired
+  showPersonalize: bool.isRequired,
+  finishScenes: shape({}).isRequired,
+  mode: string.isRequired,
+  finishItemClick: func.isRequired
 };
 
 export default MobileSubMenu;

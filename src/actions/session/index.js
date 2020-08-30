@@ -256,6 +256,13 @@ const setSelectedScene = (selectedScene) => (dispatch) => {
   });
 };
 
+const setSelectedFinish = (selectedScene) => (dispatch) => {
+  dispatch({
+    type: types.SET_SELECTED_FINISH,
+    selectedScene
+  });
+};
+
 const set360Data = (
   levelPosition,
   displayName,
@@ -276,7 +283,8 @@ const set360Data = (
   projectId,
   mapSize,
   takeTestUri,
-  threeSixty
+  threeSixty,
+  finishScenes
 ) => (dispatch) => {
   dispatch({
     type: types.SET_360_DATA,
@@ -303,7 +311,8 @@ const set360Data = (
     builderId,
     projectId,
     mapSize,
-    threeSixty
+    threeSixty,
+    finishScenes
   });
 };
 
@@ -390,11 +399,12 @@ const updateScene = (
   roomUse,
   mode = 'day',
   threeSixty,
-  lastCameraPosition = null
+  lastCameraPosition = null,
+  finish = 'default'
 ) => (dispatch) => {
   dispatch(getScenesStart());
   services
-    .get360JSON(
+    .get360JsonWithFinishes(
       builderId,
       projectId,
       layoutName,
@@ -403,7 +413,8 @@ const updateScene = (
       style,
       room,
       roomUse ? [roomUse] : [],
-      mode
+      mode,
+      finish
     )
     .then((json) => {
       const { data, response } = json;
@@ -413,7 +424,8 @@ const updateScene = (
           level,
           style,
           room,
-          roomUse
+          roomUse,
+          finish
         );
         if (processedData !== null) {
           const {
@@ -425,9 +437,15 @@ const updateScene = (
             startScenePosition,
             menuStyle,
             sceneKey,
-            hotspots
+            hotspots,
+            finishToRequest
           } = processedData;
-          const scene = build360Scene(use, hotspots, startScenePosition);
+          const scene = build360Scene(
+            use,
+            hotspots,
+            startScenePosition,
+            finishToRequest
+          );
           const properties = {
             image: scene.panorama.uri,
             hotspots
@@ -444,6 +462,7 @@ const updateScene = (
           }
 
           dispatch(setSelectedScene(scene.panorama.name));
+          dispatch(setSelectedFinish(scene.panorama.finish));
           dispatch(
             set360Data(
               levelMenu,
@@ -465,7 +484,8 @@ const updateScene = (
               data.projectId,
               levelData.minimap.mapSize,
               data.urls.avria,
-              threeSixty
+              threeSixty,
+              use.finishScenes
             )
           );
         } else {
@@ -494,11 +514,12 @@ const createScene = (
   isPreview = false,
   isSurveyCompleted = false,
   mode = 'day',
-  log = false
+  log = false,
+  finish = 'default'
 ) => (dispatch) => {
   dispatch(getScenesStart());
   services
-    .get360JSON(
+    .get360JsonWithFinishes(
       builderId,
       projectId,
       layoutName,
@@ -507,7 +528,8 @@ const createScene = (
       style,
       room,
       [],
-      mode
+      mode,
+      finish
     )
     .then((json) => {
       const { data, response } = json;
@@ -517,7 +539,8 @@ const createScene = (
           level,
           style,
           room,
-          roomUse
+          roomUse,
+          finish
         );
         if (processedData !== null) {
           const {
@@ -529,9 +552,15 @@ const createScene = (
             startScenePosition,
             menuStyle,
             sceneKey,
-            hotspots
+            hotspots,
+            finishToRequest
           } = processedData;
-          const scene = build360Scene(use, hotspots, startScenePosition);
+          const scene = build360Scene(
+            use,
+            hotspots,
+            startScenePosition,
+            finishToRequest
+          );
           const threeSixty = new THREESIXTY();
           const properties = {
             container,
@@ -570,7 +599,6 @@ const createScene = (
             },
             startScenePosition
           };
-          console.log('HEY', startScenePosition);
           threeSixty.init(properties);
           threeSixty.setStartingScenePosition({
             x: 0.00964106833161872,
@@ -592,10 +620,10 @@ const createScene = (
               layoutName: data.displayName,
               logs: []
             };
-            console.log('LOG', newLog);
             dispatch(saveLog(lang, newLog));
           }
           dispatch(setSelectedScene(scene.panorama.name));
+          dispatch(setSelectedFinish(scene.panorama.finish));
           dispatch(setIsPreview(isPreview));
           dispatch(setIsSurveyCompleted(isSurveyCompleted));
           dispatch(
@@ -619,7 +647,8 @@ const createScene = (
               data.projectId,
               levelData.minimap.mapSize,
               data.urls.avria,
-              threeSixty
+              threeSixty,
+              use.finishScenes
             )
           );
         } else {

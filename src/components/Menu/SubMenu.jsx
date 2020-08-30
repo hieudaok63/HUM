@@ -4,6 +4,7 @@ import StylesMenu from './StylesMenu';
 import ViewsMenu from './ViewsMenu';
 import ChangeRoomMenu from './ChangeRoomMenu';
 import ShoppingCarMenuDesktop from './ShoppingCarMenuDesktop';
+import FinishesMenu from './FinishesMenu';
 
 const SubMenu = ({
   selectedMenuOption,
@@ -26,7 +27,11 @@ const SubMenu = ({
   showSubMenuElements,
   subMenuRef,
   changeStep,
-  showPersonalize
+  showPersonalize,
+  finishScenes,
+  mode,
+  selectedFinish,
+  finishItemClick
 }) => (
   <div
     id="sub-menu"
@@ -75,6 +80,15 @@ const SubMenu = ({
         currentRoomUse={currentRoomUse}
       />
     )}
+    {selectedMenuOption === 'finishes' && (
+      <FinishesMenu
+        scenes={finishScenes}
+        show={selectedMenuOption === 'finishes'}
+        viewItemClick={finishItemClick}
+        selectedScene={selectedFinish}
+        mode={mode}
+      />
+    )}
   </div>
 );
 
@@ -89,6 +103,7 @@ SubMenu.propTypes = {
   selectedStyle: string.isRequired,
   isSurveyCompleted: bool.isRequired,
   selectedScene: string.isRequired,
+  selectedFinish: string.isRequired,
   roomUse: arrayOf(shape({})).isRequired,
   roomItemClick: func.isRequired,
   currentRoomUse: string.isRequired,
@@ -97,7 +112,10 @@ SubMenu.propTypes = {
   clickFavFurniture: func.isRequired,
   token: string.isRequired,
   showSubMenuElements: bool.isRequired,
-  showPersonalize: bool.isRequired
+  showPersonalize: bool.isRequired,
+  finishScenes: shape({}).isRequired,
+  mode: string.isRequired,
+  finishItemClick: func.isRequired
 };
 
 SubMenu.defaultProps = {

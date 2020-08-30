@@ -78,7 +78,6 @@ class ThreeSixtyPage extends Component {
 
   componentDidMount() {
     this.loadContent();
-    console.log('ugh');
     setTimeout(() => {
       this.saveLog();
     }, 8000);
@@ -107,7 +106,6 @@ class ThreeSixtyPage extends Component {
     if (runSteps) {
       if (steps[stepIndex + 1] === 'personalize') {
         this.subMenuRef.current.scrollTop = this.subMenuRef.current.scrollHeight;
-        console.log(this.subMenuRef);
       }
       if (stepIndex + 1 > steps.length) {
         this.setState({
@@ -229,7 +227,6 @@ class ThreeSixtyPage extends Component {
   };
 
   setStyle = (e, style) => {
-    console.log(style);
     const {
       viewer,
       currentLevel,
@@ -282,7 +279,6 @@ class ThreeSixtyPage extends Component {
       selectedScene,
       sessionActions: actionsFromSession
     } = this.props;
-    console.log('roomName', roomName);
     const roomType = roomName === 'default' ? null : roomName;
     actionsFromSession.get360JSON(
       lang,
@@ -344,7 +340,6 @@ class ThreeSixtyPage extends Component {
   };
 
   onBodyClick = () => {
-    console.log('hey!');
     this.setState({
       selectedMenuOption: '',
       expanded: false
@@ -724,7 +719,8 @@ class ThreeSixtyPage extends Component {
       totalLevels,
       roomUse,
       currentRoomUse,
-      firstLoad
+      firstLoad,
+      finishScenes
     } = this.props;
     const personalizePositionInstruction = this.getPersonalizePosition();
     return (
@@ -799,6 +795,7 @@ class ThreeSixtyPage extends Component {
                 changeStep={this.changeStep}
                 subMenuRef={this.subMenuRef}
                 menuRef={this.menu}
+                finishScenes={finishScenes}
               />
               <Fragment>
                 <MiniMap
@@ -861,6 +858,7 @@ class ThreeSixtyPage extends Component {
                 title={shoppingMenuTitle}
                 token={token}
                 showTabletPortrait={showTabletPortrait}
+                finishScenes={finishScenes}
               />
               <CurrentViewStyle
                 layoutName={displayName}
@@ -976,7 +974,8 @@ const mapStateToProps = (state) => {
     firstLoad,
     cardboardMessage,
     builderId,
-    projectId
+    projectId,
+    finishScenes
   } = state.session;
   return {
     loading,
@@ -1010,7 +1009,8 @@ const mapStateToProps = (state) => {
     firstLoad,
     cardboardMessage,
     builderId,
-    projectId
+    projectId,
+    finishScenes
   };
 };
 
@@ -1044,7 +1044,8 @@ ThreeSixtyPage.propTypes = {
   takeTestUri: string.isRequired,
   layoutName: string.isRequired,
   builderId: string.isRequired,
-  projectId: oneOfType([string, number]).isRequired
+  projectId: oneOfType([string, number]).isRequired,
+  finishScenes: shape({}).isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({

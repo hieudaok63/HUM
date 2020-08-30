@@ -4,7 +4,14 @@ import MenuOptions from './MenuOptions';
 import SubMenu from './SubMenu';
 import './Menu.scss';
 
-const menuOptions = ['mini-map', 'views', 'styles', 'furniture', 'change-room'];
+const menuOptions = [
+  'mini-map',
+  'views',
+  'styles',
+  'furniture',
+  'change-room',
+  'finishes'
+];
 
 const Menu = ({
   styleMenu: styles,
@@ -38,8 +45,13 @@ const Menu = ({
   changeStep,
   subMenuRef,
   menuRef,
-  showPersonalize
+  showPersonalize,
+  finishScenes,
+  mode,
+  selectedFinish,
+  finishItemClick
 }) => {
+  console.log('FINISH HIUM!', finishScenes);
   const menuOptionsFiltered = menuOptions.filter((option) => {
     let showIcon = true;
     if (option === 'furniture') {
@@ -48,6 +60,11 @@ const Menu = ({
     if (option === 'change-room') {
       showIcon = roomUse.length > 0;
     }
+
+    if (option === 'finishes') {
+      showIcon = finishScenes.length > 0;
+    }
+
     return showIcon;
   });
   const menuClass =
@@ -98,6 +115,10 @@ const Menu = ({
           subMenuRef={subMenuRef}
           changeStep={changeStep}
           showPersonalize={showPersonalize}
+          selectedFinish={selectedFinish}
+          finishScenes={finishScenes}
+          finishItemClick={finishItemClick}
+          mode={mode}
         />
       </div>
       <nav
@@ -147,6 +168,7 @@ Menu.propTypes = {
   hide: bool.isRequired,
   isSurveyCompleted: bool.isRequired,
   selectedScene: string.isRequired,
+  selectedFinish: string.isRequired,
   roomUse: arrayOf(shape({})).isRequired,
   roomItemClick: func.isRequired,
   currentRoomUse: string.isRequired,
@@ -160,7 +182,10 @@ Menu.propTypes = {
   runSteps: bool.isRequired,
   step: string.isRequired,
   changeStep: func.isRequired,
-  showPersonalize: bool.isRequired
+  showPersonalize: bool.isRequired,
+  finishScenes: shape({}).isRequired,
+  mode: string.isRequired,
+  finishItemClick: func.isRequired
 };
 
 Menu.defaultProps = {

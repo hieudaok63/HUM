@@ -83,6 +83,7 @@ const get360Style = (style, menu) => {
 };
 
 const get360Use = (roomKey, scene) => {
+  console.log(roomKey, scene);
   const use = scene.filter((item) =>
     item.key.toLowerCase() === roomKey.toLowerCase() ? item : null
   );
@@ -173,7 +174,7 @@ const assignHotspotImage = (hotspots) =>
     return current;
   });
 
-const getProcessed360Data = (data, level, style, room, roomUse) => {
+const getProcessed360Data = (data, level, style, room, roomUse, finish) => {
   const levelData = getLevelData(data.levels, level);
   if (levelData) {
     const { menu } = data;
@@ -193,12 +194,16 @@ const getProcessed360Data = (data, level, style, room, roomUse) => {
           jsonScene.uses,
           jsonScene.defaultUse
         );
+        console.log('roomtorequest', roomUseToRequest, jsonScene);
         const use = get360Use(roomUseToRequest, jsonScene.uses);
         const uses = get360Uses(jsonScene.uses);
+        console.log('uses', use, uses);
         const currentRoomUse = getCurrentRoomUse(use);
         if (use) {
           const { startScenePosition, key: sceneKey, hotspots } = jsonScene;
           const hotspotsWithAssignedImage = assignHotspotImage(hotspots);
+          const finishToRequest =
+            finish === 'default' ? jsonScene.defaultFinish : finish;
           return {
             use,
             uses,
@@ -208,7 +213,8 @@ const getProcessed360Data = (data, level, style, room, roomUse) => {
             startScenePosition,
             menuStyle,
             sceneKey,
-            hotspots: hotspotsWithAssignedImage
+            hotspots: hotspotsWithAssignedImage,
+            finishToRequest
           };
         }
       }
@@ -285,13 +291,34 @@ const getViewerDependingOnPreview = (preview, viewer) => {
   return viewer;
 };
 
-const build360Scene = (scene, hotspots = [], startScenePosition) => {
-  const { name, furniture, key } = scene;
+const getSelectedFinish = (selectedKey, scenes) => {
+  console.log(selectedKey, scenes);
+  if (
+    selectedKey === 'default' ||
+    selectedKey === undefined ||
+    scenes.length === 0
+  ) {
+    return 'default';
+  }
+  const scene = scenes.filter((item) =>
+    item.key.toLowerCase() === selectedKey ? item : null
+  );
+  if (scene.length > 0) {
+    return scene[0].key;
+  }
+
+  return 'default';
+};
+
+const build360Scene = (scene, hotspots = [], startScenePosition, finish) => {
+  const { name, furniture, key, finishScenes } = scene;
   const time = new Date().getTime();
   const uri = `${scene.image}?${time}`;
   const panorama = {};
   panorama.uri = uri;
   panorama.name = key;
+  console.log(finishScenes);
+  panorama.finish = getSelectedFinish(finish, finishScenes);
   return {
     name,
     key,

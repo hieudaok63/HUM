@@ -39,3 +39,4 @@ export const GET_360_STYLE_MENU_FAIL = 'GET_360_STYLE_MENU_FAIL';
 export const IS_CARDBOARD = 'IS_CARDBOARD';
 export const ADD_LOG = 'ADD_LOG';
 export const ADD_LOG_FAIL = 'ADD_LOG_FAIL';
+export const SET_SELECTED_FINISH = 'SET_SELECTED_FINISH';

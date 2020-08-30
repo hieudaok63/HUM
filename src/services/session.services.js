@@ -29,9 +29,35 @@ const get360JSON = (
   uses = [],
   mode = 'day'
 ) => {
-  console.log(uses);
   return fetch(
     `${THREE_SIXTY_API}${lang}/360s/room-use/${builderId}/${propertyId}/${layoutName}${VERSION}/${level}/${style}/${room.trim()}/${mode}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': THREE_SIXTY_API_KEY
+      },
+      body: JSON.stringify({
+        uses
+      })
+    }
+  ).then((response) => response.json());
+};
+
+const get360JsonWithFinishes = (
+  builderId = '',
+  propertyId = '',
+  layoutName,
+  lang = 'en',
+  level = '1',
+  style = 'default',
+  room = 'default',
+  uses = [],
+  mode = 'day',
+  finish = 'default'
+) => {
+  return fetch(
+    `${THREE_SIXTY_API}${lang}/360s/room-use-finish/${builderId}/${propertyId}/${layoutName}${VERSION}/${level}/${style}/${room.trim()}/${finish}/${mode}`,
     {
       method: 'POST',
       headers: {
@@ -183,6 +209,7 @@ export {
   saveFavoriteFurniture,
   countClickFurniture,
   get360JSON,
+  get360JsonWithFinishes,
   get360Scenes,
   get360Styles,
   // Guest
