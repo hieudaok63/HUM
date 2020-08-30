@@ -534,6 +534,7 @@ const createScene = (
     .then((json) => {
       const { data, response } = json;
       if (response === 'success') {
+        console.log(json);
         const processedData = getProcessed360Data(
           data,
           level,
@@ -593,7 +594,9 @@ const createScene = (
                   updateRoom,
                   roomUse,
                   mode,
-                  obj
+                  obj,
+                  null,
+                  finish
                 )
               );
             },
@@ -728,6 +731,7 @@ const get360Scenes = (
   mode = 'day'
 ) => (dispatch) => {
   dispatch(getViewMenuStart());
+  console.log(builderId, projectId, layoutName, lang, level, style, mode);
   services
     .get360Scenes(builderId, projectId, layoutName, lang, level, style, mode)
     .then((json) => {

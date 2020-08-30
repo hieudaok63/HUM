@@ -123,7 +123,8 @@ class App extends Component {
       currentLevel,
       selectedStyleName,
       selectedScene,
-      match
+      match,
+      selectedFinish
     } = this.props;
     const { builderId, projectId, layoutName } = match.params;
     actionsFromSession.get360Scenes(
@@ -155,7 +156,8 @@ class App extends Component {
       isPreview(),
       isSurveyCompleted(),
       'day',
-      true
+      true,
+      selectedFinish
     );
 
     let addEventListener = true;
@@ -249,7 +251,8 @@ class App extends Component {
       selectedScene,
       sessionActions: actionsFromSession,
       currentRoomUse,
-      match
+      match,
+      selectedFinish
     } = this.props;
     const { builderId, projectId, layoutName } = match.params;
     threeSixty.setCurrentStyle(style);
@@ -264,7 +267,8 @@ class App extends Component {
       currentRoomUse,
       'day',
       threeSixty,
-      threeSixty.getCameraPosition()
+      threeSixty.getCameraPosition(),
+      selectedFinish
     );
   };
 
@@ -275,7 +279,8 @@ class App extends Component {
       selectedStyle,
       sessionActions: actionsFromSession,
       currentRoomUse,
-      match
+      match,
+      selectedFinish
     } = this.props;
     const { builderId, projectId, layoutName } = match.params;
     const name = targetName || e.target.name || e.target.getAttribute('name');
@@ -305,7 +310,8 @@ class App extends Component {
       roomType,
       'day',
       threeSixty,
-      threeSixty.getCameraPosition()
+      threeSixty.getCameraPosition(),
+      selectedFinish
     );
   };
 
@@ -316,7 +322,8 @@ class App extends Component {
       selectedStyle,
       selectedScene,
       sessionActions: actionsFromSession,
-      match
+      match,
+      selectedFinish
     } = this.props;
     const { builderId, projectId, layoutName } = match.params;
     const roomType = roomName === 'default' ? null : roomName;
@@ -331,7 +338,8 @@ class App extends Component {
       roomType,
       'day',
       threeSixty,
-      threeSixty.getCameraPosition()
+      threeSixty.getCameraPosition(),
+      selectedFinish
     );
   };
 
@@ -431,7 +439,8 @@ class App extends Component {
       threeSixty,
       selectedStyle,
       sessionActions: actionsFromSession,
-      match
+      match,
+      selectedFinish
     } = this.props;
     const { builderId, projectId, layoutName } = match.params;
     actionsFromSession.updateScene(
@@ -444,7 +453,9 @@ class App extends Component {
       'default',
       'default',
       'day',
-      threeSixty
+      threeSixty,
+      threeSixty.getCameraPosition(),
+      selectedFinish
     );
     actionsFromSession.get360Scenes(
       builderId,
@@ -679,7 +690,8 @@ class App extends Component {
       scenes,
       selectedScene,
       sessionActions: actionsFromSession,
-      match
+      match,
+      selectedFinish
     } = this.props;
     const { builderId, projectId, layoutName } = match.params;
     const { autoTourScene } = this.state;
@@ -697,7 +709,9 @@ class App extends Component {
         scenes[autoTourScene].key || 'default',
         selectedScene,
         'day',
-        threeSixty
+        threeSixty,
+        threeSixty.getCameraPosition(),
+        selectedFinish
       );
     }
     if (autoTourScene === scenes.length - 1) {

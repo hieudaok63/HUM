@@ -301,8 +301,9 @@ const getSelectedFinish = (selectedKey, scenes) => {
     return 'default';
   }
   const scene = scenes.filter((item) =>
-    item.key.toLowerCase() === selectedKey ? item : null
+    item.key.toLowerCase() === selectedKey.toLowerCase() ? item : null
   );
+  console.log('scene', scene);
   if (scene.length > 0) {
     return scene[0].key;
   }
