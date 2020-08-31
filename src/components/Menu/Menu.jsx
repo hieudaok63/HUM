@@ -51,7 +51,6 @@ const Menu = ({
   selectedFinish,
   finishItemClick
 }) => {
-  console.log('FINISH HIUM!', finishScenes);
   const menuOptionsFiltered = menuOptions.filter((option) => {
     let showIcon = true;
     if (option === 'furniture') {

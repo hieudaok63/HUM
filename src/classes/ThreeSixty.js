@@ -52,6 +52,7 @@ class ThreeSixtySphere {
     this.loadingCallBack = null;
     this.updateCallBack = null;
     this.currentStylle = 'default';
+    this.currentFinish = 'default';
   }
 
   init = ({
@@ -514,7 +515,8 @@ class ThreeSixtySphere {
             this,
             this.CLICKEDSPRITE.key,
             this.CLICKEDSPRITE.level,
-            this.currentStylle
+            this.currentStylle,
+            this.currentFinish
           );
         }
         console.log(this.CLICKEDSPRITE.name, this.CLICKEDSPRITE.key);
@@ -655,6 +657,10 @@ class ThreeSixtySphere {
 
   setCurrentStyle = (currentStylle) => {
     this.currentStylle = currentStylle;
+  };
+
+  setCurrentFinish = (currentFinish) => {
+    this.currentFinish = currentFinish;
   };
 
   activateAutoRotate = (autoRotate) => {

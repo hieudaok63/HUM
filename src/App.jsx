@@ -362,7 +362,7 @@ class App extends Component {
       currentRoomUse === ''
         ? ''
         : currentRoomUse;
-    console.log(finishType);
+    threeSixty.setCurrentFinish(finishType);
     actionsFromSession.updateScene(
       builderId,
       projectId,

@@ -33,16 +33,6 @@ class ImageMenuItem extends Component {
       closeMenu
     } = this.props;
     const { loaded } = this.state;
-    console.log(
-      'selected',
-      selected,
-      'name',
-      name,
-      'type',
-      type,
-      'keyname',
-      keyName
-    );
     return (
       <Fragment>
         <div
