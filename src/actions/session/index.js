@@ -610,46 +610,6 @@ const createScene = (
     });
 };
 
-const get360StylesStart = () => ({
-  type: types.GET_360_STYLE_MENU_START
-});
-
-const get360StylesSuccess = (menu) => ({
-  type: types.GET_360_STYLE_MENU_SUCCESS,
-  menu
-});
-
-const get360StylesFail = (error) => ({
-  type: types.GET_360_STYLE_MENU_FAIL,
-  error
-});
-
-const get360Styles = (
-  builderId = '',
-  projectId = '',
-  layoutName,
-  lang = 'en',
-  level = '1',
-  room = 'default',
-  mode = 'day'
-) => (dispatch) => {
-  dispatch(get360StylesStart());
-  services
-    .get360Styles(builderId, projectId, layoutName, lang, level, room, mode)
-    .then((json) => {
-      const { data, response } = json;
-      if (response === 'success') {
-        dispatch(get360StylesSuccess(data.styles));
-      } else if (response === 'error') {
-        const { message } = data;
-        dispatch(get360StylesFail(message));
-      }
-    })
-    .catch((er) => {
-      console.error('er', er);
-    });
-};
-
 export {
   getFurniture360ByStyles,
   saveFavoriteFurniture,

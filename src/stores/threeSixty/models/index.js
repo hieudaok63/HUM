@@ -100,8 +100,47 @@ class ThreeSixtyStylesMenuModel {
   menu = [];
 }
 
+class ThreeSixtyUseWithFinishes {
+  constructor(data) {
+    this.builderId = data.builderId;
+    this.builderLogo = data.builderLogo;
+    this.defaultStyle = data.defaultStyle;
+    this.displayName = data.displayName;
+    this.language = data.language;
+    this.layoutName = data.layoutName;
+    this.levels = data.levels;
+    this.menu = data.menu;
+    this.personalized = data.personalized;
+    this.projectId = data.projectId;
+    this.rotationMessage = data.rotationMessage;
+    this.shoppingCart = data.shoppingCart;
+    this.showError = data.showError;
+    this.surveyCompletedDefaults = data.surveyCompletedDefaults;
+    this.totalLevels = data.totalLevels;
+    this.urls = data.urls;
+  }
+
+  builderId = '';
+  builderLogo = '';
+  defaultStyle = '';
+  displayName = '';
+  language = '';
+  layoutName = '';
+  levels = [];
+  menu = [];
+  personalized = {};
+  projectId = 0;
+  rotationMessage = '';
+  shoppingCart = {};
+  showError = false;
+  surveyCompletedDefaults = {};
+  totalLevels = 1;
+  urls = {};
+}
+
 export {
   ThreeSixtyModel,
   ThreeSixtyStyleScenesModel,
-  ThreeSixtyStylesMenuModel
+  ThreeSixtyStylesMenuModel,
+  ThreeSixtyUseWithFinishes
 };
