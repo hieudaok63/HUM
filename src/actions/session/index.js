@@ -14,63 +14,6 @@ import {
 } from '../../utils';
 import THREESIXTY from '../../classes/ThreeSixty';
 
-const loginStart = () => ({
-  type: types.LOGIN_START
-});
-
-const loginSuccess = (
-  user,
-  email,
-  token,
-  refreshToken,
-  authTime,
-  expirationTime
-) => ({
-  type: types.LOGIN_SUCCESS,
-  user,
-  email,
-  token,
-  refreshToken,
-  authTime,
-  expirationTime
-});
-
-const loginFail = (error) => ({
-  type: types.LOGIN_FAIL,
-  error
-});
-
-const login = (email, password, language, onClick) => (dispatch) => {
-  dispatch(loginStart());
-  services
-    .login(email, password, language)
-    .then((json) => {
-      const { data, response } = json;
-      if (response === 'success') {
-        const { user, token, refreshToken, authTime, expirationTime } = data;
-        dispatch(
-          loginSuccess(
-            user,
-            user.email,
-            token,
-            refreshToken,
-            authTime,
-            expirationTime
-          )
-        );
-        if (onClick) {
-          onClick(token);
-        }
-      } else if (response === 'error') {
-        const { message } = data;
-        dispatch(loginFail(message));
-      }
-    })
-    .catch((er) => {
-      console.error('er', er);
-    });
-};
-
 const getFurnitureByStylesStart = () => ({
   type: types.GET_FURNITURE_BY_STYLES_START
 });
@@ -707,48 +650,7 @@ const get360Styles = (
     });
 };
 
-const getViewMenuStart = () => ({
-  type: types.GET_360_VIEW_MENU_START
-});
-
-const getViewMenuSuccess = (viewMenu) => ({
-  type: types.GET_360_VIEW_MENU_SUCCESS,
-  viewMenu
-});
-
-const getViewMenuFail = (error) => ({
-  type: types.GET_360_VIEW_MENU_FAIL,
-  error
-});
-
-const get360Scenes = (
-  builderId = '',
-  projectId = '',
-  layoutName,
-  lang = 'en',
-  level = '1',
-  style = 'default',
-  mode = 'day'
-) => (dispatch) => {
-  dispatch(getViewMenuStart());
-  services
-    .get360Scenes(builderId, projectId, layoutName, lang, level, style, mode)
-    .then((json) => {
-      const { data, response } = json;
-      if (response === 'success') {
-        dispatch(getViewMenuSuccess(data.style.scenes));
-      } else if (response === 'error') {
-        const { message } = data;
-        dispatch(getViewMenuFail(message));
-      }
-    })
-    .catch((er) => {
-      console.error('er', er);
-    });
-};
-
 export {
-  login,
   getFurniture360ByStyles,
   saveFavoriteFurniture,
   countClickFurniture,
