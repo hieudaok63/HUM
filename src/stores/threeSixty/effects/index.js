@@ -1,6 +1,8 @@
 import {
   THREE_SIXTY_API,
   THREE_SIXTY_API_KEY,
+  WEBAPP_API,
+  WEBAPP_API_KEY,
   VERSION
 } from '../../../config/endpoints';
 import HttpUtility from '../../../utilities/HttpUtility';
@@ -82,6 +84,37 @@ export default class ThreeSixtyEffect {
       },
       body: JSON.stringify({
         uses
+      })
+    });
+
+    if (response instanceof HttpErrorResponseModel) {
+      return response;
+    }
+
+    const model = new ThreeSixtyUseWithFinishes(response.data);
+
+    return model;
+  }
+
+  static async getFurnitureByStyles(
+    language,
+    builderId,
+    projectId,
+    styles,
+    scene,
+    layout,
+    level
+  ) {
+    const endpoint = `${WEBAPP_API}/${language}/furniture/360/guest/${builderId}/${projectId}/${layout}/${level}/${scene}`;
+    const bodyObj = {
+      styles
+    };
+    const response = await HttpUtility.post(endpoint, {
+      headers: {
+        'x-api-key': WEBAPP_API_KEY
+      },
+      body: JSON.stringify({
+        bodyObj
       })
     });
 

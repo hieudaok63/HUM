@@ -18,6 +18,11 @@ export default class ThreeSixtyAction {
   static THREE_SIXTY_DATA_REQUEST_FINISHED =
     'ThreeSixtyAction.THREE_SIXTY_DATA_REQUEST_FINISHED';
 
+  static GET_FURNITURE_BY_STYLES_REQUEST = 'GET_FURNITURE_BY_STYLES_REQUEST';
+
+  static GET_FURNITURE_BY_STYLES_REQUEST_FINISHED =
+    'GET_FURNITURE_BY_STYLES_REQUEST_FINISHED';
+
   static getScenes(
     builderId = '',
     projectId = '',
@@ -115,4 +120,33 @@ export default class ThreeSixtyAction {
   }
 
   // add updateScene static function
+
+  static getFurnitureByStyles(builderId, projectId) {
+    return async (dispatch, getState) => {
+      const { language: stateLanguage, threeSixty } = getState();
+      const { language } = stateLanguage;
+      const {
+        selectedStyle,
+        selectedScene,
+        layoutName,
+        currentLevel
+      } = threeSixty;
+
+      const model = await ActionUtility.createThunkEffect(
+        dispatch,
+        ThreeSixtyAction.GET_FURNITURE_BY_STYLES_REQUEST,
+        ThreeSixtyEffect.getFurnitureByStyles,
+        language,
+        builderId,
+        projectId,
+        [selectedStyle],
+        selectedScene,
+        layoutName,
+        currentLevel
+      );
+
+      const isError = model instanceof HttpErrorResponseModel;
+      return { model, isError };
+    };
+  }
 }
