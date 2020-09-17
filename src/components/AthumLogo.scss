@@ -1,17 +1,47 @@
 .icon {
   position: fixed;
-  width: 40px;
-  height: 40px;
+  min-width: 120px;
+  min-height: 48px;
+  width: 152px;
+  height: 60px;
   top: 16px;
   left: 16px;
   object-fit: contain;
   z-index: 1000;
   opacity: 1;
   transition: all 0.3s ease-in-out;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  & img {
+    object-fit: contain;
+  }
+
   &:hover {
     cursor: pointer;
   }
   &.hide {
     opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .icon {
+    top: auto;
+    bottom: 16px;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    justify-content: center;
+    & img {
+      object-fit: contain;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+    &.hide {
+      opacity: 0;
+    }
   }
 }

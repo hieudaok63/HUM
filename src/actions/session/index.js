@@ -227,7 +227,8 @@ const set360Data = (
   mapSize,
   takeTestUri,
   threeSixty,
-  finishScenes
+  finishScenes,
+  builderLogo
 ) => (dispatch) => {
   dispatch({
     type: types.SET_360_DATA,
@@ -255,7 +256,8 @@ const set360Data = (
     projectId,
     mapSize,
     threeSixty,
-    finishScenes
+    finishScenes,
+    builderLogo
   });
 };
 
@@ -428,7 +430,8 @@ const updateScene = (
               levelData.minimap.mapSize,
               data.urls.avria,
               threeSixty,
-              use.finishScenes
+              use.finishScenes,
+              data.builderLogo
             )
           );
         } else {
@@ -594,7 +597,8 @@ const createScene = (
               levelData.minimap.mapSize,
               data.urls.avria,
               threeSixty,
-              use.finishScenes
+              use.finishScenes,
+              data.builderLogo
             )
           );
         } else {

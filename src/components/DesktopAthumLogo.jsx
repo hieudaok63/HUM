@@ -1,6 +1,5 @@
 import React from 'react';
 import { bool, string } from 'prop-types';
-import AthumLogo from '../assets/athum.png';
 import './AthumLogo.scss';
 
 const DesktopAthumLogo = ({
@@ -8,18 +7,16 @@ const DesktopAthumLogo = ({
   error,
   hide,
   blur,
-  showTabletPortrait
+  showTabletPortrait,
+  img
 }) => (
   <div
-    className={`d-none d-lg-block icon flex-column justify-content-center align-items-center athum-logo${
-      loading || error || hide ? 'hide' : ''
-    } ${blur && 'blur'} ${showTabletPortrait ? 'd-md-block' : 'd-md-none'}`}
+    className={`athum-logo${loading || error || hide ? 'hide' : ''} ${blur &&
+      'blur'} ${showTabletPortrait ? 'd-md-block' : 'd-md-none'}`}
   >
-    <img
-      src={AthumLogo}
-      alt="athum"
-      style={{ width: '100%', height: '100%' }}
-    />
+    <div className="icon">
+      <img src={img} alt="builder logo" />
+    </div>
   </div>
 );
 
@@ -28,7 +25,8 @@ DesktopAthumLogo.propTypes = {
   error: string.isRequired,
   hide: bool.isRequired,
   blur: bool.isRequired,
-  showTabletPortrait: bool.isRequired
+  showTabletPortrait: bool.isRequired,
+  img: string.isRequired
 };
 
 export default DesktopAthumLogo;
