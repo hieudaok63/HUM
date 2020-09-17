@@ -863,7 +863,8 @@ class App extends Component {
       mapSize,
       takeTestUri,
       finishScenes,
-      selectedFinish
+      selectedFinish,
+      builderLogo
     } = this.props;
     const personalizePositionInstruction = this.getPersonalizePosition();
     return (
@@ -902,6 +903,7 @@ class App extends Component {
               hide={isPreview()}
               blur={selectedMenuOption === 'mini-map' || loading === true}
               showTabletPortrait={showTabletPortrait}
+              img={builderLogo}
             />
             <Menu
               styleMenu={menu}
@@ -1128,7 +1130,8 @@ const mapStateToProps = (state) => {
     mapSize,
     threeSixty,
     finishScenes,
-    selectedFinish
+    selectedFinish,
+    builderLogo
   } = state.session;
   return {
     loading,
@@ -1165,7 +1168,8 @@ const mapStateToProps = (state) => {
     mapSize,
     threeSixty,
     finishScenes,
-    selectedFinish
+    selectedFinish,
+    builderLogo
   };
 };
 
@@ -1203,7 +1207,8 @@ App.propTypes = {
   match: shape({}).isRequired,
   mapSize: shape({}).isRequired,
   threeSixty: shape({}).isRequired,
-  finishScenes: shape({}).isRequired
+  finishScenes: shape({}).isRequired,
+  builderLogo: string.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({

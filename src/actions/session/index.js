@@ -284,7 +284,8 @@ const set360Data = (
   mapSize,
   takeTestUri,
   threeSixty,
-  finishScenes
+  finishScenes,
+  builderLogo
 ) => (dispatch) => {
   dispatch({
     type: types.SET_360_DATA,
@@ -312,7 +313,8 @@ const set360Data = (
     projectId,
     mapSize,
     threeSixty,
-    finishScenes
+    finishScenes,
+    builderLogo
   });
 };
 
@@ -485,7 +487,8 @@ const updateScene = (
               levelData.minimap.mapSize,
               data.urls.avria,
               threeSixty,
-              use.finishScenes
+              use.finishScenes,
+              data.builderLogo
             )
           );
         } else {
@@ -651,7 +654,8 @@ const createScene = (
               levelData.minimap.mapSize,
               data.urls.avria,
               threeSixty,
-              use.finishScenes
+              use.finishScenes,
+              data.builderLogo
             )
           );
         } else {
@@ -711,9 +715,10 @@ const getViewMenuStart = () => ({
   type: types.GET_360_VIEW_MENU_START
 });
 
-const getViewMenuSuccess = (viewMenu) => ({
+const getViewMenuSuccess = (viewMenu, builderLogo) => ({
   type: types.GET_360_VIEW_MENU_SUCCESS,
-  viewMenu
+  viewMenu,
+  builderLogo
 });
 
 const getViewMenuFail = (error) => ({
@@ -736,7 +741,7 @@ const get360Scenes = (
     .then((json) => {
       const { data, response } = json;
       if (response === 'success') {
-        dispatch(getViewMenuSuccess(data.style.scenes));
+        dispatch(getViewMenuSuccess(data.style.scenes, data.builderLogo));
       } else if (response === 'error') {
         const { message } = data;
         dispatch(getViewMenuFail(message));
