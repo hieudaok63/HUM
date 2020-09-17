@@ -7,9 +7,11 @@ const DesktopAthumLogo = ({ loading, error, hide, blur, img }) => (
     className={`athum-logo${loading || error || hide ? 'hide' : ''} ${blur &&
       'blur'}`}
   >
-    <div className="icon">
-      <img src={img} alt="builder logo" />
-    </div>
+    {img && (
+      <div className="icon">
+        <img src={img} alt="builder logo" />
+      </div>
+    )}
   </div>
 );
 
