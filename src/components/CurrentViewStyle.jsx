@@ -1,5 +1,6 @@
 import React from 'react';
 import { string, bool } from 'prop-types';
+import AthumLogo from '../assets/athum.png';
 import './CurrentViewStyle.scss';
 
 const CurrentViewStyle = ({
@@ -15,9 +16,12 @@ const CurrentViewStyle = ({
       loading || error || hide ? 'hide' : ''
     } ${blur && 'blur'}`}
   >
-    <div className="indicator-container d-flex flex-row justify-content-center align-items-center">
-      <span className="layout-name">{layoutName}</span>
-      <span className="decoration-style">{`- ${decorationStyle}`}</span>
+    <div className="indicator-container d-flex flex-row justify-content-start align-items-center">
+      <img className="logo" src={AthumLogo} alt="athum logo" />
+      <div className="layout-decoration-container">
+        <span className="layout-name">{layoutName}</span>
+        <span className="decoration-style">{`- ${decorationStyle}`}</span>
+      </div>
     </div>
   </div>
 );
