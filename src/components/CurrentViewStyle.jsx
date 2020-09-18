@@ -12,16 +12,15 @@ const CurrentViewStyle = ({
   blur
 }) => (
   <div
-    className={`d-lg-block indicator ${
+    className={`indicator-container d-flex flex-row align-items-center ${
       loading || error || hide ? 'hide' : ''
     } ${blur && 'blur'}`}
+    style={{ width: (layoutName.length + decorationStyle.length) * 17 }}
   >
-    <div className="indicator-container d-flex flex-row justify-content-start align-items-center">
-      <img className="logo" src={AthumLogo} alt="athum logo" />
-      <div className="layout-decoration-container">
-        <span className="layout-name">{layoutName}</span>
-        <span className="decoration-style">{`- ${decorationStyle}`}</span>
-      </div>
+    <img className="logo" src={AthumLogo} alt="athum logo" />
+    <div className="layout-decoration-container">
+      <span className="layout-name">{layoutName}</span>
+      <span className="decoration-style">{`- ${decorationStyle}`}</span>
     </div>
   </div>
 );
