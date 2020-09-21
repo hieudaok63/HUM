@@ -470,9 +470,12 @@ class ThreeSixtySphere {
   };
 
   getMouse = (event) => {
+    console.log('touches', event.touches, event.touches[0]);
+    const deltaX = event.touches ? event.touches[0].clientX : event.clientX;
+    const deltaY = event.touches ? event.touches[0].clientY : event.clientY;
     this.mouse = new THREE.Vector2(
-      (event.clientX / this.width) * 2 - 1,
-      -(event.clientY / this.height) * 2 + 1
+      (deltaX / this.width) * 2 - 1,
+      -(deltaY / this.height) * 2 + 1
     );
   };
 
