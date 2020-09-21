@@ -16,10 +16,10 @@
   & img {
     object-fit: contain;
   }
-
+/* 
   &:hover {
     cursor: pointer;
-  }
+  } */
   &.hide {
     opacity: 0;
   }
@@ -36,10 +36,9 @@
     & img {
       object-fit: contain;
     }
-
-    &:hover {
+   /*  &:hover {
       cursor: pointer;
-    }
+    } */
     &.hide {
       opacity: 0;
     }
