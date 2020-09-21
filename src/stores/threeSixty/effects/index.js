@@ -10,7 +10,8 @@ import HttpErrorResponseModel from '../../../models/HttpErrorResponseModel';
 import {
   ThreeSixtyStyleScenesModel,
   ThreeSixtyStylesMenuModel,
-  ThreeSixtyUseWithFinishes
+  ThreeSixtyUseWithFinishes,
+  ThreeSixtyFurnitureByStyles
 } from '../models';
 
 export default class ThreeSixtyEffect {
@@ -122,7 +123,9 @@ export default class ThreeSixtyEffect {
       return response;
     }
 
-    const model = new ThreeSixtyUseWithFinishes(response.data);
+    const model = new ThreeSixtyFurnitureByStyles(
+      response.data.furnitureList[0]
+    );
 
     return model;
   }

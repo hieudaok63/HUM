@@ -138,9 +138,18 @@ class ThreeSixtyUseWithFinishes {
   urls = {};
 }
 
+class ThreeSixtyFurnitureByStyles {
+  constructor(data) {
+    this.furniture = data.furniture;
+  }
+
+  furniture = [];
+}
+
 export {
   ThreeSixtyModel,
   ThreeSixtyStyleScenesModel,
   ThreeSixtyStylesMenuModel,
-  ThreeSixtyUseWithFinishes
+  ThreeSixtyUseWithFinishes,
+  ThreeSixtyFurnitureByStyles
 };
