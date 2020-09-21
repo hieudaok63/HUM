@@ -129,4 +129,19 @@ export default class ThreeSixtyEffect {
 
     return model;
   }
+
+  static async furnitureCount(language, body) {
+    const endpoint = `${WEBAPP_API}/${language}/furniture/favorite/guest`;
+    const response = await HttpUtility.post(endpoint, {
+      body: JSON.stringify({
+        body
+      })
+    });
+
+    if (response instanceof HttpErrorResponseModel) {
+      return response;
+    }
+
+    return true;
+  }
 }

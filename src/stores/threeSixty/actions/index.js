@@ -23,6 +23,10 @@ export default class ThreeSixtyAction {
   static GET_FURNITURE_BY_STYLES_REQUEST_FINISHED =
     'GET_FURNITURE_BY_STYLES_REQUEST_FINISHED';
 
+  static CLICK_FURNITURE_REQUEST = 'CLICK_FURNITURE_REQUEST';
+
+  static CLICK_FURNITURE_REQUEST_FINISHED = 'CLICK_FURNITURE_REQUEST_FINISHED';
+
   static getScenes(
     builderId = '',
     projectId = '',
@@ -143,6 +147,23 @@ export default class ThreeSixtyAction {
         selectedScene,
         layoutName,
         currentLevel
+      );
+
+      const isError = model instanceof HttpErrorResponseModel;
+      return { model, isError };
+    };
+  }
+
+  static furnitureCount(body) {
+    return async (dispatch, getState) => {
+      const { language: stateLanguage } = getState();
+      const { language } = stateLanguage;
+      const model = await ActionUtility.createThunkEffect(
+        dispatch,
+        ThreeSixtyAction.CLICK_FURNITURE_REQUEST,
+        ThreeSixtyEffect.furnitureCount,
+        language,
+        body
       );
 
       const isError = model instanceof HttpErrorResponseModel;

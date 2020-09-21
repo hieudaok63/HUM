@@ -137,32 +137,6 @@ const reset = () => ({
   type: types.RESET
 });
 
-// GUEST
-const getGuestFurniture360ByStyles = (
-  language = 'en',
-  styles = ['contemporary', 'scandinavian', 'transitional'],
-  room,
-  layoutName,
-  level
-) => (dispatch) => {
-  dispatch(getFurnitureByStylesStart());
-  services
-    .getGuestFurniture360ByStyles(language, styles, room, layoutName, level)
-    .then((json) => {
-      const { data, response } = json;
-      if (response === 'success') {
-        const { furnitureList } = data;
-        dispatch(getFurnitureByStylesSuccess(furnitureList[0].furniture));
-      } else if (response === 'error') {
-        const { message } = data;
-        dispatch(getFurnitureByStylesFail(message));
-      }
-    })
-    .catch((er) => {
-      console.error('er', er);
-    });
-};
-
 // 360s
 const getScenesStart = () => ({
   type: types.GET_SCENES_START
