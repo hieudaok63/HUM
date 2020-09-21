@@ -102,36 +102,6 @@ const saveFavoriteFurniture = (authToken, language, body, furniture) => (
     });
 };
 
-const countClickFurnitureStart = () => ({
-  type: types.CLICK_FURNITURE_START
-});
-
-const countClickFurnitureSuccess = () => ({
-  type: types.CLICK_FURNITURE_SUCCESS
-});
-
-const countClickFurnitureFail = (error) => ({
-  type: types.CLICK_FURNITURE_FAIL,
-  error
-});
-
-const countClickFurniture = (language, body) => (dispatch) => {
-  dispatch(countClickFurnitureStart());
-  services
-    .countClickFurniture(language, body)
-    .then((json) => {
-      const { data, response } = json;
-      if (response === 'success') {
-        dispatch(countClickFurnitureSuccess());
-      } else if (response === 'error') {
-        const { message } = data;
-        dispatch(countClickFurnitureFail(message));
-      }
-    })
-    .catch((er) => {
-      console.error('er', er);
-    });
-};
 
 const reset = () => ({
   type: types.RESET
