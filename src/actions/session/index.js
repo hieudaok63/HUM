@@ -14,7 +14,7 @@ import {
 } from '../../utils';
 import THREESIXTY from '../../classes/ThreeSixty';
 
-const getFurnitureByStylesStart = () => ({
+/* const getFurnitureByStylesStart = () => ({
   type: types.GET_FURNITURE_BY_STYLES_START
 });
 
@@ -100,56 +100,9 @@ const saveFavoriteFurniture = (authToken, language, body, furniture) => (
     .catch((er) => {
       console.error('er', er);
     });
-};
-
-
-const reset = () => ({
-  type: types.RESET
-});
+}; */
 
 // 360s
-const getScenesStart = () => ({
-  type: types.GET_SCENES_START
-});
-
-const getScenesFail = (error) => ({
-  type: types.GET_SCENES_FAIL,
-  error
-});
-
-const setNoTour360 = () => (dispatch) =>
-  dispatch({
-    type: types.SET_NO_TOUR_360
-  });
-
-const setIsPreview = (preview) => (dispatch) => {
-  dispatch({
-    type: types.SET_PREVIEW,
-    preview
-  });
-};
-
-const setIsSurveyCompleted = (surveyCompleted) => (dispatch) => {
-  dispatch({
-    type: types.SET_SURVEY_COMPLETED,
-    surveyCompleted
-  });
-};
-
-const setSelectedScene = (selectedScene) => (dispatch) => {
-  dispatch({
-    type: types.SET_SELECTED_SCENE,
-    selectedScene
-  });
-};
-
-const setSelectedFinish = (selectedScene) => (dispatch) => {
-  dispatch({
-    type: types.SET_SELECTED_FINISH,
-    selectedScene
-  });
-};
-
 const set360Data = (
   levelPosition,
   displayName,

@@ -27,6 +27,20 @@ export default class ThreeSixtyAction {
 
   static CLICK_FURNITURE_REQUEST_FINISHED = 'CLICK_FURNITURE_REQUEST_FINISHED';
 
+  static RESET_REQUEST_FINISHED = 'RESET_REQUEST_FINISHED';
+
+  static SET_TOUR_360_REQUEST_FINISHED = 'SET_TOUR_360_REQUEST_FINISHED';
+
+  static SET_PREVIEW_REQUEST_FINISHED = 'SET_PREVIEW_REQUEST_FINISHED';
+
+  static SET_SURVEY_REQUEST_FINISHED = 'SET_SURVEY_REQUEST_FINISHED';
+
+  static SET_SELECTED_SCENE_REQUEST_FINISHED =
+    'SET_SELECTED_SCENE_REQUEST_FINISHED';
+
+  static SET_SELECTED_FINISH_REQUEST_FINISHED =
+    'SET_SELECTED_FINISH_REQUEST_FINISHED';
+
   static getScenes(
     builderId = '',
     projectId = '',
@@ -169,5 +183,51 @@ export default class ThreeSixtyAction {
       const isError = model instanceof HttpErrorResponseModel;
       return { model, isError };
     };
+  }
+
+  static reset() {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.RESET_REQUEST_FINISHED,
+      ''
+    );
+  }
+
+  // maybe this ones can be selectors instead of actions
+
+  static has360Tour(hasTour) {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.SET_TOUR_360_REQUEST_FINISHED,
+      hasTour
+    );
+  }
+
+  static isPreview(isPreview) {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.SET_PREVIEW_REQUEST_FINISHED,
+      isPreview
+    );
+  }
+
+  static isSurveryCompleted(isSurveryCompleted) {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.SET_SURVEY_REQUEST_FINISHED,
+      isSurveryCompleted
+    );
+  }
+
+  //
+
+  static setSelectedScene(scene) {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.SET_SELECTED_SCENE_REQUEST_FINISHED,
+      scene
+    );
+  }
+
+  static setSelectedFinish(finish) {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.SET_SELECTED_FINISH_REQUEST_FINISHED,
+      finish
+    );
   }
 }

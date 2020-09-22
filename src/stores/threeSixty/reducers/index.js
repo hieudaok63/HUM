@@ -20,7 +20,12 @@ export default class ThreeSixtyReducer extends BaseReducer {
     showError: false,
     surveyCompletedDefaults: {},
     totalLevels: 1,
-    urls: {}
+    urls: {},
+    isPreview: false,
+    isSurveyCompleted: false,
+    selectedScene: 'default',
+    selectedFinish: 'default',
+    tour360: false
   };
 
   [ThreeSixtyAction.VIEW_MENU_REQUEST_FINISHED](state, action) {
@@ -55,6 +60,47 @@ export default class ThreeSixtyReducer extends BaseReducer {
       surveyCompletedDefaults: action.payload.surveyCompletedDefaults,
       totalLevels: action.payload.totalLevels,
       urls: action.payload.urls
+    };
+  }
+
+  [ThreeSixtyAction.SET_PREVIEW_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      isPreview: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.SET_SURVEY_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      isSurveyCompleted: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.SET_SELECTED_SCENE_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      selectedScene: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.SET_SELECTED_FINISH_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      selectedFinish: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.SET_TOUR_360_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      tour360: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.RESET_REQUEST_FINISHED]() {
+    return {
+      ...this.initialState
     };
   }
 }
