@@ -144,4 +144,22 @@ export default class ThreeSixtyEffect {
 
     return true;
   }
+
+  static async saveLog(language, log) {
+    const endpoint = `${THREE_SIXTY_API}${language}/360s/logs`;
+    const response = await HttpUtility.post(endpoint, {
+      headers: {
+        'x-api-key': THREE_SIXTY_API_KEY
+      },
+      body: JSON.stringify({
+        log
+      })
+    });
+
+    if (response instanceof HttpErrorResponseModel) {
+      return response;
+    }
+
+    return true;
+  }
 }

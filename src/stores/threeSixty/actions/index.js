@@ -3,6 +3,10 @@ import ActionUtility from '../../../utilities/ActionUtility';
 import ThreeSixtyEffect from '../effects';
 
 export default class ThreeSixtyAction {
+  static SAVE_LOG_REQUEST = 'SAVE_LOG_REQUEST';
+
+  static SAVE_LOG_REQUEST_FINISHED = 'SAVE_LOG_REQUEST_FINISHED';
+
   static VIEW_MENU_REQUEST = 'ThreeSixtyAction.VIEW_MENU_REQUEST';
 
   static VIEW_MENU_REQUEST_FINISHED =
@@ -190,6 +194,24 @@ export default class ThreeSixtyAction {
       ThreeSixtyAction.RESET_REQUEST_FINISHED,
       ''
     );
+  }
+
+  static saveLog(log) {
+    return async (dispatch, getState) => {
+      const { language: stateLanguage } = getState();
+      const { language } = stateLanguage;
+
+      const model = await ActionUtility.createThunkEffect(
+        dispatch,
+        ThreeSixtyAction.SAVE_LOG_REQUEST,
+        ThreeSixtyEffect.saveLog,
+        language,
+        log
+      );
+
+      const isError = model instanceof HttpErrorResponseModel;
+      return { model, isError };
+    };
   }
 
   // maybe this ones can be selectors instead of actions

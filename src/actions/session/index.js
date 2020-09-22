@@ -206,25 +206,6 @@ const activateCardBoardMode = (viewer, cardBoardMode, callback) => (
   }
 };
 
-const addToLogSuccess = () => ({
-  type: types.ADD_LOG
-});
-
-const addToLogFail = () => ({
-  type: types.ADD_LOG_FAIL
-});
-
-const saveLog = (lang, log) => (dispatch) => {
-  services.saveLog(lang, log).then((json) => {
-    const { response } = json;
-    if (response === 'success') {
-      dispatch(addToLogSuccess());
-    } else if (response === 'error') {
-      dispatch(addToLogFail());
-    }
-  });
-};
-
 const setLoading = (loading) => ({
   type: types.SET_LOADING,
   loading
