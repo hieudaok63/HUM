@@ -297,6 +297,9 @@
       width: 100%;
       min-height: 26px;
       border-radius: 3.5px;
+      &::first-letter {
+        text-transform: uppercase;
+      }
       & span {
         display: block;
         font-family: Roboto;

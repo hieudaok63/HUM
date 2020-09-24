@@ -56,7 +56,7 @@ class ImageMenuItem extends Component {
             }}
           >
             <div className="image_title">
-              <span>{titleCase(name)}</span>
+              <span>{name}</span>
             </div>
             <span>
               <img
