@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import './components/Loader.scss';
 import './App.css';
 import ThreeSixtyAction from './stores/threeSixty/actions';
+import Menu from './components/Menu/Menu';
 
 class App extends Component {
   componentDidMount() {
@@ -64,7 +65,7 @@ class App extends Component {
   }
 
   render() {
-    return <div>HELLO</div>;
+    return <Menu />;
   }
 }
 
@@ -76,12 +77,14 @@ const mapStateToProps = (state) => {
     selectedFinish,
     mode
   } = state.threeSixty;
+  const { loading } = state.loading;
   return {
     currentLevel,
     selectedStyleName,
     selectedScene,
     selectedFinish,
-    mode
+    mode,
+    loading
   };
 };
 

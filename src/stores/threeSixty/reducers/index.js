@@ -13,6 +13,9 @@ export default class ThreeSixtyReducer extends BaseReducer {
     language: '',
     layoutName: '',
     levels: [],
+    furniture: [],
+    roomUse: [],
+    finishScenes: {},
     personalized: {},
     projectId: 0,
     rotationMessage: '',
@@ -28,7 +31,17 @@ export default class ThreeSixtyReducer extends BaseReducer {
     selectedStyleName: 'default',
     currentLevel: 1,
     mode: 'day',
-    tour360: false
+    tour360: false,
+    expanded: false,
+    selectedMenuOption: '',
+    menuOptions: [
+      'mini-map',
+      'views',
+      'styles',
+      'furniture',
+      'change-room',
+      'finishes'
+    ]
   };
 
   [ThreeSixtyAction.VIEW_MENU_REQUEST_FINISHED](state, action) {
@@ -66,6 +79,10 @@ export default class ThreeSixtyReducer extends BaseReducer {
     };
   }
 
+  [ThreeSixtyAction.GET_FURNITURE_BY_STYLES_REQUEST_FINISHED](state, action) {
+    return { ...state, furniture: action.payload.furniture };
+  }
+
   [ThreeSixtyAction.SET_PREVIEW_REQUEST_FINISHED](state, action) {
     return {
       ...state,
@@ -98,6 +115,13 @@ export default class ThreeSixtyReducer extends BaseReducer {
     return {
       ...state,
       tour360: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.EXPAND_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      expanded: action.payload
     };
   }
 

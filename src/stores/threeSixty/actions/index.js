@@ -45,6 +45,8 @@ export default class ThreeSixtyAction {
   static SET_SELECTED_FINISH_REQUEST_FINISHED =
     'SET_SELECTED_FINISH_REQUEST_FINISHED';
 
+  static EXPAND_REQUEST_FINISHED = 'EXPAND_REQUEST_FINISHED';
+
   static getScenes(
     builderId = '',
     projectId = '',
@@ -250,6 +252,13 @@ export default class ThreeSixtyAction {
     return ActionUtility.createAction(
       ThreeSixtyAction.SET_SELECTED_FINISH_REQUEST_FINISHED,
       finish
+    );
+  }
+
+  static expandMenu(expand) {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.EXPAND_REQUEST_FINISHED,
+      expand
     );
   }
 }
