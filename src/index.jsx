@@ -4,11 +4,11 @@ import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 import AppRouter from './routers/AppRouter';
-import configureStore from './store/configureStore';
+import rootStore from './stores/rootStore';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <Provider store={configureStore()}>
+  <Provider store={rootStore()}>
     <AppRouter />
   </Provider>,
   document.getElementById('root')

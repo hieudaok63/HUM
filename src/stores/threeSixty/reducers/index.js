@@ -25,6 +25,9 @@ export default class ThreeSixtyReducer extends BaseReducer {
     isSurveyCompleted: false,
     selectedScene: 'default',
     selectedFinish: 'default',
+    selectedStyleName: 'default',
+    currentLevel: 1,
+    mode: 'day',
     tour360: false
   };
 
@@ -43,7 +46,7 @@ export default class ThreeSixtyReducer extends BaseReducer {
     };
   }
 
-  [ThreeSixtyAction.THREE_SIXTY_DATA_REQUEST](state, action) {
+  [ThreeSixtyAction.THREE_SIXTY_DATA_REQUEST_FINISHED](state, action) {
     return {
       ...state,
       builderId: action.payload.builderId,

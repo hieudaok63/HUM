@@ -24,6 +24,7 @@ export default class ThreeSixtyEffect {
     style,
     mode
   ) {
+    console.log('getScenes', language);
     const endpoint = `${THREE_SIXTY_API}${language}/360s/rooms/${builderId}/${projectId}/${layoutName}${VERSION}/${level}/${style}/${mode}`;
 
     const response = await HttpUtility.get(endpoint, {
