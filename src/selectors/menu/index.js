@@ -44,7 +44,8 @@ export class MenuSelector {
     return state.threeSixty.selectedMenuOption;
   }
 
-  static addMenuClass(expanded, selectedMenuOption) {
+  static addMenuClass(expanded, selectedMenuOption, ownProps) {
+    console.log('add', ownProps);
     return (
       expanded &&
       selectedMenuOption !== 'mini-map' &&

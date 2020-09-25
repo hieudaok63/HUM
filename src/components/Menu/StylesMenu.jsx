@@ -11,10 +11,7 @@ class StylesMenu extends Component {
   }
 
   // needs to be adjusted to the new Architecture
-  setStyle = (e, style) => {
-    threeSixty.setCurrentStyle(style);
-    actionsFromSession.getRoomUseWithFinishes();
-  };
+  setStyle = (e, style) => {};
 
   render() {
     const { show, stylesMenu, selectedStyle, urls } = this.props;

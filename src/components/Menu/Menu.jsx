@@ -9,6 +9,8 @@ import {
   isPortraitSelector,
   menuOptionSelector
 } from '../../selectors/menu';
+import { loadingSelector } from '../../selectors/loading';
+import { errorSelector } from '../../selectors/error';
 import './Menu.scss';
 
 class Menu extends Component {
@@ -17,7 +19,8 @@ class Menu extends Component {
     this.menu = null;
     this.state = {
       selectedMenuOption: '',
-      showSubMenuElements: false
+      showSubMenuElements: false,
+      expanded: false
     };
   }
 
@@ -36,7 +39,7 @@ class Menu extends Component {
     return top;
   };
 
-  /* onSelectedMenuOption = (selectedMenuOption) => {
+  onSelectedMenuOption = (selectedMenuOption) => {
     const { selectedMenuOption: stateSelectedMenuOption } = this.state;
     if (
       stateSelectedMenuOption === selectedMenuOption ||
@@ -55,23 +58,34 @@ class Menu extends Component {
         });
       }
     }
-  }; */
+  };
+
+  onTransitionEnd = (expanded) => {
+    if (expanded) {
+      this.setState({
+        showSubMenuElements: true
+      });
+    } else {
+      this.setState({
+        showSubMenuElements: false
+      });
+    }
+  };
 
   render() {
     const {
       loading,
       selectedMenuOption,
-      expanded,
       error,
       hide,
       showTabletPortrait,
-      onTransitionEnd,
       runSteps,
       step,
       changeStep,
       menuOptionsFiltered,
       menuClass
     } = this.props;
+    const { showSubMenuElements, expanded } = this.state;
     return (
       <div
         className={`d-none d-lg-block ${
@@ -85,7 +99,7 @@ class Menu extends Component {
           className={`nav-container d-flex flex-row justify-content-end
       ${menuClass ? 'expanded' : 'closed'} ${loading || hide ? 'hide' : ''}`}
           onTransitionEnd={() => {
-            onTransitionEnd(menuClass);
+            this.onTransitionEnd(menuClass);
           }}
           style={{
             height: menuClass
@@ -93,7 +107,7 @@ class Menu extends Component {
               : menuOptionsFiltered.length * 52
           }}
         >
-          <SubMenu />
+          <SubMenu showSubMenuElements={showSubMenuElements} />
         </div>
         <nav
           id="main-menu"
@@ -129,10 +143,8 @@ class Menu extends Component {
 Menu.propTypes = {
   loading: bool.isRequired,
   selectedMenuOption: string.isRequired,
-  expanded: bool.isRequired,
   error: string.isRequired,
   hide: bool.isRequired,
-  onTransitionEnd: func.isRequired,
   runSteps: bool.isRequired,
   step: string.isRequired,
   changeStep: func.isRequired,
@@ -147,11 +159,13 @@ Menu.defaultProps = {
   showTabletPortrait: false
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   menuOptionsFiltered: menuOptionsSelector(state),
-  menuClass: menuClassSelector(state),
+  menuClass: menuClassSelector(state, ownProps),
   showTabletPortrait: isPortraitSelector(),
-  selectedMenuOption: menuOptionSelector(state)
+  selectedMenuOption: menuOptionSelector(state),
+  error: errorSelector(state),
+  loading: loadingSelector(state)
 });
 
 export default connect(mapStateToProps)(Menu);
