@@ -6,7 +6,8 @@ import SubMenu from './SubMenu';
 import {
   menuOptionsSelector,
   menuClassSelector,
-  isPortraitSelector
+  isPortraitSelector,
+  menuOptionSelector
 } from '../../selectors/menu';
 import './Menu.scss';
 
@@ -14,6 +15,10 @@ class Menu extends Component {
   constructor() {
     super();
     this.menu = null;
+    this.state = {
+      selectedMenuOption: '',
+      showSubMenuElements: false
+    };
   }
 
   getPersonalizePosition = () => {
@@ -31,11 +36,31 @@ class Menu extends Component {
     return top;
   };
 
+  /* onSelectedMenuOption = (selectedMenuOption) => {
+    const { selectedMenuOption: stateSelectedMenuOption } = this.state;
+    if (
+      stateSelectedMenuOption === selectedMenuOption ||
+      selectedMenuOption === ''
+    ) {
+      this.setState({
+        selectedMenuOption: '',
+        expanded: false,
+        showSubMenuElements: false
+      });
+    } else {
+      this.setState({ selectedMenuOption, expanded: true });
+      if (selectedMenuOption === 'mini-map') {
+        this.setState({
+          showSubMenuElements: false
+        });
+      }
+    }
+  }; */
+
   render() {
     const {
       loading,
       selectedMenuOption,
-      onSelectedMenuOption,
       expanded,
       error,
       hide,
@@ -88,7 +113,7 @@ class Menu extends Component {
                 i={index}
                 active={option === selectedMenuOption}
                 type={option}
-                click={onSelectedMenuOption}
+                click={() => {}}
                 expantion={expanded}
                 showBeacon={step === option && runSteps}
                 changeStep={changeStep}
@@ -104,7 +129,6 @@ class Menu extends Component {
 Menu.propTypes = {
   loading: bool.isRequired,
   selectedMenuOption: string.isRequired,
-  onSelectedMenuOption: func.isRequired,
   expanded: bool.isRequired,
   error: string.isRequired,
   hide: bool.isRequired,
@@ -126,7 +150,8 @@ Menu.defaultProps = {
 const mapStateToProps = (state) => ({
   menuOptionsFiltered: menuOptionsSelector(state),
   menuClass: menuClassSelector(state),
-  showTabletPortrait: isPortraitSelector()
+  showTabletPortrait: isPortraitSelector(),
+  selectedMenuOption: menuOptionSelector(state)
 });
 
 export default connect(mapStateToProps)(Menu);

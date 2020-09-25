@@ -69,4 +69,9 @@ export const menuClassSelector = createSelector(
   MenuSelector.addMenuClass
 );
 
+export const menuOptionSelector = createSelector(
+  [MenuSelector.getselectedMenuOption],
+  (selectedMenuOption) => selectedMenuOption
+);
+
 export const isPortraitSelector = () => isTablet() && isPortrait();

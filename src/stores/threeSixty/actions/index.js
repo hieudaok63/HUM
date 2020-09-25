@@ -39,6 +39,9 @@ export default class ThreeSixtyAction {
 
   static SET_SURVEY_REQUEST_FINISHED = 'SET_SURVEY_REQUEST_FINISHED';
 
+  static SET_SELECTED_STYLE_REQUEST_FINISHED =
+    'SET_SELECTED_STYLE_REQUEST_FINISHED';
+
   static SET_SELECTED_SCENE_REQUEST_FINISHED =
     'SET_SELECTED_SCENE_REQUEST_FINISHED';
 
@@ -47,17 +50,20 @@ export default class ThreeSixtyAction {
 
   static EXPAND_REQUEST_FINISHED = 'EXPAND_REQUEST_FINISHED';
 
-  static getScenes(
-    builderId = '',
-    projectId = '',
-    layoutName = '',
-    level = '1',
-    style = 'default',
-    mode = 'day'
-  ) {
+  static SET_BUILDER_REQUEST_FINISHED = 'SET_BUILDER_REQUEST_FINISHED';
+
+  static getScenes() {
     return async (dispatch, getState) => {
-      const { language: stateLanguage } = getState();
+      const { language: stateLanguage, threeSixty } = getState();
       const { language } = stateLanguage;
+      const {
+        builderId,
+        propertyId,
+        layoutName,
+        currentLevel,
+        selectedStyleName,
+        mode
+      } = threeSixty;
 
       const model = await ActionUtility.createThunkEffect(
         dispatch,
@@ -65,10 +71,10 @@ export default class ThreeSixtyAction {
         ThreeSixtyEffect.getScenes,
         language,
         builderId,
-        projectId,
+        propertyId,
         layoutName,
-        level,
-        style,
+        currentLevel,
+        selectedStyleName,
         mode
       );
 
@@ -77,17 +83,18 @@ export default class ThreeSixtyAction {
     };
   }
 
-  static getStyles(
-    builderId = '',
-    projectId = '',
-    layoutName = '',
-    level = '1',
-    room = 'default',
-    mode = 'day'
-  ) {
+  static getStyles() {
     return async (dispatch, getState) => {
-      const { language: stateLanguage } = getState();
+      const { language: stateLanguage, threeSixty } = getState();
       const { language } = stateLanguage;
+      const {
+        builderId,
+        propertyId,
+        layoutName,
+        currentLevel,
+        selectedScene,
+        mode
+      } = threeSixty;
 
       const model = await ActionUtility.createThunkEffect(
         dispatch,
@@ -95,10 +102,10 @@ export default class ThreeSixtyAction {
         ThreeSixtyEffect.getStyles,
         language,
         builderId,
-        projectId,
+        propertyId,
         layoutName,
-        level,
-        room,
+        currentLevel,
+        selectedScene,
         mode
       );
 
@@ -107,20 +114,21 @@ export default class ThreeSixtyAction {
     };
   }
 
-  static getRoomUseWithFinishes(
-    builderId = '',
-    propertyId = '',
-    layoutName = '',
-    level = '1',
-    style = 'default',
-    room = 'default',
-    uses = [],
-    mode = 'day',
-    finish = 'default'
-  ) {
+  static getRoomUseWithFinishes() {
     return async (dispatch, getState) => {
-      const { language: stateLanguage } = getState();
+      const { language: stateLanguage, threeSixty } = getState();
       const { language } = stateLanguage;
+      const {
+        builderId,
+        propertyId,
+        layoutName,
+        currentLevel,
+        selectedStyleName,
+        selectedScene,
+        selectedFinish,
+        roomUse,
+        mode
+      } = threeSixty;
 
       const model = await ActionUtility.createThunkEffect(
         dispatch,
@@ -130,20 +138,18 @@ export default class ThreeSixtyAction {
         builderId,
         propertyId,
         layoutName,
-        level,
-        style,
-        room,
-        uses,
+        currentLevel,
+        selectedStyleName,
+        selectedScene,
+        roomUse,
         mode,
-        finish
+        selectedFinish
       );
 
       const isError = model instanceof HttpErrorResponseModel;
       return { model, isError };
     };
   }
-
-  // add updateScene static function
 
   static getFurnitureByStyles(builderId, projectId) {
     return async (dispatch, getState) => {
@@ -218,6 +224,14 @@ export default class ThreeSixtyAction {
 
   // maybe this ones can be selectors instead of actions
 
+  static setBuilder(builder) {
+    console.log('setBuilder', builder);
+    return ActionUtility.createAction(
+      ThreeSixtyAction.SET_BUILDER_REQUEST_FINISHED,
+      builder
+    );
+  }
+
   static has360Tour(hasTour) {
     return ActionUtility.createAction(
       ThreeSixtyAction.SET_TOUR_360_REQUEST_FINISHED,
@@ -240,6 +254,13 @@ export default class ThreeSixtyAction {
   }
 
   //
+
+  static setSelectedStyle(style) {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.SET_SELECTED_STYLE_REQUEST_FINISHED,
+      style
+    );
+  }
 
   static setSelectedScene(scene) {
     return ActionUtility.createAction(

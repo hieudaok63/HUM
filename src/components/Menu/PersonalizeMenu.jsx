@@ -1,13 +1,10 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
-import { shape, func, bool } from 'prop-types';
+import { shape, bool } from 'prop-types';
+import { connect } from 'react-redux';
 import iconPersonalize from '../../assets/Icons/icon-personalize.svg';
 
-const PersonalizeMenu = ({
-  personalized,
-  personalizeButtonClick,
-  isSurveyCompleted
-}) => {
+const PersonalizeMenu = ({ personalized, isSurveyCompleted, urls }) => {
   const { text, buttonText } = personalized;
   return (
     <div
@@ -24,7 +21,7 @@ const PersonalizeMenu = ({
             isSurveyCompleted ? 'survey-completed' : ''
           }`}
           onClick={() => {
-            personalizeButtonClick();
+            if (urls.test !== 'null') window.open(urls.test, '_blank');
           }}
         >
           <span>
@@ -41,8 +38,13 @@ const PersonalizeMenu = ({
 
 PersonalizeMenu.propTypes = {
   personalized: shape({}).isRequired,
-  personalizeButtonClick: func.isRequired,
-  isSurveyCompleted: bool.isRequired
+  isSurveyCompleted: bool.isRequired,
+  urls: shape({}).isRequired
 };
 
-export default PersonalizeMenu;
+const mapStateToProps = (state) => {
+  const { personalized, isSurveyCompleted, urls } = state.threeSixty;
+  return { personalized, isSurveyCompleted, urls };
+};
+
+export default connect(mapStateToProps)(PersonalizeMenu);

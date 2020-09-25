@@ -8,10 +8,11 @@ export default class ThreeSixtyReducer extends BaseReducer {
     menu: [],
     builderLogo: '',
     builderId: '',
+    propertyId: '',
+    layoutName: '',
     defaultStyle: '',
     displayName: '',
     language: '',
-    layoutName: '',
     levels: [],
     furniture: [],
     roomUse: [],
@@ -28,6 +29,7 @@ export default class ThreeSixtyReducer extends BaseReducer {
     isSurveyCompleted: false,
     selectedScene: 'default',
     selectedFinish: 'default',
+    selectedStyle: 'default',
     selectedStyleName: 'default',
     currentLevel: 1,
     mode: 'day',
@@ -41,7 +43,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
       'furniture',
       'change-room',
       'finishes'
-    ]
+    ],
+    threeSixty: null
   };
 
   [ThreeSixtyAction.VIEW_MENU_REQUEST_FINISHED](state, action) {
@@ -83,6 +86,15 @@ export default class ThreeSixtyReducer extends BaseReducer {
     return { ...state, furniture: action.payload.furniture };
   }
 
+  [ThreeSixtyAction.SET_BUILDER_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      builderId: action.payload.builderId,
+      propertyId: action.payload.projectId,
+      layoutName: action.payload.layoutName
+    };
+  }
+
   [ThreeSixtyAction.SET_PREVIEW_REQUEST_FINISHED](state, action) {
     return {
       ...state,
@@ -94,6 +106,13 @@ export default class ThreeSixtyReducer extends BaseReducer {
     return {
       ...state,
       isSurveyCompleted: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.SET_SELECTED_STYLE_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      selectedStyle: action.payload
     };
   }
 

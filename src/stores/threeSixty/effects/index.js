@@ -78,6 +78,7 @@ export default class ThreeSixtyEffect {
     mode,
     finish
   ) {
+    console.log('roomuse', builderId);
     const endpoint = `${THREE_SIXTY_API}${language}/360s/room-use-finish/${builderId}/${propertyId}/${layoutName}${VERSION}/${level}/${style}/${room.trim()}/${finish}/${mode}`;
 
     const response = await HttpUtility.post(endpoint, {
