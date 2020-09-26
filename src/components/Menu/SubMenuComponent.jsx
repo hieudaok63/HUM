@@ -10,7 +10,8 @@ import FinishesMenu from './FinishesMenu';
 const SubMenuComp = ({ selectedMenuOption }) => {
   console.log('subcomp', selectedMenuOption);
   const components = {
-    styles: StylesMenu
+    styles: StylesMenu,
+    views: ViewsMenu
   };
   return createElement(components[selectedMenuOption]);
 };

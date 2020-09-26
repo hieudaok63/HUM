@@ -59,6 +59,12 @@ export class MenuSelector {
       ? state.threeSixty.defaultStyle
       : state.threeSixty.selectedStyle;
   }
+
+  static getSelectedScene(state) {
+    return state.threeSixty.selectedScene === 'default'
+      ? state.threeSixty.levels[0].defaultScene
+      : state.threeSixty.selectedScene;
+  }
 }
 
 export const menuOptionsSelector = createSelector(
@@ -84,6 +90,11 @@ export const menuOptionSelector = createSelector(
 export const getSelectedStyle = createSelector(
   [MenuSelector.getSelectedStyle],
   (selectedStyle) => selectedStyle
+);
+
+export const getSelectedScene = createSelector(
+  [MenuSelector.getSelectedScene],
+  (selectedScene) => selectedScene
 );
 
 export const isPortraitSelector = () => isTablet() && isPortrait();
