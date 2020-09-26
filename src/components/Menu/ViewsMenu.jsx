@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { string, arrayOf, shape } from 'prop-types';
+import { string, arrayOf, shape, func } from 'prop-types';
 import ImageMenuItem from './ImageMenuItem';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
 import { getSelectedScene } from '../../selectors/menu';
@@ -46,7 +46,7 @@ class ViewsMenu extends Component {
 ViewsMenu.propTypes = {
   scenes: arrayOf(shape({})).isRequired,
   selectedScene: string.isRequired,
-  dispatch: shape({}).isRequired
+  dispatch: func.isRequired
 };
 
 const mapStateToProps = (state) => {

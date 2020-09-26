@@ -11,7 +11,9 @@ const SubMenuComp = ({ selectedMenuOption }) => {
   console.log('subcomp', selectedMenuOption);
   const components = {
     styles: StylesMenu,
-    views: ViewsMenu
+    views: ViewsMenu,
+    finishes: FinishesMenu,
+    'change-room': ChangeRoomMenu
   };
   return createElement(components[selectedMenuOption]);
 };

@@ -10,22 +10,26 @@ export class MenuSelector {
     return state.threeSixty.furniture;
   }
 
-  static getRoomUse(state) {
-    return state.threeSixty.roomUse;
+  static getRoomUses(state) {
+    return state.threeSixty.levels.length > 0
+      ? state.threeSixty.levels[0].styles[0].scenes[0].uses
+      : [];
   }
 
   static getFinishScenes(state) {
-    return state.threeSixty.finishScenes;
+    return state.threeSixty.levels.length > 0
+      ? state.threeSixty.levels[0].styles[0].scenes[0].uses[0].finishScenes
+      : [];
   }
 
-  static filterMenuOptions(options, shoppingCarItems, roomUse, finishScenes) {
+  static filterMenuOptions(options, shoppingCarItems, roomUses, finishScenes) {
     return options.filter((option) => {
       let showIcon = true;
       if (option === 'furniture') {
         showIcon = shoppingCarItems.length > 0;
       }
       if (option === 'change-room') {
-        showIcon = roomUse.length > 0;
+        showIcon = roomUses.length > 0;
       }
 
       if (option === 'finishes') {
@@ -65,13 +69,19 @@ export class MenuSelector {
       ? state.threeSixty.levels[0].defaultScene
       : state.threeSixty.selectedScene;
   }
+
+  static getSelectedFinish(state) {
+    return state.threeSixty.selectedFinish === 'default'
+      ? state.threeSixty.levels[0].styles[0].scenes[0].defaultFinish
+      : state.threeSixty.selectedFinish;
+  }
 }
 
 export const menuOptionsSelector = createSelector(
   [
     MenuSelector.getOptions,
     MenuSelector.getShoppingCarItems,
-    MenuSelector.getRoomUse,
+    MenuSelector.getRoomUses,
     MenuSelector.getFinishScenes
   ],
   MenuSelector.filterMenuOptions
@@ -95,6 +105,16 @@ export const getSelectedStyle = createSelector(
 export const getSelectedScene = createSelector(
   [MenuSelector.getSelectedScene],
   (selectedScene) => selectedScene
+);
+
+export const getFinishScenes = createSelector(
+  [MenuSelector.getFinishScenes],
+  (finishScenes) => finishScenes
+);
+
+export const getSelectedFinish = createSelector(
+  [MenuSelector.getSelectedFinish],
+  (selectedFinish) => selectedFinish
 );
 
 export const isPortraitSelector = () => isTablet() && isPortrait();
