@@ -1,22 +1,9 @@
+import React from 'react';
 import { bool, string } from 'prop-types';
-import React, { createElement } from 'react';
 import { connect } from 'react-redux';
-import StylesMenu from './StylesMenu';
-// import ViewsMenu from './ViewsMenu';
-// import ChangeRoomMenu from './ChangeRoomMenu';
-// import ShoppingCarMenuDesktop from './ShoppingCarMenuDesktop';
-// import FinishesMenu from './FinishesMenu';
+import SubMenuComponent from './SubMenuComponent';
 
 const SubMenu = ({ selectedMenuOption, showSubMenuElements }) => {
-  const component = {
-    styles: StylesMenu
-  };
-  const currentComponent = () => {
-    if (selectedMenuOption !== '') {
-      return createElement(component[selectedMenuOption]);
-    }
-    return null;
-  };
   return (
     <div
       id="sub-menu"
@@ -25,7 +12,7 @@ const SubMenu = ({ selectedMenuOption, showSubMenuElements }) => {
       } ${showSubMenuElements && selectedMenuOption ? 'active' : 'unactive'}`}
       style={{ height: window.innerHeight }}
     >
-      {currentComponent}
+      {selectedMenuOption && <SubMenuComponent />}
     </div>
   );
 };

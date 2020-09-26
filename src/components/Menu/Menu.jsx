@@ -12,15 +12,15 @@ import {
 import { loadingSelector } from '../../selectors/loading';
 import { errorSelector } from '../../selectors/error';
 import './Menu.scss';
+import ThreeSixtyAction from '../../stores/threeSixty/actions';
+import { isPreview } from '../../utils';
 
 class Menu extends Component {
   constructor() {
     super();
     this.menu = null;
     this.state = {
-      selectedMenuOption: '',
-      showSubMenuElements: false,
-      expanded: false
+      showSubMenuElements: false
     };
   }
 
@@ -40,18 +40,22 @@ class Menu extends Component {
   };
 
   onSelectedMenuOption = (selectedMenuOption) => {
-    const { selectedMenuOption: stateSelectedMenuOption } = this.state;
+    const {
+      dispatch,
+      selectedMenuOption: stateSelectedMenuOption
+    } = this.props;
     if (
       stateSelectedMenuOption === selectedMenuOption ||
       selectedMenuOption === ''
     ) {
+      dispatch(ThreeSixtyAction.setSelectedMenuOption(''));
+      dispatch(ThreeSixtyAction.expandMenu(false));
       this.setState({
-        selectedMenuOption: '',
-        expanded: false,
         showSubMenuElements: false
       });
     } else {
-      this.setState({ selectedMenuOption, expanded: true });
+      dispatch(ThreeSixtyAction.setSelectedMenuOption(selectedMenuOption));
+      dispatch(ThreeSixtyAction.expandMenu(true));
       if (selectedMenuOption === 'mini-map') {
         this.setState({
           showSubMenuElements: false
@@ -61,6 +65,7 @@ class Menu extends Component {
   };
 
   onTransitionEnd = (expanded) => {
+    console.log('transition', expanded);
     if (expanded) {
       this.setState({
         showSubMenuElements: true
@@ -77,15 +82,12 @@ class Menu extends Component {
       loading,
       selectedMenuOption,
       error,
-      hide,
       showTabletPortrait,
-      runSteps,
-      step,
-      changeStep,
       menuOptionsFiltered,
-      menuClass
+      menuClass,
+      expanded
     } = this.props;
-    const { showSubMenuElements, expanded } = this.state;
+    const { showSubMenuElements } = this.state;
     return (
       <div
         className={`d-none d-lg-block ${
@@ -97,7 +99,9 @@ class Menu extends Component {
             this.menu = ref;
           }}
           className={`nav-container d-flex flex-row justify-content-end
-      ${menuClass ? 'expanded' : 'closed'} ${loading || hide ? 'hide' : ''}`}
+      ${menuClass ? 'expanded' : 'closed'} ${
+            loading || isPreview() ? 'hide' : ''
+          }`}
           onTransitionEnd={() => {
             this.onTransitionEnd(menuClass);
           }}
@@ -112,7 +116,7 @@ class Menu extends Component {
         <nav
           id="main-menu"
           className={`main-menu d-flex flex-row align-items-center ${
-            loading || error || hide ? 'display-none' : ''
+            loading || error || isPreview() ? 'display-none' : ''
           }`}
           style={{
             height: menuClass
@@ -127,10 +131,8 @@ class Menu extends Component {
                 i={index}
                 active={option === selectedMenuOption}
                 type={option}
-                click={() => {}}
+                click={this.onSelectedMenuOption}
                 expantion={expanded}
-                showBeacon={step === option && runSteps}
-                changeStep={changeStep}
               />
             ))}
           </div>
@@ -144,10 +146,8 @@ Menu.propTypes = {
   loading: bool.isRequired,
   selectedMenuOption: string.isRequired,
   error: string.isRequired,
-  hide: bool.isRequired,
-  runSteps: bool.isRequired,
-  step: string.isRequired,
-  changeStep: func.isRequired,
+  dispatch: func.isRequired,
+  expanded: bool,
   showTabletPortrait: bool,
   menuOptionsFiltered: arrayOf(string),
   menuClass: bool
@@ -156,7 +156,8 @@ Menu.propTypes = {
 Menu.defaultProps = {
   menuOptionsFiltered: [],
   menuClass: false,
-  showTabletPortrait: false
+  showTabletPortrait: false,
+  expanded: false
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -168,4 +169,8 @@ const mapStateToProps = (state, ownProps) => ({
   loading: loadingSelector(state)
 });
 
-export default connect(mapStateToProps)(Menu);
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);

@@ -52,6 +52,9 @@ export default class ThreeSixtyAction {
 
   static SET_BUILDER_REQUEST_FINISHED = 'SET_BUILDER_REQUEST_FINISHED';
 
+  static SELECTED_MENU_OPTION_REQUEST_FINISHED =
+    'SELECTED_MENU_OPTION_REQUEST_FINISHED';
+
   static getScenes() {
     return async (dispatch, getState) => {
       const { language: stateLanguage, threeSixty } = getState();
@@ -59,7 +62,7 @@ export default class ThreeSixtyAction {
       const {
         builderId,
         propertyId,
-        layoutName,
+        displayName,
         currentLevel,
         selectedStyleName,
         mode
@@ -72,7 +75,7 @@ export default class ThreeSixtyAction {
         language,
         builderId,
         propertyId,
-        layoutName,
+        displayName,
         currentLevel,
         selectedStyleName,
         mode
@@ -90,7 +93,7 @@ export default class ThreeSixtyAction {
       const {
         builderId,
         propertyId,
-        layoutName,
+        displayName,
         currentLevel,
         selectedScene,
         mode
@@ -103,7 +106,7 @@ export default class ThreeSixtyAction {
         language,
         builderId,
         propertyId,
-        layoutName,
+        displayName,
         currentLevel,
         selectedScene,
         mode
@@ -121,7 +124,7 @@ export default class ThreeSixtyAction {
       const {
         builderId,
         propertyId,
-        layoutName,
+        displayName,
         currentLevel,
         selectedStyleName,
         selectedScene,
@@ -137,7 +140,7 @@ export default class ThreeSixtyAction {
         language,
         builderId,
         propertyId,
-        layoutName,
+        displayName,
         currentLevel,
         selectedStyleName,
         selectedScene,
@@ -158,7 +161,7 @@ export default class ThreeSixtyAction {
       const {
         selectedStyle,
         selectedScene,
-        layoutName,
+        displayName,
         currentLevel
       } = threeSixty;
 
@@ -171,7 +174,7 @@ export default class ThreeSixtyAction {
         projectId,
         [selectedStyle],
         selectedScene,
-        layoutName,
+        displayName,
         currentLevel
       );
 
@@ -225,7 +228,6 @@ export default class ThreeSixtyAction {
   // maybe this ones can be selectors instead of actions
 
   static setBuilder(builder) {
-    console.log('setBuilder', builder);
     return ActionUtility.createAction(
       ThreeSixtyAction.SET_BUILDER_REQUEST_FINISHED,
       builder
@@ -280,6 +282,13 @@ export default class ThreeSixtyAction {
     return ActionUtility.createAction(
       ThreeSixtyAction.EXPAND_REQUEST_FINISHED,
       expand
+    );
+  }
+
+  static setSelectedMenuOption(option) {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.SELECTED_MENU_OPTION_REQUEST_FINISHED,
+      option
     );
   }
 }

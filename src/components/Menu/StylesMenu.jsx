@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { bool, arrayOf, shape, string, func } from 'prop-types';
+import { arrayOf, shape, string, func } from 'prop-types';
 import { connect } from 'react-redux';
 import ImageMenuItem from './ImageMenuItem';
 import PersonalizeMenu from './PersonalizeMenu';
+import ThreeSixtyAction from '../../stores/threeSixty/actions';
+import { getSelectedStyle } from '../../selectors/menu';
 
 class StylesMenu extends Component {
   constructor() {
@@ -10,25 +12,28 @@ class StylesMenu extends Component {
     this.subMenuRef = null;
   }
 
-  // needs to be adjusted to the new Architecture
-  setStyle = (e, style) => {};
+  styleChange = async (e, style) => {
+    const { dispatch } = this.props;
+    const setStyle = await dispatch(ThreeSixtyAction.setSelectedStyle(style));
+    const roomUseWithFInishes = await dispatch(
+      ThreeSixtyAction.getRoomUseWithFinishes()
+    );
+
+    console.log(setStyle, roomUseWithFInishes);
+  };
 
   render() {
-    const { show, stylesMenu, selectedStyle, urls } = this.props;
-
+    const { stylesMenu, selectedStyle, urls } = this.props;
+    console.log('selectedStle', selectedStyle);
     return (
-      <div
-        className={`menu-properties-container d-flex flex-column justify-content-start align-items-start ${
-          show ? '' : 'display-none'
-        }`}
-      >
+      <div className="menu-properties-container d-flex flex-column justify-content-start align-items-start">
         <div className="title">STYLES</div>
         <div
           ref={(ref) => {
             this.subMenuRef = ref;
           }}
           id="styles-menu"
-          className={`styles-menu sub-menu ${show ? '' : 'display-none'}`}
+          className="styles-menu sub-menu"
         >
           {stylesMenu.map((option, index) => {
             const { style, type, image } = option;
@@ -53,22 +58,24 @@ class StylesMenu extends Component {
 }
 
 StylesMenu.propTypes = {
-  show: bool.isRequired,
   stylesMenu: arrayOf(shape({})).isRequired,
   selectedStyle: string.isRequired,
   urls: shape({}).isRequired,
-  threeSixty: shape({}).isRequired,
-  match: shape({}).isRequired
+  dispatch: func.isRequired
 };
 
 const mapStateToProps = (state) => {
-  const {
-    menu: stylesMenu,
-    selectedStyle,
+  const { menu: stylesMenu, urls, threeSixty } = state.threeSixty;
+  return {
+    stylesMenu,
+    selectedStyle: getSelectedStyle(state),
     urls,
     threeSixty
-  } = state.threeSixty;
-  return { stylesMenu, selectedStyle, urls, threeSixty };
+  };
 };
 
-export default connect(mapStateToProps)(StylesMenu);
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(StylesMenu);

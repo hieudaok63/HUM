@@ -91,7 +91,7 @@ export default class ThreeSixtyReducer extends BaseReducer {
       ...state,
       builderId: action.payload.builderId,
       propertyId: action.payload.projectId,
-      layoutName: action.payload.layoutName
+      displayName: action.payload.layoutName
     };
   }
 
@@ -141,6 +141,13 @@ export default class ThreeSixtyReducer extends BaseReducer {
     return {
       ...state,
       expanded: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.SELECTED_MENU_OPTION_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      selectedMenuOption: action.payload
     };
   }
 

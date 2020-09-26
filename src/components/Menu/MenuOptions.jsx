@@ -2,16 +2,11 @@
 import React from 'react';
 import { string, bool, func } from 'prop-types';
 
-const MenuOptions = ({ type, click, active, showBeacon, changeStep }) => (
+const MenuOptions = ({ type, click, active }) => (
   <div
-    className={`d-flex flex-column justify-content-center align-items-center nav-icon-container menu-action ${
-      showBeacon ? 'beacon' : ''
-    }`}
+    className="d-flex flex-column justify-content-center align-items-center nav-icon-container menu-action"
     onClick={() => {
       click(type);
-      if (showBeacon) {
-        changeStep();
-      }
     }}
   >
     <span className={`${type}-icon ${active ? 'active' : ''}`} />
@@ -21,9 +16,7 @@ const MenuOptions = ({ type, click, active, showBeacon, changeStep }) => (
 MenuOptions.propTypes = {
   type: string.isRequired,
   click: func.isRequired,
-  active: bool.isRequired,
-  showBeacon: bool.isRequired,
-  changeStep: func.isRequired
+  active: bool.isRequired
 };
 
 export default MenuOptions;
