@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 import { func, shape } from 'prop-types';
 import { connect } from 'react-redux';
 import ThreeSixtyAction from './stores/threeSixty/actions';
+import DesktopAthumLogo from './components/DesktopAthumLogo';
 import Menu from './components/Menu/Menu';
+import MiniMap from './components/MiniMap';
+import CurrentViewStyle from './components/CurrentViewStyle';
 import './components/Loader.scss';
 import './App.css';
 
@@ -31,7 +34,25 @@ class App extends Component {
   }
 
   render() {
-    return <Menu />;
+    return (
+      <>
+        <div className="w-100 h-100">
+          <DesktopAthumLogo />
+          <Menu />
+          <MiniMap />
+          <CurrentViewStyle />
+
+          {/* <CardBoard />
+          <Autoplay />
+          <ErrorModal />
+
+           add viewer */}
+        </div>
+        {/* <div className={rotationModal ? 'd-block' : 'd-none'}>
+          <RotationModal show={rotationModal} message={rotationMessage} />
+        </div> */}
+      </>
+    );
   }
 }
 

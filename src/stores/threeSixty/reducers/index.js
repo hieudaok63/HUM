@@ -52,7 +52,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
     return {
       ...state,
       scenes: action.payload.scenes,
-      builderLogo: action.payload.builderLogo
+      builderLogo: action.payload.builderLogo,
+      selectedStyleName: action.payload.selectedStyleName
     };
   }
 
@@ -156,6 +157,12 @@ export default class ThreeSixtyReducer extends BaseReducer {
     return {
       ...state,
       currentRoomUse: action.payload
+    };
+  }
+  [ThreeSixtyAction.CURRENT_LEVEL_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      currentLevel: action.payload
     };
   }
 

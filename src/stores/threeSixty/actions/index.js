@@ -57,6 +57,8 @@ export default class ThreeSixtyAction {
 
   static SELECTED_USE_REQUEST_FINISHED = 'SELECTED_USE_REQUEST_FINISHED';
 
+  static CURRENT_LEVEL_REQUEST_FINISHED = 'CURRENT_LEVEL_REQUEST_FINISHED';
+
   static getScenes() {
     return async (dispatch, getState) => {
       const { language: stateLanguage, threeSixty } = getState();
@@ -66,7 +68,7 @@ export default class ThreeSixtyAction {
         propertyId,
         displayName,
         currentLevel,
-        selectedStyleName,
+        selectedStyle,
         mode
       } = threeSixty;
 
@@ -79,7 +81,7 @@ export default class ThreeSixtyAction {
         propertyId,
         displayName,
         currentLevel,
-        selectedStyleName,
+        selectedStyle,
         mode
       );
 
@@ -128,7 +130,7 @@ export default class ThreeSixtyAction {
         propertyId,
         displayName,
         currentLevel,
-        selectedStyleName,
+        selectedStyle,
         selectedScene,
         selectedFinish,
         roomUse,
@@ -144,7 +146,7 @@ export default class ThreeSixtyAction {
         propertyId,
         displayName,
         currentLevel,
-        selectedStyleName,
+        selectedStyle,
         selectedScene,
         roomUse,
         mode,
@@ -297,6 +299,13 @@ export default class ThreeSixtyAction {
   static setSelectedUse(option) {
     return ActionUtility.createAction(
       ThreeSixtyAction.SELECTED_USE_REQUEST_FINISHED,
+      option
+    );
+  }
+
+  static setCurrentLevel(option) {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.CURRENT_LEVEL_REQUEST_FINISHED,
       option
     );
   }

@@ -85,6 +85,7 @@ class ThreeSixtyStyleScenesModel {
   constructor(data) {
     this.scenes = data.style.scenes;
     this.builderLogo = data.builderLogo;
+    this.selectedStyleName = data.style.name;
   }
 
   scenes = [];

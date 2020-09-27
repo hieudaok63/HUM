@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ImageMenuItem from './ImageMenuItem';
 import PersonalizeMenu from './PersonalizeMenu';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
-import { getSelectedStyle } from '../../selectors/menu';
+import { getSelectedStyle } from '../../selectors/Menu';
 
 class StylesMenu extends Component {
   constructor() {
@@ -14,12 +14,14 @@ class StylesMenu extends Component {
 
   styleChange = async (e, style) => {
     const { dispatch } = this.props;
+    console.log('styleChange', style);
     const setStyle = await dispatch(ThreeSixtyAction.setSelectedStyle(style));
+    const scenes = await dispatch(ThreeSixtyAction.getScenes());
     const roomUseWithFInishes = await dispatch(
       ThreeSixtyAction.getRoomUseWithFinishes()
     );
 
-    console.log(setStyle, roomUseWithFInishes);
+    console.log(setStyle, scenes, roomUseWithFInishes);
   };
 
   render() {

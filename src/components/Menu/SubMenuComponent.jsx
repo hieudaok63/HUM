@@ -15,7 +15,10 @@ const SubMenuComp = ({ selectedMenuOption }) => {
     finishes: FinishesMenu,
     'change-room': ChangeRoomMenu
   };
-  return createElement(components[selectedMenuOption]);
+  return (
+    components[selectedMenuOption] !== undefined &&
+    createElement(components[selectedMenuOption])
+  );
 };
 
 SubMenuComp.propTypes = {

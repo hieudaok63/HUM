@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, arrayOf, shape, func } from 'prop-types';
 import ImageMenuItem from './ImageMenuItem';
-import { getCurrentRoomUse, getUses } from '../../selectors/menu';
+import { getCurrentRoomUse, getUses } from '../../selectors/Menu';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
 
 class ChangeRoomMenu extends Component {
@@ -21,7 +21,6 @@ class ChangeRoomMenu extends Component {
 
   render() {
     const { uses, currentRoomUse } = this.props;
-    console.log('roommenu', currentRoomUse);
     return (
       <div className="menu-properties-container d-flex flex-column justify-content-start align-items-start">
         <div className="title">CHANGE ROOMS</div>

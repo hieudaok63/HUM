@@ -8,9 +8,9 @@ import {
   menuClassSelector,
   isPortraitSelector,
   menuOptionSelector
-} from '../../selectors/menu';
-import { loadingSelector } from '../../selectors/loading';
-import { errorSelector } from '../../selectors/error';
+} from '../../selectors/Menu';
+import { loadingSelector } from '../../selectors/Loading';
+import { errorSelector } from '../../selectors/Error';
 import './Menu.scss';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
 import { isPreview } from '../../utils';
