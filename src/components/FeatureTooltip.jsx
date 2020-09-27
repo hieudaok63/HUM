@@ -1,10 +1,11 @@
 import React from 'react';
 import { string, bool } from 'prop-types';
 
-const FeatureTooltip = ({ message, status, showStatus, inactive }) => (
+const FeatureTooltip = ({ message, status, showStatus }) => (
   <div
-    className={`feature-tooltip ${showStatus ? 'active' : ''} ${inactive &&
-      'inactive'} d-flex justify-content-center align-items-center`}
+    className={`feature-tooltip ${
+      showStatus ? 'active' : 'inactive'
+    }  d-flex justify-content-center align-items-center`}
   >
     <span>
       {message} {status ? 'ON' : 'OFF'}
@@ -15,8 +16,7 @@ const FeatureTooltip = ({ message, status, showStatus, inactive }) => (
 FeatureTooltip.propTypes = {
   message: string.isRequired,
   status: bool.isRequired,
-  showStatus: bool.isRequired,
-  inactive: bool.isRequired
+  showStatus: bool.isRequired
 };
 
 export default FeatureTooltip;

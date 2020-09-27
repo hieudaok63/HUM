@@ -7,6 +7,8 @@ import DesktopAthumLogo from './components/DesktopAthumLogo';
 import Menu from './components/Menu/Menu';
 import MiniMap from './components/MiniMap';
 import CurrentViewStyle from './components/CurrentViewStyle';
+import Cardboard from './components/Cardboard';
+import Autoplay from './components/Autoplay';
 import './components/Loader.scss';
 import './App.css';
 
@@ -41,9 +43,9 @@ class App extends Component {
           <Menu />
           <MiniMap />
           <CurrentViewStyle />
-
-          {/* <CardBoard />
+          <Cardboard />
           <Autoplay />
+          {/* 
           <ErrorModal />
 
            add viewer */}
