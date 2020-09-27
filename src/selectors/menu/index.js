@@ -83,8 +83,9 @@ export class MenuSelector {
   }
 
   static getCurrentRoomUse(state) {
+    console.log(state.threeSixty.levels[0].styles[0].scenes[0]);
     return state.threeSixty.currentRoomUse === 'default'
-      ? state.threeSixty.levels[0].styles[0].scenes[0].uses[0].defaultUse
+      ? state.threeSixty.levels[0].styles[0].scenes[0].defaultUse
       : state.threeSixty.currentRoomUse;
   }
 }
