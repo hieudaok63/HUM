@@ -55,6 +55,8 @@ export default class ThreeSixtyAction {
   static SELECTED_MENU_OPTION_REQUEST_FINISHED =
     'SELECTED_MENU_OPTION_REQUEST_FINISHED';
 
+  static SELECTED_USE_REQUEST_FINISHED = 'SELECTED_USE_REQUEST_FINISHED';
+
   static getScenes() {
     return async (dispatch, getState) => {
       const { language: stateLanguage, threeSixty } = getState();
@@ -288,6 +290,13 @@ export default class ThreeSixtyAction {
   static setSelectedMenuOption(option) {
     return ActionUtility.createAction(
       ThreeSixtyAction.SELECTED_MENU_OPTION_REQUEST_FINISHED,
+      option
+    );
+  }
+
+  static setSelectedUse(option) {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.SELECTED_USE_REQUEST_FINISHED,
       option
     );
   }

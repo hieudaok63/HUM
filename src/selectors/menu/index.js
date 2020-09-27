@@ -22,6 +22,12 @@ export class MenuSelector {
       : [];
   }
 
+  static getUses(state) {
+    return state.threeSixty.levels.length > 0
+      ? state.threeSixty.levels[0].styles[0].scenes[0].uses
+      : [];
+  }
+
   static filterMenuOptions(options, shoppingCarItems, roomUses, finishScenes) {
     return options.filter((option) => {
       let showIcon = true;
@@ -75,6 +81,12 @@ export class MenuSelector {
       ? state.threeSixty.levels[0].styles[0].scenes[0].defaultFinish
       : state.threeSixty.selectedFinish;
   }
+
+  static getCurrentRoomUse(state) {
+    return state.threeSixty.currentRoomUse === 'default'
+      ? state.threeSixty.levels[0].styles[0].scenes[0].uses[0].defaultUse
+      : state.threeSixty.currentRoomUse;
+  }
 }
 
 export const menuOptionsSelector = createSelector(
@@ -115,6 +127,13 @@ export const getFinishScenes = createSelector(
 export const getSelectedFinish = createSelector(
   [MenuSelector.getSelectedFinish],
   (selectedFinish) => selectedFinish
+);
+
+export const getUses = createSelector([MenuSelector.getUses], (uses) => uses);
+
+export const getCurrentRoomUse = createSelector(
+  [MenuSelector.getCurrentRoomUse],
+  (currentRoomUse) => currentRoomUse
 );
 
 export const isPortraitSelector = () => isTablet() && isPortrait();

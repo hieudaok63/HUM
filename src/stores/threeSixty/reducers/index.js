@@ -31,6 +31,7 @@ export default class ThreeSixtyReducer extends BaseReducer {
     selectedFinish: 'default',
     selectedStyle: 'default',
     selectedStyleName: 'default',
+    currentRoomUse: 'default',
     currentLevel: 1,
     mode: 'day',
     tour360: false,
@@ -148,6 +149,13 @@ export default class ThreeSixtyReducer extends BaseReducer {
     return {
       ...state,
       selectedMenuOption: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.SELECTED_USE_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      currentRoomUse: action.payload
     };
   }
 
