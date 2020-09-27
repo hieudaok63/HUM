@@ -9,6 +9,8 @@ import MiniMap from './components/MiniMap';
 import CurrentViewStyle from './components/CurrentViewStyle';
 import Cardboard from './components/Cardboard';
 import Autoplay from './components/Autoplay';
+import ErrorModal from './components/ErrorModal';
+import RotationModal from './components/RotationModal';
 import './components/Loader.scss';
 import './App.css';
 
@@ -45,14 +47,10 @@ class App extends Component {
           <CurrentViewStyle />
           <Cardboard />
           <Autoplay />
-          {/* 
           <ErrorModal />
-
-           add viewer */}
+          {/* add viewer */}
         </div>
-        {/* <div className={rotationModal ? 'd-block' : 'd-none'}>
-          <RotationModal show={rotationModal} message={rotationMessage} />
-        </div> */}
+        <RotationModal />
       </>
     );
   }

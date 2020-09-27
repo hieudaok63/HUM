@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import cardboardIcon from '../assets/Icons/Icon_cardboard.svg';
 import cardboardActive from '../assets/Icons/Icon_cardboard_active.svg';
 import FeatureTooltip from './FeatureTooltip';
+import CardboardTooltip from './Tooltip/CardboardTooltip';
 import { hasGyroscope, isPreview } from '../utils';
 import { loadingSelector } from '../selectors/Loading';
 import { blurSelector } from '../selectors/HideBlur';
@@ -12,6 +13,15 @@ import { blurSelector } from '../selectors/HideBlur';
 const Cardboard = ({ loading, blur }) => {
   const [status, setStatus] = useState(false);
   const [showCardboardMessage, setCardboardMessage] = useState(false);
+  const [showCardboardTooltip, setCardboardTooltip] = useState(false);
+  window.addEventListener('deviceorientation', (event) => {
+    if (event.alpha !== null && event.beta !== null && event.gamma !== null) {
+      setCardboardMessage(false);
+      setCardboardTooltip(true);
+    } else {
+      setCardboardTooltip(false);
+    }
+  });
   return (
     <>
       <div
@@ -42,6 +52,7 @@ const Cardboard = ({ loading, blur }) => {
           showStatus={showCardboardMessage}
         />
       </div>
+      {showCardboardTooltip && <CardboardTooltip />}
     </>
   );
 };
