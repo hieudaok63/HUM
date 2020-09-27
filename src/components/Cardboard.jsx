@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { bool } from 'prop-types';
 import { connect } from 'react-redux';
 import cardboardIcon from '../assets/Icons/Icon_cardboard.svg';
@@ -14,13 +14,17 @@ const Cardboard = ({ loading, blur }) => {
   const [status, setStatus] = useState(false);
   const [showCardboardMessage, setCardboardMessage] = useState(false);
   const [showCardboardTooltip, setCardboardTooltip] = useState(false);
-  window.addEventListener('deviceorientation', (event) => {
-    if (event.alpha !== null && event.beta !== null && event.gamma !== null) {
-      setCardboardMessage(false);
-      setCardboardTooltip(true);
-    } else {
-      setCardboardTooltip(false);
+
+  useEffect(() => {
+    function handleDeviceOrientation(event) {
+      if (event.alpha !== null && event.beta !== null && event.gamma !== null) {
+        setCardboardMessage(false);
+        setCardboardTooltip(true);
+      } else {
+        setCardboardTooltip(false);
+      }
     }
+    window.addEventListener('deviceorientation', handleDeviceOrientation);
   });
   return (
     <>
