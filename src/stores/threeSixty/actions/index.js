@@ -27,8 +27,6 @@ export default class ThreeSixtyAction {
   static GET_FURNITURE_BY_STYLES_REQUEST_FINISHED =
     'GET_FURNITURE_BY_STYLES_REQUEST_FINISHED';
 
-  static CLICK_FURNITURE_REQUEST = 'CLICK_FURNITURE_REQUEST';
-
   static CLICK_FURNITURE_REQUEST_FINISHED = 'CLICK_FURNITURE_REQUEST_FINISHED';
 
   static RESET_REQUEST_FINISHED = 'RESET_REQUEST_FINISHED';
@@ -66,7 +64,7 @@ export default class ThreeSixtyAction {
       const {
         builderId,
         propertyId,
-        displayName,
+        layoutName,
         currentLevel,
         selectedStyle,
         mode
@@ -79,7 +77,7 @@ export default class ThreeSixtyAction {
         language,
         builderId,
         propertyId,
-        displayName,
+        layoutName,
         currentLevel,
         selectedStyle,
         mode
@@ -97,7 +95,7 @@ export default class ThreeSixtyAction {
       const {
         builderId,
         propertyId,
-        displayName,
+        layoutName,
         currentLevel,
         selectedScene,
         mode
@@ -110,7 +108,7 @@ export default class ThreeSixtyAction {
         language,
         builderId,
         propertyId,
-        displayName,
+        layoutName,
         currentLevel,
         selectedScene,
         mode
@@ -128,7 +126,7 @@ export default class ThreeSixtyAction {
       const {
         builderId,
         propertyId,
-        displayName,
+        layoutName,
         currentLevel,
         selectedStyle,
         selectedScene,
@@ -144,7 +142,7 @@ export default class ThreeSixtyAction {
         language,
         builderId,
         propertyId,
-        displayName,
+        layoutName,
         currentLevel,
         selectedStyle,
         selectedScene,
@@ -193,7 +191,7 @@ export default class ThreeSixtyAction {
       const { language } = stateLanguage;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
-        ThreeSixtyAction.CLICK_FURNITURE_REQUEST,
+        ThreeSixtyAction.CLICK_FURNITURE_REQUEST_FINISHED,
         ThreeSixtyEffect.furnitureCount,
         language,
         body

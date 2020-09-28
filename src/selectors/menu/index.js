@@ -7,7 +7,9 @@ export class MenuSelector {
   }
 
   static getShoppingCarItems(state) {
-    return state.threeSixty.furniture;
+    return state.threeSixty.levels.length > 0
+      ? state.threeSixty.levels[0].styles[0].scenes[0].uses[0].furniture
+      : [];
   }
 
   static getRoomUses(state) {

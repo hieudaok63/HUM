@@ -48,7 +48,7 @@ class App extends Component {
           <Cardboard />
           <Autoplay />
           <ErrorModal />
-          {/* add viewer */}
+          {/* add viewer add mobile menu stuff */}
         </div>
         <RotationModal />
       </>

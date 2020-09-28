@@ -25,7 +25,10 @@ export default class ThreeSixtyEffect {
     mode
   ) {
     console.log('getScenes', language);
-    const endpoint = `${THREE_SIXTY_API}${language}/360s/rooms/${builderId}/${projectId}/${layoutName}${VERSION}/${level}/${style}/${mode}`;
+    const endpoint = `${THREE_SIXTY_API}${language}/360s/rooms/${builderId}/${projectId}/${layoutName.replace(
+      VERSION,
+      ''
+    )}${VERSION}/${level}/${style}/${mode}`;
 
     const response = await HttpUtility.get(endpoint, {
       headers: {
@@ -50,7 +53,10 @@ export default class ThreeSixtyEffect {
     room,
     mode
   ) {
-    const endpoint = `${THREE_SIXTY_API}${language}/360s/styles-room/${builderId}/${projectId}/${layoutName}${VERSION}/${level}/${room}/${mode}`;
+    const endpoint = `${THREE_SIXTY_API}${language}/360s/styles-room/${builderId}/${projectId}/${layoutName.replace(
+      VERSION,
+      ''
+    )}${VERSION}/${level}/${room}/${mode}`;
 
     const response = await HttpUtility.get(endpoint, {
       headers: {
@@ -79,7 +85,10 @@ export default class ThreeSixtyEffect {
     finish
   ) {
     console.log('roomuse', builderId, layoutName);
-    const endpoint = `${THREE_SIXTY_API}${language}/360s/room-use-finish/${builderId}/${propertyId}/${layoutName}${VERSION}/${level}/${style}/${room.trim()}/${finish}/${mode}`;
+    const endpoint = `${THREE_SIXTY_API}${language}/360s/room-use-finish/${builderId}/${propertyId}/${layoutName.replace(
+      VERSION,
+      ''
+    )}${VERSION}/${level}/${style}/${room.trim()}/${finish}/${mode}`;
 
     const response = await HttpUtility.post(endpoint, {
       headers: {
@@ -136,7 +145,7 @@ export default class ThreeSixtyEffect {
     const endpoint = `${WEBAPP_API}/${language}/furniture/favorite/guest`;
     const response = await HttpUtility.post(endpoint, {
       body: JSON.stringify({
-        body
+        ...body
       })
     });
 

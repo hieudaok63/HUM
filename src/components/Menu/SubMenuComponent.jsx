@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import StylesMenu from './StylesMenu';
 import ViewsMenu from './ViewsMenu';
 import ChangeRoomMenu from './ChangeRoomMenu';
-// import ShoppingCarMenuDesktop from './ShoppingCarMenuDesktop';
+import ShoppingCarMenuDesktop from './ShoppingCarMenuDesktop';
 import FinishesMenu from './FinishesMenu';
 
 const SubMenuComp = ({ selectedMenuOption }) => {
@@ -13,7 +13,8 @@ const SubMenuComp = ({ selectedMenuOption }) => {
     styles: StylesMenu,
     views: ViewsMenu,
     finishes: FinishesMenu,
-    'change-room': ChangeRoomMenu
+    'change-room': ChangeRoomMenu,
+    furniture: ShoppingCarMenuDesktop
   };
   return (
     components[selectedMenuOption] !== undefined &&

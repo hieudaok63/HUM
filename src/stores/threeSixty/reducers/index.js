@@ -93,7 +93,7 @@ export default class ThreeSixtyReducer extends BaseReducer {
       ...state,
       builderId: action.payload.builderId,
       propertyId: action.payload.projectId,
-      displayName: action.payload.layoutName
+      layoutName: action.payload.layoutName
     };
   }
 
