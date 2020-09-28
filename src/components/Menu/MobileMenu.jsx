@@ -1,22 +1,22 @@
 import React, { Component, Fragment } from 'react';
-import { string, bool, arrayOf, shape, func, number } from 'prop-types';
+import { connect } from 'react-redux';
+import { string, bool, arrayOf, func } from 'prop-types';
 import MobileMenuOptions from './MobileMenuOptions';
 import MobileMenuButton from './MobileMenuButton';
 import MobileSubMenu from './MobileSubMenu';
 import closeIcon from '../../assets/Icons/icon-close.svg';
 import './Menu.scss';
+import ThreeSixtyAction from '../../stores/threeSixty/actions';
+import { isPortrait, isPreview, isTablet } from '../../utils';
+import {
+  isPortraitSelector,
+  menuOptionSelector,
+  menuOptionsSelector
+} from '../../selectors/Menu';
+import { errorSelector } from '../../selectors/Error';
+import { loadingSelector } from '../../selectors/Loading';
 
-const menuOptions = [
-  'minimap-mobile',
-  'views',
-  'styles',
-  'cart',
-  'room-change',
-  // "night",
-  'finishes'
-];
-
-export default class MobileMenu extends Component {
+class MobileMenu extends Component {
   constructor() {
     super();
     this.state = {
@@ -32,76 +32,38 @@ export default class MobileMenu extends Component {
     this.setState({ menuOpen: false });
   };
 
+  onSelectedMenuOption = (selectedMenuOption) => {
+    const {
+      dispatch,
+      selectedMenuOption: stateSelectedMenuOption
+    } = this.props;
+
+    if (
+      stateSelectedMenuOption === selectedMenuOption ||
+      selectedMenuOption === ''
+    ) {
+      dispatch(ThreeSixtyAction.setSelectedMenuOption(''));
+    } else {
+      dispatch(
+        ThreeSixtyAction.setSelectedMenuOption(`mobile-${selectedMenuOption}`)
+      );
+    }
+  };
+
   render() {
     const {
-      styleMenu: styles,
-      selectedStyle,
-      styleChange,
-      scenes,
-      viewItemClick,
-      personalized,
-      personalizeButtonClick,
-      selectedScene,
       loading,
-      onClickHotspot,
-      onSelectedMenuOption,
-      selectedMenuOption,
       error,
-      totalFloors,
-      currentFloor,
-      upOneFloor,
-      downOneFloor,
-      url,
-      hide,
-      isSurveyCompleted,
-      totalPages,
-      perPage,
-      currentPage,
-      pageUp,
-      pageDown,
-      miniMapHotspots,
-      layoutName,
-      roomUse,
-      changeRoomType,
-      currentRoomUse,
-      shoppingCarItems,
-      clickFurniture,
-      clickFavFurniture,
-      title,
-      token,
-      showTabletPortrait,
-      mapSize,
-      showPersonalize,
-      finishScenes,
-      mode,
-      selectedFinish,
-      finishItemClick
+      menuOptionsFiltered,
+      selectedMenuOption
     } = this.props;
     const { menuOpen } = this.state;
-    const menuOptionsFiltered = menuOptions.filter((option) => {
-      let showIcon = true;
-      if (option === 'cart') {
-        showIcon = shoppingCarItems.length > 0;
-      }
-      if (option === 'room-change') {
-        showIcon = roomUse.length > 0;
-      }
-      if (option === 'finishes') {
-        showIcon = finishScenes.length > 0;
-      }
-
-      return showIcon;
-    });
-    const selectedMenuOptionAdjust =
-      selectedMenuOption === 'cart' && shoppingCarItems.length === 0
-        ? 'minimap-mobile'
-        : selectedMenuOption;
     return (
       <Fragment>
         <div
           className={`mobile-menu-container d-lg-none d-xl-none ${(loading ||
             error ||
-            hide ||
+            isPreview() ||
             !menuOpen) &&
             'display-none'}`}
         >
@@ -120,54 +82,15 @@ export default class MobileMenu extends Component {
               <MobileMenuOptions
                 key={`${index.toString()}-option`}
                 i={index}
-                active={option === selectedMenuOptionAdjust}
+                active={option === selectedMenuOption}
                 type={option}
-                click={onSelectedMenuOption}
+                click={this.onSelectedMenuOption}
               />
             ))}
           </nav>
-          <MobileSubMenu
-            selectedMenuOption={selectedMenuOptionAdjust}
-            selectedStyle={selectedStyle}
-            styles={styles}
-            styleChange={styleChange}
-            scenes={scenes}
-            viewItemClick={viewItemClick}
-            closeMenu={this.closeMenu}
-            personalized={personalized}
-            isSurveyCompleted={isSurveyCompleted}
-            personalizeButtonClick={personalizeButtonClick}
-            selectedScene={selectedScene}
-            onClickHotspot={onClickHotspot}
-            currentFloor={currentFloor}
-            upOneFloor={upOneFloor}
-            downOneFloor={downOneFloor}
-            totalFloors={totalFloors}
-            url={url}
-            totalPages={totalPages}
-            perPage={perPage}
-            currentPage={currentPage}
-            pageUp={pageUp}
-            pageDown={pageDown}
-            miniMapHotspots={miniMapHotspots}
-            layoutName={layoutName}
-            roomUse={roomUse}
-            changeRoomType={changeRoomType}
-            currentRoomUse={currentRoomUse}
-            shoppingCarItems={shoppingCarItems}
-            clickFurniture={clickFurniture}
-            clickFavFurniture={clickFavFurniture}
-            title={title}
-            token={token}
-            mapSize={mapSize}
-            showPersonalize={showPersonalize}
-            selectedFinish={selectedFinish}
-            finishScenes={finishScenes}
-            finishItemClick={finishItemClick}
-            mode={mode}
-          />
+          <MobileSubMenu />
         </div>
-        {!menuOpen && !loading && !showTabletPortrait && (
+        {!menuOpen && !loading && !(isTablet() && isPortrait()) && (
           <MobileMenuButton openMenu={this.openMenu} />
         )}
       </Fragment>
@@ -176,50 +99,27 @@ export default class MobileMenu extends Component {
 }
 
 MobileMenu.propTypes = {
-  styleMenu: arrayOf(shape({})).isRequired,
-  styleChange: func.isRequired,
-  scenes: arrayOf(shape({})).isRequired,
-  personalized: shape({}).isRequired,
-  viewItemClick: func.isRequired,
-  personalizeButtonClick: func.isRequired,
-  selectedStyle: string.isRequired,
   loading: bool.isRequired,
-  selectedMenuOption: string,
-  onSelectedMenuOption: func.isRequired,
+  selectedMenuOption: string.isRequired,
   error: string.isRequired,
-  hide: bool.isRequired,
-  isSurveyCompleted: bool.isRequired,
-  selectedScene: string.isRequired,
-  selectedFinish: string.isRequired,
-  roomUse: arrayOf(shape({})).isRequired,
-  currentRoomUse: string.isRequired,
-  shoppingCarItems: arrayOf(shape({})).isRequired,
-  clickFurniture: func.isRequired,
-  clickFavFurniture: func.isRequired,
-  token: string.isRequired,
-  showTabletPortrait: bool.isRequired,
-  onClickHotspot: func.isRequired,
-  totalFloors: number.isRequired,
-  currentFloor: number.isRequired,
-  upOneFloor: func.isRequired,
-  downOneFloor: func.isRequired,
-  url: string.isRequired,
-  changeRoomType: func.isRequired,
-  title: string.isRequired,
-  totalPages: number.isRequired,
-  perPage: number.isRequired,
-  currentPage: number.isRequired,
-  pageUp: func.isRequired,
-  pageDown: func.isRequired,
-  miniMapHotspots: arrayOf(shape({})).isRequired,
-  layoutName: string.isRequired,
-  mapSize: shape({}).isRequired,
-  showPersonalize: bool.isRequired,
-  finishScenes: shape({}).isRequired,
-  mode: string.isRequired,
-  finishItemClick: func.isRequired
+  dispatch: func.isRequired,
+  menuOptionsFiltered: arrayOf(string)
 };
 
 MobileMenu.defaultProps = {
-  selectedMenuOption: ''
+  menuOptionsFiltered: []
 };
+
+const mapStateToProps = (state) => ({
+  menuOptionsFiltered: menuOptionsSelector(state),
+  showTabletPortrait: isPortraitSelector(),
+  selectedMenuOption: menuOptionSelector(state),
+  error: errorSelector(state),
+  loading: loadingSelector(state)
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MobileMenu);
