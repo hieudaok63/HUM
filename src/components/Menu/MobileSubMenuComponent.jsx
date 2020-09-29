@@ -16,7 +16,7 @@ const SubMenuComp = ({ selectedMenuOption, closeMenu }) => {
     'mobile-finishes': MobileFinishMenu,
     'mobile-change-room': MobileChangeRoomsMenu,
     'mobile-furniture': ShoppingCarMenuMobile,
-    'mobile-minimap': MiniMapMobile
+    'mobile-mini-map': MiniMapMobile
   };
   return (
     components[selectedMenuOption] !== undefined &&

@@ -206,6 +206,41 @@ export class MenuSelector {
     }
     return { width: 0, height: 0 };
   }
+
+  static sizeMobile(mapSize) {
+    console.log('size', mapSize);
+    if (Object.keys(mapSize).length !== 0 && mapSize.constructor === Object) {
+      return window.innerWidth < window.innerHeight &&
+        mapSize.desktop.width > mapSize.desktop.height
+        ? {
+            width:
+              window.innerWidth - 69 < mapSize.desktop.width
+                ? Math.round(
+                    ((window.innerWidth - 69) * mapSize.desktop.width) /
+                      mapSize.desktop.height
+                  )
+                : mapSize.desktop.width,
+            height:
+              window.innerWidth - 69 < mapSize.desktop.width
+                ? window.innerWidth - 69
+                : mapSize.desktop.height
+          }
+        : {
+            width:
+              window.innerWidth - 69 < mapSize.desktop.width
+                ? window.innerWidth - 69
+                : mapSize.desktop.width,
+            height:
+              window.innerWidth - 69 < mapSize.desktop.width
+                ? Math.round(
+                    ((window.innerWidth - 69) * mapSize.desktop.height) /
+                      mapSize.desktop.width
+                  )
+                : mapSize.desktop.height
+          };
+    }
+    return { width: 0, height: 0 };
+  }
 }
 
 export const menuOptionsSelector = createSelector(
@@ -292,6 +327,11 @@ export const sizeSelector = createSelector(
     MenuSelector.getMaxMapWidth
   ],
   MenuSelector.size
+);
+
+export const sizeSelectorMobile = createSelector(
+  [MenuSelector.getMapSize],
+  MenuSelector.sizeMobile
 );
 
 export const isPortraitSelector = () => isTablet() && isPortrait();

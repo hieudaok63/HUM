@@ -1,8 +1,23 @@
-import React, { Component, Fragment } from 'react';
-import { arrayOf, string, func, shape, bool } from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { arrayOf, string, func, shape, bool, number } from 'prop-types';
 import Hotspot from './Hotspot';
 import { deleteWhiteSpaces } from '../utils';
+import FloorsMenuMobile from './FloorsMenuMobile';
 import './MiniMap.scss';
+import ThreeSixtyAction from '../stores/threeSixty/actions';
+import {
+  currentFloorSelector,
+  getSelectedScene,
+  imageMapSelector,
+  mapScenesSelector,
+  mapSizeSelector,
+  menuOptionSelector,
+  showMiniMapSelector,
+  sizeSelectorMobile,
+  totalLevelsSelector
+} from '../selectors/Menu';
+import { loadingSelector } from '../selectors/Loading';
 
 class MiniMap extends Component {
   constructor() {
@@ -20,6 +35,47 @@ class MiniMap extends Component {
     window.addEventListener('resize', this.handleResize, true);
   }
 
+  changeScene = (e, targetName) => {
+    const { dispatch } = this.props;
+    const name = targetName || e.target.name || e.target.getAttribute('name');
+    const selectedScene = dispatch(ThreeSixtyAction.setSelectedScene(name));
+    const getStyles = dispatch(ThreeSixtyAction.getStyles());
+    const getFurnitureByStyles = dispatch(
+      ThreeSixtyAction.getRoomUseWithFinishes()
+    );
+    console.log(selectedScene, getStyles, getFurnitureByStyles);
+  };
+
+  upOneFloor = () => {
+    const { currentFloor, totalFloors } = this.props;
+    if (currentFloor < totalFloors) {
+      this.updateLevels(currentFloor + 1, 1);
+    }
+  };
+
+  downOneFloor = () => {
+    const { currentFloor } = this.props;
+    if (currentFloor > 1) {
+      this.updateLevels(currentFloor - 1, 1);
+    }
+  };
+
+  updateLevels = async (newLevel) => {
+    const { dispatch } = this.props;
+
+    const currentLevel = await dispatch(
+      ThreeSixtyAction.currentLevel(newLevel)
+    );
+
+    const scenes = await dispatch(ThreeSixtyAction.getScenes());
+
+    const roomUseWithFInishes = await dispatch(
+      ThreeSixtyAction.getRoomUseWithFinishes()
+    );
+
+    console.log(currentLevel, scenes, roomUseWithFInishes);
+  };
+
   handleResize = () => {
     this.setState({ isPortrait: window.innerWidth < window.innerHeight });
   };
@@ -28,46 +84,19 @@ class MiniMap extends Component {
     const {
       scenes = [],
       selectedScene,
-      classes,
       loading,
-      onClick,
       closeMenu,
       getPosition,
       url,
       layoutName,
-      mapSize
+      mapSize,
+      totalFloors,
+      currentFloor,
+      size
     } = this.props;
     const { isPortrait } = this.state;
-    const size =
-      isPortrait && mapSize.desktop.width > mapSize.desktop.height
-        ? {
-            width:
-              window.innerWidth - 69 < mapSize.desktop.width
-                ? Math.round(
-                    ((window.innerWidth - 69) * mapSize.desktop.width) /
-                      mapSize.desktop.height
-                  )
-                : mapSize.desktop.width,
-            height:
-              window.innerWidth - 69 < mapSize.desktop.width
-                ? window.innerWidth - 69
-                : mapSize.desktop.height
-          }
-        : {
-            width:
-              window.innerWidth - 69 < mapSize.desktop.width
-                ? window.innerWidth - 69
-                : mapSize.desktop.width,
-            height:
-              window.innerWidth - 69 < mapSize.desktop.width
-                ? Math.round(
-                    ((window.innerWidth - 69) * mapSize.desktop.height) /
-                      mapSize.desktop.width
-                  )
-                : mapSize.desktop.height
-          };
     return (
-      <Fragment>
+      <>
         <div className="mobile-submenu-title-container">
           <div className="mobile-submenu-title">MINIMAP</div>
           <div className="mobile-submenu-floorplan">{layoutName}</div>
@@ -83,7 +112,7 @@ class MiniMap extends Component {
         >
           <div
             id="minimap"
-            className={`${classes} ${
+            className={`map-mobile-menu map-mobile-container sub-mobile-menu d-flex flex-column justify-content-center align-items-center ${
               loading ? 'display-none' : ''
             } ${isPortrait &&
               mapSize.desktop.width > mapSize.desktop.height &&
@@ -108,7 +137,7 @@ class MiniMap extends Component {
                   id={deleteWhiteSpaces(scene.key.toLowerCase())}
                   active={selectedScene === scene.key.toLowerCase()}
                   index={index}
-                  onClick={onClick}
+                  onClick={this.changeScene}
                   closeMenu={closeMenu}
                   top={scene.y}
                   left={scene.x}
@@ -118,7 +147,13 @@ class MiniMap extends Component {
             </div>
           </div>
         </div>
-      </Fragment>
+        <FloorsMenuMobile
+          totalFloors={totalFloors}
+          currentFloor={currentFloor}
+          upOneFloor={this.upOneFloor}
+          downOneFloor={this.downOneFloor}
+        />
+      </>
     );
   }
 }
@@ -126,14 +161,16 @@ class MiniMap extends Component {
 MiniMap.propTypes = {
   scenes: arrayOf(shape({})).isRequired,
   selectedScene: string.isRequired,
-  classes: string.isRequired,
   loading: bool,
-  onClick: func.isRequired,
   getPosition: func,
   url: string.isRequired,
   closeMenu: func.isRequired,
   layoutName: string.isRequired,
-  mapSize: shape({}).isRequired
+  mapSize: shape({}).isRequired,
+  totalFloors: number.isRequired,
+  currentFloor: number.isRequired,
+  dispatch: func.isRequired,
+  size: shape({}).isRequired
 };
 
 MiniMap.defaultProps = {
@@ -141,4 +178,22 @@ MiniMap.defaultProps = {
   getPosition: () => {}
 };
 
-export default MiniMap;
+const mapStateToProps = (state) => ({
+  scenes: mapScenesSelector(state),
+  selectedScene: getSelectedScene(state),
+  loading: loadingSelector(state),
+  url: imageMapSelector(state),
+  mapSize: mapSizeSelector(state),
+  selectedMenuOption: menuOptionSelector(state),
+  showMiniMap: showMiniMapSelector(state),
+  totalFloors: totalLevelsSelector(state),
+  currentFloor: currentFloorSelector(state),
+  size: sizeSelectorMobile(state),
+  layoutName: state.threeSixty.displayName
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MiniMap);

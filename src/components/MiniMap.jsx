@@ -101,9 +101,6 @@ class MiniMap extends Component {
       totalFloors,
       currentFloor,
       showMiniMap,
-      runSteps,
-      step,
-      changeStep,
       mapSize,
       size
     } = this.props;
@@ -162,13 +159,6 @@ class MiniMap extends Component {
                         top={scene.y}
                         left={scene.x}
                         closeMenu={this.closeMenu}
-                        showTooltip={
-                          step ===
-                            `${deleteWhiteSpaces(
-                              scene.key.toLowerCase()
-                            )}-hotspot` && runSteps
-                        }
-                        changeStep={changeStep}
                         loading={loading}
                         mapSize={mapSize}
                       />
@@ -213,16 +203,7 @@ MiniMap.propTypes = {
   showMiniMap: bool.isRequired,
   mapSize: shape({}).isRequired,
   dispatch: func.isRequired,
-  size: shape({}).isRequired,
-  runSteps: bool,
-  step: string,
-  changeStep: func
-};
-
-MiniMap.defaultProps = {
-  runSteps: false,
-  step: '',
-  changeStep: () => {}
+  size: shape({}).isRequired
 };
 
 const mapStateToProps = (state) => ({
