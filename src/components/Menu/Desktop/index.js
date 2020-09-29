@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { string, bool, arrayOf, func } from 'prop-types';
 import { connect } from 'react-redux';
-import MenuOptions from './MenuOptions';
+import MenuOptions from '../MenuOptions';
 import SubMenu from './SubMenu';
 import {
   menuOptionsSelector,
   menuClassSelector,
   isPortraitSelector,
   menuOptionSelector
-} from '../../selectors/Menu';
-import { loadingSelector } from '../../selectors/Loading';
-import { errorSelector } from '../../selectors/Error';
-import './Menu.scss';
-import ThreeSixtyAction from '../../stores/threeSixty/actions';
-import { isPreview } from '../../utils';
+} from '../../../selectors/Menu';
+import { loadingSelector } from '../../../selectors/Loading';
+import { errorSelector } from '../../../selectors/Error';
+import '../Menu.scss';
+import ThreeSixtyAction from '../../../stores/threeSixty/actions';
+import { isPreview } from '../../../utils';
 
 class DesktopMenu extends Component {
   constructor() {

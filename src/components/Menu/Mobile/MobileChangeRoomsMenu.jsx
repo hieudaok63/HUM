@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { string, bool, arrayOf, shape, func } from 'prop-types';
-import ImageMenuItem from './ImageMenuItem';
+import ImageMenuItem from '../ImageMenuItem';
 
 const MobileChangeRoomsMenu = ({
   show,

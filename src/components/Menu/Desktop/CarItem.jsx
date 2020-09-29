@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, arrayOf, func } from 'prop-types';
-import { truncate, numberWithCommas } from '../../utils';
-import CircleColors from './CircleColors';
-import ThreeSixtyAction from '../../stores/threeSixty/actions';
+import { truncate, numberWithCommas } from '../../../utils';
+import CircleColors from '../CircleColors';
+import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 
 class CarItem extends Component {
   createColorCircles = (colors) =>

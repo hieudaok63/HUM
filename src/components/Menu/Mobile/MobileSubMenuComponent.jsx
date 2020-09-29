@@ -4,12 +4,11 @@ import { connect } from 'react-redux';
 import MobileStylesMenu from './MobileStylesMenu';
 import MobileViewsMenu from './MobileViewsMenu';
 import MobileChangeRoomsMenu from './MobileChangeRoomsMenu';
-import MiniMapMobile from '../MiniMapMobile';
+import MiniMapMobile from '../../MiniMapMobile';
 import ShoppingCarMenuMobile from './ShoppingCarMenuMobile';
 import MobileFinishMenu from './MobileFinishMenu';
 
 const SubMenuComp = ({ selectedMenuOption, closeMenu }) => {
-  console.log('subcomp', selectedMenuOption);
   const components = {
     'mobile-styles': MobileStylesMenu,
     'mobile-views': MobileViewsMenu,

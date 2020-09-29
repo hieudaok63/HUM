@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { arrayOf, shape } from 'prop-types';
 import CarItem from './CarItem';
-import { shoppingCarItemsSelector } from '../../selectors/ShoppingCart';
+import { shoppingCarItemsSelector } from '../../../selectors/ShoppingCart';
 
 class ShoppingCarMenu extends React.Component {
   generateCarItems = (shoppingCarItems) =>

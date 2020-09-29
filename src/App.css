@@ -480,10 +480,10 @@
 
 @media only screen and (device-width: 812px) and (device-height: 375px) and (-webkit-device-pixel-ratio: 3) {
   .shopping-car-menu .shopping-car-item {
-    width: 385px;
+    width: 300px;
     height: 249px;
     min-height: 249px;
-    min-width: 385px;
+    min-width: 300px;
     border-radius: 20px;
     box-shadow: 0 2px 4px 0 rgba(138, 138, 138, 0.5);
     background-color: #ffffff;

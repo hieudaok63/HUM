@@ -1,39 +1,22 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
-import { string, bool, arrayOf, func } from 'prop-types';
-import favIconSvg from '../assets/Icons/icon-fav.svg';
-import favActive from '../assets/Icons/icon-fav-active.svg';
-import { truncate, numberWithCommas } from '../utils';
-import CircleColors from './CircleColors';
+import { connect } from 'react-redux';
+import { string, arrayOf, func } from 'prop-types';
+import { truncate, numberWithCommas } from '../../../utils';
+import CircleColors from '../CircleColors';
+import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 
 class CarItem extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      favIcon: false
-    };
-  }
-
   createColorCircles = (colors) =>
     colors.map((color) => <CircleColors color={color} key={`key-${color}`} />);
 
-  toggleIcon = (id) => {
-    const { favorite, token, clickFavFurniture } = this.props;
-    const fav = !favorite;
-    clickFavFurniture(id, fav);
-    if (token) {
-      this.setState({
-        favIcon: fav
-      });
-    }
-  };
-
-  updateFav = () => {
-    const { favorite } = this.props;
-    this.setState({
-      favIcon: favorite
-    });
+  clickFurniture = (id) => {
+    const { dispatch } = this.props;
+    dispatch(
+      ThreeSixtyAction.furnitureCount({
+        assetId: id
+      })
+    );
   };
 
   render() {
@@ -44,15 +27,17 @@ class CarItem extends React.Component {
       price,
       currency,
       colors = [],
-      id,
-      favorite
+      id
     } = this.props;
 
-    const { favIcon } = this.state;
-
     return (
-      <React.Fragment>
-        <div className="shopping-car-item mobile d-lg-none d-xl-none">
+      <>
+        <div
+          className="shopping-car-item mobile d-lg-none d-xl-none"
+          onClick={() => {
+            this.clickFurniture(id);
+          }}
+        >
           <div className="d-flex justify-content-end align-items-center flex-column item">
             <div className="d-flex justify-content-start align-items-center name">
               {truncate(20, name)}
@@ -74,18 +59,6 @@ class CarItem extends React.Component {
                 </div>
               </div>
             </div>
-            <div
-              className="fav-icon"
-              onClick={() => {
-                this.toggleIcon(id);
-              }}
-            >
-              {favorite || favIcon ? (
-                <img src={favActive} alt="fav-active" />
-              ) : (
-                <img src={favIconSvg} alt="fav" />
-              )}
-            </div>
             <div className="d-flex justify-content-start align-items-center footer">
               <span>
                 <span className="price">${numberWithCommas(price)}</span>{' '}
@@ -94,7 +67,7 @@ class CarItem extends React.Component {
             </div>
           </div>
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }
@@ -107,13 +80,11 @@ CarItem.propTypes = {
   currency: string.isRequired,
   colors: arrayOf(string).isRequired,
   id: string.isRequired,
-  favorite: bool,
-  token: string.isRequired,
-  clickFavFurniture: func.isRequired
+  dispatch: func.isRequired
 };
 
-CarItem.defaultProps = {
-  favorite: false
-};
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
 
-export default CarItem;
+export default connect(mapDispatchToProps)(CarItem);

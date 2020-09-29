@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { arrayOf, shape, string, func } from 'prop-types';
 import { connect } from 'react-redux';
-import ImageMenuItem from './ImageMenuItem';
+import ImageMenuItem from '../ImageMenuItem';
 import PersonalizeMenu from './PersonalizeMenu';
-import ThreeSixtyAction from '../../stores/threeSixty/actions';
-import { getSelectedStyle } from '../../selectors/Menu';
+import ThreeSixtyAction from '../../../stores/threeSixty/actions';
+import { getSelectedStyle } from '../../../selectors/Menu';
 
 class StylesMenu extends Component {
   constructor() {

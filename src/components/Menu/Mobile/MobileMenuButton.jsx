@@ -1,7 +1,7 @@
 import React from 'react';
 import { func } from 'prop-types';
-import houseIcon from '../../assets/Icons/Icon_house.svg';
-import './Menu.scss';
+import houseIcon from '../../../assets/Icons/Icon_house.svg';
+import '../Menu.scss';
 
 const MobileMenuButton = ({ openMenu }) => (
   <button

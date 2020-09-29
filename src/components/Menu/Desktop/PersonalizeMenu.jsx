@@ -2,7 +2,7 @@
 import React from 'react';
 import { shape, bool } from 'prop-types';
 import { connect } from 'react-redux';
-import iconPersonalize from '../../assets/Icons/icon-personalize.svg';
+import iconPersonalize from '../../../assets/Icons/icon-personalize.svg';
 
 const PersonalizeMenu = ({ personalized, isSurveyCompleted, urls }) => {
   const { text, buttonText } = personalized;

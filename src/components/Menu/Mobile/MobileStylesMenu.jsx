@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, arrayOf, shape, func } from 'prop-types';
-import ImageMenuItem from './ImageMenuItem';
-import personalizeIcon from '../../assets/Icons/icon-personalize-white.svg';
-import ThreeSixtyAction from '../../stores/threeSixty/actions';
-import { getSelectedStyle } from '../../selectors/Menu';
+import ImageMenuItem from '../ImageMenuItem';
+import personalizeIcon from '../../../assets/Icons/icon-personalize-white.svg';
+import ThreeSixtyAction from '../../../stores/threeSixty/actions';
+import { getSelectedStyle } from '../../../selectors/Menu';
 
 class MobileStylesMenu extends Component {
   styleChange = async (e, style) => {

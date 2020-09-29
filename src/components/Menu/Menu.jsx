@@ -1,6 +1,6 @@
 import React from 'react';
-import DesktopMenu from './DesktopMenu';
-import MobileMenu from './MobileMenu';
+import DesktopMenu from './Desktop';
+import MobileMenu from './Mobile';
 
 const Menu = () => (
   <>

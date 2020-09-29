@@ -4,17 +4,17 @@ import { string, bool, arrayOf, func } from 'prop-types';
 import MobileMenuOptions from './MobileMenuOptions';
 import MobileMenuButton from './MobileMenuButton';
 import MobileSubMenu from './MobileSubMenu';
-import closeIcon from '../../assets/Icons/icon-close.svg';
-import './Menu.scss';
-import ThreeSixtyAction from '../../stores/threeSixty/actions';
-import { isPortrait, isPreview, isTablet } from '../../utils';
+import closeIcon from '../../../assets/Icons/icon-close.svg';
+import '../Menu.scss';
+import ThreeSixtyAction from '../../../stores/threeSixty/actions';
+import { isPortrait, isPreview, isTablet } from '../../../utils';
 import {
   isPortraitSelector,
   menuOptionSelector,
   menuOptionsSelector
-} from '../../selectors/Menu';
-import { errorSelector } from '../../selectors/Error';
-import { loadingSelector } from '../../selectors/Loading';
+} from '../../../selectors/Menu';
+import { errorSelector } from '../../../selectors/Error';
+import { loadingSelector } from '../../../selectors/Loading';
 
 class MobileMenu extends Component {
   constructor() {
@@ -29,7 +29,9 @@ class MobileMenu extends Component {
   };
 
   closeMenu = () => {
+    const { dispatch } = this.props;
     this.setState({ menuOpen: false });
+    dispatch(ThreeSixtyAction.setSelectedMenuOption(''));
   };
 
   onSelectedMenuOption = (selectedMenuOption) => {
