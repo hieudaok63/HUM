@@ -88,7 +88,7 @@ class MobileMenu extends Component {
               />
             ))}
           </nav>
-          <MobileSubMenu />
+          <MobileSubMenu closeMenu={this.closeMenu} />
         </div>
         {!menuOpen && !loading && !(isTablet() && isPortrait()) && (
           <MobileMenuButton openMenu={this.openMenu} />
