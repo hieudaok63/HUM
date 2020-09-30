@@ -5,6 +5,7 @@ import ImageMenuItem from '../ImageMenuItem';
 import PersonalizeMenu from './PersonalizeMenu';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 import { getSelectedStyle } from '../../../selectors/Menu';
+import PanoramaAction from '../../../stores/panorama/actions';
 
 class StylesMenu extends Component {
   constructor() {
@@ -14,19 +15,19 @@ class StylesMenu extends Component {
 
   styleChange = async (e, style) => {
     const { dispatch } = this.props;
-    console.log('styleChange', style);
-    const setStyle = await dispatch(ThreeSixtyAction.setSelectedStyle(style));
-    const scenes = await dispatch(ThreeSixtyAction.getScenes());
-    const roomUseWithFInishes = await dispatch(
-      ThreeSixtyAction.getRoomUseWithFinishes()
-    );
+    await dispatch(ThreeSixtyAction.setSelectedStyle(style));
 
-    console.log(setStyle, scenes, roomUseWithFInishes);
+    await dispatch(ThreeSixtyAction.getScenes());
+
+    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
+
+    await dispatch(PanoramaAction.createPanoramaInfo());
+
+    dispatch(PanoramaAction.setPanorama());
   };
 
   render() {
     const { stylesMenu, selectedStyle, urls } = this.props;
-    console.log('selectedStle', selectedStyle);
     return (
       <div className="menu-properties-container d-flex flex-column justify-content-start align-items-start">
         <div className="title">STYLES</div>

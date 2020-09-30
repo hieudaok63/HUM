@@ -8,7 +8,6 @@ export default class LanguageReducer extends BaseReducer {
   };
 
   [LanguageAction.SET_LANGUAGE](state, action) {
-    console.log('action', action);
     return {
       ...state,
       language: action.payload

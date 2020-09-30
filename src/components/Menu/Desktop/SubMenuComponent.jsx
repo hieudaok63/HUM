@@ -8,7 +8,6 @@ import ShoppingCarMenuDesktop from './ShoppingCarMenuDesktop';
 import FinishesMenu from './FinishesMenu';
 
 const SubMenuComp = ({ selectedMenuOption }) => {
-  console.log('subcomp', selectedMenuOption);
   const components = {
     styles: StylesMenu,
     views: ViewsMenu,

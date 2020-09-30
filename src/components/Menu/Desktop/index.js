@@ -65,7 +65,6 @@ class DesktopMenu extends Component {
   };
 
   onTransitionEnd = (expanded) => {
-    console.log('transition', expanded);
     if (expanded) {
       this.setState({
         showSubMenuElements: true

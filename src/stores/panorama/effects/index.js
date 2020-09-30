@@ -1,12 +1,22 @@
 import Data from '../../../assets/Data';
 import PanoramaModel from '../models';
 import PanoramaErrorModel from '../../../models/PanoramaErrorModel';
+import THREESIXTY from '../../../classes/ThreeSixty';
 
 export default class SessionEffect {
-  static createPanorama(container, levels, level, style, room, use, finish) {
+  static createPanorama(
+    container,
+    levels,
+    level,
+    defaultStyle,
+    style,
+    room,
+    use,
+    finish
+  ) {
     const selectedLevel = SessionEffect.getLevel(levels, level);
     if (selectedLevel) {
-      const styleToRequest = style === 'default' ? levels.defaultStyle : style;
+      const styleToRequest = style === 'default' ? defaultStyle : style;
       const selectedStyle = SessionEffect.getStyle(
         selectedLevel.styles,
         styleToRequest
@@ -26,7 +36,6 @@ export default class SessionEffect {
           );
 
           const selectedUse = SessionEffect.getUse(scene.uses, useToRequest);
-
           if (selectedUse) {
             const hotspots = SessionEffect.assignHotspotImage(scene.hotspots);
             const finishToRequest =
@@ -38,7 +47,6 @@ export default class SessionEffect {
               scene.startScenePosition,
               finishToRequest
             );
-
             const model = new PanoramaModel({
               container,
               image: buildedScene.panorama.uri,
@@ -47,7 +55,8 @@ export default class SessionEffect {
               radius: 100,
               widthSegments: 100,
               heightSegments: 100,
-              hotspots
+              hotspots,
+              startScenePosition: scene.startScenePosition
             });
 
             return model;
@@ -60,7 +69,7 @@ export default class SessionEffect {
 
   static getStyle(styles, style) {
     const selectedStyle = styles.filter((item) =>
-      item.key.toLowerCase() === style ? item : null
+      item.key.toLowerCase() === style.toLowerCase() ? item : null
     );
 
     if (selectedStyle.length > 0) {
@@ -94,7 +103,7 @@ export default class SessionEffect {
     });
 
     if (currentScene.length > 0) {
-      return currentScene;
+      return currentScene[0];
     }
 
     return null;
@@ -125,7 +134,7 @@ export default class SessionEffect {
   }
 
   static assignHotspotImage(hotspots) {
-    hotspots.map((hotspot) => {
+    return hotspots.map((hotspot) => {
       const current = hotspot;
       if (typeof current.level === 'undefined') {
         current.img = Data.AvriaHotspotNew;
@@ -143,7 +152,7 @@ export default class SessionEffect {
     const panorama = {};
     panorama.uri = uri;
     panorama.name = key;
-    panorama.finish = SessionEffect.getSelectedFinish(finish, finishScenes);
+    panorama.finish = SessionEffect.getSelectedFinish(finishScenes, finish);
     return {
       name,
       key,
@@ -167,5 +176,41 @@ export default class SessionEffect {
     }
 
     return 'default';
+  }
+
+  static createThreeSixty(threeSixtyPano, panoramaInfo, updateCall) {
+    let threeSixty = null;
+    if (threeSixtyPano !== null) {
+      threeSixty = threeSixtyPano;
+      threeSixty.sceneUpdate({
+        image: panoramaInfo.image,
+        hotspots: panoramaInfo.hotspots
+      });
+    } else {
+      threeSixty = new THREESIXTY();
+      const params = {
+        ...panoramaInfo,
+        loadingCallBack: () => {},
+        updateCallBack: async (sceneName) => {
+          updateCall(sceneName);
+        }
+      };
+      threeSixty.init(params);
+      threeSixty.setStartingScenePosition({
+        x: 0.00964106833161872,
+        y: 6.123233995736772e-19,
+        z: -0.002655146215382272
+      });
+      threeSixty.animate();
+      window.addEventListener(
+        'resize',
+        () => {
+          threeSixty.onWindowResize(window.innerWidth, window.innerHeight);
+        },
+        false
+      );
+    }
+
+    return threeSixty;
   }
 }

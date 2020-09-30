@@ -5,18 +5,21 @@ import ImageMenuItem from '../ImageMenuItem';
 import personalizeIcon from '../../../assets/Icons/icon-personalize-white.svg';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 import { getSelectedStyle } from '../../../selectors/Menu';
+import PanoramaAction from '../../../stores/panorama/actions';
 
 class MobileStylesMenu extends Component {
   styleChange = async (e, style) => {
     const { dispatch } = this.props;
-    console.log('styleChange', style);
-    const setStyle = await dispatch(ThreeSixtyAction.setSelectedStyle(style));
-    const scenes = await dispatch(ThreeSixtyAction.getScenes());
-    const roomUseWithFInishes = await dispatch(
-      ThreeSixtyAction.getRoomUseWithFinishes()
-    );
 
-    console.log(setStyle, scenes, roomUseWithFInishes);
+    await dispatch(ThreeSixtyAction.setSelectedStyle(style));
+
+    await dispatch(ThreeSixtyAction.getScenes());
+
+    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
+
+    await dispatch(PanoramaAction.createPanoramaInfo());
+
+    dispatch(PanoramaAction.setPanorama());
   };
 
   render() {

@@ -1,13 +1,14 @@
 import ActionUtility from '../../../utilities/ActionUtility';
 import PanoramaErrorModel from '../../../models/PanoramaErrorModel';
 import PanoramaEffect from '../effects';
-import THREESIXTY from '../../../classes/ThreeSixty';
 import ThreeSixtyAction from '../../threeSixty/actions';
 
 export default class PanoramaAction {
   static PANORAMA_INFO_REQUEST = 'PANORAMA_INFO_REQUEST';
   static PANORAMA_INFO_REQUEST_FINISHED = 'PANORAMA_INFO_REQUEST_FINISHED';
   static CONTAINER_REQUEST_FINISHED = 'CONTAINER_REQUEST_FINISHED';
+  static PANORAMA_REQUEST = 'PANORAMA_REQUEST';
+  static PANORAMA_REQUEST_FINISHED = 'PANORAMA_REQUEST_FINISHED';
 
   static setContainer(container) {
     return ActionUtility.createAction(
@@ -22,11 +23,12 @@ export default class PanoramaAction {
       const { container } = panorama;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
-        PanoramaAction.PANORAMA_REQUEST,
+        PanoramaAction.PANORAMA_INFO_REQUEST,
         PanoramaEffect.createPanorama,
         container,
         threeSixty.levels,
         threeSixty.currentLevel,
+        threeSixty.defaultStyle,
         threeSixty.selectedStyle,
         threeSixty.selectedScene,
         threeSixty.currentRoomUse,
@@ -37,31 +39,45 @@ export default class PanoramaAction {
     };
   }
 
-  static createPanorama() {
+  static setPanorama() {
     return async (dispatch, getState) => {
+      // need to add lastcameraposition
       const { panorama } = getState();
-      const { panoramaInfo } = panorama;
-      const threeSixty = new THREESIXTY();
-      threeSixty.init({
-        ...panoramaInfo,
-        loadingCallBack: () => {},
-        updateCallBack: () => {
-          dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
+      const { panoramaInfo, panorama: threeSixtyPano } = panorama;
+
+      const model = await ActionUtility.createThunkEffect(
+        dispatch,
+        PanoramaAction.PANORAMA_REQUEST,
+        PanoramaEffect.createThreeSixty,
+        threeSixtyPano,
+        panoramaInfo,
+        async (sceneName, level) => {
+          if (sceneName !== undefined) {
+            await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
+          }
+          console.log('level', level);
+          if (level !== undefined) {
+            await dispatch(ThreeSixtyAction.setCurrentLevel(level));
+          }
+
+          dispatch(ThreeSixtyAction.getStyles());
+          const roomUseWithFinishes = await dispatch(
+            ThreeSixtyAction.getRoomUseWithFinishes()
+          );
+          if (!roomUseWithFinishes.isError) {
+            const panoInfo = await dispatch(
+              PanoramaAction.createPanoramaInfo()
+            );
+            if (!panoInfo.isError) {
+              dispatch(PanoramaAction.setPanorama());
+            }
+          }
         }
-      });
-      threeSixty.setStartingScenePosition({
-        x: 0.00964106833161872,
-        y: 6.123233995736772e-19,
-        z: -0.002655146215382272
-      });
-      threeSixty.animate();
-      window.addEventListener(
-        'resize',
-        () => {
-          threeSixty.onWindowResize(window.innerWidth, window.innerHeight);
-        },
-        false
       );
+
+      const isError = model instanceof PanoramaErrorModel;
+
+      return { model, isError };
     };
   }
 }

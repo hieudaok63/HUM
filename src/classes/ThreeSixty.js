@@ -69,6 +69,7 @@ class ThreeSixtySphere {
     updateCallBack = null,
     startScenePosition
   }) => {
+    console.log('init', hotspots);
     this.container = container;
     this.loader = loader;
     this.loaderContainer = this.createLoader();
@@ -512,14 +513,7 @@ class ThreeSixtySphere {
         this.CLICKEDSPRITE.isHotspot
       ) {
         if (this.updateCallBack) {
-          console.log(this.CLICKEDSPRITE);
-          this.updateCallBack(
-            this,
-            this.CLICKEDSPRITE.key,
-            this.CLICKEDSPRITE.level,
-            this.currentStylle,
-            this.currentFinish
-          );
+          this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
         }
         console.log(this.CLICKEDSPRITE.name, this.CLICKEDSPRITE.key);
       }

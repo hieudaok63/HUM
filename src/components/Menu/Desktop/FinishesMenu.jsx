@@ -4,21 +4,20 @@ import { string, arrayOf, shape, func } from 'prop-types';
 import ImageMenuItem from '../ImageMenuItem';
 import { getFinishScenes, getSelectedFinish } from '../../../selectors/Menu';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
+import PanoramaAction from '../../../stores/panorama/actions';
 
 class FinishesMenu extends Component {
   changeFinish = async (e, finish) => {
     const { dispatch } = this.props;
     const finishType = finish === 'default' ? null : finish;
 
-    const selectedFinish = await dispatch(
-      ThreeSixtyAction.setSelectedFinish(finishType)
-    );
+    await dispatch(ThreeSixtyAction.setSelectedFinish(finishType));
 
-    const roomUseWithFinishes = await dispatch(
-      ThreeSixtyAction.getRoomUseWithFinishes()
-    );
+    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
 
-    console.log(selectedFinish, roomUseWithFinishes);
+    await dispatch(PanoramaAction.createPanoramaInfo());
+
+    dispatch(PanoramaAction.setPanorama());
   };
 
   render() {

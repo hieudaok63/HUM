@@ -24,7 +24,6 @@ export default class ThreeSixtyEffect {
     style,
     mode
   ) {
-    console.log('getScenes', language);
     const endpoint = `${THREE_SIXTY_API}${language}/360s/rooms/${builderId}/${projectId}/${layoutName.replace(
       VERSION,
       ''
@@ -84,7 +83,6 @@ export default class ThreeSixtyEffect {
     mode,
     finish
   ) {
-    console.log('roomuse', builderId, layoutName);
     const endpoint = `${THREE_SIXTY_API}${language}/360s/room-use-finish/${builderId}/${propertyId}/${layoutName.replace(
       VERSION,
       ''

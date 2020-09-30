@@ -5,18 +5,15 @@ import { blurSelector, hideSelector } from '../selectors/HideBlur';
 import { builderLogoSelector } from '../selectors/Logo';
 import './AthumLogo.scss';
 
-const DesktopAthumLogo = ({ hide, blur, img }) => {
-  console.log(hide);
-  return (
-    <div className={`athum-logo${hide ? 'hide' : ''} ${blur && 'blur'}`}>
-      {img && (
-        <div className="icon">
-          <img src={img} alt="builder logo" />
-        </div>
-      )}
-    </div>
-  );
-};
+const DesktopAthumLogo = ({ hide, blur, img }) => (
+  <div className={`athum-logo${hide ? 'hide' : ''} ${blur && 'blur'}`}>
+    {img && (
+      <div className="icon">
+        <img src={img} alt="builder logo" />
+      </div>
+    )}
+  </div>
+);
 
 DesktopAthumLogo.propTypes = {
   hide: bool.isRequired,

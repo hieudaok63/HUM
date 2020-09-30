@@ -1,12 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Component } from 'react';
-import { func, shape } from 'prop-types';
+import { arrayOf, func, shape } from 'prop-types';
 import { connect } from 'react-redux';
 import ThreeSixtyAction from '../stores/threeSixty/actions';
 import DesktopAthumLogo from '../components/DesktopAthumLogo';
 import Menu from '../components/Menu/Menu';
 import MiniMap from '../components/MiniMap';
 import CurrentViewStyle from '../components/CurrentViewStyle';
+import Viewer from '../components/Viewer';
 import Cardboard from '../components/Cardboard';
 import Autoplay from '../components/Autoplay';
 import ErrorModal from '../components/ErrorModal';
@@ -19,33 +20,30 @@ class ThreeSixtyPage extends Component {
   async loadContent() {
     const { builderInfo, dispatch } = this.props;
 
-    const setBuilder = await dispatch(
-      ThreeSixtyAction.setBuilder({ ...builderInfo.params })
-    );
+    await dispatch(ThreeSixtyAction.setBuilder({ ...builderInfo.params }));
 
-    const scenes = await dispatch(ThreeSixtyAction.getScenes());
+    await dispatch(ThreeSixtyAction.getScenes());
 
-    const styles = await dispatch(ThreeSixtyAction.getStyles());
+    await dispatch(ThreeSixtyAction.getStyles());
 
-    const roomUseWithFInishes = await dispatch(
-      ThreeSixtyAction.getRoomUseWithFinishes()
-    );
+    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
 
-    console.log(setBuilder, scenes, styles, roomUseWithFInishes);
+    // add LOG Actions
   }
 
   render() {
+    const { levels } = this.props;
     return (
       <>
         <div className="w-100 h-100">
           <DesktopAthumLogo />
           <Menu />
           <MiniMap />
+          {levels.length > 0 && <Viewer />}
           <CurrentViewStyle />
           <Cardboard />
           <Autoplay />
           <ErrorModal />
-          {/* add viewer add mobile menu stuff */}
         </div>
       </>
     );
@@ -58,7 +56,8 @@ const mapStateToProps = (state) => {
     selectedStyleName,
     selectedScene,
     selectedFinish,
-    mode
+    mode,
+    levels
   } = state.threeSixty;
   const { loading } = state.loading;
   return {
@@ -67,12 +66,14 @@ const mapStateToProps = (state) => {
     selectedScene,
     selectedFinish,
     mode,
-    loading
+    loading,
+    levels
   };
 };
 
 ThreeSixtyPage.propTypes = {
   builderInfo: shape({}).isRequired,
+  levels: arrayOf(shape({})).isRequired,
   dispatch: func.isRequired
 };
 

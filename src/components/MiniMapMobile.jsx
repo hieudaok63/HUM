@@ -18,6 +18,7 @@ import {
   totalLevelsSelector
 } from '../selectors/Menu';
 import { loadingSelector } from '../selectors/Loading';
+import PanoramaAction from '../stores/panorama/actions';
 
 class MiniMap extends Component {
   constructor() {
@@ -35,15 +36,14 @@ class MiniMap extends Component {
     window.addEventListener('resize', this.handleResize, true);
   }
 
-  changeScene = (e, targetName) => {
+  changeScene = async (e, targetName) => {
     const { dispatch } = this.props;
     const name = targetName || e.target.name || e.target.getAttribute('name');
-    const selectedScene = dispatch(ThreeSixtyAction.setSelectedScene(name));
-    const getStyles = dispatch(ThreeSixtyAction.getStyles());
-    const getFurnitureByStyles = dispatch(
-      ThreeSixtyAction.getRoomUseWithFinishes()
-    );
-    console.log(selectedScene, getStyles, getFurnitureByStyles);
+    dispatch(ThreeSixtyAction.setSelectedScene(name));
+    dispatch(ThreeSixtyAction.getStyles());
+    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
+    await dispatch(PanoramaAction.createPanoramaInfo());
+    dispatch(PanoramaAction.setPanorama());
   };
 
   upOneFloor = () => {
@@ -63,17 +63,15 @@ class MiniMap extends Component {
   updateLevels = async (newLevel) => {
     const { dispatch } = this.props;
 
-    const currentLevel = await dispatch(
-      ThreeSixtyAction.currentLevel(newLevel)
-    );
+    await dispatch(ThreeSixtyAction.setCurrentLevel(newLevel));
 
-    const scenes = await dispatch(ThreeSixtyAction.getScenes());
+    await dispatch(ThreeSixtyAction.getScenes());
 
-    const roomUseWithFInishes = await dispatch(
-      ThreeSixtyAction.getRoomUseWithFinishes()
-    );
+    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
 
-    console.log(currentLevel, scenes, roomUseWithFInishes);
+    await dispatch(PanoramaAction.createPanoramaInfo());
+
+    dispatch(PanoramaAction.setPanorama());
   };
 
   handleResize = () => {

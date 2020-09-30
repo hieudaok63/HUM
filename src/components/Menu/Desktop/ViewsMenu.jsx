@@ -4,17 +4,17 @@ import { string, arrayOf, shape, func } from 'prop-types';
 import ImageMenuItem from '../ImageMenuItem';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 import { getSelectedScene } from '../../../selectors/Menu';
+import PanoramaAction from '../../../stores/panorama/actions';
 
 class ViewsMenu extends Component {
-  viewItemClick = (e, targetName) => {
+  viewItemClick = async (e, targetName) => {
     const { dispatch } = this.props;
     const name = targetName || e.target.name || e.target.getAttribute('name');
-    const selectedScene = dispatch(ThreeSixtyAction.setSelectedScene(name));
-    const getStyles = dispatch(ThreeSixtyAction.getStyles());
-    const getFurnitureByStyles = dispatch(
-      ThreeSixtyAction.getRoomUseWithFinishes()
-    );
-    console.log(selectedScene, getStyles, getFurnitureByStyles);
+    dispatch(ThreeSixtyAction.setSelectedScene(name));
+    dispatch(ThreeSixtyAction.getStyles());
+    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
+    await dispatch(PanoramaAction.createPanoramaInfo());
+    dispatch(PanoramaAction.setPanorama());
   };
 
   render() {

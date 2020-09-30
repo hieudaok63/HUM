@@ -176,7 +176,6 @@ export class MenuSelector {
   }
 
   static size(mapSize, maxMapHeight, maxMapWidth) {
-    console.log('size', mapSize, maxMapHeight, maxMapWidth);
     if (Object.keys(mapSize).length !== 0 && mapSize.constructor === Object) {
       return window.innerWidth < window.innerHeight &&
         mapSize.desktop.width > mapSize.desktop.height
@@ -208,7 +207,6 @@ export class MenuSelector {
   }
 
   static sizeMobile(mapSize) {
-    console.log('size', mapSize);
     if (Object.keys(mapSize).length !== 0 && mapSize.constructor === Object) {
       return window.innerWidth < window.innerHeight &&
         mapSize.desktop.width > mapSize.desktop.height
