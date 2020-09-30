@@ -513,9 +513,9 @@ class ThreeSixtySphere {
         this.CLICKEDSPRITE.isHotspot
       ) {
         if (this.updateCallBack) {
+          console.log(this.CLICKEDSPRITE);
           this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
         }
-        console.log(this.CLICKEDSPRITE.name, this.CLICKEDSPRITE.key);
       }
     }
   };

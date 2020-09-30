@@ -191,8 +191,8 @@ export default class SessionEffect {
       const params = {
         ...panoramaInfo,
         loadingCallBack: () => {},
-        updateCallBack: async (sceneName) => {
-          updateCall(sceneName);
+        updateCallBack: async (sceneName, level) => {
+          updateCall(sceneName, level);
         }
       };
       threeSixty.init(params);
