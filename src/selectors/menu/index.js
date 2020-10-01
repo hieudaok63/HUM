@@ -111,10 +111,7 @@ export class MenuSelector {
   }
 
   static getShowMiniMap(state) {
-    return (
-      state.threeSixty.selectedMenuOption === 'mini-map' ||
-      state.loading.loading
-    );
+    return state.threeSixty.selectedMenuOption === 'mini-map';
   }
 
   static getTotalLevels(state) {
