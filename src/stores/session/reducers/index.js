@@ -23,4 +23,9 @@ export default class SessionReducer extends BaseReducer {
       expirationTime: action.payload.expirationTime
     };
   }
+  [SessionAction.LOG_REQUEST_FINISHED](state) {
+    return {
+      ...state
+    };
+  }
 }

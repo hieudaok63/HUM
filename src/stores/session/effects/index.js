@@ -1,4 +1,8 @@
-import { WEBAPP_API } from '../../../config/endpoints';
+import {
+  WEBAPP_API,
+  THREE_SIXTY_API,
+  THREE_SIXTY_API_KEY
+} from '../../../config/endpoints';
 import HttpUtility from '../../../utilities/HttpUtility';
 import HttpErrorResponseModel from '../../../models/HttpErrorResponseModel';
 import LoginModel from '../models';
@@ -38,5 +42,26 @@ export default class SessionEffect {
     const model = new LoginModel(response.data);
 
     return model;
+  }
+
+  static async log(language, builderId, projectId, layoutName, logs) {
+    const endpoint = `${THREE_SIXTY_API}${language}/360s/logs`;
+    const log = {
+      builderId,
+      projectId,
+      layoutName,
+      logs
+    };
+    const response = await HttpUtility.post(endpoint, {
+      headers: {
+        'x-api-key': THREE_SIXTY_API_KEY
+      },
+      body: JSON.stringify(log)
+    });
+    if (response instanceof HttpErrorResponseModel) {
+      return response;
+    }
+
+    return response;
   }
 }

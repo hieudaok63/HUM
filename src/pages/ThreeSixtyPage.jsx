@@ -11,6 +11,7 @@ import Viewer from '../components/Viewer';
 import Cardboard from '../components/Cardboard';
 import Autoplay from '../components/Autoplay';
 import ErrorModal from '../components/ErrorModal';
+import SessionAction from '../stores/session/actions';
 
 class ThreeSixtyPage extends Component {
   componentDidMount() {
@@ -28,7 +29,7 @@ class ThreeSixtyPage extends Component {
 
     await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
 
-    // add LOG Actions
+    await dispatch(SessionAction.log([]));
   }
 
   render() {
