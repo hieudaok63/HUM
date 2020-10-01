@@ -431,12 +431,12 @@ class ThreeSixtySphere {
         console.log('HEY');
         this.activateGyro();
         break;
-      case 161:
-        this.updateCameraPosition(
-          0.00964106833161872,
-          6.123233995736772e-19,
-          -0.002655146215382272
-        );
+      case 49:
+        this.updateCameraPosition({
+          x: 0.009786302975445232,
+          y: 0.001485842664739469,
+          z: -0.0014214589858423182
+        });
         break;
 
       default:
@@ -488,9 +488,7 @@ class ThreeSixtySphere {
     this.getMouse(event);
     this.tooltip.classList.remove('is-active');
     this.handleSpriteClick();
-    if (this.ctrl) {
-      this.displayPosition();
-    }
+    this.displayPosition();
   };
 
   onPointerMove = (event) => {

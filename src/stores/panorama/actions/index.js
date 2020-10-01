@@ -60,7 +60,7 @@ export default class PanoramaAction {
             await dispatch(ThreeSixtyAction.setCurrentLevel(level));
           }
 
-          dispatch(ThreeSixtyAction.getStyles());
+          await dispatch(ThreeSixtyAction.getStyles());
           const roomUseWithFinishes = await dispatch(
             ThreeSixtyAction.getRoomUseWithFinishes()
           );
