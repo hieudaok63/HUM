@@ -41,7 +41,6 @@ export default class PanoramaAction {
 
   static setPanorama() {
     return async (dispatch, getState) => {
-      // need to add lastcameraposition
       const { panorama } = getState();
       const { panoramaInfo, panorama: threeSixtyPano } = panorama;
 
