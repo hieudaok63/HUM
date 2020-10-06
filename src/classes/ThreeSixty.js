@@ -633,7 +633,7 @@ class ThreeSixtySphere {
   };
 
   setStartingScenePosition = ({ x, y, z }) => {
-    this.camera.position.set(x, y, z);
+    this.camera.lookAt(x, y, z);
   };
 
   getRenderer = () => this.renderer;
