@@ -2,7 +2,6 @@
 import React, { Component, Fragment } from 'react';
 import { string, func, number } from 'prop-types';
 import ImageContainerCard from './ImageContainerCard';
-import { titleCase } from '../../utils';
 
 class ImageMenuItem extends Component {
   constructor() {

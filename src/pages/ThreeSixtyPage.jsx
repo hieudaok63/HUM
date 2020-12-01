@@ -1045,7 +1045,7 @@ ThreeSixtyPage.propTypes = {
   layoutName: string.isRequired,
   builderId: string.isRequired,
   projectId: oneOfType([string, number]).isRequired,
-  finishScenes: shape({}).isRequired
+  finishScenes: arrayOf(shape({})).isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({

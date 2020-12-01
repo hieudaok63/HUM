@@ -182,7 +182,7 @@ Menu.propTypes = {
   step: string.isRequired,
   changeStep: func.isRequired,
   showPersonalize: bool.isRequired,
-  finishScenes: shape({}).isRequired,
+  finishScenes: arrayOf(shape({})).isRequired,
   mode: string.isRequired,
   finishItemClick: func.isRequired
 };

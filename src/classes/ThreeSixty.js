@@ -187,7 +187,7 @@ class ThreeSixtySphere {
   };
 
   initializeGeometry = () => {
-    this.geometry = new THREE.SphereBufferGeometry(
+    this.geometry = new THREE.SphereGeometry(
       this.radius,
       this.widthSegments,
       this.heightSegments
@@ -586,6 +586,13 @@ class ThreeSixtySphere {
         true
       );
       if (intersects.length > 0) {
+        const { object, faceIndex } = intersects[0];
+        if (object.type !== 'Sprite') {
+          console.log(faceIndex);
+          object.geometry.faces[faceIndex].color.set(Math.random() * 0xffffff);
+          object.geometry.colorsNeedUpdate = true;
+        }
+
         if (this.INTERSECTED !== intersects[0].object) {
           if (this.INTERSECTED) {
             if (this.INTERSECTED.type === 'Sprite') {

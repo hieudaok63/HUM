@@ -113,7 +113,7 @@ SubMenu.propTypes = {
   token: string.isRequired,
   showSubMenuElements: bool.isRequired,
   showPersonalize: bool.isRequired,
-  finishScenes: shape({}).isRequired,
+  finishScenes: arrayOf(shape({})).isRequired,
   mode: string.isRequired,
   finishItemClick: func.isRequired
 };

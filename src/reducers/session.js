@@ -60,7 +60,7 @@ const initialState = {
   projectId: '',
   mapSize: {},
   threeSixty: {},
-  finishScenes: {},
+  finishScenes: [],
   builderLogo: ''
 };
 

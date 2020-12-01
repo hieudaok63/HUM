@@ -215,7 +215,7 @@ MobileMenu.propTypes = {
   layoutName: string.isRequired,
   mapSize: shape({}).isRequired,
   showPersonalize: bool.isRequired,
-  finishScenes: shape({}).isRequired,
+  finishScenes: arrayOf(shape({})).isRequired,
   mode: string.isRequired,
   finishItemClick: func.isRequired
 };

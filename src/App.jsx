@@ -1207,7 +1207,7 @@ App.propTypes = {
   match: shape({}).isRequired,
   mapSize: shape({}).isRequired,
   threeSixty: shape({}).isRequired,
-  finishScenes: shape({}).isRequired,
+  finishScenes: arrayOf(shape({})).isRequired,
   builderLogo: string.isRequired
 };
 
