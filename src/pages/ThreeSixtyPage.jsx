@@ -16,6 +16,11 @@ import SocketAction from '../stores/socket/actions';
 import { SOCKET } from '../config/endpoints';
 
 class ThreeSixtyPage extends Component {
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch(SocketAction.disconnect());
+  }
+
   componentDidMount() {
     this.loadContent();
   }

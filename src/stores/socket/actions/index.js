@@ -19,6 +19,14 @@ export default class SocketAction {
     );
   }
 
+  static disconnect() {
+    return async (dispatch, getState) => {
+      const { socket: socketState } = getState();
+      const { socket } = socketState;
+      socket.disconnect();
+    };
+  }
+
   static socketMessage(data) {
     return async (dispatch, getState) => {
       const { socket: socketState, session } = getState();
