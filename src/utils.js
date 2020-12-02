@@ -1,6 +1,5 @@
 import queryString from 'query-string';
 import Data from './assets/Data';
-import { Viewer } from './lib/panolens.module';
 
 /* eslint-disable no-param-reassign */
 
@@ -222,64 +221,6 @@ const getProcessed360Data = (data, level, style, room, roomUse, finish) => {
   return null;
 };
 
-const createViewer = (viewer) => {
-  if (viewer !== null) {
-    return viewer;
-  }
-  return new Viewer({
-    // A DOM Element container
-    container: document.getElementById('viewer'),
-
-    // Vsibility of bottom control bar
-    controlBar: true,
-
-    // Buttons array in the control bar. Default to ['fullscreen', 'setting', 'video']
-    controlButtons: [],
-
-    // Auto hide control bar
-    autoHideControlBar: false,
-
-    // Auto hide infospots
-    autoHideInfospot: false,
-
-    // Allow only horizontal camera control
-    horizontalView: false,
-
-    // Camera field of view in degree
-    cameraFov: 75,
-
-    // Reverse orbit control direction
-    reverseDragging: false,
-
-    // Enable reticle for mouseless interaction
-    enableReticle: false,
-
-    // Dwell time for reticle selection in millisecond
-    dwellTime: 1500,
-
-    // Auto select a clickable target after dwellTime
-    autoReticleSelect: true,
-
-    // Adds an angle view indicator in upper left corner
-    viewIndicator: false,
-
-    // Size of View Indicator
-    indicatorSize: 30,
-
-    // Whether and where to output infospot position. Could be 'console' or 'overlay'
-    output: 'console',
-
-    // Auto rotate
-    autoRotate: false,
-
-    // Auto rotate speed as in degree per second. Positive is counter-clockwise and negative is clockwise.
-    autoRotateSpeed: 0.5,
-
-    // Duration before auto rotatation when no user interactivity in ms
-    autoRotateActivationDuration: 20000
-  });
-};
-
 const getViewerDependingOnPreview = (preview, viewer) => {
   if (preview) {
     viewer.scene.children[0].children.forEach((child) => {
@@ -352,7 +293,6 @@ export {
   getRoomToRequest,
   getCurrentRoomUse,
   getProcessed360Data,
-  createViewer,
   getViewerDependingOnPreview,
   build360Scene
 };

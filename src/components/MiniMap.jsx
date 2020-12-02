@@ -1,9 +1,24 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { arrayOf, string, func, number, shape, bool } from 'prop-types';
 import Hotspot from './Hotspot';
-import { deleteWhiteSpaces } from '../utils';
+import ThreeSixtyAction from '../stores/threeSixty/actions';
+import {
+  getSelectedScene,
+  mapScenesSelector,
+  imageMapSelector,
+  mapSizeSelector,
+  menuOptionSelector,
+  showMiniMapSelector,
+  totalLevelsSelector,
+  currentFloorSelector,
+  sizeSelector
+} from '../selectors/menu';
+import { loadingSelector } from '../selectors/loading';
+import { deleteWhiteSpaces, isPreview } from '../utils';
 import FloorsMenu from './FloorsMenu';
 import './MiniMap.scss';
+import PanoramaAction from '../stores/panorama/actions';
 
 class MiniMap extends Component {
   constructor() {
@@ -21,6 +36,56 @@ class MiniMap extends Component {
     window.addEventListener('resize', this.handleResize, true);
   }
 
+  changeScene = async (e, targetName) => {
+    const { dispatch } = this.props;
+    const name = targetName || e.target.name || e.target.getAttribute('name');
+    dispatch(ThreeSixtyAction.setSelectedScene(name));
+    dispatch(ThreeSixtyAction.getStyles());
+    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
+    await dispatch(PanoramaAction.createPanoramaInfo());
+    dispatch(PanoramaAction.setPanorama());
+  };
+
+  getClickPosition = (e) => {
+    const parentPosition = this.getPosition(e.target);
+    const xPosition = e.clientX - parentPosition.x - 15 / 2;
+    const yPosition = e.clientY - parentPosition.y - 15 / 2;
+    console.log(xPosition, yPosition);
+  };
+
+  closeMenu = () => {
+    const { dispatch } = this.props;
+    dispatch(ThreeSixtyAction.setSelectedMenuOption(''));
+  };
+
+  upOneFloor = () => {
+    const { currentFloor, totalFloors } = this.props;
+    if (currentFloor < totalFloors) {
+      this.updateLevels(currentFloor + 1, 1);
+    }
+  };
+
+  downOneFloor = () => {
+    const { currentFloor } = this.props;
+    if (currentFloor > 1) {
+      this.updateLevels(currentFloor - 1, 1);
+    }
+  };
+
+  updateLevels = async (newLevel) => {
+    const { dispatch } = this.props;
+
+    await dispatch(ThreeSixtyAction.setCurrentLevel(newLevel));
+
+    await dispatch(ThreeSixtyAction.getScenes());
+
+    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
+
+    await dispatch(PanoramaAction.createPanoramaInfo());
+
+    dispatch(PanoramaAction.setPanorama());
+  };
+
   handleResize = () => {
     this.setState({ isPortrait: window.innerWidth < window.innerHeight });
   };
@@ -29,157 +94,98 @@ class MiniMap extends Component {
     const {
       scenes = [],
       selectedScene,
-      classes,
       loading,
-      onClick,
-      getPosition,
       url,
-      hide,
       totalFloors,
       currentFloor,
-      upOneFloor,
-      downOneFloor,
-      isPreview,
-      onSelectedMenuOption,
-      show,
-      runSteps,
-      step,
-      changeStep,
-      mapSize
+      showMiniMap,
+      mapSize,
+      size
     } = this.props;
     const { isPortrait } = this.state;
-    const maxMapHeight =
-      Math.round(
-        ((window.innerWidth - 160) * mapSize.desktop.width) /
-          mapSize.desktop.height
-      ) <
-      window.innerHeight - 160
-        ? Math.round(
-            ((window.innerWidth - 160) * mapSize.desktop.width) /
-              mapSize.desktop.height
-          )
-        : window.innerHeight - 160;
-    const maxMapWidth =
-      Math.round(
-        ((window.innerWidth - 160) * mapSize.desktop.width) /
-          mapSize.desktop.height
-      ) <
-      window.innerHeight - 160
-        ? Math.round(
-            ((window.innerWidth - 160) * mapSize.desktop.height) /
-              mapSize.desktop.width
-          )
-        : Math.round(
-            ((window.innerHeight - 160) * mapSize.desktop.height) /
-              mapSize.desktop.width
-          );
-    const size =
-      isPortrait && mapSize.desktop.width > mapSize.desktop.height
-        ? {
-            width:
-              window.innerWidth - 160 < mapSize.desktop.width
-                ? maxMapHeight
-                : mapSize.desktop.width,
-            height:
-              window.innerWidth - 160 < mapSize.desktop.width
-                ? maxMapWidth
-                : mapSize.desktop.height
-          }
-        : {
-            width:
-              window.innerWidth - 160 < mapSize.desktop.width
-                ? window.innerWidth - 160
-                : mapSize.desktop.width,
-            height:
-              window.innerWidth - 160 < mapSize.desktop.width
-                ? Math.round(
-                    ((window.innerWidth - 160) * mapSize.desktop.height) /
-                      mapSize.desktop.width
-                  )
-                : mapSize.desktop.height
-          };
     return (
-      <div
-        className={`d-none ${!isPreview ? 'd-lg-block d-md-block' : ''} ${
-          !show || loading ? 'scale-cero' : 'map-open'
-        }`}
-      >
-        <div
-          className="mini-map-container"
-          style={{
-            height:
-              isPortrait && mapSize.desktop.width > mapSize.desktop.height
-                ? size.width
-                : size.height
-          }}
-        >
-          <div className="map-container d-flex justify-content-center align-items-center">
+      <>
+        {Object.keys(mapSize).length !== 0 && mapSize.constructor === Object && (
+          <div
+            className={`d-none ${!isPreview() ? 'd-lg-block d-md-block' : ''} ${
+              !showMiniMap ? 'scale-cero' : 'map-open'
+            }`}
+          >
             <div
-              id="minimap"
-              className={`${classes} ${
-                loading ? 'display-none' : ''
-              } ${isPortrait &&
-                mapSize.desktop.width > mapSize.desktop.height &&
-                'verticalPortrait'}`}
-              onClick={getPosition}
+              className="mini-map-container"
               style={{
-                backgroundImage: `url(${url})`,
-                width: size.width,
-                height: size.height,
-                backgroundSize: `${size.width}px ${size.height}px`,
-                backgroundRepeat: 'no-repeat',
-                position: 'absolute'
+                height:
+                  isPortrait && mapSize.desktop.width > mapSize.desktop.height
+                    ? size.width
+                    : size.height
               }}
             >
-              <div
-                style={{ width: '100%', height: '100%', position: 'relative' }}
-              >
-                {scenes.map((scene, index) => (
-                  <Hotspot
-                    key={`${scene.key}-${index * 1}`}
-                    name={scene.key.toLowerCase()}
-                    id={deleteWhiteSpaces(scene.key.toLowerCase())}
-                    active={selectedScene === scene.key.toLowerCase()}
-                    index={index}
-                    onClick={onClick}
-                    top={scene.y}
-                    left={scene.x}
-                    closeMenu={() => onSelectedMenuOption('')}
-                    showTooltip={
-                      step ===
-                        `${deleteWhiteSpaces(
-                          scene.key.toLowerCase()
-                        )}-hotspot` && runSteps
-                    }
-                    changeStep={changeStep}
-                    loading={loading}
-                    mapSize={mapSize}
-                  />
-                ))}
+              <div className="map-container d-flex justify-content-center align-items-center">
+                <div
+                  id="minimap"
+                  className={`mini-map ${
+                    loading ? 'display-none' : ''
+                  } ${isPortrait &&
+                    mapSize.desktop.width > mapSize.desktop.height &&
+                    'verticalPortrait'}`}
+                  onClick={this.getPosition}
+                  style={{
+                    backgroundImage: `url(${url})`,
+                    width: size.width,
+                    height: size.height,
+                    backgroundSize: `${size.width}px ${size.height}px`,
+                    backgroundRepeat: 'no-repeat',
+                    position: 'absolute'
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      position: 'relative'
+                    }}
+                  >
+                    {scenes.map((scene, index) => (
+                      <Hotspot
+                        key={`${scene.key}-${index * 1}`}
+                        name={scene.key.toLowerCase()}
+                        id={deleteWhiteSpaces(scene.key.toLowerCase())}
+                        active={selectedScene === scene.key.toLowerCase()}
+                        index={index}
+                        onClick={this.changeScene}
+                        top={scene.y}
+                        left={scene.x}
+                        closeMenu={this.closeMenu}
+                        loading={loading}
+                        mapSize={mapSize}
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
+            <div
+              className={`${!showMiniMap ? 'scale-cero' : 'map-open'} ${
+                loading ? 'display-none' : ''
+              }`}
+            >
+              <FloorsMenu
+                hide={isPreview()}
+                totalFloors={totalFloors}
+                currentFloor={currentFloor}
+                upOneFloor={this.upOneFloor}
+                downOneFloor={this.downOneFloor}
+                loading={loading}
+                mapSizeHeight={
+                  isPortrait && mapSize.desktop.width > mapSize.desktop.height
+                    ? size.width
+                    : size.height
+                }
+              />
+            </div>
           </div>
-        </div>
-        <div
-          className={`${!show ? 'scale-cero' : 'map-open'} ${
-            loading ? 'display-none' : ''
-          }`}
-        >
-          <FloorsMenu
-            hide={hide}
-            totalFloors={totalFloors}
-            currentFloor={currentFloor}
-            upOneFloor={upOneFloor}
-            downOneFloor={downOneFloor}
-            loading={loading}
-            mapSizeHeight={
-              isPortrait && mapSize.desktop.width > mapSize.desktop.height
-                ? size.width
-                : size.height
-            }
-          />
-        </div>
-      </div>
+        )}
+      </>
     );
   }
 }
@@ -187,27 +193,31 @@ class MiniMap extends Component {
 MiniMap.propTypes = {
   scenes: arrayOf(shape({})).isRequired,
   selectedScene: string.isRequired,
-  classes: string.isRequired,
   loading: bool.isRequired,
-  onClick: func.isRequired,
-  getPosition: func,
   url: string.isRequired,
-  hide: bool.isRequired,
   totalFloors: number.isRequired,
   currentFloor: number.isRequired,
-  upOneFloor: func.isRequired,
-  downOneFloor: func.isRequired,
-  isPreview: bool.isRequired,
-  onSelectedMenuOption: func.isRequired,
-  show: bool.isRequired,
-  runSteps: bool.isRequired,
-  step: string.isRequired,
-  changeStep: func.isRequired,
-  mapSize: shape({}).isRequired
+  showMiniMap: bool.isRequired,
+  mapSize: shape({}).isRequired,
+  dispatch: func.isRequired,
+  size: shape({}).isRequired
 };
 
-MiniMap.defaultProps = {
-  getPosition: () => {}
-};
+const mapStateToProps = (state) => ({
+  scenes: mapScenesSelector(state),
+  selectedScene: getSelectedScene(state),
+  loading: loadingSelector(state),
+  url: imageMapSelector(state),
+  mapSize: mapSizeSelector(state),
+  selectedMenuOption: menuOptionSelector(state),
+  showMiniMap: showMiniMapSelector(state),
+  totalFloors: totalLevelsSelector(state),
+  currentFloor: currentFloorSelector(state),
+  size: sizeSelector(state)
+});
 
-export default MiniMap;
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MiniMap);

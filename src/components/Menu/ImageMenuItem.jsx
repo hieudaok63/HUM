@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { string, func, number } from 'prop-types';
 import ImageContainerCard from './ImageContainerCard';
 
@@ -33,7 +33,7 @@ class ImageMenuItem extends Component {
     } = this.props;
     const { loaded } = this.state;
     return (
-      <Fragment>
+      <>
         <div
           className={`image-container justify-content-center align-items-center ${
             (selected.toLowerCase() === name.toLowerCase() ||
@@ -72,7 +72,7 @@ class ImageMenuItem extends Component {
             </span>
           </div>
         </div>
-      </Fragment>
+      </>
     );
   }
 }

@@ -13,7 +13,8 @@ class ThreeSixtySphere {
     radius,
     widthSegments,
     heightSegments,
-    tooltip
+    tooltip,
+    startScenePosition
   ) {
     this.container = container;
     this.tooltip = tooltip;
@@ -53,6 +54,7 @@ class ThreeSixtySphere {
     this.updateCallBack = null;
     this.currentStylle = 'default';
     this.currentFinish = 'default';
+    this.startScenePosition = startScenePosition;
   }
 
   init = ({
@@ -69,6 +71,7 @@ class ThreeSixtySphere {
     updateCallBack = null,
     startScenePosition
   }) => {
+    console.log('init', hotspots);
     this.container = container;
     this.loader = loader;
     this.loaderContainer = this.createLoader();
@@ -97,6 +100,7 @@ class ThreeSixtySphere {
     this.initializeControls();
     this.bindEventListeners();
     this.container.appendChild(this.renderer.domElement);
+    this.setStartingScenePosition(this.startScenePosition);
   };
 
   sceneUpdate = ({ image, hotspots }) => {
@@ -178,8 +182,9 @@ class ThreeSixtySphere {
       1,
       1100
     );
-    this.camera.target = new THREE.Vector3(0, 0, 0);
+    console.log('starto', this.startScenePosition);
     this.camera.position.z = Math.PI;
+    this.camera.target = new THREE.Vector3(0, 0, 0);
   };
 
   initializeScene = () => {
@@ -430,12 +435,12 @@ class ThreeSixtySphere {
         console.log('HEY');
         this.activateGyro();
         break;
-      case 161:
-        this.updateCameraPosition(
-          0.00964106833161872,
-          6.123233995736772e-19,
-          -0.002655146215382272
-        );
+      case 49:
+        this.updateCameraPosition({
+          x: 0.009786302975445232,
+          y: 0.001485842664739469,
+          z: -0.0014214589858423182
+        });
         break;
 
       default:
@@ -487,9 +492,7 @@ class ThreeSixtySphere {
     this.getMouse(event);
     this.tooltip.classList.remove('is-active');
     this.handleSpriteClick();
-    if (this.ctrl) {
-      this.displayPosition();
-    }
+    this.displayPosition();
   };
 
   onPointerMove = (event) => {
@@ -513,15 +516,8 @@ class ThreeSixtySphere {
       ) {
         if (this.updateCallBack) {
           console.log(this.CLICKEDSPRITE);
-          this.updateCallBack(
-            this,
-            this.CLICKEDSPRITE.key,
-            this.CLICKEDSPRITE.level,
-            this.currentStylle,
-            this.currentFinish
-          );
+          this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
         }
-        console.log(this.CLICKEDSPRITE.name, this.CLICKEDSPRITE.key);
       }
     }
   };
@@ -648,7 +644,12 @@ class ThreeSixtySphere {
   };
 
   setStartingScenePosition = ({ x, y, z }) => {
-    this.camera.position.set(x, y, z);
+    this.updateCameraPosition({
+      x: 0.00964106833161872,
+      y: 6.123233995736772e-19,
+      z: -0.002655146215382272
+    });
+    this.camera.lookAt(x, y, z);
   };
 
   getRenderer = () => this.renderer;
