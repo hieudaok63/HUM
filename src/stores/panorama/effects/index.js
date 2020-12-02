@@ -186,11 +186,6 @@ export default class SessionEffect {
         image: panoramaInfo.image,
         hotspots: panoramaInfo.hotspots
       });
-      threeSixty.updateCameraPosition({
-        x: 0.00964106833161872,
-        y: 6.123233995736772e-19,
-        z: -0.002655146215382272
-      });
       threeSixty.setStartingScenePosition(panoramaInfo.startScenePosition);
     } else {
       threeSixty = new THREESIXTY();
@@ -202,13 +197,6 @@ export default class SessionEffect {
         }
       };
       threeSixty.init(params);
-      console.log('starting', panoramaInfo.startScenePosition);
-      threeSixty.updateCameraPosition({
-        x: 0.00964106833161872,
-        y: 6.123233995736772e-19,
-        z: -0.002655146215382272
-      });
-      threeSixty.setStartingScenePosition(panoramaInfo.startScenePosition);
       threeSixty.animate();
       window.addEventListener(
         'resize',
