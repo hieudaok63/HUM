@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ImageMenuItem from '../ImageMenuItem';
 import PersonalizeMenu from './PersonalizeMenu';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
-import { getSelectedStyle } from '../../../selectors/Menu';
+import { getSelectedStyle } from '../../../selectors/menu';
 import PanoramaAction from '../../../stores/panorama/actions';
 
 class StylesMenu extends Component {

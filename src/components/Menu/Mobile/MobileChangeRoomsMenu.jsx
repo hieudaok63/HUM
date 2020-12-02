@@ -4,7 +4,7 @@ import { string, arrayOf, shape, func } from 'prop-types';
 import ImageMenuItem from '../ImageMenuItem';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 import PanoramaAction from '../../../stores/panorama/actions';
-import { getCurrentRoomUse, getUses } from '../../../selectors/Menu';
+import { getCurrentRoomUse, getUses } from '../../../selectors/menu';
 
 class MobileChangeRoomsMenu extends Component {
   changeRoomType = async (e, roomName) => {

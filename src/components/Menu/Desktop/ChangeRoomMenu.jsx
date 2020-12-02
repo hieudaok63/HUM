@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, arrayOf, shape, func } from 'prop-types';
 import ImageMenuItem from '../ImageMenuItem';
-import { getCurrentRoomUse, getUses } from '../../../selectors/Menu';
+import { getCurrentRoomUse, getUses } from '../../../selectors/menu';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 import PanoramaAction from '../../../stores/panorama/actions';
 

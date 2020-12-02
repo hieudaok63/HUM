@@ -5,7 +5,7 @@ import { bool } from 'prop-types';
 import autoplayIcon from '../assets/Icons/icon-play.svg';
 import activeAutoplayIcon from '../assets/Icons/icon-play-active.svg';
 import FeatureTooltip from './FeatureTooltip';
-import { loadingSelector } from '../selectors/Loading';
+import { loadingSelector } from '../selectors/loading';
 import { blurSelector } from '../selectors/HideBlur';
 import { isPreview } from '../utils';
 

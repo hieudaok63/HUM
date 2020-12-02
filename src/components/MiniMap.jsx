@@ -13,8 +13,8 @@ import {
   totalLevelsSelector,
   currentFloorSelector,
   sizeSelector
-} from '../selectors/Menu';
-import { loadingSelector } from '../selectors/Loading';
+} from '../selectors/menu';
+import { loadingSelector } from '../selectors/loading';
 import { deleteWhiteSpaces, isPreview } from '../utils';
 import FloorsMenu from './FloorsMenu';
 import './MiniMap.scss';

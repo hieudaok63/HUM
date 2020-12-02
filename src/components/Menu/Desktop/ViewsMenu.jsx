@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { string, arrayOf, shape, func } from 'prop-types';
 import ImageMenuItem from '../ImageMenuItem';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
-import { getSelectedScene } from '../../../selectors/Menu';
+import { getSelectedScene } from '../../../selectors/menu';
 import PanoramaAction from '../../../stores/panorama/actions';
 
 class ViewsMenu extends Component {

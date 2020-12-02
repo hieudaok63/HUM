@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bool } from 'prop-types';
 import Modal from 'react-bootstrap/Modal';
 import './ErrorModal.css';
-import { errorSelector } from '../selectors/Error';
+import { errorSelector } from '../selectors/error';
 
 const ErrorModal = ({ show }) => (
   <Modal show={show} autoFocus centered dialogClassName="alert-modal">

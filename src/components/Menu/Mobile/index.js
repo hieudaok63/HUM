@@ -12,9 +12,9 @@ import {
   isPortraitSelector,
   menuOptionSelector,
   menuOptionsSelector
-} from '../../../selectors/Menu';
-import { errorSelector } from '../../../selectors/Error';
-import { loadingSelector } from '../../../selectors/Loading';
+} from '../../../selectors/menu';
+import { errorSelector } from '../../../selectors/error';
+import { loadingSelector } from '../../../selectors/loading';
 
 class MobileMenu extends Component {
   constructor() {

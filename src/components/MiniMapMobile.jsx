@@ -16,8 +16,8 @@ import {
   showMiniMapSelector,
   sizeSelectorMobile,
   totalLevelsSelector
-} from '../selectors/Menu';
-import { loadingSelector } from '../selectors/Loading';
+} from '../selectors/menu';
+import { loadingSelector } from '../selectors/loading';
 import PanoramaAction from '../stores/panorama/actions';
 
 class MiniMap extends Component {

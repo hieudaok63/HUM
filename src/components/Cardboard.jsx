@@ -7,7 +7,7 @@ import cardboardActive from '../assets/Icons/Icon_cardboard_active.svg';
 import FeatureTooltip from './FeatureTooltip';
 import CardboardTooltip from './Tooltip/CardboardTooltip';
 import { hasGyroscope, isPreview } from '../utils';
-import { loadingSelector } from '../selectors/Loading';
+import { loadingSelector } from '../selectors/loading';
 import { blurSelector } from '../selectors/HideBlur';
 
 const Cardboard = ({ loading, blur }) => {
