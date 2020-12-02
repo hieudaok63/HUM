@@ -5,7 +5,7 @@ import {
 } from '../../../config/endpoints';
 import HttpUtility from '../../../utilities/HttpUtility';
 import HttpErrorResponseModel from '../../../models/HttpErrorResponseModel';
-import LoginModel from '../models';
+import { LoginModel, LogModel } from '../models';
 
 export default class SessionEffect {
   static async login(language, email, password, cookies = null) {
@@ -62,6 +62,8 @@ export default class SessionEffect {
       return response;
     }
 
-    return response;
+    const model = new LogModel(response.data);
+
+    return model;
   }
 }

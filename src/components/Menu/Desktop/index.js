@@ -14,6 +14,7 @@ import { errorSelector } from '../../../selectors/error';
 import '../Menu.scss';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 import { isPreview } from '../../../utils';
+import SocketAction from '../../../stores/socket/actions';
 
 class DesktopMenu extends Component {
   constructor() {
@@ -53,9 +54,27 @@ class DesktopMenu extends Component {
       this.setState({
         showSubMenuElements: false
       });
+      dispatch(
+        SocketAction.socketMessage({
+          event: 'THREE-MENU-SELECTED',
+          data: {
+            type: 'THREE-MENU-SELECTED',
+            selectedMenuOption: ''
+          }
+        })
+      );
     } else {
       dispatch(ThreeSixtyAction.setSelectedMenuOption(selectedMenuOption));
       dispatch(ThreeSixtyAction.expandMenu(true));
+      dispatch(
+        SocketAction.socketMessage({
+          event: 'THREE-MENU-SELECTED',
+          data: {
+            type: 'THREE-MENU-SELECTED',
+            selectedMenuOption
+          }
+        })
+      );
       if (selectedMenuOption === 'mini-map') {
         this.setState({
           showSubMenuElements: false

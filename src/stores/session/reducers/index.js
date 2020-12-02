@@ -9,7 +9,8 @@ export default class SessionReducer extends BaseReducer {
     email: '',
     refreshToken: '',
     authTime: '',
-    expirationTime: 0
+    expirationTime: 0,
+    logId: ''
   };
 
   [SessionAction.LOGIN_REQUEST_FINISHED](state, action) {
@@ -23,9 +24,10 @@ export default class SessionReducer extends BaseReducer {
       expirationTime: action.payload.expirationTime
     };
   }
-  [SessionAction.LOG_REQUEST_FINISHED](state) {
+  [SessionAction.LOG_REQUEST_FINISHED](state, action) {
     return {
-      ...state
+      ...state,
+      logId: action.payload.id
     };
   }
 }

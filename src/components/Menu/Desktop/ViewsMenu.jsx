@@ -5,6 +5,7 @@ import ImageMenuItem from '../ImageMenuItem';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 import { getSelectedScene } from '../../../selectors/menu';
 import PanoramaAction from '../../../stores/panorama/actions';
+import SocketAction from '../../../stores/socket/actions';
 
 class ViewsMenu extends Component {
   viewItemClick = async (e, targetName) => {
@@ -15,6 +16,15 @@ class ViewsMenu extends Component {
     await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
     await dispatch(PanoramaAction.createPanoramaInfo());
     dispatch(PanoramaAction.setPanorama());
+    dispatch(
+      SocketAction.socketMessage({
+        event: 'CHANGE-SCENE',
+        data: {
+          type: 'CHANGE-SCENE',
+          name
+        }
+      })
+    );
   };
 
   render() {

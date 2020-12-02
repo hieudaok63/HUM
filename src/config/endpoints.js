@@ -28,4 +28,15 @@ export const THREE_SIXTY_API_KEY =
     ? THREE_SIXTY_API_PROD_KEY
     : THREE_SIXTY_API_DEV_KEY;
 
+export const SOCKET_TEST_API = 'https://virtualsalesapp.azurewebsites.net';
+export const SOCKET_PROD_API = 'https://prod-athum-rso-ws.azurewebsites.net/';
+export const SOCKET_STAGING_API =
+  'https://staging-athum-rso-ws.azurewebsites.net';
+const socket = {
+  production: SOCKET_PROD_API,
+  development: SOCKET_TEST_API,
+  staging: SOCKET_STAGING_API
+};
+export const SOCKET = socket[process.env.REACT_APP_ENV];
+
 export const VERSION = process.env.REACT_APP_VERSION;

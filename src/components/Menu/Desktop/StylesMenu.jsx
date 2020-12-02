@@ -6,6 +6,7 @@ import PersonalizeMenu from './PersonalizeMenu';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 import { getSelectedStyle } from '../../../selectors/menu';
 import PanoramaAction from '../../../stores/panorama/actions';
+import SocketAction from '../../../stores/socket/actions';
 
 class StylesMenu extends Component {
   constructor() {
@@ -24,6 +25,16 @@ class StylesMenu extends Component {
     await dispatch(PanoramaAction.createPanoramaInfo());
 
     dispatch(PanoramaAction.setPanorama());
+
+    dispatch(
+      SocketAction.socketMessage({
+        event: 'SET-STYLE',
+        data: {
+          type: 'SET-STYLE',
+          style
+        }
+      })
+    );
   };
 
   render() {

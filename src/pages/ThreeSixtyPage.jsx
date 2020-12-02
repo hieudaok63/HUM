@@ -12,6 +12,8 @@ import Cardboard from '../components/Cardboard';
 import Autoplay from '../components/Autoplay';
 import ErrorModal from '../components/ErrorModal';
 import SessionAction from '../stores/session/actions';
+import SocketAction from '../stores/socket/actions';
+import { SOCKET } from '../config/endpoints';
 
 class ThreeSixtyPage extends Component {
   componentDidMount() {
@@ -30,6 +32,8 @@ class ThreeSixtyPage extends Component {
     await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
 
     await dispatch(SessionAction.log([]));
+
+    await dispatch(SocketAction.initSocket(SOCKET));
   }
 
   render() {

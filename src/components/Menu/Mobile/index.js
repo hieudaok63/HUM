@@ -15,6 +15,7 @@ import {
 } from '../../../selectors/menu';
 import { errorSelector } from '../../../selectors/error';
 import { loadingSelector } from '../../../selectors/loading';
+import SocketAction from '../../../stores/socket/actions';
 
 class MobileMenu extends Component {
   constructor() {
@@ -45,9 +46,27 @@ class MobileMenu extends Component {
       selectedMenuOption === ''
     ) {
       dispatch(ThreeSixtyAction.setSelectedMenuOption(''));
+      dispatch(
+        SocketAction.socketMessage({
+          event: 'THREE-MENU-SELECTED',
+          data: {
+            type: 'THREE-MENU-SELECTED',
+            selectedMenuOption: ''
+          }
+        })
+      );
     } else {
       dispatch(
         ThreeSixtyAction.setSelectedMenuOption(`mobile-${selectedMenuOption}`)
+      );
+      dispatch(
+        SocketAction.socketMessage({
+          event: 'THREE-MENU-SELECTED',
+          data: {
+            type: 'THREE-MENU-SELECTED',
+            selectedMenuOption: `mobile-${selectedMenuOption}`
+          }
+        })
       );
     }
   };

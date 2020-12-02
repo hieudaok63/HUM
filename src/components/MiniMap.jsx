@@ -19,6 +19,7 @@ import { deleteWhiteSpaces, isPreview } from '../utils';
 import FloorsMenu from './FloorsMenu';
 import './MiniMap.scss';
 import PanoramaAction from '../stores/panorama/actions';
+import SocketAction from '../stores/socket/actions';
 
 class MiniMap extends Component {
   constructor() {
@@ -44,6 +45,15 @@ class MiniMap extends Component {
     await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
     await dispatch(PanoramaAction.createPanoramaInfo());
     dispatch(PanoramaAction.setPanorama());
+    dispatch(
+      SocketAction.socketMessage({
+        event: 'CHANGE-SCENE',
+        data: {
+          type: 'CHANGE-SCENE',
+          name
+        }
+      })
+    );
   };
 
   getClickPosition = (e) => {

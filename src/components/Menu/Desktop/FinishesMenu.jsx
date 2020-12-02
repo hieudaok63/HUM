@@ -5,6 +5,7 @@ import ImageMenuItem from '../ImageMenuItem';
 import { getFinishScenes, getSelectedFinish } from '../../../selectors/menu';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 import PanoramaAction from '../../../stores/panorama/actions';
+import SocketAction from '../../../stores/socket/actions';
 
 class FinishesMenu extends Component {
   changeFinish = async (e, finish) => {
@@ -18,6 +19,16 @@ class FinishesMenu extends Component {
     await dispatch(PanoramaAction.createPanoramaInfo());
 
     dispatch(PanoramaAction.setPanorama());
+
+    dispatch(
+      SocketAction.socketMessage({
+        event: 'CHANGE-FINISH',
+        data: {
+          type: 'CHANGE-FINISH',
+          finishType
+        }
+      })
+    );
   };
 
   render() {

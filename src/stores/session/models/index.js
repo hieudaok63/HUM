@@ -1,4 +1,4 @@
-export default class LoginModel {
+export class LoginModel {
   constructor(data) {
     this.token = data.token;
     this.user = data.user;
@@ -16,4 +16,12 @@ export default class LoginModel {
   authTime = null;
 
   expirationTime = null;
+}
+
+export class LogModel {
+  constructor(data) {
+    this.id = data.log.id;
+  }
+
+  id = '';
 }

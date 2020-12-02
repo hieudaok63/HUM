@@ -71,7 +71,6 @@ class ThreeSixtySphere {
     updateCallBack = null,
     startScenePosition
   }) => {
-    console.log('init', hotspots);
     this.container = container;
     this.loader = loader;
     this.loaderContainer = this.createLoader();
@@ -584,7 +583,6 @@ class ThreeSixtySphere {
       if (intersects.length > 0) {
         const { object, faceIndex } = intersects[0];
         if (object.type !== 'Sprite') {
-          console.log(faceIndex);
           object.geometry.faces[faceIndex].color.set(Math.random() * 0xffffff);
           object.geometry.colorsNeedUpdate = true;
         }

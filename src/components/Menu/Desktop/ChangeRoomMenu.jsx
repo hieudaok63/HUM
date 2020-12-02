@@ -5,6 +5,7 @@ import ImageMenuItem from '../ImageMenuItem';
 import { getCurrentRoomUse, getUses } from '../../../selectors/menu';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 import PanoramaAction from '../../../stores/panorama/actions';
+import SocketAction from '../../../stores/socket/actions';
 
 class ChangeRoomMenu extends Component {
   changeRoomType = async (e, roomName) => {
@@ -19,6 +20,16 @@ class ChangeRoomMenu extends Component {
     await dispatch(PanoramaAction.createPanoramaInfo());
 
     dispatch(PanoramaAction.setPanorama());
+
+    dispatch(
+      SocketAction.socketMessage({
+        event: 'CHANGE-ROOM',
+        data: {
+          type: 'CHANGE-ROOM',
+          roomType
+        }
+      })
+    );
   };
 
   render() {
