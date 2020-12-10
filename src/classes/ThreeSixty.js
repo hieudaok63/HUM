@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import Tween from '@tweenjs/tween.js';
+import TWEEN from '@tweenjs/tween.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { DeviceOrientationControls } from '../lib/three/DeviceOrientationControls';
 import { TextureLoader } from '../lib/three/loaders/loaders';
@@ -38,8 +38,8 @@ class ThreeSixtySphere {
     this.ctrl = false;
     this.control = null;
     this.hasGyro = false;
-    this.scaleUpAnimation = new Tween.Tween();
-    this.scaleDownAnimation = new Tween.Tween();
+    this.scaleUpAnimation = new TWEEN.Tween();
+    this.scaleDownAnimation = new TWEEN.Tween();
     this.easingAnimationUp = [];
     this.easingAnimationDown = [];
     this.showAnimation = [];
@@ -73,9 +73,9 @@ class ThreeSixtySphere {
   }) => {
     this.container = container;
     this.loader = loader;
-    this.loaderContainer = this.createLoader();
-    this.container.appendChild(this.loaderContainer);
-    this.blurContainer = this.createBlur();
+    // this.loaderContainer = this.createLoader();
+    // this.container.appendChild(this.loaderContainer);
+    // this.blurContainer = this.createBlur();
     this.tooltip = this.createTooltip();
     this.image = image;
     this.width = width;
@@ -95,6 +95,7 @@ class ThreeSixtySphere {
     this.initializeMesh();
     this.initializeRaycaster();
     this.addToScene(this.mesh);
+    this.addLighting();
     this.initializeRenderer();
     this.initializeControls();
     this.bindEventListeners();
@@ -102,13 +103,17 @@ class ThreeSixtySphere {
     this.setStartingScenePosition(this.startScenePosition);
   };
 
+  addLighting = () => {
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
+    this.scene.add(hemiLight);
+  };
+
   sceneUpdate = ({ image, hotspots }) => {
     this.stopHotstposAnimation();
     this.image = image;
     this.hotspots = hotspots;
-    this.container.appendChild(this.blurContainer);
-    this.container.appendChild(this.loaderContainer);
-    this.mesh.children = [];
+    // this.container.appendChild(this.blurContainer);
+    // this.container.appendChild(this.loaderContainer);
     this.initializeTexture(this.image);
     this.initializeMaterial();
   };
@@ -145,16 +150,22 @@ class ThreeSixtySphere {
   };
 
   LoadingManager = () => {
+    this.mesh.material = this.material;
+    this.mesh.material.needsUpdate = true;
+    this.updateHotspots();
+    /*
     if (this.loaderContainer) {
       this.loaderContainer.classList.add('none');
       this.blurContainer.classList.add('none');
       this.mesh.material = this.material;
       this.mesh.material.needsUpdate = true;
+      this.updateHotspots();
       this.loaderContainer.addEventListener(
         'transitionend',
         this.onTransitionEnd
       );
     }
+    */
   };
 
   onTransitionEnd = (event) => {
@@ -166,12 +177,11 @@ class ThreeSixtySphere {
     if (this.loadingCallBack !== null) {
       this.loadingCallBack(false);
     }
-    this.updateHotspots();
     this.animateHotspot();
     this.firstLoad = false;
-    this.loaderContainer.classList.remove('white-background');
-    this.loaderContainer.classList.remove('none');
-    this.blurContainer.classList.remove('none');
+    // this.loaderContainer.classList.remove('white-background');
+    // this.loaderContainer.classList.remove('none');
+    // this.blurContainer.classList.remove('none');
   };
 
   initializeCamera = () => {
@@ -188,6 +198,7 @@ class ThreeSixtySphere {
 
   initializeScene = () => {
     this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0xffffff);
   };
 
   initializeGeometry = () => {
@@ -209,11 +220,63 @@ class ThreeSixtySphere {
   };
 
   initializeMaterial = () => {
-    this.material = new THREE.MeshBasicMaterial({
+    this.material = new THREE.MeshLambertMaterial({
       map: this.texture,
-      color: 0xffffff,
       side: THREE.DoubleSide
     });
+
+    this.material.onBeforeCompile = (shader) => {
+      shader.fragmentShader = shader.fragmentShader.replace(
+        'gl_FragColor = vec4( packNormalToRGB( normal ), opacity );',
+        [
+          'gl_FragColor = vec4( packNormalToRGB( normal ), opacity );',
+          'gl_FragColor.a *= pow( gl_FragCoord.z, 50.0 );'
+        ].join('\n')
+      );
+    };
+    /*  this.material = new THREE.ShaderMaterial({
+      side: THREE.DoubleSide,
+      map: this.texture,
+      defines: { USE_MAP: '' },
+      uniforms: {
+        map: {
+          type: 't',
+          value: this.texture
+        },
+        placement: {
+          type: 'v3',
+          value: new THREE.Vector3()
+        }
+      },
+      vertexShader:
+        '\
+        varying vec3 worldPosition;\n\
+        void main () {\n\
+          vec4 p = vec4 (position, 1.0);\n\
+          worldPosition = (modelMatrix * p).xyz;\n\
+          gl_Position = projectionMatrix * modelViewMatrix * p;\n\
+        }',
+      fragmentShader:
+        '\
+        uniform sampler2D map;\n\
+        uniform vec3 placement;\n\
+        varying vec3 worldPosition;\n\
+        const float seamWidth = 0.01;\n\
+        void main () {\n\
+          vec3 R = worldPosition - placement;\n\
+          float r = length (R);\n\
+          float c = -R.y / r;\n\
+          float theta = acos (c);\n\
+          float phi = atan (R.x, -R.z);\n\
+          float seam = \n\
+          	max (0.0, 1.0 - abs (R.x / r) / seamWidth) *\n\
+            clamp (1.0 + (R.z / r) / seamWidth, 0.0, 1.0);\n\
+          gl_FragColor = texture2D (map, vec2 (\n\
+            0.5 + phi / 6.2831852,\n\
+            theta / 3.1415926\n\
+          ), -2.0 * log2(1.0 + c * c) -12.3 * seam);\n\
+        }'
+    }); */
   };
 
   initializeMesh = () => {
@@ -238,8 +301,8 @@ class ThreeSixtySphere {
 
   initializeControls = () => {
     this.control = new OrbitControls(this.camera, this.renderer.domElement);
-    this.control.enablePan = false;
-    this.control.enableZoom = false;
+    // this.control.enablePan = false;
+    // this.control.enableZoom = false;
     this.control.enableDamping = true;
     this.control.minPolarAngle = 0.8;
     this.control.maxPolarAngle = 2.4;
@@ -313,7 +376,7 @@ class ThreeSixtySphere {
     this.easingAnimationDown.forEach((animation) => animation.stop());
     this.easingAnimationUp = [];
     this.easingAnimationDown = [];
-    Tween.removeAll();
+    TWEEN.removeAll();
     clearInterval(this.interval);
   };
 
@@ -324,7 +387,7 @@ class ThreeSixtySphere {
 
     this.createdHotspots.forEach((sprite) => {
       this.easingAnimationUp.push(
-        new Tween.Tween(sprite.scale)
+        new TWEEN.Tween(sprite.scale)
           .to(
             {
               x: sprite.scale.x * 1.1,
@@ -333,11 +396,11 @@ class ThreeSixtySphere {
             },
             2000
           )
-          .easing(Tween.Easing.Elastic.Out)
+          .easing(TWEEN.Easing.Elastic.Out)
       );
 
       this.easingAnimationDown.push(
-        new Tween.Tween(sprite.scale)
+        new TWEEN.Tween(sprite.scale)
           .to(
             {
               x: sprite.scale.x,
@@ -346,7 +409,7 @@ class ThreeSixtySphere {
             },
             2000
           )
-          .easing(Tween.Easing.Elastic.Out)
+          .easing(TWEEN.Easing.Elastic.Out)
       );
     });
 
@@ -515,6 +578,8 @@ class ThreeSixtySphere {
       ) {
         if (this.updateCallBack) {
           console.log(this.CLICKEDSPRITE);
+          this.mesh.material = {};
+          this.mesh.children = [];
           this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
         }
       }
@@ -531,7 +596,7 @@ class ThreeSixtySphere {
   };
 
   scaleUpSprite = (intersected) =>
-    new Tween.Tween(intersected.scale)
+    new TWEEN.Tween(intersected.scale)
       .to(
         {
           x: intersected.scale.x * 1.3,
@@ -543,10 +608,10 @@ class ThreeSixtySphere {
       .onUpdate(() => {
         this.render();
       })
-      .easing(Tween.Easing.Elastic.Out);
+      .easing(TWEEN.Easing.Elastic.Out);
 
   scaleDownSprite = (intersected) =>
-    new Tween.Tween(intersected.scale)
+    new TWEEN.Tween(intersected.scale)
       .to(
         {
           x: intersected.scale.x,
@@ -558,20 +623,20 @@ class ThreeSixtySphere {
       .onUpdate(() => {
         this.render();
       })
-      .easing(Tween.Easing.Elastic.Out);
+      .easing(TWEEN.Easing.Elastic.Out);
 
   showAnimation = (obj) =>
-    new Tween.Tween(obj)
+    new TWEEN.Tween(obj)
       .to({ opacity: 1 }, 500)
       .onStart(() => {
         console.log('start');
       })
-      .easing(Tween.Easing.Quartic.Out);
+      .easing(TWEEN.Easing.Quartic.Out);
 
   hideAnimation = (obj) =>
-    new Tween.Tween(obj)
+    new TWEEN.Tween(obj)
       .to({ opacity: 0 }, 500)
-      .easing(Tween.Easing.Quartic.Out);
+      .easing(TWEEN.Easing.Quartic.Out);
 
   intersects = () => {
     if (!this.mouseDown) {
@@ -630,7 +695,7 @@ class ThreeSixtySphere {
   update = () => {
     this.control.update();
     this.render();
-    Tween.update();
+    TWEEN.update();
   };
 
   render = () => {

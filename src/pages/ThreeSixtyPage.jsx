@@ -38,7 +38,7 @@ class ThreeSixtyPage extends Component {
 
     await dispatch(SessionAction.log([]));
 
-    await dispatch(SocketAction.initSocket(SOCKET));
+    dispatch(SocketAction.initSocket(SOCKET));
   }
 
   render() {
