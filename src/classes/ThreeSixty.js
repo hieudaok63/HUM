@@ -596,6 +596,7 @@ class ThreeSixtySphere {
               delete this.INTERSECTED.scaleDown;
               this.tooltip.classList.remove('is-active');
               this.hover = false;
+              this.container.style.cursor = 'default';
             }
           }
 
@@ -616,6 +617,7 @@ class ThreeSixtySphere {
                 2}px`;
               this.tooltip.classList.add('is-active');
               this.tooltip.innerHTML = this.INTERSECTED.name;
+              this.container.style.cursor = 'pointer';
             }
             this.hover = true;
           }
