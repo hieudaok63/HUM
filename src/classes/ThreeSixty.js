@@ -3,6 +3,7 @@ import TWEEN from '@tweenjs/tween.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { DeviceOrientationControls } from '../lib/three/DeviceOrientationControls';
 import { TextureLoader } from '../lib/three/loaders/loaders';
+import { TweenLite } from 'gsap';
 
 class ThreeSixtySphere {
   constructor(
@@ -94,13 +95,21 @@ class ThreeSixtySphere {
     this.initializeMaterial();
     this.initializeMesh();
     this.initializeRaycaster();
-    this.addToScene(this.mesh);
+    this.addMeshToScene();
     this.addLighting();
     this.initializeRenderer();
     this.initializeControls();
     this.bindEventListeners();
     this.container.appendChild(this.renderer.domElement);
     this.setStartingScenePosition(this.startScenePosition);
+  };
+
+  addMeshToScene = () => {
+    this.addToScene(this.mesh);
+    this.mesh.opacity = 0;
+    TweenLite.to(this.mesh.material, 1, {
+      opacity: 1
+    });
   };
 
   addLighting = () => {
@@ -112,10 +121,10 @@ class ThreeSixtySphere {
     this.stopHotstposAnimation();
     this.image = image;
     this.hotspots = hotspots;
-    // this.container.appendChild(this.blurContainer);
-    // this.container.appendChild(this.loaderContainer);
+    this.initializeMesh();
     this.initializeTexture(this.image);
     this.initializeMaterial();
+    this.addMeshToScene();
   };
 
   createTooltip = () => {
@@ -220,12 +229,12 @@ class ThreeSixtySphere {
   };
 
   initializeMaterial = () => {
-    this.material = new THREE.MeshLambertMaterial({
+    this.material = new THREE.MeshBasicMaterial({
       map: this.texture,
       side: THREE.DoubleSide
     });
-
-    this.material.onBeforeCompile = (shader) => {
+    this.material.transparent = true;
+    /*  this.material.onBeforeCompile = (shader) => {
       shader.fragmentShader = shader.fragmentShader.replace(
         'gl_FragColor = vec4( packNormalToRGB( normal ), opacity );',
         [
@@ -233,7 +242,7 @@ class ThreeSixtySphere {
           'gl_FragColor.a *= pow( gl_FragCoord.z, 50.0 );'
         ].join('\n')
       );
-    };
+    }; */
     /*  this.material = new THREE.ShaderMaterial({
       side: THREE.DoubleSide,
       map: this.texture,
@@ -451,6 +460,7 @@ class ThreeSixtySphere {
     const spriteMaterial = new THREE.SpriteMaterial({
       map: texture
     });
+    spriteMaterial.alphaTest = 0.1;
     const sprite = new THREE.Sprite(spriteMaterial);
     sprite.name = name;
     sprite.isHotspot = true;
@@ -577,9 +587,13 @@ class ThreeSixtySphere {
         this.CLICKEDSPRITE.isHotspot
       ) {
         if (this.updateCallBack) {
-          console.log(this.CLICKEDSPRITE);
-          this.mesh.material = {};
           this.mesh.children = [];
+          TweenLite.to(this.mesh.material, 1, {
+            opacity: 0,
+            onComplete: () => {
+              this.scene.remove(this.mesh);
+            }
+          });
           this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
         }
       }
