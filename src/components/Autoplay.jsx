@@ -26,7 +26,8 @@ class Autoplay extends Component {
 
   componentDidMount() {
     window.addEventListener('keypress', this.handleKeyPress, false);
-    window.addEventListener('click', this.onBodyClick);
+    window.addEventListener('mousedown', this.onBodyClick);
+    window.addEventListener('touchstart', this.onBodyClick);
   }
 
   onBodyClick = () => {
