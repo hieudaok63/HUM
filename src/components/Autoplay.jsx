@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bool, func } from 'prop-types';
+import { arrayOf, bool, func, string, shape } from 'prop-types';
 import autoplayIcon from '../assets/Icons/icon-play.svg';
 import activeAutoplayIcon from '../assets/Icons/icon-play-active.svg';
 import FeatureTooltip from './FeatureTooltip';
@@ -9,6 +9,9 @@ import { loadingSelector } from '../selectors/loading';
 import { blurSelector } from '../selectors/HideBlur';
 import { isPreview } from '../utils';
 import PanoramaAction from '../stores/panorama/actions';
+import ThreeSixtyAction from '../stores/threeSixty/actions';
+import { getSelectedScene } from '../selectors/menu';
+import { sceneSelector } from '../selectors/ThreeSixty';
 
 class Autoplay extends Component {
   constructor() {
@@ -16,13 +19,24 @@ class Autoplay extends Component {
     this.state = {
       status: false,
       showAutoplaydMessage: false,
-      interval: () => {}
+      interval: () => {},
+      autoTourScene: 0
     };
   }
 
   componentDidMount() {
     window.addEventListener('keypress', this.handleKeyPress, false);
+    window.addEventListener('click', this.onBodyClick);
   }
+
+  onBodyClick = () => {
+    const { status } = this.state;
+    if (status) {
+      this.stopInterval();
+      this.setStatus();
+      this.messageHandler();
+    }
+  };
 
   setStatus = () => {
     this.setState((prevStatus) => ({
@@ -34,19 +48,44 @@ class Autoplay extends Component {
     this.setState({ showAutoplaydMessage });
   };
 
+  startTour = async () => {
+    const { dispatch, scenes, selectedScene } = this.props;
+    const { autoTourScene } = this.state;
+    if (
+      scenes[autoTourScene].key !== selectedScene &&
+      scenes.length > autoTourScene
+    ) {
+      dispatch(ThreeSixtyAction.setSelectedScene(scenes[autoTourScene].key));
+      dispatch(ThreeSixtyAction.getStyles());
+      await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
+      await dispatch(PanoramaAction.createPanoramaInfo());
+      dispatch(PanoramaAction.setPanorama());
+    }
+
+    if (autoTourScene === scenes.length - 1) {
+      this.setState({
+        autoTourScene: 0
+      });
+    } else {
+      this.setState({
+        autoTourScene: autoTourScene + 1
+      });
+    }
+  };
+
   startInterval = () => {
     const { dispatch } = this.props;
-    /* const interval = setInterval(() => {
+    const interval = setInterval(() => {
       this.startTour();
-    }, 15000); */
+    }, 15000);
     dispatch(PanoramaAction.activateAutoRotate(true));
-    // this.setState({ interval });
+    this.setState({ interval });
   };
 
   stopInterval = () => {
     const { interval } = this.state;
     const { dispatch } = this.props;
-    // clearInterval(interval);
+    clearInterval(interval);
     dispatch(PanoramaAction.activateAutoRotate(false));
   };
 
@@ -107,12 +146,16 @@ class Autoplay extends Component {
 Autoplay.propTypes = {
   loading: bool.isRequired,
   blur: bool.isRequired,
-  dispatch: func.isRequired
+  dispatch: func.isRequired,
+  scenes: arrayOf(shape({})).isRequired,
+  selectedScene: string.isRequired
 };
 
 const stateMapToProps = (state) => ({
   loading: loadingSelector(state),
-  blur: blurSelector(state)
+  blur: blurSelector(state),
+  scenes: sceneSelector(state),
+  selectedScene: getSelectedScene(state)
 });
 
 export default connect(stateMapToProps)(Autoplay);
