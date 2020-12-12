@@ -30,9 +30,11 @@ class Autoplay extends Component {
     window.addEventListener('touchstart', this.onBodyClick);
   }
 
-  onBodyClick = () => {
+  onBodyClick = (event) => {
     const { status } = this.state;
-    if (status) {
+    const elementClass = event.target.getAttribute('class') || '';
+    if (status && !elementClass.includes('autoplay-button')) {
+      console.log('BODY');
       this.stopInterval();
       this.setStatus();
       this.messageHandler();
@@ -92,14 +94,18 @@ class Autoplay extends Component {
 
   handleKeyPress = (event) => {
     if (event.keyCode === 32) {
-      const { status } = this.state;
-      if (status) {
-        this.stopInterval();
-      } else {
-        this.startInterval();
-      }
+      this.handleInterval();
       this.setStatus();
       this.messageHandler();
+    }
+  };
+
+  handleInterval = () => {
+    const { status } = this.state;
+    if (status) {
+      this.stopInterval();
+    } else {
+      this.startInterval();
     }
   };
 
@@ -116,18 +122,20 @@ class Autoplay extends Component {
     return (
       <>
         <div
-          className={`feature-container autoplay d-flex justify-content-start align-items-center ${isPreview() &&
+          className={`feature-container autoplay autoplay-button d-flex justify-content-start align-items-center ${isPreview() &&
             'display-none'} ${loading && 'hide'} ${blur && 'blur'}`}
         >
           <div
-            className="autoplay-icon"
+            className="autoplay-icon autoplay-button"
             onFocus={() => {}}
             onClick={() => {
+              this.handleInterval();
               this.setStatus();
               this.messageHandler();
             }}
           >
             <img
+              className="autoplay-button"
               src={status ? activeAutoplayIcon : autoplayIcon}
               alt="autoplay"
               style={{ width: '100%', height: '100%' }}
