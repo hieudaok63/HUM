@@ -9,6 +9,7 @@ export default class PanoramaAction {
   static CONTAINER_REQUEST_FINISHED = 'CONTAINER_REQUEST_FINISHED';
   static PANORAMA_REQUEST = 'PANORAMA_REQUEST';
   static PANORAMA_REQUEST_FINISHED = 'PANORAMA_REQUEST_FINISHED';
+  static AUTOROTATE_REQUEST = 'AUTOROTATE_REQUEST';
 
   static setContainer(container) {
     return ActionUtility.createAction(
@@ -77,6 +78,20 @@ export default class PanoramaAction {
       const isError = model instanceof PanoramaErrorModel;
 
       return { model, isError };
+    };
+  }
+
+  static activateAutoRotate(activate) {
+    return async (dispatch, getState) => {
+      const { panorama } = getState();
+      const { panorama: threeSixtyPano } = panorama;
+      await ActionUtility.createThunkEffect(
+        dispatch,
+        PanoramaAction.AUTOROTATE_REQUEST,
+        PanoramaEffect.autoRotate,
+        threeSixtyPano,
+        activate
+      );
     };
   }
 }
