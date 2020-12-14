@@ -209,4 +209,11 @@ export default class SessionEffect {
 
     return threeSixty;
   }
+
+  static autoRotate(threeSixty, activate) {
+    console.log('HEY', threeSixty, activate);
+    if (threeSixty) {
+      threeSixty.activateAutoRotate(activate);
+    }
+  }
 }
