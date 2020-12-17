@@ -1,7 +1,7 @@
 import Data from '../../../assets/Data';
 import PanoramaModel from '../models';
 import PanoramaErrorModel from '../../../models/PanoramaErrorModel';
-import THREESIXTY from '../../../classes/ThreeSixty';
+import THREESIXTY from '../../../classes/ThreeSixty2.0';
 
 export default class SessionEffect {
   static createPanorama(
@@ -12,7 +12,8 @@ export default class SessionEffect {
     style,
     room,
     use,
-    finish
+    finish,
+    scenes
   ) {
     const selectedLevel = SessionEffect.getLevel(levels, level);
     if (selectedLevel) {
@@ -56,7 +57,9 @@ export default class SessionEffect {
               widthSegments: 100,
               heightSegments: 100,
               hotspots,
-              startScenePosition: scene.startScenePosition
+              startScenePosition: scene.startScenePosition,
+              scenes,
+              selectedScene: roomToRequest
             });
 
             return model;
@@ -196,6 +199,7 @@ export default class SessionEffect {
           updateCall(sceneName, level);
         }
       };
+      console.log(params);
       threeSixty.init(params);
       threeSixty.animate();
       window.addEventListener(

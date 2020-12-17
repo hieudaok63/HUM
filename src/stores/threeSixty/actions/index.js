@@ -57,6 +57,10 @@ export default class ThreeSixtyAction {
 
   static CURRENT_LEVEL_REQUEST_FINISHED = 'CURRENT_LEVEL_REQUEST_FINISHED';
 
+  static GET_360_ITEM_REQUEST = 'GET_360_ITEM_REQUEST';
+
+  static GET_360_ITEM_REQUEST_FINISHED = 'GET_360_ITEM_REQUEST_FINISHED';
+
   static getScenes() {
     return async (dispatch, getState) => {
       const { language: stateLanguage, threeSixty } = getState();
@@ -220,6 +224,27 @@ export default class ThreeSixtyAction {
         ThreeSixtyEffect.saveLog,
         language,
         log
+      );
+
+      const isError = model instanceof HttpErrorResponseModel;
+      return { model, isError };
+    };
+  }
+
+  static get360Item() {
+    return async (dispatch, getState) => {
+      const { language: stateLanguage, threeSixty } = getState();
+      const { language } = stateLanguage;
+      const { builderId, propertyId, layoutName } = threeSixty;
+
+      const model = await ActionUtility.createThunkEffect(
+        dispatch,
+        ThreeSixtyAction.GET_360_ITEM_REQUEST,
+        ThreeSixtyEffect.get360Item,
+        language,
+        builderId,
+        propertyId,
+        layoutName
       );
 
       const isError = model instanceof HttpErrorResponseModel;

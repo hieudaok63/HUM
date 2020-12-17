@@ -45,7 +45,9 @@ export default class ThreeSixtyReducer extends BaseReducer {
       'change-room',
       'finishes'
     ],
-    threeSixty: null
+    threeSixty: null,
+    threeSixtyItem: {},
+    levelsWithScenes: []
   };
 
   [ThreeSixtyAction.VIEW_MENU_REQUEST_FINISHED](state, action) {
@@ -163,6 +165,15 @@ export default class ThreeSixtyReducer extends BaseReducer {
     return {
       ...state,
       currentLevel: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.GET_360_ITEM_REQUEST_FINISHED](state, action) {
+    console.log('supt', action);
+    return {
+      ...state,
+      threeSixtyItem: action.payload.threeSixty,
+      levelsWithScenes: action.payload.levels
     };
   }
 

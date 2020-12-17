@@ -11,6 +11,8 @@ export default class ThreePanoramaModel {
     this.heightSegments = data.heightSegments;
     this.hotspots = data.hotspots;
     this.startScenePosition = data.startScenePosition;
+    this.scenes = data.scenes;
+    this.selectedScene = data.selectedScene;
   }
 
   container = null;
@@ -32,4 +34,8 @@ export default class ThreePanoramaModel {
   loader = loader;
 
   startScenePosition = {};
+
+  scenes = [];
+
+  selectedScene = '';
 }

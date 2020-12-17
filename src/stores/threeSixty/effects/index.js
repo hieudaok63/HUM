@@ -11,7 +11,8 @@ import {
   ThreeSixtyStyleScenesModel,
   ThreeSixtyStylesMenuModel,
   ThreeSixtyUseWithFinishes,
-  ThreeSixtyFurnitureByStyles
+  ThreeSixtyFurnitureByStyles,
+  ThreeSixtyItem
 } from '../models';
 
 export default class ThreeSixtyEffect {
@@ -170,5 +171,26 @@ export default class ThreeSixtyEffect {
     }
 
     return true;
+  }
+
+  static async get360Item(language, builderId, projectId, layoutName) {
+    const endpoint = `${THREE_SIXTY_API}${language}/360s/${builderId}/${projectId}/${layoutName.replace(
+      VERSION,
+      ''
+    )}${VERSION}`;
+
+    const response = await HttpUtility.get(endpoint, {
+      headers: {
+        'x-api-key': THREE_SIXTY_API_KEY
+      }
+    });
+
+    if (response instanceof HttpErrorResponseModel) {
+      return response;
+    }
+
+    const model = new ThreeSixtyItem(response.data);
+
+    return model;
   }
 }

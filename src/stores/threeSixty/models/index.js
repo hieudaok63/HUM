@@ -147,10 +147,21 @@ class ThreeSixtyFurnitureByStyles {
   furniture = [];
 }
 
+class ThreeSixtyItem {
+  constructor(data) {
+    console.log('HEY', data);
+    this.threeSixty = data.threeSixtyItem;
+    this.levels = data.threeSixtyItem.levels;
+  }
+
+  threeSixty = {};
+}
+
 export {
   ThreeSixtyModel,
   ThreeSixtyStyleScenesModel,
   ThreeSixtyStylesMenuModel,
   ThreeSixtyUseWithFinishes,
-  ThreeSixtyFurnitureByStyles
+  ThreeSixtyFurnitureByStyles,
+  ThreeSixtyItem
 };

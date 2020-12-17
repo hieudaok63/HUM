@@ -30,6 +30,8 @@ class ThreeSixtyPage extends Component {
 
     await dispatch(ThreeSixtyAction.setBuilder({ ...builderInfo.params }));
 
+    await dispatch(ThreeSixtyAction.get360Item());
+
     await dispatch(ThreeSixtyAction.getScenes());
 
     await dispatch(ThreeSixtyAction.getStyles());

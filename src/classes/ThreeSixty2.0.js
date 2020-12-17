@@ -60,48 +60,28 @@ class ThreeSixtySphere {
 
   init = ({
     container,
-    image,
     width,
     height,
     radius,
     widthSegments,
     heightSegments,
-    hotspots,
-    loader,
-    loadingCallBack = null,
-    updateCallBack = null,
-    startScenePosition
+    scenes,
+    selectedScene = ''
   }) => {
     this.container = container;
-    this.loader = loader;
-    // this.loaderContainer = this.createLoader();
-    // this.container.appendChild(this.loaderContainer);
-    // this.blurContainer = this.createBlur();
-    this.tooltip = this.createTooltip();
-    this.image = image;
     this.width = width;
     this.height = height;
     this.radius = radius;
     this.widthSegments = widthSegments;
     this.heightSegments = heightSegments;
-    this.hotspots = hotspots;
-    this.loadingCallBack = loadingCallBack !== null ? loadingCallBack : null;
-    this.updateCallBack = updateCallBack !== null ? updateCallBack : null;
-    this.startScenePosition = startScenePosition;
+    this.scenes = scenes;
+    this.selectedScene = selectedScene;
     this.initializeCamera();
     this.initializeScene();
-    this.initializeGeometry();
-    this.initializeTexture(this.image);
-    this.initializeMaterial();
-    this.initializeMesh();
-    this.initializeRaycaster();
-    this.addMeshToScene();
-    this.addLighting();
+    this.initializeSpheres();
     this.initializeRenderer();
     this.initializeControls();
-    this.bindEventListeners();
     this.container.appendChild(this.renderer.domElement);
-    this.setStartingScenePosition(this.startScenePosition);
   };
 
   addMeshToScene = () => {
@@ -210,6 +190,37 @@ class ThreeSixtySphere {
     this.scene.background = new THREE.Color(0xffffff);
   };
 
+  initializeSpheres = () => {
+    const spheres = this.scenes.map((scene) => this.createSphere(scene));
+    this.addToScene(spheres);
+  };
+
+  createSphere = (scene) => {
+    const geometry = new THREE.SphereGeometry(
+      this.radius,
+      this.widthSegments,
+      this.heightSegments
+    );
+    geometry.scale(-1, 1, 1);
+
+    const texture = new THREE.TextureLoader().load(scene.image);
+
+    const material = new THREE.MeshBasicMaterial({
+      map: texture,
+      side: THREE.DoubleSide
+    });
+    material.transparent = true;
+
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.name = scene.key;
+    console.log('Selected Scene', this.selectedScene);
+    if (this.selectedScene !== mesh.name) {
+      mesh.visible = false;
+    }
+
+    return mesh;
+  };
+
   initializeGeometry = () => {
     this.geometry = new THREE.SphereGeometry(
       this.radius,
@@ -298,8 +309,9 @@ class ThreeSixtySphere {
     this.mouse = new THREE.Vector2(1, 1);
   };
 
-  addToScene = (obj) => {
-    this.scene.add(obj);
+  addToScene = (objs) => {
+    objs.forEach((obj) => this.scene.add(obj));
+    console.log(this.scene);
   };
 
   initializeRenderer = () => {
