@@ -173,7 +173,15 @@ export default class ThreeSixtyEffect {
     return true;
   }
 
-  static async get360Item(language, builderId, projectId, layoutName) {
+  static async get360Item(
+    language,
+    builderId,
+    projectId,
+    layoutName,
+    selectedScene,
+    selectedStyle,
+    currentLevel
+  ) {
     const endpoint = `${THREE_SIXTY_API}${language}/360s/${builderId}/${projectId}/${layoutName.replace(
       VERSION,
       ''
@@ -189,7 +197,12 @@ export default class ThreeSixtyEffect {
       return response;
     }
 
-    const model = new ThreeSixtyItem(response.data);
+    const model = new ThreeSixtyItem({
+      ...response.data,
+      selectedStyle,
+      selectedScene,
+      currentLevel
+    });
 
     return model;
   }

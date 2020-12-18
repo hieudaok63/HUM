@@ -149,12 +149,29 @@ class ThreeSixtyFurnitureByStyles {
 
 class ThreeSixtyItem {
   constructor(data) {
-    console.log('HEY', data);
     this.threeSixty = data.threeSixtyItem;
-    this.levels = data.threeSixtyItem.levels;
+    this.level = data.currentLevel;
+    this.selectedScene = data.selectedScene;
+    this.selectedStyle = data.selectedStyle;
+    this.levels = this.getScenes();
   }
 
   threeSixty = {};
+
+  getScenes() {
+    const selectedStyle =
+      this.selectedStyle === 'default'
+        ? this.threeSixty.defaultStyle
+        : this.selectedStyle;
+    const currentLevel = this.threeSixty.levels.find(
+      (level) => level.levelNumber === this.level
+    );
+    const scenes = currentLevel.styles.find((style) => {
+      return style.key === selectedStyle;
+    });
+
+    return scenes;
+  }
 }
 
 export {

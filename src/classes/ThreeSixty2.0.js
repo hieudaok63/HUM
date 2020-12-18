@@ -213,7 +213,7 @@ class ThreeSixtySphere {
 
     const mesh = new THREE.Mesh(geometry, material);
     mesh.name = scene.key;
-    console.log('Selected Scene', this.selectedScene);
+
     if (this.selectedScene !== mesh.name) {
       mesh.visible = false;
     }

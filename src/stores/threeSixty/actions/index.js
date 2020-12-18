@@ -235,7 +235,14 @@ export default class ThreeSixtyAction {
     return async (dispatch, getState) => {
       const { language: stateLanguage, threeSixty } = getState();
       const { language } = stateLanguage;
-      const { builderId, propertyId, layoutName } = threeSixty;
+      const {
+        builderId,
+        propertyId,
+        layoutName,
+        selectedScene,
+        selectedStyle,
+        currentLevel
+      } = threeSixty;
 
       const model = await ActionUtility.createThunkEffect(
         dispatch,
@@ -244,7 +251,10 @@ export default class ThreeSixtyAction {
         language,
         builderId,
         propertyId,
-        layoutName
+        layoutName,
+        selectedScene,
+        selectedStyle,
+        currentLevel
       );
 
       const isError = model instanceof HttpErrorResponseModel;
