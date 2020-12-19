@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 import TWEEN from '@tweenjs/tween.js';
+import { TweenLite } from 'gsap';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { DeviceOrientationControls } from '../lib/three/DeviceOrientationControls';
 import { TextureLoader } from '../lib/three/loaders/loaders';
-import { TweenLite } from 'gsap';
+import Data from '../assets/Data';
 
 class ThreeSixtySphere {
   constructor(
@@ -66,7 +67,9 @@ class ThreeSixtySphere {
     widthSegments,
     heightSegments,
     scenes,
-    selectedScene = ''
+    selectedScene = 'default',
+    use = 'default',
+    finish = 'default'
   }) => {
     this.container = container;
     this.width = width;
@@ -76,6 +79,8 @@ class ThreeSixtySphere {
     this.heightSegments = heightSegments;
     this.scenes = scenes;
     this.selectedScene = selectedScene;
+    this.use = use;
+    this.finish = finish;
     this.initializeCamera();
     this.initializeScene();
     this.initializeSpheres();
@@ -195,30 +200,120 @@ class ThreeSixtySphere {
     this.addToScene(spheres);
   };
 
-  createSphere = (scene) => {
-    const geometry = new THREE.SphereGeometry(
-      this.radius,
-      this.widthSegments,
-      this.heightSegments
+  createSphere = (scene) => this.createSceneMesh(scene);
+
+  createSceneMesh = (scene) => {
+    console.log(scene);
+    const useToRequest = this.getRoomToRequest(scene.uses, scene.defaultUse);
+    console.log('useToRequest', useToRequest);
+    const selectedUse = this.getUse(scene.uses, useToRequest);
+    console.log('selectedUse', selectedUse);
+    if (selectedUse) {
+      const hotspots = this.assignHotspotImage(scene.hotspots);
+      const finishToRequest =
+        this.finish === 'default' ? scene.defaultFinish : this.finish;
+
+      const buildedScene = this.buildScene(
+        selectedUse,
+        hotspots,
+        scene.startScenePosition,
+        finishToRequest
+      );
+      console.log(buildedScene);
+      const geometry = new THREE.SphereGeometry(
+        this.radius,
+        this.widthSegments,
+        this.heightSegments
+      );
+      geometry.scale(-1, 1, 1);
+
+      const texture = new THREE.TextureLoader().load(buildedScene.image);
+
+      const material = new THREE.MeshBasicMaterial({
+        map: texture,
+        side: THREE.DoubleSide
+      });
+      material.transparent = true;
+
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.name = buildedScene.key;
+
+      if (this.selectedScene !== mesh.name) {
+        mesh.visible = false;
+      }
+
+      return mesh;
+    }
+    return null;
+  };
+
+  getRoomToRequest = (uses, defaultUse) => {
+    let room = null;
+    if (this.use !== '' && this.use !== null && this.use !== undefined) {
+      room = this.use;
+    } else {
+      room = defaultUse;
+    }
+    const exist = uses.find((use) => use.key === room);
+
+    return exist ? room : defaultUse;
+  };
+
+  getUse = (uses, use) => {
+    const currentUse = uses.filter((item) =>
+      item.key.toLowerCase() === use.toLowerCase() ? item : null
     );
-    geometry.scale(-1, 1, 1);
-
-    const texture = new THREE.TextureLoader().load(scene.image);
-
-    const material = new THREE.MeshBasicMaterial({
-      map: texture,
-      side: THREE.DoubleSide
-    });
-    material.transparent = true;
-
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.name = scene.key;
-
-    if (this.selectedScene !== mesh.name) {
-      mesh.visible = false;
+    console.log('currentUse', currentUse);
+    if (currentUse.length > 0) {
+      return currentUse[0];
     }
 
-    return mesh;
+    return null;
+  };
+
+  assignHotspotImage = (hotspots) =>
+    hotspots.map((hotspot) => {
+      const current = hotspot;
+      if (typeof current.level === 'undefined') {
+        current.img = Data.AvriaHotspotNew;
+      } else {
+        current.img = Data.AvriaHotspotStairs;
+      }
+      return current;
+    });
+
+  buildScene = (scene, hotspots = [], startScenePosition, finish) => {
+    console.log('scene', scene);
+    const { name, furniture, key, finishScenes } = scene;
+    const time = new Date().getTime();
+    const uri = `${scene.image}?${time}`;
+    const panorama = {};
+    panorama.uri = uri;
+    panorama.name = key;
+    panorama.finish = this.getSelectedFinish(finishScenes, finish);
+    return {
+      name,
+      key,
+      panorama,
+      hotspots,
+      startScenePosition,
+      furniture
+    };
+  };
+
+  getSelectedFinish = (scenes, key) => {
+    if (key === 'default' || key === undefined || scenes.length === 0) {
+      return 'default';
+    }
+    const scene = scenes.filter((item) =>
+      item.key.toLowerCase() === key.toLowerCase() ? item : null
+    );
+
+    if (scene.length > 0) {
+      return scene[0].key;
+    }
+
+    return 'default';
   };
 
   initializeGeometry = () => {

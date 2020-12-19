@@ -170,6 +170,8 @@ class ThreeSixtyItem {
       return style.key === selectedStyle;
     });
 
+    console.log('scenes', scenes);
+
     return scenes;
   }
 }

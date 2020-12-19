@@ -25,46 +25,21 @@ export default class SessionEffect {
       if (selectedStyle) {
         const roomToRequest =
           room === 'default' ? selectedLevel.defaultScene : room;
-        const scene = SessionEffect.getScene(
-          selectedStyle.scenes,
-          roomToRequest
-        );
-        if (scene) {
-          const useToRequest = SessionEffect.getRoomToRequest(
-            use,
-            scene.uses,
-            scene.defaultUse
-          );
 
-          const selectedUse = SessionEffect.getUse(scene.uses, useToRequest);
-          if (selectedUse) {
-            const hotspots = SessionEffect.assignHotspotImage(scene.hotspots);
-            const finishToRequest =
-              finish === 'default' ? scene.defaultFinish : finish;
+        const model = new PanoramaModel({
+          container,
+          width: window.innerWidth,
+          height: window.innerHeight,
+          radius: 100,
+          widthSegments: 100,
+          heightSegments: 100,
+          scenes,
+          selectedScene: roomToRequest,
+          use,
+          finish
+        });
 
-            const buildedScene = SessionEffect.buildScene(
-              selectedUse,
-              hotspots,
-              scene.startScenePosition,
-              finishToRequest
-            );
-            const model = new PanoramaModel({
-              container,
-              image: buildedScene.panorama.uri,
-              width: window.innerWidth,
-              height: window.innerHeight,
-              radius: 100,
-              widthSegments: 100,
-              heightSegments: 100,
-              hotspots,
-              startScenePosition: scene.startScenePosition,
-              scenes,
-              selectedScene: roomToRequest
-            });
-
-            return model;
-          }
-        }
+        return model;
       }
     }
     return new PanoramaErrorModel();
@@ -199,7 +174,6 @@ export default class SessionEffect {
           updateCall(sceneName, level);
         }
       };
-      console.log(params);
       threeSixty.init(params);
       threeSixty.animate();
       window.addEventListener(
