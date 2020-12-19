@@ -227,7 +227,7 @@ class ThreeSixtySphere {
       );
       geometry.scale(-1, 1, 1);
 
-      const texture = new THREE.TextureLoader().load(buildedScene.image);
+      const texture = new THREE.TextureLoader().load(buildedScene.panorama.uri);
 
       const material = new THREE.MeshBasicMaterial({
         map: texture,
@@ -285,12 +285,15 @@ class ThreeSixtySphere {
   buildScene = (scene, hotspots = [], startScenePosition, finish) => {
     console.log('scene', scene);
     const { name, furniture, key, finishScenes } = scene;
+    const currentFinish = this.getSelectedFinish(finishScenes, finish);
+    console.log('FINISH', currentFinish);
+
     const time = new Date().getTime();
-    const uri = `${scene.image}?${time}`;
+    const uri = `${currentFinish.modes.day}?${time}`;
     const panorama = {};
     panorama.uri = uri;
     panorama.name = key;
-    panorama.finish = this.getSelectedFinish(finishScenes, finish);
+    panorama.finish = currentFinish.key;
     return {
       name,
       key,
@@ -310,10 +313,10 @@ class ThreeSixtySphere {
     );
 
     if (scene.length > 0) {
-      return scene[0].key;
+      return scene[0];
     }
 
-    return 'default';
+    return { key: 'default' };
   };
 
   initializeGeometry = () => {
