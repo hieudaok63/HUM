@@ -257,6 +257,9 @@ class ThreeSixtySphere {
     return null;
   };
 
+  getActiveMesh = (key) =>
+    this.scene.children.find((mesh) => mesh.name === key);
+
   getRoomToRequest = (uses, defaultUse) => {
     let room = null;
     if (this.use !== '' && this.use !== null && this.use !== undefined) {
@@ -700,18 +703,18 @@ class ThreeSixtySphere {
       this.CLICKEDSPRITE = intersects[0].object;
       if (
         this.CLICKEDSPRITE.type === 'Sprite' &&
-        this.CLICKEDSPRITE.isHotspot
+        this.CLICKEDSPRITE.isHotspot &&
+        this.CLICKEDSPRITE.parent.name === this.selectedScene
       ) {
-        if (this.updateCallBack) {
-          this.mesh.children = [];
-          TweenLite.to(this.mesh.material, 1, {
-            opacity: 0,
-            onComplete: () => {
-              this.scene.remove(this.mesh);
-            }
-          });
-          this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
-        }
+        console.log('clicked');
+        // if (this.updateCallBack) {
+        console.log('clicked2');
+        this.mesh.visible = false;
+        this.mesh = this.getActiveMesh(this.CLICKEDSPRITE.key);
+        this.mesh.visible = true;
+        this.selectedScene = this.mesh.name;
+        // this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
+        // }
       }
     }
   };
@@ -778,9 +781,13 @@ class ThreeSixtySphere {
           object.geometry.colorsNeedUpdate = true;
         }
 
-        if (this.INTERSECTED !== intersects[0].object) {
+        if (this.INTERSECTED !== object) {
           if (this.INTERSECTED) {
-            if (this.INTERSECTED.type === 'Sprite') {
+            if (
+              this.INTERSECTED.type === 'Sprite' &&
+              this.INTERSECTED.scaleUp !== undefined &&
+              this.INTERSECTED.scaleDown !== undefined
+            ) {
               this.INTERSECTED.scaleUp.stop();
               this.INTERSECTED.scaleDown.start();
               delete this.INTERSECTED.scaleUp;
@@ -791,8 +798,11 @@ class ThreeSixtySphere {
             }
           }
 
-          this.INTERSECTED = intersects[0].object;
-          if (this.INTERSECTED.type === 'Sprite') {
+          this.INTERSECTED = object;
+          if (
+            this.INTERSECTED.type === 'Sprite' &&
+            object.parent.name === this.selectedScene
+          ) {
             this.INTERSECTED.scaleUp = this.scaleUpSprite(this.INTERSECTED);
             this.INTERSECTED.scaleDown = this.scaleDownSprite(this.INTERSECTED);
             this.INTERSECTED.scaleUp.start();
