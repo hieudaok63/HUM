@@ -72,6 +72,7 @@ class ThreeSixtySphere {
     finish = 'default'
   }) => {
     this.container = container;
+    this.tooltip = this.createTooltip();
     this.width = width;
     this.height = height;
     this.radius = radius;
@@ -84,8 +85,11 @@ class ThreeSixtySphere {
     this.initializeCamera();
     this.initializeScene();
     this.initializeSpheres();
+    this.initializeRaycaster();
     this.initializeRenderer();
     this.initializeControls();
+    this.bindEventListeners();
+    this.loaded = true;
     this.container.appendChild(this.renderer.domElement);
   };
 
@@ -185,7 +189,7 @@ class ThreeSixtySphere {
       1,
       1100
     );
-    console.log('starto', this.startScenePosition);
+
     this.camera.position.z = Math.PI;
     this.camera.target = new THREE.Vector3(0, 0, 0);
   };
@@ -203,11 +207,8 @@ class ThreeSixtySphere {
   createSphere = (scene) => this.createSceneMesh(scene);
 
   createSceneMesh = (scene) => {
-    console.log(scene);
     const useToRequest = this.getRoomToRequest(scene.uses, scene.defaultUse);
-    console.log('useToRequest', useToRequest);
     const selectedUse = this.getUse(scene.uses, useToRequest);
-    console.log('selectedUse', selectedUse);
     if (selectedUse) {
       const hotspots = this.assignHotspotImage(scene.hotspots);
       const finishToRequest =
@@ -219,7 +220,7 @@ class ThreeSixtySphere {
         scene.startScenePosition,
         finishToRequest
       );
-      console.log(buildedScene);
+
       const geometry = new THREE.SphereGeometry(
         this.radius,
         this.widthSegments,
@@ -233,13 +234,22 @@ class ThreeSixtySphere {
         map: texture,
         side: THREE.DoubleSide
       });
-      material.transparent = true;
+      // material.transparent = true;
 
       const mesh = new THREE.Mesh(geometry, material);
       mesh.name = buildedScene.key;
 
+      scene.hotspots.forEach((hotspot) => {
+        this.createHotspot(hotspot, mesh);
+      });
+
       if (this.selectedScene !== mesh.name) {
         mesh.visible = false;
+      }
+
+      if (this.selectedScene === mesh.name) {
+        this.animateHotspots(mesh.children);
+        this.mesh = mesh;
       }
 
       return mesh;
@@ -263,7 +273,7 @@ class ThreeSixtySphere {
     const currentUse = uses.filter((item) =>
       item.key.toLowerCase() === use.toLowerCase() ? item : null
     );
-    console.log('currentUse', currentUse);
+
     if (currentUse.length > 0) {
       return currentUse[0];
     }
@@ -283,10 +293,8 @@ class ThreeSixtySphere {
     });
 
   buildScene = (scene, hotspots = [], startScenePosition, finish) => {
-    console.log('scene', scene);
     const { name, furniture, key, finishScenes } = scene;
     const currentFinish = this.getSelectedFinish(finishScenes, finish);
-    console.log('FINISH', currentFinish);
 
     const time = new Date().getTime();
     const uri = `${currentFinish.modes.day}?${time}`;
@@ -409,7 +417,6 @@ class ThreeSixtySphere {
 
   addToScene = (objs) => {
     objs.forEach((obj) => this.scene.add(obj));
-    console.log(this.scene);
   };
 
   initializeRenderer = () => {
@@ -442,7 +449,6 @@ class ThreeSixtySphere {
 
   updateHotspots = () => {
     this.hotspots.forEach((hotspot) => {
-      console.log(hotspot);
       this.createHotspot(hotspot);
     });
   };
@@ -499,12 +505,12 @@ class ThreeSixtySphere {
     clearInterval(this.interval);
   };
 
-  animateHotspot = () => {
+  animateHotspots = (hotspots) => {
     if (!this.container) {
       return;
     }
 
-    this.createdHotspots.forEach((sprite) => {
+    hotspots.forEach((sprite) => {
       this.easingAnimationUp.push(
         new TWEEN.Tween(sprite.scale)
           .to(
@@ -564,7 +570,7 @@ class ThreeSixtySphere {
     }
   };
 
-  createHotspot = ({ x, y, z, name, key, img, level }) => {
+  createHotspot = ({ x, y, z, name, key, img, level }, mesh) => {
     const point = new THREE.Vector3(x, y, z);
     const texture = new TextureLoader.Load(img);
     const spriteMaterial = new THREE.SpriteMaterial({
@@ -585,7 +591,7 @@ class ThreeSixtySphere {
       sprite.level = level;
     }
     this.createdHotspots.push(sprite);
-    this.mesh.add(sprite);
+    mesh.add(sprite);
   };
 
   isGyro = () => {
@@ -608,13 +614,12 @@ class ThreeSixtySphere {
 
   handleKeyPress = (event) => {
     const key = event.keyCode;
-    console.log(key);
+
     switch (key) {
       case 60:
         this.ctrl = true;
         break;
       case 45:
-        console.log('HEY');
         this.activateGyro();
         break;
       case 49:
@@ -679,6 +684,7 @@ class ThreeSixtySphere {
 
   onPointerMove = (event) => {
     this.getMouse(event);
+
     if (this.loaded) {
       this.intersects();
     }
@@ -714,8 +720,6 @@ class ThreeSixtySphere {
     const intersection = this.raycaster.intersectObject(this.mesh);
     if (intersection.length > 0) {
       const { point } = intersection[0];
-      console.log('hotspot location', point);
-      console.log('camera position', this.camera.position);
     }
   };
 
@@ -752,9 +756,7 @@ class ThreeSixtySphere {
   showAnimation = (obj) =>
     new TWEEN.Tween(obj)
       .to({ opacity: 1 }, 500)
-      .onStart(() => {
-        console.log('start');
-      })
+      .onStart(() => {})
       .easing(TWEEN.Easing.Quartic.Out);
 
   hideAnimation = (obj) =>
@@ -798,7 +800,7 @@ class ThreeSixtySphere {
               const position = this.INTERSECTED.position
                 .clone()
                 .project(this.camera);
-              console.log(position);
+
               this.tooltip.style.top = `${((-1 * position.y + 1) *
                 this.height) /
                 2}px`;
@@ -849,10 +851,7 @@ class ThreeSixtySphere {
 
   getScene = () => this.scene;
 
-  getMatrix = () => {
-    console.log('MatrixWorld', this.scene.children[0].matrixWorld);
-    console.log('Matrix', this.scene.children[0].matrix);
-  };
+  getMatrix = () => {};
 
   setCurrentStyle = (currentStylle) => {
     this.currentStylle = currentStylle;
