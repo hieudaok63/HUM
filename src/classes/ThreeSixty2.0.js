@@ -69,9 +69,13 @@ class ThreeSixtySphere {
     scenes,
     selectedScene = 'default',
     use = 'default',
-    finish = 'default'
+    finish = 'default',
+    loader
   }) => {
     this.container = container;
+    this.loader = loader;
+    this.loaderContainer = this.createLoader();
+    this.container.appendChild(this.loaderContainer);
     this.tooltip = this.createTooltip();
     this.width = width;
     this.height = height;
@@ -175,10 +179,10 @@ class ThreeSixtySphere {
     if (this.loadingCallBack !== null) {
       this.loadingCallBack(false);
     }
-    this.animateHotspot();
+
     this.firstLoad = false;
-    // this.loaderContainer.classList.remove('white-background');
-    // this.loaderContainer.classList.remove('none');
+    this.loaderContainer.classList.remove('white-background');
+    this.loaderContainer.classList.remove('none');
     // this.blurContainer.classList.remove('none');
   };
 
@@ -201,6 +205,13 @@ class ThreeSixtySphere {
   initializeSpheres = () => {
     const spheres = this.scenes.map((scene) => this.createSphere(scene));
     this.addToScene(spheres);
+    setTimeout(() => {
+      this.loaderContainer.classList.add('none');
+      this.loaderContainer.addEventListener(
+        'transitionend',
+        this.onTransitionEnd
+      );
+    }, 2000);
   };
 
   createSphere = (scene) => this.createSceneMesh(scene);
