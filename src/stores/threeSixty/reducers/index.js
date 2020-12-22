@@ -47,7 +47,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
     ],
     threeSixty: null,
     threeSixtyItem: {},
-    levelsWithScenes: []
+    levelsWithScenes: [],
+    levelScenes: []
   };
 
   [ThreeSixtyAction.VIEW_MENU_REQUEST_FINISHED](state, action) {
@@ -82,7 +83,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
       showError: action.payload.showError,
       surveyCompletedDefaults: action.payload.surveyCompletedDefaults,
       totalLevels: action.payload.totalLevels,
-      urls: action.payload.urls
+      urls: action.payload.urls,
+      levelScenes: action.payload.levelScenes
     };
   }
 

@@ -10,7 +10,7 @@ export const WEBAPP_API_KEY =
     ? WEBAPP_API_KEY_PROD
     : WEBAPP_API_KEY_DEV;
 
-export const THREE_SIXTY_API_DEV = 'https://test-360-api.athum.co/';
+export const THREE_SIXTY_API_DEV = 'https://dev-360-api.athum.com/v3/';
 export const THREE_SIXTY_API_PROD = 'https://360-api.athum.com/v3/';
 
 export const THREE_SIXTY_API =

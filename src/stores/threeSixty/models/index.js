@@ -103,13 +103,13 @@ class ThreeSixtyStylesMenuModel {
 
 class ThreeSixtyUseWithFinishes {
   constructor(data) {
+    console.log(data);
     this.builderId = data.builderId;
     this.builderLogo = data.builderLogo;
     this.defaultStyle = data.defaultStyle;
     this.displayName = data.displayName;
     this.language = data.language;
     this.layoutName = data.layoutName;
-    this.levels = data.levels;
     this.menu = data.menu;
     this.personalized = data.personalized;
     this.projectId = data.projectId;
@@ -119,6 +119,10 @@ class ThreeSixtyUseWithFinishes {
     this.surveyCompletedDefaults = data.surveyCompletedDefaults;
     this.totalLevels = data.totalLevels;
     this.urls = data.urls;
+    this.level = data.level;
+    this.levels = data.levels;
+    this.selectedStyle = data.selectedStyle;
+    this.levelScenes = this.getScenes(data.levels);
   }
 
   builderId = '';
@@ -137,6 +141,14 @@ class ThreeSixtyUseWithFinishes {
   surveyCompletedDefaults = {};
   totalLevels = 1;
   urls = {};
+  level = 1;
+
+  getScenes(levels) {
+    const currentLevel = levels.find(
+      (level) => level.levelNumber === this.level
+    );
+    return currentLevel.styles[0];
+  }
 }
 
 class ThreeSixtyFurnitureByStyles {

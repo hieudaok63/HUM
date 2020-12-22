@@ -107,6 +107,34 @@ export default class ThreeSixtyEffect {
     return model;
   }
 
+  static async getScenesByStyles(
+    language,
+    builderId,
+    propertyId,
+    layoutName,
+    level,
+    style
+  ) {
+    const endpoint = `${THREE_SIXTY_API}${language}/360s/style-scenes/${builderId}/${propertyId}/${layoutName.replace(
+      VERSION,
+      ''
+    )}${VERSION}/${level}/${style}`;
+
+    const response = await HttpUtility.post(endpoint, {
+      headers: {
+        'x-api-key': THREE_SIXTY_API_KEY
+      }
+    });
+
+    if (response instanceof HttpErrorResponseModel) {
+      return response;
+    }
+
+    const model = new ThreeSixtyUseWithFinishes({ ...response.data, level });
+
+    return model;
+  }
+
   static async getFurnitureByStyles(
     language,
     builderId,

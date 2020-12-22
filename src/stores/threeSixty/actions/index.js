@@ -160,6 +160,35 @@ export default class ThreeSixtyAction {
     };
   }
 
+  static getScenesByStyles() {
+    return async (dispatch, getState) => {
+      const { language: stateLanguage, threeSixty } = getState();
+      const { language } = stateLanguage;
+      const {
+        builderId,
+        propertyId,
+        layoutName,
+        currentLevel,
+        selectedStyle
+      } = threeSixty;
+
+      const model = await ActionUtility.createThunkEffect(
+        dispatch,
+        ThreeSixtyAction.THREE_SIXTY_DATA_REQUEST,
+        ThreeSixtyEffect.getScenesByStyles,
+        language,
+        builderId,
+        propertyId,
+        layoutName,
+        currentLevel,
+        selectedStyle
+      );
+
+      const isError = model instanceof HttpErrorResponseModel;
+      return { model, isError };
+    };
+  }
+
   static getFurnitureByStyles(builderId, projectId) {
     return async (dispatch, getState) => {
       const { language: stateLanguage, threeSixty } = getState();
