@@ -189,14 +189,13 @@ class ThreeSixtySphere {
       1,
       1100
     );
-
-    this.camera.position.z = Math.PI;
+    this.camera.position.z = 0.1;
     this.camera.target = new THREE.Vector3(0, 0, 0);
   };
 
   initializeScene = () => {
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xffffff);
+    this.scene.background = new THREE.Color(0x000000);
   };
 
   initializeSpheres = () => {
@@ -354,58 +353,6 @@ class ThreeSixtySphere {
       side: THREE.DoubleSide
     });
     this.material.transparent = true;
-    /*  this.material.onBeforeCompile = (shader) => {
-      shader.fragmentShader = shader.fragmentShader.replace(
-        'gl_FragColor = vec4( packNormalToRGB( normal ), opacity );',
-        [
-          'gl_FragColor = vec4( packNormalToRGB( normal ), opacity );',
-          'gl_FragColor.a *= pow( gl_FragCoord.z, 50.0 );'
-        ].join('\n')
-      );
-    }; */
-    /*  this.material = new THREE.ShaderMaterial({
-      side: THREE.DoubleSide,
-      map: this.texture,
-      defines: { USE_MAP: '' },
-      uniforms: {
-        map: {
-          type: 't',
-          value: this.texture
-        },
-        placement: {
-          type: 'v3',
-          value: new THREE.Vector3()
-        }
-      },
-      vertexShader:
-        '\
-        varying vec3 worldPosition;\n\
-        void main () {\n\
-          vec4 p = vec4 (position, 1.0);\n\
-          worldPosition = (modelMatrix * p).xyz;\n\
-          gl_Position = projectionMatrix * modelViewMatrix * p;\n\
-        }',
-      fragmentShader:
-        '\
-        uniform sampler2D map;\n\
-        uniform vec3 placement;\n\
-        varying vec3 worldPosition;\n\
-        const float seamWidth = 0.01;\n\
-        void main () {\n\
-          vec3 R = worldPosition - placement;\n\
-          float r = length (R);\n\
-          float c = -R.y / r;\n\
-          float theta = acos (c);\n\
-          float phi = atan (R.x, -R.z);\n\
-          float seam = \n\
-          	max (0.0, 1.0 - abs (R.x / r) / seamWidth) *\n\
-            clamp (1.0 + (R.z / r) / seamWidth, 0.0, 1.0);\n\
-          gl_FragColor = texture2D (map, vec2 (\n\
-            0.5 + phi / 6.2831852,\n\
-            theta / 3.1415926\n\
-          ), -2.0 * log2(1.0 + c * c) -12.3 * seam);\n\
-        }'
-    }); */
   };
 
   initializeMesh = () => {
@@ -430,8 +377,8 @@ class ThreeSixtySphere {
 
   initializeControls = () => {
     this.control = new OrbitControls(this.camera, this.renderer.domElement);
-    // this.control.enablePan = false;
-    // this.control.enableZoom = false;
+    this.control.enablePan = false;
+    this.control.enableZoom = false;
     this.control.enableDamping = true;
     this.control.minPolarAngle = 0.8;
     this.control.maxPolarAngle = 2.4;
@@ -706,13 +653,14 @@ class ThreeSixtySphere {
         this.CLICKEDSPRITE.isHotspot &&
         this.CLICKEDSPRITE.parent.name === this.selectedScene
       ) {
-        console.log('clicked');
-        // if (this.updateCallBack) {
-        console.log('clicked2');
-        this.mesh.visible = false;
-        this.mesh = this.getActiveMesh(this.CLICKEDSPRITE.key);
-        this.mesh.visible = true;
-        this.selectedScene = this.mesh.name;
+        TweenLite.to(this.mesh, 0.2, {
+          visible: false,
+          onComplete: () => {
+            this.mesh = this.getActiveMesh(this.CLICKEDSPRITE.key);
+            this.mesh.visible = true;
+            this.selectedScene = this.mesh.name;
+          }
+        });
         // this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
         // }
       }
