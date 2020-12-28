@@ -623,24 +623,34 @@ class ThreeSixtySphere {
   };
 
   getMouse = (event) => {
-    const deltaX = event.touches ? event.touches[0].clientX : event.clientX;
-    const deltaY = event.touches ? event.touches[0].clientY : event.clientY;
+    let deltaX = 0;
+    let deltaY = 0;
+    if (event.touches) {
+      if (event.touches.length > 0) {
+        deltaX = event.touches[0].clientX;
+        deltaY = event.touches[0].clientY;
+      }
+    } else {
+      deltaX = event.clientX;
+      deltaY = event.clientY;
+    }
+
     this.mouse = new THREE.Vector2(
       (deltaX / this.width) * 2 - 1,
       -(deltaY / this.height) * 2 + 1
     );
   };
 
-  onPointerEnd = (event) => {
+  onPointerEnd = () => {
     this.mouseDown = false;
-    this.getMouse(event);
     this.tooltip.classList.remove('is-active');
     this.handleSpriteClick();
     this.displayPosition();
   };
 
-  onPointerStart = () => {
+  onPointerStart = (event) => {
     this.mouseDown = true;
+    this.getMouse(event);
   };
 
   onPointerMove = (event) => {
@@ -664,18 +674,22 @@ class ThreeSixtySphere {
         this.CLICKEDSPRITE.isHotspot &&
         this.CLICKEDSPRITE.parent.name === this.selectedScene
       ) {
-        TweenLite.to(this.mesh, 0.2, {
-          visible: false,
-          onComplete: () => {
-            this.mesh = this.getActiveMesh(this.CLICKEDSPRITE.key);
-            this.mesh.visible = true;
-            this.selectedScene = this.mesh.name;
-          }
-        });
+        this.changeSphereScene(this.CLICKEDSPRITE.key);
         // this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
         // }
       }
     }
+  };
+
+  changeSphereScene = (key) => {
+    TweenLite.to(this.mesh, 0.2, {
+      visible: false,
+      onComplete: () => {
+        this.mesh = this.getActiveMesh(key);
+        this.mesh.visible = true;
+        this.selectedScene = this.mesh.name;
+      }
+    });
   };
 
   displayPosition = () => {

@@ -61,6 +61,11 @@ export default class ThreeSixtyAction {
 
   static GET_360_ITEM_REQUEST_FINISHED = 'GET_360_ITEM_REQUEST_FINISHED';
 
+  static CHANGE_SCENE_SPHERE_REQUEST = 'CHANGE_SCENE_SPHERE_REQUEST';
+
+  static CHANGE_SCENE_SPHERE_REQUEST_FINISHED =
+    'CHANGE_SCENE_SPHERE_REQUEST_FINISHED';
+
   static getScenes() {
     return async (dispatch, getState) => {
       const { language: stateLanguage, threeSixty } = getState();
@@ -288,6 +293,22 @@ export default class ThreeSixtyAction {
 
       const isError = model instanceof HttpErrorResponseModel;
       return { model, isError };
+    };
+  }
+
+  static changeSceneSphere() {
+    return async (dispatch, getState) => {
+      const { panorama: panoramaState, threeSixty } = getState();
+      const { panorama } = panoramaState;
+      const { selectedScene } = threeSixty;
+      console.log('PANORAMA', panorama);
+      await ActionUtility.createThunkEffect(
+        dispatch,
+        ThreeSixtyAction.CHANGE_SCENE_SPHERE_REQUEST,
+        ThreeSixtyEffect.changeSceneSphere,
+        panorama,
+        selectedScene
+      );
     };
   }
 

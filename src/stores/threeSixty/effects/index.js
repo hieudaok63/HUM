@@ -234,4 +234,9 @@ export default class ThreeSixtyEffect {
 
     return model;
   }
+
+  static async changeSceneSphere(threeSixty, key) {
+    console.log('key', key);
+    threeSixty.changeSphereScene(key);
+  }
 }

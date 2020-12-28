@@ -4,7 +4,6 @@ import { string, arrayOf, shape, func } from 'prop-types';
 import ImageMenuItem from '../ImageMenuItem';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 import { getSelectedScene } from '../../../selectors/menu';
-import PanoramaAction from '../../../stores/panorama/actions';
 import SocketAction from '../../../stores/socket/actions';
 
 class ViewsMenu extends Component {
@@ -13,9 +12,7 @@ class ViewsMenu extends Component {
     const name = targetName || e.target.name || e.target.getAttribute('name');
     dispatch(ThreeSixtyAction.setSelectedScene(name));
     dispatch(ThreeSixtyAction.getStyles());
-    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
-    await dispatch(PanoramaAction.createPanoramaInfo());
-    dispatch(PanoramaAction.setPanorama());
+    await dispatch(ThreeSixtyAction.changeSceneSphere());
     dispatch(
       SocketAction.socketMessage({
         event: 'CHANGE-SCENE',
