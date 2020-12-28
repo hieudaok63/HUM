@@ -36,7 +36,8 @@ export default class SessionEffect {
           scenes,
           selectedScene: roomToRequest,
           use,
-          finish
+          finish,
+          level
         });
 
         return model;

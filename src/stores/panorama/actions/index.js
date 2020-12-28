@@ -57,23 +57,13 @@ export default class PanoramaAction {
           if (sceneName !== undefined) {
             await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
           }
-          console.log('level', level);
           if (level !== undefined) {
             await dispatch(ThreeSixtyAction.setCurrentLevel(level));
+            await dispatch(ThreeSixtyAction.getScenesByStyles());
+            await dispatch(PanoramaAction.createPanoramaInfo());
           }
 
           await dispatch(ThreeSixtyAction.getStyles());
-          const roomUseWithFinishes = await dispatch(
-            ThreeSixtyAction.getRoomUseWithFinishes()
-          );
-          if (!roomUseWithFinishes.isError) {
-            const panoInfo = await dispatch(
-              PanoramaAction.createPanoramaInfo()
-            );
-            if (!panoInfo.isError) {
-              dispatch(PanoramaAction.setPanorama());
-            }
-          }
         }
       );
 

@@ -70,7 +70,9 @@ class ThreeSixtySphere {
     selectedScene = 'default',
     use = 'default',
     finish = 'default',
-    loader
+    loader,
+    updateCallBack,
+    level
   }) => {
     this.container = container;
     this.loader = loader;
@@ -86,6 +88,8 @@ class ThreeSixtySphere {
     this.selectedScene = selectedScene;
     this.use = use;
     this.finish = finish;
+    this.updateCallBack = updateCallBack;
+    this.level = level;
     this.initializeCamera();
     this.initializeScene();
     this.initializeSpheres();
@@ -675,8 +679,7 @@ class ThreeSixtySphere {
         this.CLICKEDSPRITE.parent.name === this.selectedScene
       ) {
         this.changeSphereScene(this.CLICKEDSPRITE.key);
-        // this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
-        // }
+        this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
       }
     }
   };
