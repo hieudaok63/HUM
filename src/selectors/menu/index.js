@@ -1,5 +1,11 @@
 import { createSelector } from 'reselect';
-import { isPortrait, isTablet } from '../../utils';
+import {
+  getLevelData,
+  isPortrait,
+  isTablet,
+  getLevelScenes,
+  getScene
+} from '../../utils';
 
 export class MenuSelector {
   static getOptions(state) {
@@ -19,9 +25,31 @@ export class MenuSelector {
   }
 
   static getFinishScenes(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].styles[0].scenes[0].uses[0].finishScenes
-      : [];
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+      const style =
+        state.threeSixty.selectedStyle === 'default'
+          ? state.threeSixty.defaultStyle
+          : state.threeSixty.selectedStyle;
+
+      const scenes = getLevelScenes(currentLevel, style);
+
+      const sceneKey =
+        state.threeSixty.selectedScene === 'default'
+          ? currentLevel.defaultScene
+          : state.threeSixty.selectedScene;
+
+      const scene = getScene(scenes, sceneKey);
+
+      if (scene !== null) {
+        return scene.uses[0].finishScenes;
+      }
+    }
+
+    return [];
   }
 
   static getUses(state) {

@@ -268,6 +268,20 @@ const build360Scene = (scene, hotspots = [], startScenePosition, finish) => {
   };
 };
 
+const getLevelScenes = (currentLevel, style) => {
+  const currentStyle = currentLevel.styles.filter(
+    (levelStyle) => levelStyle.key === style
+  );
+  return currentStyle.length > 0
+    ? currentStyle[currentStyle.length - 1].scenes
+    : [];
+};
+
+const getScene = (scenes, sceneKey) => {
+  const currentScene = scenes.filter((scene) => scene.key === sceneKey);
+  return currentScene.length > 0 ? currentScene[currentScene.length - 1] : null;
+};
+
 export {
   getClosest,
   callFilter,
@@ -294,5 +308,7 @@ export {
   getCurrentRoomUse,
   getProcessed360Data,
   getViewerDependingOnPreview,
-  build360Scene
+  build360Scene,
+  getLevelScenes,
+  getScene
 };

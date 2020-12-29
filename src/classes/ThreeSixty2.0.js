@@ -312,7 +312,6 @@ class ThreeSixtySphere {
   buildScene = (scene, hotspots = [], startScenePosition, finish) => {
     const { name, furniture, key, finishScenes } = scene;
     const currentFinish = this.getSelectedFinish(finishScenes, finish);
-
     const time = new Date().getTime();
     const uri = `${currentFinish.modes.day}?${time}`;
     const panorama = {};
