@@ -90,6 +90,7 @@ class ThreeSixtySphere {
     this.finish = finish;
     this.updateCallBack = updateCallBack;
     this.level = level;
+    this.initializeManager();
     this.initializeCamera();
     this.initializeScene();
     this.initializeSpheres();
@@ -99,6 +100,15 @@ class ThreeSixtySphere {
     this.bindEventListeners();
     this.loaded = true;
     this.container.appendChild(this.renderer.domElement);
+  };
+
+  initializeManager = () => {
+    this.manager = new THREE.LoadingManager();
+    this.manager.onStart = () => {};
+    this.manager.onLoad = () => {
+      console.log('LOADED!');
+    };
+    this.manager.onProgress = () => {};
   };
 
   addMeshToScene = () => {
@@ -204,24 +214,32 @@ class ThreeSixtySphere {
   updateFinishes = (finish) => {
     this.finish = finish;
     this.clearSpheres();
-    console.log(this.scene);
     this.initializeSpheres();
   };
 
   clearSpheres = () => {
     if (this.scene.children.length > 0) {
       this.scene.children.forEach((child) => {
-        child.material.dispose();
-        child.geometry.dispose();
-        this.scene.remove(child);
+        if (this.mesh !== child) {
+          child.material.dispose();
+          child.geometry.dispose();
+          console.log('bye bye', child);
+          this.scene.remove(child);
+        } else {
+          console.log('didnt removed', child);
+        }
       });
     }
+  };
 
-    this.mesh.material.dispose();
-    this.mesh.geometry.dispose();
-    this.mesh.children = [];
-    this.scene.remove(this.mesh);
-    this.mesh = null;
+  clearCurrentMesh = () => {
+    if (this.mesh !== null) {
+      this.mesh.material.dispose();
+      this.mesh.geometry.dispose();
+      this.mesh.children = [];
+      this.scene.remove(this.mesh);
+      this.mesh = null;
+    }
   };
 
   initializeScene = () => {
@@ -229,9 +247,20 @@ class ThreeSixtySphere {
     this.scene.background = new THREE.Color(0x000000);
   };
 
+  addThisMeshToScene = () => {
+    const index = this.scene.children.findIndex(
+      (child) => child.name === this.mesh.name
+    );
+    if (index === -1) {
+      this.animateHotspots(this.mesh.children);
+      this.scene.add(this.mesh);
+    }
+  };
+
   initializeSpheres = () => {
     const spheres = this.scenes.map((scene) => this.createSphere(scene));
     this.addToScene(spheres);
+    this.addThisMeshToScene();
     setTimeout(() => {
       this.loaderContainer.classList.add('none');
       this.loaderContainer.addEventListener(
@@ -265,34 +294,53 @@ class ThreeSixtySphere {
       );
       geometry.scale(-1, 1, 1);
 
-      const texture = new THREE.TextureLoader().load(buildedScene.panorama.uri);
+      const loader = new THREE.TextureLoader(this.manager);
 
-      const material = new THREE.MeshBasicMaterial({
-        map: texture,
-        side: THREE.DoubleSide
-      });
-      // material.transparent = true;
+      const texture = loader.load(buildedScene.panorama.uri);
 
-      const mesh = new THREE.Mesh(geometry, material);
-      mesh.name = buildedScene.key;
-
-      scene.hotspots.forEach((hotspot) => {
-        this.createHotspot(hotspot, mesh);
-      });
+      const mesh = this.updateMesh(scene, geometry, buildedScene, texture);
 
       if (this.selectedScene !== mesh.name) {
         mesh.visible = false;
       }
 
       if (this.selectedScene === mesh.name) {
-        this.animateHotspots(mesh.children);
-        this.mesh = mesh;
+        if (this.mesh === null) {
+          this.mesh = mesh;
+        } else {
+          setTimeout(() => {
+            this.mesh.material = mesh.material;
+          }, 900);
+        }
+        return null;
       }
 
       return mesh;
     }
     return null;
   };
+
+  updateMesh = (scene, geometry, buildedScene, texture) => {
+    const material = this.createMaterial(texture);
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.name = buildedScene.key;
+
+    scene.hotspots.forEach((hotspot) => {
+      this.createHotspot(hotspot, mesh);
+    });
+
+    if (this.selectedScene !== mesh.name) {
+      mesh.visible = false;
+    }
+
+    return mesh;
+  };
+
+  createMaterial = (texture) =>
+    new THREE.MeshBasicMaterial({
+      map: texture,
+      side: THREE.DoubleSide
+    });
 
   getActiveMesh = (key) =>
     this.scene.children.find((mesh) => mesh.name === key);
@@ -403,7 +451,12 @@ class ThreeSixtySphere {
   };
 
   addToScene = (objs) => {
-    objs.forEach((obj) => this.scene.add(obj));
+    objs.forEach((obj) => {
+      const mesh = obj;
+      if (mesh !== null) {
+        this.scene.add(mesh);
+      }
+    });
   };
 
   initializeRenderer = () => {
@@ -496,7 +549,7 @@ class ThreeSixtySphere {
     if (!this.container) {
       return;
     }
-
+    this.stopHotstposAnimation();
     hotspots.forEach((sprite) => {
       this.easingAnimationUp.push(
         new TWEEN.Tween(sprite.scale)
@@ -536,6 +589,7 @@ class ThreeSixtySphere {
         timesRuning += 1;
       }
     }, 2000);
+    TWEEN.update();
   };
 
   startAnimation = (timesRuning) => {
