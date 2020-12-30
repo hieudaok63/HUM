@@ -201,6 +201,29 @@ class ThreeSixtySphere {
     this.camera.target = new THREE.Vector3(0, 0, 0);
   };
 
+  updateFinishes = (finish) => {
+    this.finish = finish;
+    this.clearSpheres();
+    console.log(this.scene);
+    this.initializeSpheres();
+  };
+
+  clearSpheres = () => {
+    if (this.scene.children.length > 0) {
+      this.scene.children.forEach((child) => {
+        child.material.dispose();
+        child.geometry.dispose();
+        this.scene.remove(child);
+      });
+    }
+
+    this.mesh.material.dispose();
+    this.mesh.geometry.dispose();
+    this.mesh.children = [];
+    this.scene.remove(this.mesh);
+    this.mesh = null;
+  };
+
   initializeScene = () => {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x000000);
@@ -698,6 +721,7 @@ class ThreeSixtySphere {
     const intersection = this.raycaster.intersectObject(this.mesh);
     if (intersection.length > 0) {
       const { point } = intersection[0];
+      console.log(point);
     }
   };
 

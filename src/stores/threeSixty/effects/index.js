@@ -236,7 +236,11 @@ export default class ThreeSixtyEffect {
   }
 
   static async changeSceneSphere(threeSixty, key) {
-    console.log('key', key);
     threeSixty.changeSphereScene(key);
+  }
+
+  static async updateSpheresFinishes(threeSixty, finish) {
+    console.log(finish);
+    threeSixty.updateFinishes(finish);
   }
 }
