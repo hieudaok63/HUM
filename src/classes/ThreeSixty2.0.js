@@ -106,7 +106,7 @@ class ThreeSixtySphere {
     this.manager = new THREE.LoadingManager();
     this.manager.onStart = () => {};
     this.manager.onLoad = () => {
-      console.log('LOADED!');
+      console.log('LOADED!', this.scene.children, this.scenes);
     };
     this.manager.onProgress = () => {};
   };
@@ -213,8 +213,7 @@ class ThreeSixtySphere {
 
   updateFinishes = (finish) => {
     this.finish = finish;
-    this.clearSpheres();
-    this.initializeSpheres();
+    this.updateSpheres();
   };
 
   clearSpheres = () => {
@@ -257,10 +256,24 @@ class ThreeSixtySphere {
     }
   };
 
+  updateSpheres = () =>
+    this.scene.children.map((mesh) => this.updateMeshMaterial(mesh));
+
+  updateMeshMaterial = (mesh) => {
+    const loader = new THREE.TextureLoader();
+    const sceneToUpdate = this.scenes.find((scene) => scene.key === mesh.name);
+    const buildedScene = this.createSceneInfo(sceneToUpdate);
+    if (buildedScene !== null) {
+      loader.load(buildedScene.panorama.uri, (texture) => {
+        const material = this.createMaterial(texture);
+        mesh.material = material;
+      });
+    }
+  };
+
   initializeSpheres = () => {
     const spheres = this.scenes.map((scene) => this.createSphere(scene));
     this.addToScene(spheres);
-    this.addThisMeshToScene();
     setTimeout(() => {
       this.loaderContainer.classList.add('none');
       this.loaderContainer.addEventListener(
@@ -272,21 +285,29 @@ class ThreeSixtySphere {
 
   createSphere = (scene) => this.createSceneMesh(scene);
 
-  createSceneMesh = (scene) => {
+  createSceneInfo = (scene) => {
     const useToRequest = this.getRoomToRequest(scene.uses, scene.defaultUse);
     const selectedUse = this.getUse(scene.uses, useToRequest);
     if (selectedUse) {
       const hotspots = this.assignHotspotImage(scene.hotspots);
       const finishToRequest =
         this.finish === 'default' ? scene.defaultFinish : this.finish;
-
+      console.log(useToRequest, selectedUse, hotspots, finishToRequest);
       const buildedScene = this.buildScene(
         selectedUse,
         hotspots,
         scene.startScenePosition,
         finishToRequest
       );
+      return buildedScene;
+    }
+    return null;
+  };
 
+  createSceneMesh = (scene) => {
+    const buildedScene = this.createSceneInfo(scene);
+
+    if (buildedScene !== null) {
       const geometry = new THREE.SphereGeometry(
         this.radius,
         this.widthSegments,
@@ -304,19 +325,9 @@ class ThreeSixtySphere {
         mesh.visible = false;
       }
 
-      if (this.selectedScene === mesh.name) {
-        if (this.mesh === null) {
-          this.mesh = mesh;
-        } else {
-          setTimeout(() => {
-            this.mesh.material = mesh.material;
-          }, 900);
-        }
-        return null;
-      }
-
       return mesh;
     }
+
     return null;
   };
 
@@ -725,7 +736,7 @@ class ThreeSixtySphere {
     this.mouseDown = false;
     this.tooltip.classList.remove('is-active');
     this.handleSpriteClick();
-    this.displayPosition();
+    // this.displayPosition();
   };
 
   onPointerStart = (event) => {
@@ -742,6 +753,7 @@ class ThreeSixtySphere {
   };
 
   handleSpriteClick = () => {
+    console.log('sprite', this.mouse);
     this.raycaster.setFromCamera(this.mouse, this.camera);
     const intersects = this.raycaster.intersectObjects(
       this.scene.children,
