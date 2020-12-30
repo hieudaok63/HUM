@@ -753,7 +753,6 @@ class ThreeSixtySphere {
   };
 
   handleSpriteClick = () => {
-    console.log('sprite', this.mouse);
     this.raycaster.setFromCamera(this.mouse, this.camera);
     const intersects = this.raycaster.intersectObjects(
       this.scene.children,
@@ -773,14 +772,19 @@ class ThreeSixtySphere {
   };
 
   changeSphereScene = (key) => {
-    TweenLite.to(this.mesh, 0.2, {
-      visible: false,
-      onComplete: () => {
-        this.mesh = this.getActiveMesh(key);
-        this.mesh.visible = true;
-        this.selectedScene = this.mesh.name;
-      }
-    });
+    const mesh = this.scene.children.find(
+      (child) => child.name === this.selectedScene
+    );
+    if (mesh) {
+      TweenLite.to(mesh, 0.2, {
+        visible: false,
+        onComplete: () => {
+          const activeMesh = this.getActiveMesh(key);
+          activeMesh.visible = true;
+          this.selectedScene = activeMesh.name;
+        }
+      });
+    }
   };
 
   displayPosition = () => {
