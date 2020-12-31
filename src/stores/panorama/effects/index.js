@@ -158,33 +158,23 @@ export default class SessionEffect {
   }
 
   static createThreeSixty(threeSixtyPano, panoramaInfo, updateCall) {
-    let threeSixty = null;
-    if (threeSixtyPano !== null) {
-      threeSixty = threeSixtyPano;
-      threeSixty.sceneUpdate({
-        image: panoramaInfo.image,
-        hotspots: panoramaInfo.hotspots
-      });
-      threeSixty.setStartingScenePosition(panoramaInfo.startScenePosition);
-    } else {
-      threeSixty = new THREESIXTY();
-      const params = {
-        ...panoramaInfo,
-        loadingCallBack: () => {},
-        updateCallBack: async (sceneName, level) => {
-          updateCall(sceneName, level);
-        }
-      };
-      threeSixty.init(params);
-      threeSixty.animate();
-      window.addEventListener(
-        'resize',
-        () => {
-          threeSixty.onWindowResize(window.innerWidth, window.innerHeight);
-        },
-        false
-      );
-    }
+    const threeSixty = new THREESIXTY();
+    const params = {
+      ...panoramaInfo,
+      loadingCallBack: () => {},
+      updateCallBack: async (sceneName, level) => {
+        updateCall(sceneName, level);
+      }
+    };
+    threeSixty.init(params);
+    threeSixty.animate();
+    window.addEventListener(
+      'resize',
+      () => {
+        threeSixty.onWindowResize(window.innerWidth, window.innerHeight);
+      },
+      false
+    );
 
     return threeSixty;
   }

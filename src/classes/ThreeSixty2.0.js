@@ -102,6 +102,7 @@ class ThreeSixtySphere {
     this.container.appendChild(this.renderer.domElement);
   };
 
+  /* */
   initializeManager = () => {
     this.manager = new THREE.LoadingManager();
     this.manager.onStart = () => {};
@@ -111,29 +112,7 @@ class ThreeSixtySphere {
     this.manager.onProgress = () => {};
   };
 
-  addMeshToScene = () => {
-    this.addToScene(this.mesh);
-    this.mesh.opacity = 0;
-    TweenLite.to(this.mesh.material, 1, {
-      opacity: 1
-    });
-  };
-
-  addLighting = () => {
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
-    this.scene.add(hemiLight);
-  };
-
-  sceneUpdate = ({ image, hotspots }) => {
-    this.stopHotstposAnimation();
-    this.image = image;
-    this.hotspots = hotspots;
-    this.initializeMesh();
-    this.initializeTexture(this.image);
-    this.initializeMaterial();
-    this.addMeshToScene();
-  };
-
+  /* */
   createTooltip = () => {
     const tooltip = document.createElement('div');
     tooltip.classList.add('tooltip');
@@ -141,6 +120,7 @@ class ThreeSixtySphere {
     return tooltip;
   };
 
+  /* */
   createLoader = () => {
     const loaderContainer = document.createElement('div');
     loaderContainer.classList.add('loader');
@@ -159,12 +139,14 @@ class ThreeSixtySphere {
     return loaderContainer;
   };
 
+  /* */
   createBlur = () => {
     const blurContainer = document.createElement('div');
     blurContainer.classList.add('three-sixty-blur');
     return blurContainer;
   };
 
+  /* */
   LoadingManager = () => {
     this.mesh.material = this.material;
     this.mesh.material.needsUpdate = true;
@@ -200,6 +182,7 @@ class ThreeSixtySphere {
     // this.blurContainer.classList.remove('none');
   };
 
+  /* */
   initializeCamera = () => {
     this.camera = new THREE.PerspectiveCamera(
       75,
@@ -211,11 +194,13 @@ class ThreeSixtySphere {
     this.camera.target = new THREE.Vector3(0, 0, 0);
   };
 
+  /* */
   updateFinishes = (finish) => {
     this.finish = finish;
     this.updateSpheres();
   };
 
+  /* */
   clearSpheres = () => {
     if (this.scene.children.length > 0) {
       this.scene.children.forEach((child) => {
@@ -231,6 +216,7 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   clearCurrentMesh = () => {
     if (this.mesh !== null) {
       this.mesh.material.dispose();
@@ -241,24 +227,17 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   initializeScene = () => {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x000000);
   };
 
-  addThisMeshToScene = () => {
-    const index = this.scene.children.findIndex(
-      (child) => child.name === this.mesh.name
-    );
-    if (index === -1) {
-      this.animateHotspots(this.mesh.children);
-      this.scene.add(this.mesh);
-    }
-  };
-
+  /* */
   updateSpheres = () =>
     this.scene.children.map((mesh) => this.updateMeshMaterial(mesh));
 
+  /* */
   updateMeshMaterial = (mesh) => {
     const loader = new THREE.TextureLoader();
     const sceneToUpdate = this.scenes.find((scene) => scene.key === mesh.name);
@@ -271,6 +250,7 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   initializeSpheres = () => {
     const spheres = this.scenes.map((scene) => this.createSphere(scene));
     this.addToScene(spheres);
@@ -283,8 +263,10 @@ class ThreeSixtySphere {
     }, 2000);
   };
 
+  /* */
   createSphere = (scene) => this.createSceneMesh(scene);
 
+  /* */
   createSceneInfo = (scene) => {
     const useToRequest = this.getRoomToRequest(scene.uses, scene.defaultUse);
     const selectedUse = this.getUse(scene.uses, useToRequest);
@@ -292,18 +274,19 @@ class ThreeSixtySphere {
       const hotspots = this.assignHotspotImage(scene.hotspots);
       const finishToRequest =
         this.finish === 'default' ? scene.defaultFinish : this.finish;
-      console.log(useToRequest, selectedUse, hotspots, finishToRequest);
       const buildedScene = this.buildScene(
         selectedUse,
         hotspots,
         scene.startScenePosition,
-        finishToRequest
+        finishToRequest,
+        useToRequest
       );
       return buildedScene;
     }
     return null;
   };
 
+  /* */
   createSceneMesh = (scene) => {
     const buildedScene = this.createSceneInfo(scene);
 
@@ -331,6 +314,7 @@ class ThreeSixtySphere {
     return null;
   };
 
+  /* */
   updateMesh = (scene, geometry, buildedScene, texture) => {
     const material = this.createMaterial(texture);
     const mesh = new THREE.Mesh(geometry, material);
@@ -347,6 +331,7 @@ class ThreeSixtySphere {
     return mesh;
   };
 
+  /* */
   createMaterial = (texture) =>
     new THREE.MeshBasicMaterial({
       map: texture,
@@ -356,6 +341,7 @@ class ThreeSixtySphere {
   getActiveMesh = (key) =>
     this.scene.children.find((mesh) => mesh.name === key);
 
+  /* */
   getRoomToRequest = (uses, defaultUse) => {
     let room = null;
     if (this.use !== '' && this.use !== null && this.use !== undefined) {
@@ -368,6 +354,7 @@ class ThreeSixtySphere {
     return exist ? room : defaultUse;
   };
 
+  /* */
   getUse = (uses, use) => {
     const currentUse = uses.filter((item) =>
       item.key.toLowerCase() === use.toLowerCase() ? item : null
@@ -380,6 +367,7 @@ class ThreeSixtySphere {
     return null;
   };
 
+  /* */
   assignHotspotImage = (hotspots) =>
     hotspots.map((hotspot) => {
       const current = hotspot;
@@ -391,15 +379,24 @@ class ThreeSixtySphere {
       return current;
     });
 
-  buildScene = (scene, hotspots = [], startScenePosition, finish) => {
+  /* */
+  buildScene = (scene, hotspots = [], startScenePosition, finish, use) => {
     const { name, furniture, key, finishScenes } = scene;
-    const currentFinish = this.getSelectedFinish(finishScenes, finish);
+    let current = null;
+    if (
+      finish.toLowerCase() === use.toLowerCase() &&
+      finishScenes.length === 0
+    ) {
+      current = scene;
+    } else {
+      current = this.getSelectedFinish(finishScenes, finish);
+    }
     const time = new Date().getTime();
-    const uri = `${currentFinish.modes.day}?${time}`;
+    const uri = `${current.modes.day}?${time}`;
     const panorama = {};
     panorama.uri = uri;
     panorama.name = key;
-    panorama.finish = currentFinish.key;
+    panorama.finish = current.key;
     return {
       name,
       key,
@@ -410,6 +407,7 @@ class ThreeSixtySphere {
     };
   };
 
+  /* */
   getSelectedFinish = (scenes, key) => {
     if (key === 'default' || key === undefined || scenes.length === 0) {
       return 'default';
@@ -425,42 +423,13 @@ class ThreeSixtySphere {
     return { key: 'default' };
   };
 
-  initializeGeometry = () => {
-    this.geometry = new THREE.SphereGeometry(
-      this.radius,
-      this.widthSegments,
-      this.heightSegments
-    );
-    this.geometry.scale(-1, 1, 1);
-  };
-
-  initializeTexture = (image) => {
-    this.texture = new THREE.TextureLoader().load(image, () => {
-      setTimeout(() => {
-        this.LoadingManager();
-        this.loaded = true;
-      }, 2000);
-    });
-  };
-
-  initializeMaterial = () => {
-    this.material = new THREE.MeshBasicMaterial({
-      map: this.texture,
-      side: THREE.DoubleSide
-    });
-    this.material.transparent = true;
-  };
-
-  initializeMesh = () => {
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.mesh.name = 'planet';
-  };
-
+  /* */
   initializeRaycaster = () => {
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2(1, 1);
   };
 
+  /* */
   addToScene = (objs) => {
     objs.forEach((obj) => {
       const mesh = obj;
@@ -470,12 +439,14 @@ class ThreeSixtySphere {
     });
   };
 
+  /* */
   initializeRenderer = () => {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
   };
 
+  /* */
   initializeControls = () => {
     this.control = new OrbitControls(this.camera, this.renderer.domElement);
     this.control.enablePan = false;
@@ -490,6 +461,7 @@ class ThreeSixtySphere {
     this.control.update();
   };
 
+  /* */
   initializeMobileControls = () => {
     this.control = new DeviceOrientationControls(
       this.camera,
@@ -504,6 +476,7 @@ class ThreeSixtySphere {
     });
   };
 
+  /* */
   bindEventListeners = () => {
     this.container.addEventListener('mousedown', this.onPointerStart);
     this.container.addEventListener('mouseup', this.onPointerEnd);
@@ -517,6 +490,7 @@ class ThreeSixtySphere {
     document.addEventListener('keyup', this.handleKeyUp);
   };
 
+  /* */
   stopEasingAnimations = () => {
     this.easingAnimationDown.forEach((easingAnimationDown) =>
       easingAnimationDown.stop()
@@ -527,6 +501,7 @@ class ThreeSixtySphere {
     );
   };
 
+  /* */
   startEasingAnimationUp = () => {
     this.easingAnimationDown.forEach((easingAnimationDown) =>
       easingAnimationDown.stop()
@@ -537,6 +512,7 @@ class ThreeSixtySphere {
     );
   };
 
+  /* */
   startEasingAnimationDown = () => {
     this.easingAnimationDown.forEach((easingAnimationDown) =>
       easingAnimationDown.start()
@@ -547,6 +523,7 @@ class ThreeSixtySphere {
     );
   };
 
+  /* */
   stopHotstposAnimation = () => {
     this.easingAnimationUp.forEach((animation) => animation.stop());
     this.easingAnimationDown.forEach((animation) => animation.stop());
@@ -556,6 +533,7 @@ class ThreeSixtySphere {
     clearInterval(this.interval);
   };
 
+  /* */
   animateHotspots = (hotspots) => {
     if (!this.container) {
       return;
@@ -603,6 +581,7 @@ class ThreeSixtySphere {
     TWEEN.update();
   };
 
+  /* */
   startAnimation = (timesRuning) => {
     if (this.hover) {
       this.stopEasingAnimations();
@@ -622,6 +601,7 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   createHotspot = ({ x, y, z, name, key, img, level }, mesh) => {
     const point = new THREE.Vector3(x, y, z);
     const texture = new TextureLoader.Load(img);
@@ -646,6 +626,7 @@ class ThreeSixtySphere {
     mesh.add(sprite);
   };
 
+  /* */
   isGyro = () => {
     if (typeof DeviceOrientationEvent !== 'undefined') {
       if (
@@ -660,6 +641,7 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   handleOrientation = () => {
     this.deviceOrientation = true;
   };
@@ -687,10 +669,12 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   handleKeyUp = () => {
     this.ctrl = false;
   };
 
+  /* */
   onWindowResize = (width, height) => {
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
@@ -699,6 +683,7 @@ class ThreeSixtySphere {
     this.renderer.setSize(this.width, this.height);
   };
 
+  /* */
   activateGyro = () => {
     if (!this.hasGyro) {
       this.isGyro();
@@ -713,6 +698,7 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   getMouse = (event) => {
     let deltaX = 0;
     let deltaY = 0;
@@ -732,18 +718,20 @@ class ThreeSixtySphere {
     );
   };
 
+  /* */
   onPointerEnd = () => {
     this.mouseDown = false;
     this.tooltip.classList.remove('is-active');
     this.handleSpriteClick();
-    // this.displayPosition();
   };
 
+  /* */
   onPointerStart = (event) => {
     this.mouseDown = true;
     this.getMouse(event);
   };
 
+  /* */
   onPointerMove = (event) => {
     this.getMouse(event);
 
@@ -752,6 +740,7 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   handleSpriteClick = () => {
     this.raycaster.setFromCamera(this.mouse, this.camera);
     const intersects = this.raycaster.intersectObjects(
@@ -771,6 +760,7 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   changeSphereScene = (key) => {
     const mesh = this.scene.children.find(
       (child) => child.name === this.selectedScene
@@ -787,6 +777,7 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   displayPosition = () => {
     const intersection = this.raycaster.intersectObject(this.mesh);
     if (intersection.length > 0) {
@@ -795,6 +786,7 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   scaleUpSprite = (intersected) =>
     new TWEEN.Tween(intersected.scale)
       .to(
@@ -810,6 +802,7 @@ class ThreeSixtySphere {
       })
       .easing(TWEEN.Easing.Elastic.Out);
 
+  /* */
   scaleDownSprite = (intersected) =>
     new TWEEN.Tween(intersected.scale)
       .to(
@@ -825,17 +818,20 @@ class ThreeSixtySphere {
       })
       .easing(TWEEN.Easing.Elastic.Out);
 
+  /* */
   showAnimation = (obj) =>
     new TWEEN.Tween(obj)
       .to({ opacity: 1 }, 500)
       .onStart(() => {})
       .easing(TWEEN.Easing.Quartic.Out);
 
+  /* */
   hideAnimation = (obj) =>
     new TWEEN.Tween(obj)
       .to({ opacity: 0 }, 500)
       .easing(TWEEN.Easing.Quartic.Out);
 
+  /* */
   intersects = () => {
     if (!this.mouseDown) {
       this.raycaster.setFromCamera(this.mouse, this.camera);
@@ -899,51 +895,54 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   update = () => {
     this.control.update();
     this.render();
     TWEEN.update();
   };
 
+  /* */
   render = () => {
     this.renderer.render(this.scene, this.camera);
   };
 
+  /* */
   updateCameraPosition = ({ x, y, z }) => {
     this.camera.position.set(x, y, z);
   };
 
-  setStartingScenePosition = ({ x, y, z }) => {
-    this.updateCameraPosition({
-      x: 0.00964106833161872,
-      y: 6.123233995736772e-19,
-      z: -0.002655146215382272
-    });
-    this.camera.lookAt(x, y, z);
-  };
-
+  /* */
   getRenderer = () => this.renderer;
 
+  /* */
   getCamera = () => this.camera;
 
+  /* */
   getCameraPosition = () => this.camera.position;
 
+  /* */
   getScene = () => this.scene;
 
+  /* */
   getMatrix = () => {};
 
+  /* */
   setCurrentStyle = (currentStylle) => {
     this.currentStylle = currentStylle;
   };
 
+  /* */
   setCurrentFinish = (currentFinish) => {
     this.currentFinish = currentFinish;
   };
 
+  /* */
   activateAutoRotate = (autoRotate) => {
     this.control.autoRotate = autoRotate;
   };
 
+  /* */
   animate = () => {
     this.update();
     window.requestAnimationFrame(this.animate);
