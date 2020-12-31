@@ -84,7 +84,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
       surveyCompletedDefaults: action.payload.surveyCompletedDefaults,
       totalLevels: action.payload.totalLevels,
       urls: action.payload.urls,
-      levelScenes: action.payload.levelScenes
+      levelScenes: action.payload.levelScenes,
+      selectedScene: action.payload.selectedScene
     };
   }
 

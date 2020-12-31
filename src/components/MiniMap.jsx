@@ -18,7 +18,6 @@ import { loadingSelector } from '../selectors/loading';
 import { deleteWhiteSpaces, isPreview } from '../utils';
 import FloorsMenu from './FloorsMenu';
 import './MiniMap.scss';
-import PanoramaAction from '../stores/panorama/actions';
 import SocketAction from '../stores/socket/actions';
 
 class MiniMap extends Component {
@@ -87,11 +86,9 @@ class MiniMap extends Component {
 
     await dispatch(ThreeSixtyAction.getScenes());
 
-    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
+    await dispatch(ThreeSixtyAction.getScenesByStyles());
 
-    await dispatch(PanoramaAction.createPanoramaInfo());
-
-    dispatch(PanoramaAction.setPanorama());
+    await dispatch(ThreeSixtyAction.updateScenes());
   };
 
   handleResize = () => {

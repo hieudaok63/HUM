@@ -147,9 +147,7 @@ export class MenuSelector {
   }
 
   static getCurrentLevel(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].levelNumber
-      : 1;
+    return state.threeSixty.currentLevel;
   }
 
   static getMaxMapHeight(state) {

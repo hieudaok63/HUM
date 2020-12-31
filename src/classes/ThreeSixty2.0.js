@@ -74,6 +74,7 @@ class ThreeSixtySphere {
     updateCallBack,
     level
   }) => {
+    console.log('init', scenes);
     this.container = container;
     this.loader = loader;
     this.loaderContainer = this.createLoader();
@@ -201,19 +202,12 @@ class ThreeSixtySphere {
   };
 
   /* */
-  clearSpheres = () => {
-    if (this.scene.children.length > 0) {
-      this.scene.children.forEach((child) => {
-        if (this.mesh !== child) {
-          child.material.dispose();
-          child.geometry.dispose();
-          console.log('bye bye', child);
-          this.scene.remove(child);
-        } else {
-          console.log('didnt removed', child);
-        }
-      });
-    }
+  updateScenes = (scenes, selectedScene) => {
+    this.scenes = scenes;
+    this.selectedScene = selectedScene;
+    this.scene.children = [];
+    this.initializeSpheres();
+    this.dispose();
   };
 
   /* */
@@ -252,8 +246,7 @@ class ThreeSixtySphere {
 
   /* */
   initializeSpheres = () => {
-    const spheres = this.scenes.map((scene) => this.createSphere(scene));
-    this.addToScene(spheres);
+    this.scenes.map((scene) => this.createSphere(scene));
     setTimeout(() => {
       this.loaderContainer.classList.add('none');
       this.loaderContainer.addEventListener(
@@ -300,18 +293,15 @@ class ThreeSixtySphere {
 
       const loader = new THREE.TextureLoader(this.manager);
 
-      const texture = loader.load(buildedScene.panorama.uri);
+      loader.load(buildedScene.panorama.uri, (texture) => {
+        const mesh = this.updateMesh(scene, geometry, buildedScene, texture);
 
-      const mesh = this.updateMesh(scene, geometry, buildedScene, texture);
-
-      if (this.selectedScene !== mesh.name) {
-        mesh.visible = false;
-      }
-
-      return mesh;
+        if (this.selectedScene !== mesh.name) {
+          mesh.visible = false;
+        }
+        this.scene.add(mesh);
+      });
     }
-
-    return null;
   };
 
   /* */
@@ -754,22 +744,26 @@ class ThreeSixtySphere {
         this.CLICKEDSPRITE.isHotspot &&
         this.CLICKEDSPRITE.parent.name === this.selectedScene
       ) {
-        this.changeSphereScene(this.CLICKEDSPRITE.key);
+        this.changeSphereScene(
+          this.CLICKEDSPRITE.key,
+          this.CLICKEDSPRITE.level
+        );
         this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
       }
     }
   };
 
   /* */
-  changeSphereScene = (key) => {
+  changeSphereScene = (key, level) => {
     const mesh = this.scene.children.find(
       (child) => child.name === this.selectedScene
     );
-    if (mesh) {
+    if (mesh && level === undefined) {
       TweenLite.to(mesh, 0.2, {
         visible: false,
         onComplete: () => {
           const activeMesh = this.getActiveMesh(key);
+          console.log('activeMesh', activeMesh);
           activeMesh.visible = true;
           this.selectedScene = activeMesh.name;
         }
@@ -946,6 +940,11 @@ class ThreeSixtySphere {
   animate = () => {
     this.update();
     window.requestAnimationFrame(this.animate);
+  };
+
+  /* */
+  dispose = () => {
+    this.renderer.renderLists.dispose();
   };
 }
 export default ThreeSixtySphere;

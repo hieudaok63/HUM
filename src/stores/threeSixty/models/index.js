@@ -103,7 +103,7 @@ class ThreeSixtyStylesMenuModel {
 
 class ThreeSixtyUseWithFinishes {
   constructor(data) {
-    console.log(data);
+    console.log(data.selectedStyle);
     this.builderId = data.builderId;
     this.builderLogo = data.builderLogo;
     this.defaultStyle = data.defaultStyle;
@@ -121,8 +121,8 @@ class ThreeSixtyUseWithFinishes {
     this.urls = data.urls;
     this.level = data.level;
     this.levels = data.levels;
-    this.selectedStyle = data.selectedStyle;
     this.levelScenes = this.getScenes(data.levels);
+    this.selectedScene = data.levels[data.level - 1].defaultScene;
   }
 
   builderId = '';

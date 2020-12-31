@@ -332,6 +332,22 @@ export default class ThreeSixtyAction {
     };
   }
 
+  static updateScenes() {
+    return async (dispatch, getState) => {
+      const { panorama: panoramaState, threeSixty } = getState();
+      const { panorama } = panoramaState;
+      const { levelScenes, selectedScene } = threeSixty;
+      await ActionUtility.createThunkEffect(
+        dispatch,
+        ThreeSixtyAction.CHANGE_SCENE_SPHERE_REQUEST,
+        ThreeSixtyEffect.updateScenes,
+        panorama,
+        levelScenes.scenes,
+        selectedScene
+      );
+    };
+  }
+
   // maybe this ones can be selectors instead of actions
 
   static setBuilder(builder) {

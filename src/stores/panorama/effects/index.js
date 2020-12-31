@@ -16,6 +16,7 @@ export default class SessionEffect {
     scenes
   ) {
     const selectedLevel = SessionEffect.getLevel(levels, level);
+    console.log('selectedLevel', selectedLevel);
     if (selectedLevel) {
       const styleToRequest = style === 'default' ? defaultStyle : style;
       const selectedStyle = SessionEffect.getStyle(
@@ -159,6 +160,7 @@ export default class SessionEffect {
 
   static createThreeSixty(threeSixtyPano, panoramaInfo, updateCall) {
     const threeSixty = new THREESIXTY();
+    console.log('createThreeSixty', panoramaInfo);
     const params = {
       ...panoramaInfo,
       loadingCallBack: () => {},
