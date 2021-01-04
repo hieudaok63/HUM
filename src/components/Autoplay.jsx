@@ -60,9 +60,7 @@ class Autoplay extends Component {
     ) {
       dispatch(ThreeSixtyAction.setSelectedScene(scenes[autoTourScene].key));
       dispatch(ThreeSixtyAction.getStyles());
-      await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
-      await dispatch(PanoramaAction.createPanoramaInfo());
-      dispatch(PanoramaAction.setPanorama());
+      await dispatch(ThreeSixtyAction.changeSceneSphere());
     }
 
     if (autoTourScene === scenes.length - 1) {
