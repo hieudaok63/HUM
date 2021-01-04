@@ -5,7 +5,6 @@ import ImageMenuItem from '../ImageMenuItem';
 import personalizeIcon from '../../../assets/Icons/icon-personalize-white.svg';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
 import { getSelectedStyle } from '../../../selectors/menu';
-import PanoramaAction from '../../../stores/panorama/actions';
 import SocketAction from '../../../stores/socket/actions';
 
 class MobileStylesMenu extends Component {
@@ -16,11 +15,9 @@ class MobileStylesMenu extends Component {
 
     await dispatch(ThreeSixtyAction.getScenes());
 
-    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
+    await dispatch(ThreeSixtyAction.getScenesByStyles());
 
-    await dispatch(PanoramaAction.createPanoramaInfo());
-
-    dispatch(PanoramaAction.setPanorama());
+    await dispatch(ThreeSixtyAction.updateScenes());
 
     dispatch(
       SocketAction.socketMessage({
