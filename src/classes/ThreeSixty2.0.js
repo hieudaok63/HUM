@@ -203,6 +203,7 @@ class ThreeSixtySphere {
 
   /* */
   updateScenes = (scenes, selectedScene, selectedFinish) => {
+    console.log('udpate', scenes);
     this.scenes = scenes;
     this.selectedScene = selectedScene;
     this.selectedFinish = selectedFinish;
@@ -231,7 +232,7 @@ class ThreeSixtySphere {
     const firstMeshToUpdate = this.scene.children.find(
       (mesh) => mesh.name === this.selectedScene
     );
-
+    console.log('firstMeshToUpdate', firstMeshToUpdate, this.selectedScene);
     if (firstMeshToUpdate) {
       this.updateMeshMaterial(firstMeshToUpdate);
       this.scene.children.forEach((mesh) => {
@@ -248,6 +249,7 @@ class ThreeSixtySphere {
   updateMeshMaterial = (mesh) => {
     const loader = new THREE.TextureLoader();
     const sceneToUpdate = this.scenes.find((scene) => scene.key === mesh.name);
+    console.log(sceneToUpdate, this.scenes, mesh);
     const buildedScene = this.createSceneInfo(sceneToUpdate);
     if (buildedScene !== null) {
       loader.load(buildedScene.panorama.uri, (texture) => {
@@ -259,6 +261,7 @@ class ThreeSixtySphere {
 
   /* */
   initializeSpheres = () => {
+    console.log('scenes', this.scenes);
     this.scenes.map((scene) => this.createSphere(scene));
     setTimeout(() => {
       this.loaderContainer.classList.add('none');
@@ -274,6 +277,7 @@ class ThreeSixtySphere {
 
   /* */
   createSceneInfo = (scene) => {
+    console.log(scene);
     const useToRequest = this.getRoomToRequest(scene.uses, scene.defaultUse);
     const selectedUse = this.getUse(scene.uses, useToRequest);
     if (selectedUse) {

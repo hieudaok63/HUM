@@ -257,9 +257,11 @@ export default class ThreeSixtyEffect {
     selectedScene,
     selectedFinish
   ) {
-    const level = levels[currentLevel - 1].styles.find(
-      (style) => style.key === selectedStyle
-    );
-    threeSixty.updateScenes(level.scenes, selectedScene, selectedFinish);
+    const scenes = [];
+    levels.forEach((item) => {
+      const level = item.styles.find((style) => style.key === selectedStyle);
+      scenes.push(...level.scenes);
+    });
+    threeSixty.updateScenes(scenes, selectedScene, selectedFinish);
   }
 }

@@ -144,12 +144,13 @@ class ThreeSixtyUseWithFinishes {
   level = 1;
 
   getScenes(levels) {
-    const currentLevel = levels.find(
-      (level) => level.levelNumber === this.level
-    );
-    const scenes = currentLevel.styles.find(
-      (style) => style.key === this.defaultStyle
-    );
+    const scenes = [];
+    levels.forEach((item) => {
+      const level = item.styles.find(
+        (style) => style.key === this.defaultStyle
+      );
+      scenes.push(...level.scenes);
+    });
 
     return scenes;
   }

@@ -34,7 +34,7 @@ export default class PanoramaAction {
         threeSixty.selectedScene,
         threeSixty.currentRoomUse,
         threeSixty.selectedFinish,
-        threeSixty.levelScenes.scenes
+        threeSixty.levelScenes
       );
       const isError = model instanceof PanoramaErrorModel;
       return { model, isError };
