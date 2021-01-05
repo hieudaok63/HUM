@@ -40,6 +40,8 @@ export default class ThreeSixtyAction {
   static SET_SELECTED_STYLE_REQUEST_FINISHED =
     'SET_SELECTED_STYLE_REQUEST_FINISHED';
 
+  static SET_SELECTED_SCENE_REQUEST = 'SET_SELECTED_SCENE_REQUEST';
+
   static SET_SELECTED_SCENE_REQUEST_FINISHED =
     'SET_SELECTED_SCENE_REQUEST_FINISHED';
 
@@ -366,8 +368,24 @@ export default class ThreeSixtyAction {
         ThreeSixtyAction.CHANGE_SCENE_SPHERE_REQUEST,
         ThreeSixtyEffect.updateScenes,
         panorama,
-        levelScenes.scenes,
+        levelScenes,
         selectedScene
+      );
+    };
+  }
+
+  static updateLevel() {
+    return async (dispatch, getState) => {
+      const { panorama: panoramaState, threeSixty } = getState();
+      const { panorama } = panoramaState;
+      const { levels, currentLevel } = threeSixty;
+      await ActionUtility.createThunkEffect(
+        dispatch,
+        ThreeSixtyAction.SET_SELECTED_SCENE_REQUEST,
+        ThreeSixtyEffect.updateLevel,
+        panorama,
+        levels,
+        currentLevel
       );
     };
   }

@@ -17,7 +17,7 @@ class MobileStylesMenu extends Component {
 
     await dispatch(ThreeSixtyAction.getScenesByStyles());
 
-    await dispatch(ThreeSixtyAction.updateScenes());
+    await dispatch(ThreeSixtyAction.updateSpheres());
 
     dispatch(
       SocketAction.socketMessage({

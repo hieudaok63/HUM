@@ -59,9 +59,7 @@ export default class PanoramaAction {
           if (level !== undefined) {
             await dispatch(ThreeSixtyAction.setCurrentLevel(level));
             await dispatch(ThreeSixtyAction.getScenes());
-            await dispatch(ThreeSixtyAction.getScenesByStyles());
             await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
-            await dispatch(ThreeSixtyAction.updateScenes());
           }
 
           await dispatch(ThreeSixtyAction.getStyles());

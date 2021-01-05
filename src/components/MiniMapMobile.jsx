@@ -77,7 +77,7 @@ class MiniMap extends Component {
 
     await dispatch(ThreeSixtyAction.getScenesByStyles());
 
-    await dispatch(ThreeSixtyAction.updateScenes());
+    await dispatch(ThreeSixtyAction.updateLevel());
   };
 
   handleResize = () => {

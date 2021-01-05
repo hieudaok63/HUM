@@ -264,4 +264,10 @@ export default class ThreeSixtyEffect {
     });
     threeSixty.updateScenes(scenes, selectedScene, selectedFinish);
   }
+
+  static async updateLevel(threeSixty, levels, currentLevel) {
+    const level = levels[currentLevel - 1];
+    threeSixty.changeSphereScene(level.defaultScene);
+    return level.defaultScene;
+  }
 }

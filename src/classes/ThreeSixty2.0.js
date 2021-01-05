@@ -762,21 +762,18 @@ class ThreeSixtySphere {
         this.CLICKEDSPRITE.isHotspot &&
         this.CLICKEDSPRITE.parent.name === this.selectedScene
       ) {
-        this.changeSphereScene(
-          this.CLICKEDSPRITE.key,
-          this.CLICKEDSPRITE.level
-        );
+        this.changeSphereScene(this.CLICKEDSPRITE.key);
         this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
       }
     }
   };
 
   /* */
-  changeSphereScene = (key, level) => {
+  changeSphereScene = (key) => {
     const mesh = this.scene.children.find(
       (child) => child.name === this.selectedScene
     );
-    if (mesh && level === undefined) {
+    if (mesh) {
       TweenLite.to(mesh, 0.2, {
         visible: false,
         onComplete: () => {
