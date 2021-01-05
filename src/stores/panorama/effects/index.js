@@ -16,13 +16,14 @@ export default class SessionEffect {
     scenes
   ) {
     const selectedLevel = SessionEffect.getLevel(levels, level);
-    console.log('selectedLevel', selectedLevel);
+
     if (selectedLevel) {
       const styleToRequest = style === 'default' ? defaultStyle : style;
       const selectedStyle = SessionEffect.getStyle(
         selectedLevel.styles,
         styleToRequest
       );
+
       if (selectedStyle) {
         const roomToRequest =
           room === 'default' ? selectedLevel.defaultScene : room;

@@ -202,12 +202,11 @@ class ThreeSixtySphere {
   };
 
   /* */
-  updateScenes = (scenes, selectedScene) => {
+  updateScenes = (scenes, selectedScene, selectedFinish) => {
     this.scenes = scenes;
     this.selectedScene = selectedScene;
-    this.scene.children = [];
-    this.initializeSpheres();
-    this.dispose();
+    this.selectedFinish = selectedFinish;
+    this.updateSpheres();
   };
 
   /* */
@@ -272,7 +271,8 @@ class ThreeSixtySphere {
         hotspots,
         scene.startScenePosition,
         finishToRequest,
-        useToRequest
+        useToRequest,
+        scene.key
       );
       return buildedScene;
     }
@@ -370,8 +370,8 @@ class ThreeSixtySphere {
     });
 
   /* */
-  buildScene = (scene, hotspots = [], startScenePosition, finish, use) => {
-    const { name, furniture, key, finishScenes } = scene;
+  buildScene = (scene, hotspots = [], startScenePosition, finish, use, key) => {
+    const { name, furniture, finishScenes } = scene;
     let current = null;
     if (
       finish.toLowerCase() === use.toLowerCase() &&

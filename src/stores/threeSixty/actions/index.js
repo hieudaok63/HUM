@@ -306,7 +306,6 @@ export default class ThreeSixtyAction {
       const { panorama: panoramaState, threeSixty } = getState();
       const { panorama } = panoramaState;
       const { selectedScene } = threeSixty;
-      console.log('PANORAMA', panorama);
       await ActionUtility.createThunkEffect(
         dispatch,
         ThreeSixtyAction.CHANGE_SCENE_SPHERE_REQUEST,
@@ -327,6 +326,31 @@ export default class ThreeSixtyAction {
         ThreeSixtyAction.UPDATE_SPHERES_FINISHES_REQUEST,
         ThreeSixtyEffect.updateSpheresFinishes,
         panorama,
+        selectedFinish
+      );
+    };
+  }
+
+  static updateSpheres() {
+    return async (dispatch, getState) => {
+      const { panorama: panoramaState, threeSixty } = getState();
+      const { panorama } = panoramaState;
+      const {
+        levels,
+        selectedStyle,
+        currentLevel,
+        selectedScene,
+        selectedFinish
+      } = threeSixty;
+      await ActionUtility.createThunkEffect(
+        dispatch,
+        ThreeSixtyAction.CHANGE_SCENE_SPHERE_REQUEST,
+        ThreeSixtyEffect.updateSpheres,
+        panorama,
+        levels,
+        currentLevel,
+        selectedStyle,
+        selectedScene,
         selectedFinish
       );
     };

@@ -75,11 +75,9 @@ class MiniMap extends Component {
 
     await dispatch(ThreeSixtyAction.getScenes());
 
-    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
+    await dispatch(ThreeSixtyAction.getScenesByStyles());
 
-    await dispatch(PanoramaAction.createPanoramaInfo());
-
-    dispatch(PanoramaAction.setPanorama());
+    await dispatch(ThreeSixtyAction.updateScenes());
   };
 
   handleResize = () => {

@@ -147,7 +147,11 @@ class ThreeSixtyUseWithFinishes {
     const currentLevel = levels.find(
       (level) => level.levelNumber === this.level
     );
-    return currentLevel.styles[0];
+    const scenes = currentLevel.styles.find(
+      (style) => style.key === this.defaultStyle
+    );
+
+    return scenes;
   }
 }
 

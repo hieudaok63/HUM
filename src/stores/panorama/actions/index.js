@@ -22,7 +22,6 @@ export default class PanoramaAction {
     return async (dispatch, getState) => {
       const { threeSixty, panorama } = getState();
       const { container } = panorama;
-      console.log(threeSixty.levels, threeSixty);
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         PanoramaAction.PANORAMA_INFO_REQUEST,
