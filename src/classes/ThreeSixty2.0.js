@@ -227,8 +227,22 @@ class ThreeSixtySphere {
   };
 
   /* */
-  updateSpheres = () =>
-    this.scene.children.map((mesh) => this.updateMeshMaterial(mesh));
+  updateSpheres = () => {
+    const firstMeshToUpdate = this.scene.children.find(
+      (mesh) => mesh.name === this.selectedScene
+    );
+
+    if (firstMeshToUpdate) {
+      this.updateMeshMaterial(firstMeshToUpdate);
+      this.scene.children.forEach((mesh) => {
+        if (firstMeshToUpdate.name !== mesh.name) {
+          this.updateMeshMaterial(mesh);
+        }
+      });
+    } else {
+      this.scene.children.map((mesh) => this.updateMeshMaterial(mesh));
+    }
+  };
 
   /* */
   updateMeshMaterial = (mesh) => {
