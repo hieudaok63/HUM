@@ -164,15 +164,27 @@ export class MenuSelector {
   }
 
   static getMapScenes(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].minimap.hotspots
-      : [];
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+
+      return currentLevel.minimap.hotspots;
+    }
+    return [];
   }
 
   static getMapImage(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].minimap.image
-      : '';
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+
+      return currentLevel.minimap.image;
+    }
+    return '';
   }
 
   static getMapSize(state) {
