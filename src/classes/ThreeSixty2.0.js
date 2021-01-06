@@ -109,7 +109,11 @@ class ThreeSixtySphere {
     this.manager = new THREE.LoadingManager();
     this.manager.onStart = () => {};
     this.manager.onLoad = () => {
-      console.log('LOADED!', this.scene.children, this.scenes);
+      this.loaderContainer.classList.add('none');
+      this.loaderContainer.addEventListener(
+        'transitionend',
+        this.onTransitionEnd
+      );
     };
     this.manager.onProgress = () => {};
   };
@@ -275,13 +279,6 @@ class ThreeSixtySphere {
   /* */
   initializeSpheres = () => {
     this.scenes.map((scene) => this.createSphere(scene));
-    setTimeout(() => {
-      this.loaderContainer.classList.add('none');
-      this.loaderContainer.addEventListener(
-        'transitionend',
-        this.onTransitionEnd
-      );
-    }, 2000);
   };
 
   /* */
