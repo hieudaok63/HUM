@@ -19,9 +19,31 @@ export class MenuSelector {
   }
 
   static getRoomUses(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].styles[0].scenes[0].uses
-      : [];
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+      const style =
+        state.threeSixty.selectedStyle === 'default'
+          ? state.threeSixty.defaultStyle
+          : state.threeSixty.selectedStyle;
+
+      const scenes = getLevelScenes(currentLevel, style);
+
+      const sceneKey =
+        state.threeSixty.selectedScene === 'default'
+          ? currentLevel.defaultScene
+          : state.threeSixty.selectedScene;
+
+      const scene = getScene(scenes, sceneKey);
+
+      if (scene !== null) {
+        return scene.uses;
+      }
+    }
+    return [];
+    // state.threeSixty.levels[0].styles[0].scenes[0].uses;
   }
 
   static getFinishScenes(state) {
@@ -53,9 +75,30 @@ export class MenuSelector {
   }
 
   static getUses(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].styles[0].scenes[0].uses
-      : [];
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+      const style =
+        state.threeSixty.selectedStyle === 'default'
+          ? state.threeSixty.defaultStyle
+          : state.threeSixty.selectedStyle;
+
+      const scenes = getLevelScenes(currentLevel, style);
+
+      const sceneKey =
+        state.threeSixty.selectedScene === 'default'
+          ? currentLevel.defaultScene
+          : state.threeSixty.selectedScene;
+
+      const scene = getScene(scenes, sceneKey);
+
+      if (scene !== null) {
+        return scene.uses;
+      }
+    }
+    return [];
   }
 
   static filterMenuOptions(options, shoppingCarItems, roomUses, finishScenes) {

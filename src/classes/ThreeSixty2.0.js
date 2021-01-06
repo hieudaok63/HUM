@@ -72,9 +72,9 @@ class ThreeSixtySphere {
     finish = 'default',
     loader,
     updateCallBack,
-    level
+    level,
+    updateMenuCall
   }) => {
-    console.log('init', scenes);
     this.container = container;
     this.loader = loader;
     this.loaderContainer = this.createLoader();
@@ -90,6 +90,7 @@ class ThreeSixtySphere {
     this.use = use;
     this.finish = finish;
     this.updateCallBack = updateCallBack;
+    this.updateMenuCall = updateMenuCall;
     this.level = level;
     this.initializeManager();
     this.initializeCamera();
@@ -203,11 +204,23 @@ class ThreeSixtySphere {
 
   /* */
   updateScenes = (scenes, selectedScene, selectedFinish) => {
-    console.log('udpate', scenes);
     this.scenes = scenes;
     this.selectedScene = selectedScene;
     this.selectedFinish = selectedFinish;
     this.updateSpheres();
+  };
+
+  /* */
+  updateUse = (selectedScene, selectedFinish, selectedUse) => {
+    this.use = selectedUse;
+    this.selectedScene = selectedScene;
+    this.selectedFinish = selectedFinish;
+
+    const meshToUpdate = this.scene.children.find(
+      (mesh) => mesh.name === this.selectedScene
+    );
+
+    this.updateMeshMaterial(meshToUpdate);
   };
 
   /* */
@@ -232,7 +245,7 @@ class ThreeSixtySphere {
     const firstMeshToUpdate = this.scene.children.find(
       (mesh) => mesh.name === this.selectedScene
     );
-    console.log('firstMeshToUpdate', firstMeshToUpdate, this.selectedScene);
+
     if (firstMeshToUpdate) {
       this.updateMeshMaterial(firstMeshToUpdate);
       this.scene.children.forEach((mesh) => {
@@ -249,19 +262,18 @@ class ThreeSixtySphere {
   updateMeshMaterial = (mesh) => {
     const loader = new THREE.TextureLoader();
     const sceneToUpdate = this.scenes.find((scene) => scene.key === mesh.name);
-    console.log(sceneToUpdate, this.scenes, mesh);
     const buildedScene = this.createSceneInfo(sceneToUpdate);
     if (buildedScene !== null) {
       loader.load(buildedScene.panorama.uri, (texture) => {
         const material = this.createMaterial(texture);
         mesh.material = material;
+        mesh.use = buildedScene.panorama.use;
       });
     }
   };
 
   /* */
   initializeSpheres = () => {
-    console.log('scenes', this.scenes);
     this.scenes.map((scene) => this.createSphere(scene));
     setTimeout(() => {
       this.loaderContainer.classList.add('none');
@@ -277,7 +289,6 @@ class ThreeSixtySphere {
 
   /* */
   createSceneInfo = (scene) => {
-    console.log(scene);
     const useToRequest = this.getRoomToRequest(scene.uses, scene.defaultUse);
     const selectedUse = this.getUse(scene.uses, useToRequest);
     if (selectedUse) {
@@ -327,6 +338,7 @@ class ThreeSixtySphere {
     const material = this.createMaterial(texture);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.name = buildedScene.key;
+    mesh.use = buildedScene.panorama.use;
 
     scene.hotspots.forEach((hotspot) => {
       this.createHotspot(hotspot, mesh);
@@ -404,6 +416,7 @@ class ThreeSixtySphere {
     const panorama = {};
     panorama.uri = uri;
     panorama.name = key;
+    panorama.use = use;
     panorama.finish = current.key;
     return {
       name,
@@ -737,6 +750,7 @@ class ThreeSixtySphere {
   onPointerStart = (event) => {
     this.mouseDown = true;
     this.getMouse(event);
+    this.updateMenuCall(false);
   };
 
   /* */
@@ -763,7 +777,12 @@ class ThreeSixtySphere {
         this.CLICKEDSPRITE.parent.name === this.selectedScene
       ) {
         this.changeSphereScene(this.CLICKEDSPRITE.key);
-        this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
+        const use = this.getSceneUse(this.CLICKEDSPRITE.key);
+        this.updateCallBack(
+          this.CLICKEDSPRITE.key,
+          this.CLICKEDSPRITE.level,
+          use
+        );
       }
     }
   };
@@ -778,7 +797,6 @@ class ThreeSixtySphere {
         visible: false,
         onComplete: () => {
           const activeMesh = this.getActiveMesh(key);
-          console.log('activeMesh', activeMesh);
           activeMesh.visible = true;
           this.selectedScene = activeMesh.name;
         }
@@ -935,6 +953,12 @@ class ThreeSixtySphere {
 
   /* */
   getMatrix = () => {};
+
+  /* */
+  getSceneUse = (scene) => {
+    const sphere = this.scene.children.find((mesh) => mesh.name === scene);
+    return sphere.use;
+  };
 
   /* */
   setCurrentStyle = (currentStylle) => {

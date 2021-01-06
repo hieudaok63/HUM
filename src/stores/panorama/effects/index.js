@@ -159,14 +159,22 @@ export default class SessionEffect {
     return 'default';
   }
 
-  static createThreeSixty(threeSixtyPano, panoramaInfo, updateCall) {
+  static createThreeSixty(
+    threeSixtyPano,
+    panoramaInfo,
+    updateCall,
+    updateMenuCall
+  ) {
     const threeSixty = new THREESIXTY();
-    console.log('createThreeSixty', panoramaInfo);
+
     const params = {
       ...panoramaInfo,
       loadingCallBack: () => {},
-      updateCallBack: async (sceneName, level) => {
-        updateCall(sceneName, level);
+      updateCallBack: async (sceneName, level, use) => {
+        updateCall(sceneName, level, use);
+      },
+      updateMenuCall: async (expand) => {
+        updateMenuCall(expand);
       }
     };
     threeSixty.init(params);
@@ -183,7 +191,6 @@ export default class SessionEffect {
   }
 
   static autoRotate(threeSixty, activate) {
-    console.log('HEY', threeSixty, activate);
     if (threeSixty) {
       threeSixty.activateAutoRotate(activate);
     }

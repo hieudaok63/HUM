@@ -129,7 +129,7 @@ export default class ThreeSixtyEffect {
     if (response instanceof HttpErrorResponseModel) {
       return response;
     }
-    console.log('BY Styles', response.data, level);
+
     const model = new ThreeSixtyUseWithFinishes({ ...response.data, level });
 
     return model;
@@ -240,12 +240,10 @@ export default class ThreeSixtyEffect {
   }
 
   static async updateSpheresFinishes(threeSixty, finish) {
-    console.log(finish);
     threeSixty.updateFinishes(finish);
   }
 
   static async updateScenes(threeSixty, scenes, selectedScene) {
-    console.log('updateScenes', scenes);
     threeSixty.updateScenes(scenes, selectedScene);
   }
 
@@ -269,5 +267,18 @@ export default class ThreeSixtyEffect {
     const level = levels[currentLevel - 1];
     threeSixty.changeSphereScene(level.defaultScene);
     return level.defaultScene;
+  }
+
+  static async changeSphereUse(
+    threeSixty,
+    selectedScene,
+    selectedFinish,
+    selectedUse
+  ) {
+    threeSixty.updateUse(selectedScene, selectedFinish, selectedUse);
+  }
+
+  static async getSpheretUse(threeSixty, selectedScene) {
+    return threeSixty.getSceneUse(selectedScene);
   }
 }

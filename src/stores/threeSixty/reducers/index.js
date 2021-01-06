@@ -172,7 +172,6 @@ export default class ThreeSixtyReducer extends BaseReducer {
   }
 
   [ThreeSixtyAction.GET_360_ITEM_REQUEST_FINISHED](state, action) {
-    console.log('supt', action);
     return {
       ...state,
       threeSixtyItem: action.payload.threeSixty,

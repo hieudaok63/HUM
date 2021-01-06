@@ -18,7 +18,6 @@ import {
   totalLevelsSelector
 } from '../selectors/menu';
 import { loadingSelector } from '../selectors/loading';
-import PanoramaAction from '../stores/panorama/actions';
 import SocketAction from '../stores/socket/actions';
 
 class MiniMap extends Component {

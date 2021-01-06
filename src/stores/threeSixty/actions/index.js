@@ -55,6 +55,8 @@ export default class ThreeSixtyAction {
   static SELECTED_MENU_OPTION_REQUEST_FINISHED =
     'SELECTED_MENU_OPTION_REQUEST_FINISHED';
 
+  static SELECTED_USE_REQUEST = 'SELECTED_USE_REQUEST';
+
   static SELECTED_USE_REQUEST_FINISHED = 'SELECTED_USE_REQUEST_FINISHED';
 
   static CURRENT_LEVEL_REQUEST_FINISHED = 'CURRENT_LEVEL_REQUEST_FINISHED';
@@ -72,6 +74,11 @@ export default class ThreeSixtyAction {
 
   static UPDATE_SPHERES_FINISHES_REQUEST_FINISHED =
     'UPDATE_SPHERES_FINISHES_REQUEST_FINISHED';
+
+  static UPDATE_SPHERE_USE_REQUEST = 'UPDATE_SPHERE_USE_REQUEST';
+
+  static UPDATE_SPHERE_USE_REQUEST_FINISHED =
+    'UPDATE_SPHERE_USE_REQUEST_FINISHED';
 
   static getScenes() {
     return async (dispatch, getState) => {
@@ -386,6 +393,38 @@ export default class ThreeSixtyAction {
         panorama,
         levels,
         currentLevel
+      );
+    };
+  }
+
+  static changeSphereUse() {
+    return async (dispatch, getState) => {
+      const { panorama: panoramaState, threeSixty } = getState();
+      const { panorama } = panoramaState;
+      const { selectedScene, selectedFinish, currentRoomUse } = threeSixty;
+      await ActionUtility.createThunkEffect(
+        dispatch,
+        ThreeSixtyAction.UPDATE_SPHERE_USE_REQUEST,
+        ThreeSixtyEffect.changeSphereUse,
+        panorama,
+        selectedScene,
+        selectedFinish,
+        currentRoomUse
+      );
+    };
+  }
+
+  static getSpheretUse() {
+    return async (dispatch, getState) => {
+      const { panorama: panoramaState, threeSixty } = getState();
+      const { panorama } = panoramaState;
+      const { selectedScene } = threeSixty;
+      await ActionUtility.createThunkEffect(
+        dispatch,
+        ThreeSixtyAction.SELECTED_USE_REQUEST,
+        ThreeSixtyEffect.getSpheretUse,
+        panorama,
+        selectedScene
       );
     };
   }

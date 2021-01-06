@@ -52,7 +52,8 @@ export default class PanoramaAction {
         PanoramaEffect.createThreeSixty,
         threeSixtyPano,
         panoramaInfo,
-        async (sceneName, level) => {
+        async (sceneName, level, use) => {
+          console.log('use', use);
           if (sceneName !== undefined) {
             await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
           }
@@ -61,8 +62,17 @@ export default class PanoramaAction {
             await dispatch(ThreeSixtyAction.getScenes());
             await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
           }
+          if (use !== undefined) {
+            await dispatch(ThreeSixtyAction.setSelectedUse(use));
+          }
 
           await dispatch(ThreeSixtyAction.getStyles());
+        },
+        async (expand) => {
+          if (expand !== undefined) {
+            await dispatch(ThreeSixtyAction.expandMenu(expand));
+            await dispatch(ThreeSixtyAction.setSelectedMenuOption(''));
+          }
         }
       );
 

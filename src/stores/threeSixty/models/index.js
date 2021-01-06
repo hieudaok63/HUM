@@ -103,7 +103,6 @@ class ThreeSixtyStylesMenuModel {
 
 class ThreeSixtyUseWithFinishes {
   constructor(data) {
-    console.log(data.selectedStyle);
     this.builderId = data.builderId;
     this.builderLogo = data.builderLogo;
     this.defaultStyle = data.defaultStyle;
@@ -186,8 +185,6 @@ class ThreeSixtyItem {
     const scenes = currentLevel.styles.find((style) => {
       return style.key === selectedStyle;
     });
-
-    console.log('scenes', scenes);
 
     return scenes;
   }
