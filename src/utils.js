@@ -81,7 +81,7 @@ const get360Style = (style, menu) => {
   return menuStyle && menuStyle[0];
 };
 
-const get360Use = (roomKey, scene) => {
+const getUse = (roomKey, scene) => {
   const use = scene.filter((item) =>
     item.key.toLowerCase() === roomKey.toLowerCase() ? item : null
   );
@@ -193,7 +193,7 @@ const getProcessed360Data = (data, level, style, room, roomUse, finish) => {
           jsonScene.defaultUse
         );
 
-        const use = get360Use(roomUseToRequest, jsonScene.uses);
+        const use = getUse(roomUseToRequest, jsonScene.uses);
         const uses = get360Uses(jsonScene.uses);
 
         const currentRoomUse = getCurrentRoomUse(use);
@@ -302,7 +302,7 @@ export {
   titleCase,
   hasGyroscope,
   isPortrait,
-  get360Use,
+  getUse,
   get360Uses,
   getRoomToRequest,
   getCurrentRoomUse,

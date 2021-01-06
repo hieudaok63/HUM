@@ -4,7 +4,8 @@ import {
   isPortrait,
   isTablet,
   getLevelScenes,
-  getScene
+  getScene,
+  getUse
 } from '../../utils';
 
 export class MenuSelector {
@@ -13,9 +14,37 @@ export class MenuSelector {
   }
 
   static getShoppingCarItems(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].styles[0].scenes[0].uses[0].furniture
-      : [];
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+      const style =
+        state.threeSixty.selectedStyle === 'default'
+          ? state.threeSixty.defaultStyle
+          : state.threeSixty.selectedStyle;
+
+      const scenes = getLevelScenes(currentLevel, style);
+
+      const sceneKey =
+        state.threeSixty.selectedScene === 'default'
+          ? currentLevel.defaultScene
+          : state.threeSixty.selectedScene;
+
+      const scene = getScene(scenes, sceneKey);
+
+      const useKey =
+        state.threeSixty.currentRoomUse === 'default'
+          ? scene.defaultUse
+          : state.threeSixty.currentRoomUse;
+
+      const use = getUse(useKey, scene.uses);
+
+      if (use !== null) {
+        return use.furniture;
+      }
+    }
+    return [];
   }
 
   static getRoomUses(state) {
@@ -43,7 +72,6 @@ export class MenuSelector {
       }
     }
     return [];
-    // state.threeSixty.levels[0].styles[0].scenes[0].uses;
   }
 
   static getFinishScenes(state) {
@@ -188,9 +216,15 @@ export class MenuSelector {
   }
 
   static getMapSize(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].minimap.mapSize
-      : {};
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+
+      return currentLevel.minimap.mapSize;
+    }
+    return {};
   }
 
   static getShowMiniMap(state) {
@@ -206,48 +240,58 @@ export class MenuSelector {
   }
 
   static getMaxMapHeight(state) {
-    const mapSize =
-      state.threeSixty.levels.length > 0
-        ? state.threeSixty.levels[0].minimap.mapSize
-        : {};
     let maxMapHeight = 0;
-    if (Object.keys(mapSize).length !== 0 && mapSize.constructor === Object) {
-      maxMapHeight =
-        Math.round(
-          ((window.innerWidth - 160) * mapSize.desktop.width) /
-            mapSize.desktop.height
-        ) <
-        window.innerHeight - 160
-          ? Math.round(
-              ((window.innerWidth - 160) * mapSize.desktop.width) /
-                mapSize.desktop.height
-            )
-          : window.innerHeight - 160;
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+
+      const { mapSize } = currentLevel.minimap;
+
+      if (Object.keys(mapSize).length !== 0 && mapSize.constructor === Object) {
+        maxMapHeight =
+          Math.round(
+            ((window.innerWidth - 160) * mapSize.desktop.width) /
+              mapSize.desktop.height
+          ) <
+          window.innerHeight - 160
+            ? Math.round(
+                ((window.innerWidth - 160) * mapSize.desktop.width) /
+                  mapSize.desktop.height
+              )
+            : window.innerHeight - 160;
+      }
     }
+
     return maxMapHeight;
   }
 
   static getMaxMapWidth(state) {
-    const mapSize =
-      state.threeSixty.levels.length > 0
-        ? state.threeSixty.levels[0].minimap.mapSize
-        : {};
     let maxMapWidth = 0;
-    if (Object.keys(mapSize).length !== 0 && mapSize.constructor === Object) {
-      maxMapWidth =
-        Math.round(
-          ((window.innerWidth - 160) * mapSize.desktop.width) /
-            mapSize.desktop.height
-        ) <
-        window.innerHeight - 160
-          ? Math.round(
-              ((window.innerWidth - 160) * mapSize.desktop.height) /
-                mapSize.desktop.width
-            )
-          : Math.round(
-              ((window.innerHeight - 160) * mapSize.desktop.height) /
-                mapSize.desktop.width
-            );
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+
+      const { mapSize } = currentLevel.minimap;
+      if (Object.keys(mapSize).length !== 0 && mapSize.constructor === Object) {
+        maxMapWidth =
+          Math.round(
+            ((window.innerWidth - 160) * mapSize.desktop.width) /
+              mapSize.desktop.height
+          ) <
+          window.innerHeight - 160
+            ? Math.round(
+                ((window.innerWidth - 160) * mapSize.desktop.height) /
+                  mapSize.desktop.width
+              )
+            : Math.round(
+                ((window.innerHeight - 160) * mapSize.desktop.height) /
+                  mapSize.desktop.width
+              );
+      }
     }
 
     return maxMapWidth;
