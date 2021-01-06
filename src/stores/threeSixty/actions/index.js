@@ -40,6 +40,9 @@ export default class ThreeSixtyAction {
   static SET_SELECTED_STYLE_REQUEST_FINISHED =
     'SET_SELECTED_STYLE_REQUEST_FINISHED';
 
+  static SET_SELECTED_STYLE_NAME_REQUEST_FINISHED =
+    'SET_SELECTED_STYLE_NAME_REQUEST_FINISHED';
+
   static SET_SELECTED_SCENE_REQUEST = 'SET_SELECTED_SCENE_REQUEST';
 
   static SET_SELECTED_SCENE_REQUEST_FINISHED =
@@ -340,13 +343,12 @@ export default class ThreeSixtyAction {
     };
   }
 
-  static updateSpheres() {
+  static updateSpheres(selectedStyle) {
     return async (dispatch, getState) => {
       const { panorama: panoramaState, threeSixty } = getState();
       const { panorama } = panoramaState;
       const {
         levels,
-        selectedStyle,
         currentLevel,
         selectedScene,
         selectedFinish
@@ -461,10 +463,18 @@ export default class ThreeSixtyAction {
 
   //
 
-  static setSelectedStyle(style) {
+  static setSelectedStyle(style, styleName) {
+    console.log('setSelected', style, styleName);
     return ActionUtility.createAction(
       ThreeSixtyAction.SET_SELECTED_STYLE_REQUEST_FINISHED,
       style
+    );
+  }
+
+  static setSelectedNameStyle(styleName) {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.SET_SELECTED_STYLE_NAME_REQUEST_FINISHED,
+      styleName
     );
   }
 

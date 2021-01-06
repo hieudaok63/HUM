@@ -23,7 +23,6 @@ export default class SessionEffect {
         selectedLevel.styles,
         styleToRequest
       );
-
       if (selectedStyle) {
         const roomToRequest =
           room === 'default' ? selectedLevel.defaultScene : room;
@@ -39,7 +38,8 @@ export default class SessionEffect {
           selectedScene: roomToRequest,
           use,
           finish,
-          level
+          level,
+          style: selectedStyle.key
         });
 
         return model;
@@ -163,7 +163,8 @@ export default class SessionEffect {
     threeSixtyPano,
     panoramaInfo,
     updateCall,
-    updateMenuCall
+    updateMenuCall,
+    updateStyleCall
   ) {
     const threeSixty = new THREESIXTY();
 
@@ -175,6 +176,9 @@ export default class SessionEffect {
       },
       updateMenuCall: async (expand) => {
         updateMenuCall(expand);
+      },
+      updateStyleCall: async (style) => {
+        updateStyleCall(style);
       }
     };
     threeSixty.init(params);

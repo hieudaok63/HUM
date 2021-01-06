@@ -43,9 +43,10 @@ export default class PanoramaAction {
 
   static setPanorama() {
     return async (dispatch, getState) => {
-      const { panorama } = getState();
+      const { panorama, threeSixty } = getState();
       const { panoramaInfo, panorama: threeSixtyPano } = panorama;
-
+      const { menu } = threeSixty;
+      console.log('threeSixtyPano', panoramaInfo);
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         PanoramaAction.PANORAMA_REQUEST,
@@ -53,7 +54,6 @@ export default class PanoramaAction {
         threeSixtyPano,
         panoramaInfo,
         async (sceneName, level, use) => {
-          console.log('use', use);
           if (sceneName !== undefined) {
             await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
           }
@@ -72,6 +72,14 @@ export default class PanoramaAction {
           if (expand !== undefined) {
             await dispatch(ThreeSixtyAction.expandMenu(expand));
             await dispatch(ThreeSixtyAction.setSelectedMenuOption(''));
+          }
+        },
+        async (style) => {
+          if (style !== undefined) {
+            const selectedStyle = menu.find((item) => item.type === style);
+            await dispatch(
+              ThreeSixtyAction.setSelectedNameStyle(selectedStyle.style)
+            );
           }
         }
       );

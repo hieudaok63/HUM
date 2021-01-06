@@ -33,15 +33,17 @@ export class MenuSelector {
 
       const scene = getScene(scenes, sceneKey);
 
-      const useKey =
-        state.threeSixty.currentRoomUse === 'default'
-          ? scene.defaultUse
-          : state.threeSixty.currentRoomUse;
+      if (scene !== null) {
+        const useKey =
+          state.threeSixty.currentRoomUse === 'default'
+            ? scene.defaultUse
+            : state.threeSixty.currentRoomUse;
 
-      const use = getUse(useKey, scene.uses);
+        const use = getUse(useKey, scene.uses);
 
-      if (use !== null) {
-        return use.furniture;
+        if (use !== null) {
+          return use.furniture;
+        }
       }
     }
     return [];

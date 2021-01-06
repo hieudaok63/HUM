@@ -123,6 +123,13 @@ export default class ThreeSixtyReducer extends BaseReducer {
     };
   }
 
+  [ThreeSixtyAction.SET_SELECTED_STYLE_NAME_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      selectedStyleName: action.payload
+    };
+  }
+
   [ThreeSixtyAction.SET_SELECTED_SCENE_REQUEST_FINISHED](state, action) {
     return {
       ...state,

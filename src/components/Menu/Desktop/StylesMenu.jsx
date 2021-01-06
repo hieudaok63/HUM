@@ -15,11 +15,12 @@ class StylesMenu extends Component {
 
   styleChange = async (e, style) => {
     const { dispatch } = this.props;
-    await dispatch(ThreeSixtyAction.setSelectedStyle(style));
 
     await dispatch(ThreeSixtyAction.getScenes());
 
-    await dispatch(ThreeSixtyAction.updateSpheres());
+    await dispatch(ThreeSixtyAction.updateSpheres(style));
+
+    await dispatch(ThreeSixtyAction.setSelectedStyle(style));
 
     dispatch(
       SocketAction.socketMessage({

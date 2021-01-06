@@ -260,7 +260,12 @@ export default class ThreeSixtyEffect {
       const level = item.styles.find((style) => style.key === selectedStyle);
       scenes.push(...level.scenes);
     });
-    threeSixty.updateScenes(scenes, selectedScene, selectedFinish);
+    threeSixty.updateScenes(
+      scenes,
+      selectedScene,
+      selectedFinish,
+      selectedStyle
+    );
   }
 
   static async updateLevel(threeSixty, levels, currentLevel) {

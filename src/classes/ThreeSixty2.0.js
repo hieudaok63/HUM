@@ -54,7 +54,7 @@ class ThreeSixtySphere {
     this.firstLoad = true;
     this.loadingCallBack = null;
     this.updateCallBack = null;
-    this.currentStylle = 'default';
+    this.currentStyle = 'default';
     this.currentFinish = 'default';
     this.startScenePosition = startScenePosition;
   }
@@ -73,7 +73,9 @@ class ThreeSixtySphere {
     loader,
     updateCallBack,
     level,
-    updateMenuCall
+    updateMenuCall,
+    updateStyleCall,
+    style
   }) => {
     this.container = container;
     this.loader = loader;
@@ -91,7 +93,9 @@ class ThreeSixtySphere {
     this.finish = finish;
     this.updateCallBack = updateCallBack;
     this.updateMenuCall = updateMenuCall;
+    this.updateStyleCall = updateStyleCall;
     this.level = level;
+    this.currentStyle = style;
     this.initializeManager();
     this.initializeCamera();
     this.initializeScene();
@@ -207,10 +211,11 @@ class ThreeSixtySphere {
   };
 
   /* */
-  updateScenes = (scenes, selectedScene, selectedFinish) => {
+  updateScenes = (scenes, selectedScene, selectedFinish, selectedStyle) => {
     this.scenes = scenes;
     this.selectedScene = selectedScene;
     this.selectedFinish = selectedFinish;
+    this.currentStyle = selectedStyle;
     this.updateSpheres();
   };
 
@@ -264,7 +269,7 @@ class ThreeSixtySphere {
 
   /* */
   updateMeshMaterial = (mesh) => {
-    const loader = new THREE.TextureLoader();
+    const loader = new THREE.TextureLoader(this.manager);
     const sceneToUpdate = this.scenes.find((scene) => scene.key === mesh.name);
     const buildedScene = this.createSceneInfo(sceneToUpdate);
     if (buildedScene !== null) {
@@ -272,6 +277,9 @@ class ThreeSixtySphere {
         const material = this.createMaterial(texture);
         mesh.material = material;
         mesh.use = buildedScene.panorama.use;
+        if (buildedScene.panorama.name === this.selectedScene) {
+          this.updateStyleCall(this.currentStyle);
+        }
       });
     }
   };
@@ -959,7 +967,7 @@ class ThreeSixtySphere {
 
   /* */
   setCurrentStyle = (currentStylle) => {
-    this.currentStylle = currentStylle;
+    this.currentStyle = currentStylle;
   };
 
   /* */

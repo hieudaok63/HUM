@@ -13,6 +13,7 @@ export default class ThreePanoramaModel {
     this.use = data.use;
     this.finish = data.finish;
     this.level = data.level;
+    this.style = data.style;
   }
 
   container = null;
@@ -34,4 +35,6 @@ export default class ThreePanoramaModel {
   selectedScene = '';
 
   level = 1;
+
+  style = '';
 }
