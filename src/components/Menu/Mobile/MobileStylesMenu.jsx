@@ -11,13 +11,11 @@ class MobileStylesMenu extends Component {
   styleChange = async (e, style) => {
     const { dispatch } = this.props;
 
+    await dispatch(ThreeSixtyAction.updateSpheres(style));
+
     await dispatch(ThreeSixtyAction.setSelectedStyle(style));
 
     await dispatch(ThreeSixtyAction.getScenes());
-
-    await dispatch(ThreeSixtyAction.getScenesByStyles());
-
-    await dispatch(ThreeSixtyAction.updateSpheres(style));
 
     dispatch(
       SocketAction.socketMessage({

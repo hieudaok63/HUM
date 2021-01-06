@@ -55,8 +55,7 @@ export default class ThreeSixtyReducer extends BaseReducer {
     return {
       ...state,
       scenes: action.payload.scenes,
-      builderLogo: action.payload.builderLogo,
-      selectedStyleName: action.payload.selectedStyleName
+      builderLogo: action.payload.builderLogo
     };
   }
 

@@ -118,6 +118,7 @@ class ThreeSixtySphere {
         'transitionend',
         this.onTransitionEnd
       );
+      this.updateStyleCall(this.currentStyle);
     };
     this.manager.onProgress = () => {};
   };
@@ -161,19 +162,6 @@ class ThreeSixtySphere {
     this.mesh.material = this.material;
     this.mesh.material.needsUpdate = true;
     this.updateHotspots();
-    /*
-    if (this.loaderContainer) {
-      this.loaderContainer.classList.add('none');
-      this.blurContainer.classList.add('none');
-      this.mesh.material = this.material;
-      this.mesh.material.needsUpdate = true;
-      this.updateHotspots();
-      this.loaderContainer.addEventListener(
-        'transitionend',
-        this.onTransitionEnd
-      );
-    }
-    */
   };
 
   onTransitionEnd = (event) => {
@@ -189,7 +177,6 @@ class ThreeSixtySphere {
     this.firstLoad = false;
     this.loaderContainer.classList.remove('white-background');
     this.loaderContainer.classList.remove('none');
-    // this.blurContainer.classList.remove('none');
   };
 
   /* */
@@ -251,20 +238,7 @@ class ThreeSixtySphere {
 
   /* */
   updateSpheres = () => {
-    const firstMeshToUpdate = this.scene.children.find(
-      (mesh) => mesh.name === this.selectedScene
-    );
-
-    if (firstMeshToUpdate) {
-      this.updateMeshMaterial(firstMeshToUpdate);
-      this.scene.children.forEach((mesh) => {
-        if (firstMeshToUpdate.name !== mesh.name) {
-          this.updateMeshMaterial(mesh);
-        }
-      });
-    } else {
-      this.scene.children.map((mesh) => this.updateMeshMaterial(mesh));
-    }
+    this.scene.children.map((mesh) => this.updateMeshMaterial(mesh));
   };
 
   /* */
@@ -277,9 +251,7 @@ class ThreeSixtySphere {
         const material = this.createMaterial(texture);
         mesh.material = material;
         mesh.use = buildedScene.panorama.use;
-        if (buildedScene.panorama.name === this.selectedScene) {
-          this.updateStyleCall(this.currentStyle);
-        }
+        material.needsUpdate = true;
       });
     }
   };
