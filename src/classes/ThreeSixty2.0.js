@@ -56,6 +56,7 @@ class ThreeSixtySphere {
     this.updateCallBack = null;
     this.currentStyle = 'default';
     this.currentFinish = 'default';
+    this.selectedSceneLoadedImage = '';
     this.startScenePosition = startScenePosition;
   }
 
@@ -113,14 +114,21 @@ class ThreeSixtySphere {
     this.manager = new THREE.LoadingManager();
     this.manager.onStart = () => {};
     this.manager.onLoad = () => {
+      if (this.firstLoad) {
+        this.updateStyleCall(this.currentStyle);
+      }
       this.loaderContainer.classList.add('none');
       this.loaderContainer.addEventListener(
         'transitionend',
         this.onTransitionEnd
       );
-      this.updateStyleCall(this.currentStyle);
     };
-    this.manager.onProgress = () => {};
+    this.manager.onProgress = (url) => {
+      if (url === this.selectedSceneLoadedImage) {
+        console.log('loaded');
+        this.updateStyleCall(this.currentStyle);
+      }
+    };
   };
 
   /* */
@@ -252,6 +260,9 @@ class ThreeSixtySphere {
         mesh.material = material;
         mesh.use = buildedScene.panorama.use;
         material.needsUpdate = true;
+        if (this.selectedScene === buildedScene.panorama.name) {
+          this.selectedSceneLoadedImage = buildedScene.panorama.uri;
+        }
       });
     }
   };
