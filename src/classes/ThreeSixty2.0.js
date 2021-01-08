@@ -487,8 +487,8 @@ class ThreeSixtySphere {
 
   /* */
   bindEventListeners = () => {
-    this.container.addEventListener('mousedown', this.onPointerStart);
-    this.container.addEventListener('mouseup', this.onPointerEnd);
+    this.container.addEventListener('pointerdown', this.onPointerStart);
+    this.container.addEventListener('pointerup', this.onPointerEnd);
     this.container.addEventListener('mousemove', this.onPointerMove, {
       passive: true
     });
@@ -781,6 +781,7 @@ class ThreeSixtySphere {
       (child) => child.name === this.selectedScene
     );
     if (mesh) {
+      console.log('change sphere', mesh);
       TweenLite.to(mesh, 0.2, {
         visible: false,
         onComplete: () => {

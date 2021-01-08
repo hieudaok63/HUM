@@ -41,7 +41,7 @@ export class MenuSelector {
 
         const use = getUse(useKey, scene.uses);
 
-        if (use !== null) {
+        if (use !== null && use !== undefined) {
           return use.furniture;
         }
       }
