@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import TWEEN from '@tweenjs/tween.js';
-import { TweenLite } from 'gsap';
+import { TweenLite, Linear } from 'gsap';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { DeviceOrientationControls } from '../lib/three/DeviceOrientationControls';
 import { TextureLoader } from '../lib/three/loaders/loaders';
@@ -40,8 +40,6 @@ class ThreeSixtySphere {
     this.ctrl = false;
     this.control = null;
     this.hasGyro = false;
-    this.scaleUpAnimation = new TWEEN.Tween();
-    this.scaleDownAnimation = new TWEEN.Tween();
     this.easingAnimationUp = [];
     this.easingAnimationDown = [];
     this.showAnimation = [];
@@ -196,7 +194,7 @@ class ThreeSixtySphere {
       1100
     );
     this.camera.position.z = 0.1;
-    this.camera.target = new THREE.Vector3(0, 0, 0);
+    // this.camera.target = new THREE.Vector3(0, 0, 0);
   };
 
   /* */
@@ -777,21 +775,64 @@ class ThreeSixtySphere {
 
   /* */
   changeSphereScene = (key) => {
-    const mesh = this.scene.children.find(
+    this.oldMesh = this.scene.children.find(
       (child) => child.name === this.selectedScene
     );
-    if (mesh) {
-      console.log('change sphere', mesh);
-      TweenLite.to(mesh, 0.2, {
-        visible: false,
-        onComplete: () => {
-          const activeMesh = this.getActiveMesh(key);
-          activeMesh.visible = true;
-          this.selectedScene = activeMesh.name;
-        }
-      });
+    if (this.oldMesh) {
+      this.activeMesh = this.getActiveMesh(key);
+      this.currentScaleDown = this.scaleDown(this.oldMesh);
+      this.currentScaleDown.start();
     }
   };
+
+  scaleDown = (mesh) =>
+    new TWEEN.Tween(mesh.scale)
+      .to(
+        {
+          x: 0,
+          y: 0,
+          z: 0
+        },
+        500
+      )
+      .onUpdate((item) => {
+        this.render();
+        this.activeMesh.visible = true;
+        this.oldMesh.material.opacity = item.x;
+        this.oldMesh.material.transparent = true;
+        this.toggleMeshChildren(this.oldMesh, false);
+      })
+      .onComplete(() => {
+        this.oldMesh.visible = false;
+        this.oldMesh.material.transparent = false;
+        this.oldMesh.scale.set(1, 1, 1);
+        this.toggleMeshChildren(this.oldMesh, true);
+        this.selectedScene = this.activeMesh.name;
+        this.currentScaleDown.stop();
+      });
+
+  scaleUp = (mesh) =>
+    new TWEEN.Tween(mesh.scale)
+      .to(
+        {
+          x: 8,
+          y: 8,
+          z: 8
+        },
+        5000
+      )
+      .onUpdate(() => {
+        this.render();
+      })
+      .onComplete(() => {
+        this.currentScaleUp.stop();
+      });
+
+  /* */
+  toggleMeshChildren = (mesh, visble) =>
+    mesh.children.forEach((item) => {
+      item.visible = visble;
+    });
 
   /* */
   displayPosition = () => {
