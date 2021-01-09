@@ -57,7 +57,6 @@ export default class ThreeSixtyEffect {
       VERSION,
       ''
     )}${VERSION}/${level}/${room}/${mode}`;
-
     const response = await HttpUtility.get(endpoint, {
       headers: {
         'x-api-key': THREE_SIXTY_API_KEY
@@ -118,7 +117,7 @@ export default class ThreeSixtyEffect {
     const endpoint = `${THREE_SIXTY_API}${language}/360s/style-scenes/${builderId}/${propertyId}/${layoutName.replace(
       VERSION,
       ''
-    )}${VERSION}/${level}/${style}`;
+    )}${VERSION}`;
 
     const response = await HttpUtility.post(endpoint, {
       headers: {

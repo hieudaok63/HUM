@@ -11,22 +11,31 @@ export const WEBAPP_API_KEY =
     : WEBAPP_API_KEY_DEV;
 
 export const THREE_SIXTY_API_DEV = 'https://dev-360-api.athum.com/v3/';
+export const THREE_SIXTY_API_STAGING = 'https://staging-360-api.athum.com/';
 export const THREE_SIXTY_API_PROD = 'https://360-api.athum.com/v3/';
 
-export const THREE_SIXTY_API =
-  process.env.REACT_APP_ENV === 'production'
-    ? THREE_SIXTY_API_PROD
-    : THREE_SIXTY_API_DEV;
+const threeSixtyApi = {
+  production: THREE_SIXTY_API_PROD,
+  development: THREE_SIXTY_API_DEV,
+  staging: THREE_SIXTY_API_STAGING
+};
+
+export const THREE_SIXTY_API = threeSixtyApi[process.env.REACT_APP_ENV];
 
 export const THREE_SIXTY_API_PROD_KEY =
   'tHcR7YBjJG4Ty9I0IYEVU4ejEotjYksb1uFC0wbr';
 export const THREE_SIXTY_API_DEV_KEY =
   'UGDB9Sr4mR2IzN532KZW07uA5tAraS0T6Ah9QPNr';
+export const THREE_SIXTY_API_STAGING_KEY =
+  'YbSM7a1Q6zaPXLfXlTCXK1P0uXpZTNr946Yf0tKp';
 
-export const THREE_SIXTY_API_KEY =
-  process.env.REACT_APP_ENV === 'production'
-    ? THREE_SIXTY_API_PROD_KEY
-    : THREE_SIXTY_API_DEV_KEY;
+const threeSixtyApiKey = {
+  production: THREE_SIXTY_API_PROD_KEY,
+  development: THREE_SIXTY_API_DEV_KEY,
+  staging: THREE_SIXTY_API_STAGING_KEY
+};
+
+export const THREE_SIXTY_API_KEY = threeSixtyApiKey[process.env.REACT_APP_ENV];
 
 export const SOCKET_TEST_API = 'https://virtualsalesapp.azurewebsites.net';
 export const SOCKET_PROD_API = 'https://prod-athum-rso-ws.azurewebsites.net/';

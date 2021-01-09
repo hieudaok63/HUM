@@ -32,8 +32,10 @@
   "scripts": {
     "start": "env HOST=0.0.0.0 REACT_APP_ENV=production REACT_APP_VERSION=V4 react-scripts start",
     "start:dev": "env HOST=0.0.0.0 REACT_APP_ENV=development REACT_APP_VERSION=V4 react-scripts start",
+    "start:staging": "env HOST=0.0.0.0 REACT_APP_ENV=staging REACT_APP_VERSION=V4 react-scripts start",
     "build": "env REACT_APP_ENV=production REACT_APP_VERSION=V4 react-scripts build",
     "build:dev": "env REACT_APP_ENV=development REACT_APP_VERSION=V4 react-scripts build",
+    "build:staging": "env REACT_APP_ENV=staging REACT_APP_VERSION=V4 react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
