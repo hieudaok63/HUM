@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import TWEEN from '@tweenjs/tween.js';
-import { TweenLite, Linear } from 'gsap';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { DeviceOrientationControls } from '../lib/three/DeviceOrientationControls';
 import { TextureLoader } from '../lib/three/loaders/loaders';
@@ -164,12 +163,6 @@ class ThreeSixtySphere {
   };
 
   /* */
-  LoadingManager = () => {
-    this.mesh.material = this.material;
-    this.mesh.material.needsUpdate = true;
-    this.updateHotspots();
-  };
-
   onTransitionEnd = (event) => {
     event.target.remove();
     const el = document.querySelector('.three-sixty-blur');
@@ -344,6 +337,7 @@ class ThreeSixtySphere {
       side: THREE.DoubleSide
     });
 
+  /* */
   getActiveMesh = (key) =>
     this.scene.children.find((mesh) => mesh.name === key);
 
@@ -475,12 +469,6 @@ class ThreeSixtySphere {
       this.renderer.domElement
     );
     this.control.enabled = true;
-  };
-
-  updateHotspots = () => {
-    this.hotspots.forEach((hotspot) => {
-      this.createHotspot(hotspot);
-    });
   };
 
   /* */
@@ -785,6 +773,7 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   scaleDown = (mesh) =>
     new TWEEN.Tween(mesh.scale)
       .to(
@@ -811,6 +800,7 @@ class ThreeSixtySphere {
         this.currentScaleDown.stop();
       });
 
+  /* */
   scaleUp = (mesh) =>
     new TWEEN.Tween(mesh.scale)
       .to(

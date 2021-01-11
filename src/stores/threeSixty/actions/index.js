@@ -83,6 +83,7 @@ export default class ThreeSixtyAction {
   static UPDATE_SPHERE_USE_REQUEST_FINISHED =
     'UPDATE_SPHERE_USE_REQUEST_FINISHED';
 
+  /* */
   static getScenes() {
     return async (dispatch, getState) => {
       const { language: stateLanguage, threeSixty } = getState();
@@ -114,6 +115,7 @@ export default class ThreeSixtyAction {
     };
   }
 
+  /* */
   static getStyles() {
     return async (dispatch, getState) => {
       const { language: stateLanguage, threeSixty } = getState();
@@ -145,43 +147,7 @@ export default class ThreeSixtyAction {
     };
   }
 
-  static getRoomUseWithFinishes() {
-    return async (dispatch, getState) => {
-      const { language: stateLanguage, threeSixty } = getState();
-      const { language } = stateLanguage;
-      const {
-        builderId,
-        propertyId,
-        layoutName,
-        currentLevel,
-        selectedStyle,
-        selectedScene,
-        selectedFinish,
-        roomUse,
-        mode
-      } = threeSixty;
-
-      const model = await ActionUtility.createThunkEffect(
-        dispatch,
-        ThreeSixtyAction.THREE_SIXTY_DATA_REQUEST,
-        ThreeSixtyEffect.getRoomUseWithFinishes,
-        language,
-        builderId,
-        propertyId,
-        layoutName,
-        currentLevel,
-        selectedStyle,
-        selectedScene,
-        roomUse,
-        mode,
-        selectedFinish
-      );
-
-      const isError = model instanceof HttpErrorResponseModel;
-      return { model, isError };
-    };
-  }
-
+  /* */
   static getScenesByStyles() {
     return async (dispatch, getState) => {
       const { language: stateLanguage, threeSixty } = getState();
@@ -313,6 +279,7 @@ export default class ThreeSixtyAction {
     };
   }
 
+  /* */
   static changeSceneSphere() {
     return async (dispatch, getState) => {
       const { panorama: panoramaState, threeSixty } = getState();
@@ -328,6 +295,7 @@ export default class ThreeSixtyAction {
     };
   }
 
+  /* */
   static updateFinishes() {
     return async (dispatch, getState) => {
       const { panorama: panoramaState, threeSixty } = getState();
@@ -343,6 +311,7 @@ export default class ThreeSixtyAction {
     };
   }
 
+  /* */
   static updateSpheres(selectedStyle) {
     return async (dispatch, getState) => {
       const { panorama: panoramaState, threeSixty } = getState();
@@ -367,22 +336,7 @@ export default class ThreeSixtyAction {
     };
   }
 
-  static updateScenes() {
-    return async (dispatch, getState) => {
-      const { panorama: panoramaState, threeSixty } = getState();
-      const { panorama } = panoramaState;
-      const { levelScenes, selectedScene } = threeSixty;
-      await ActionUtility.createThunkEffect(
-        dispatch,
-        ThreeSixtyAction.CHANGE_SCENE_SPHERE_REQUEST,
-        ThreeSixtyEffect.updateScenes,
-        panorama,
-        levelScenes,
-        selectedScene
-      );
-    };
-  }
-
+  /* */
   static updateLevel() {
     return async (dispatch, getState) => {
       const { panorama: panoramaState, threeSixty } = getState();
@@ -399,6 +353,7 @@ export default class ThreeSixtyAction {
     };
   }
 
+  /* */
   static changeSphereUse() {
     return async (dispatch, getState) => {
       const { panorama: panoramaState, threeSixty } = getState();
@@ -416,7 +371,8 @@ export default class ThreeSixtyAction {
     };
   }
 
-  static getSpheretUse() {
+  /* */
+  static getSphereUse() {
     return async (dispatch, getState) => {
       const { panorama: panoramaState, threeSixty } = getState();
       const { panorama } = panoramaState;
@@ -424,7 +380,7 @@ export default class ThreeSixtyAction {
       await ActionUtility.createThunkEffect(
         dispatch,
         ThreeSixtyAction.SELECTED_USE_REQUEST,
-        ThreeSixtyEffect.getSpheretUse,
+        ThreeSixtyEffect.getSphereUse,
         panorama,
         selectedScene
       );
@@ -433,6 +389,7 @@ export default class ThreeSixtyAction {
 
   // maybe this ones can be selectors instead of actions
 
+  /* */
   static setBuilder(builder) {
     return ActionUtility.createAction(
       ThreeSixtyAction.SET_BUILDER_REQUEST_FINISHED,
@@ -461,8 +418,7 @@ export default class ThreeSixtyAction {
     );
   }
 
-  //
-
+  /* */
   static setSelectedStyle(style, styleName) {
     console.log('setSelected', style, styleName);
     return ActionUtility.createAction(
@@ -478,6 +434,7 @@ export default class ThreeSixtyAction {
     );
   }
 
+  /* */
   static setSelectedScene(scene) {
     return ActionUtility.createAction(
       ThreeSixtyAction.SET_SELECTED_SCENE_REQUEST_FINISHED,
@@ -485,6 +442,7 @@ export default class ThreeSixtyAction {
     );
   }
 
+  /* */
   static setSelectedFinish(finish) {
     return ActionUtility.createAction(
       ThreeSixtyAction.SET_SELECTED_FINISH_REQUEST_FINISHED,
@@ -492,6 +450,7 @@ export default class ThreeSixtyAction {
     );
   }
 
+  /* */
   static expandMenu(expand) {
     return ActionUtility.createAction(
       ThreeSixtyAction.EXPAND_REQUEST_FINISHED,
@@ -499,6 +458,7 @@ export default class ThreeSixtyAction {
     );
   }
 
+  /* */
   static setSelectedMenuOption(option) {
     return ActionUtility.createAction(
       ThreeSixtyAction.SELECTED_MENU_OPTION_REQUEST_FINISHED,
@@ -506,6 +466,7 @@ export default class ThreeSixtyAction {
     );
   }
 
+  /* */
   static setSelectedUse(option) {
     return ActionUtility.createAction(
       ThreeSixtyAction.SELECTED_USE_REQUEST_FINISHED,
@@ -513,6 +474,7 @@ export default class ThreeSixtyAction {
     );
   }
 
+  /* */
   static setCurrentLevel(option) {
     return ActionUtility.createAction(
       ThreeSixtyAction.CURRENT_LEVEL_REQUEST_FINISHED,

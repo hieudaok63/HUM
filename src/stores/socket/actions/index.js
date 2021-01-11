@@ -11,6 +11,7 @@ export default class SocketAction {
 
   static SOCKET_MESSAGE_REQUEST_FINISHED = 'SOCKET_MESSAGE_REQUEST_FINISHED';
 
+  /* */
   static initSocket(url) {
     const io = socketIOClient(url, {
       reconnectionDelayMax: 10000
@@ -21,6 +22,7 @@ export default class SocketAction {
     );
   }
 
+  /* */
   static disconnect() {
     return async (dispatch, getState) => {
       const { socket: socketState } = getState();
@@ -29,6 +31,7 @@ export default class SocketAction {
     };
   }
 
+  /* */
   static socketMessage(data) {
     return async (dispatch, getState) => {
       const { socket: socketState, session } = getState();

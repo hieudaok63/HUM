@@ -11,6 +11,7 @@ export default class PanoramaAction {
   static PANORAMA_REQUEST_FINISHED = 'PANORAMA_REQUEST_FINISHED';
   static AUTOROTATE_REQUEST = 'AUTOROTATE_REQUEST';
 
+  /* */
   static setContainer(container) {
     return ActionUtility.createAction(
       PanoramaAction.CONTAINER_REQUEST_FINISHED,
@@ -18,6 +19,7 @@ export default class PanoramaAction {
     );
   }
 
+  /* */
   static createPanoramaInfo() {
     return async (dispatch, getState) => {
       const { threeSixty, panorama } = getState();
@@ -41,6 +43,7 @@ export default class PanoramaAction {
     };
   }
 
+  /* */
   static setPanorama() {
     return async (dispatch, getState) => {
       const { panorama, threeSixty } = getState();
@@ -90,6 +93,7 @@ export default class PanoramaAction {
     };
   }
 
+  /* */
   static activateAutoRotate(activate) {
     return async (dispatch, getState) => {
       const { panorama } = getState();

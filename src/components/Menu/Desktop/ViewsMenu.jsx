@@ -13,7 +13,7 @@ class ViewsMenu extends Component {
     dispatch(ThreeSixtyAction.setSelectedScene(name));
     dispatch(ThreeSixtyAction.getStyles());
     await dispatch(ThreeSixtyAction.changeSceneSphere());
-    await dispatch(ThreeSixtyAction.getSpheretUse());
+    await dispatch(ThreeSixtyAction.getSphereUse());
     dispatch(
       SocketAction.socketMessage({
         event: 'CHANGE-SCENE',

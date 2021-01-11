@@ -29,6 +29,7 @@ export default class SessionAction {
     };
   }
 
+  /* */
   static log(logs) {
     return async (dispatch, getState) => {
       const { language: stateLanguage, threeSixty } = getState();

@@ -71,41 +71,6 @@ export default class ThreeSixtyEffect {
     return model;
   }
 
-  static async getRoomUseWithFinishes(
-    language,
-    builderId,
-    propertyId,
-    layoutName,
-    level,
-    style,
-    room,
-    uses,
-    mode,
-    finish
-  ) {
-    const endpoint = `${THREE_SIXTY_API}${language}/360s/room-use-finish/${builderId}/${propertyId}/${layoutName.replace(
-      VERSION,
-      ''
-    )}${VERSION}/${level}/${style}/${room.trim()}/${finish}/${mode}`;
-
-    const response = await HttpUtility.post(endpoint, {
-      headers: {
-        'x-api-key': THREE_SIXTY_API_KEY
-      },
-      body: JSON.stringify({
-        uses
-      })
-    });
-
-    if (response instanceof HttpErrorResponseModel) {
-      return response;
-    }
-
-    const model = new ThreeSixtyUseWithFinishes(response.data);
-
-    return model;
-  }
-
   static async getScenesByStyles(
     language,
     builderId,
@@ -242,10 +207,6 @@ export default class ThreeSixtyEffect {
     threeSixty.updateFinishes(finish);
   }
 
-  static async updateScenes(threeSixty, scenes, selectedScene) {
-    threeSixty.updateScenes(scenes, selectedScene);
-  }
-
   static async updateSpheres(
     threeSixty,
     levels,
@@ -282,7 +243,7 @@ export default class ThreeSixtyEffect {
     threeSixty.updateUse(selectedScene, selectedFinish, selectedUse);
   }
 
-  static async getSpheretUse(threeSixty, selectedScene) {
+  static async getSphereUse(threeSixty, selectedScene) {
     return threeSixty.getSceneUse(selectedScene);
   }
 }
