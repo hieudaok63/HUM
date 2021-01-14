@@ -97,7 +97,16 @@ export class MenuSelector {
       const scene = getScene(scenes, sceneKey);
 
       if (scene !== null) {
-        return scene.uses[0].finishScenes;
+        const useKey =
+          state.threeSixty.currentRoomUse === 'default'
+            ? scene.defaultUse
+            : state.threeSixty.currentRoomUse;
+        const use = getUse(useKey, scene.uses);
+        if (use !== null && use !== undefined) {
+          if (use.finishScenes !== undefined) {
+            return use.finishScenes;
+          }
+        }
       }
     }
 

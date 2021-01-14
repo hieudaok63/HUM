@@ -420,7 +420,6 @@ export default class ThreeSixtyAction {
 
   /* */
   static setSelectedStyle(style, styleName) {
-    console.log('setSelected', style, styleName);
     return ActionUtility.createAction(
       ThreeSixtyAction.SET_SELECTED_STYLE_REQUEST_FINISHED,
       style

@@ -383,14 +383,19 @@ class ThreeSixtySphere {
   buildScene = (scene, hotspots = [], startScenePosition, finish, use, key) => {
     const { name, furniture, finishScenes } = scene;
     let current = null;
-    if (
-      finish.toLowerCase() === use.toLowerCase() &&
-      finishScenes.length === 0
-    ) {
+    if (finish !== undefined && use !== undefined) {
+      if (
+        finish.toLowerCase() === use.toLowerCase() &&
+        finishScenes.length === 0
+      ) {
+        current = scene;
+      } else {
+        current = this.getSelectedFinish(finishScenes, finish);
+      }
+    } else if (use !== undefined) {
       current = scene;
-    } else {
-      current = this.getSelectedFinish(finishScenes, finish);
     }
+
     const time = new Date().getTime();
     const uri = `${current.modes.day}?${time}`;
     const panorama = {};
