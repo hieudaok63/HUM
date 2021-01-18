@@ -28,6 +28,8 @@ class ThreeSixtyPage extends Component {
   async loadContent() {
     const { builderInfo, dispatch } = this.props;
 
+    await dispatch(SocketAction.initSocket(SOCKET));
+
     await dispatch(ThreeSixtyAction.setBuilder({ ...builderInfo.params }));
 
     await dispatch(ThreeSixtyAction.getScenes());
@@ -37,8 +39,6 @@ class ThreeSixtyPage extends Component {
     await dispatch(ThreeSixtyAction.getScenesByStyles());
 
     await dispatch(SessionAction.log([]));
-
-    dispatch(SocketAction.initSocket(SOCKET));
   }
 
   render() {

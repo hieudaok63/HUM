@@ -1,6 +1,7 @@
 import ActionUtility from '../../../utilities/ActionUtility';
 import HttpErrorResponseModel from '../../../models/HttpErrorResponseModel';
 import SessionEffect from '../effects';
+import SocketAction from '../../socket/actions';
 
 export default class SessionAction {
   static LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -34,8 +35,7 @@ export default class SessionAction {
     return async (dispatch, getState) => {
       const { language: stateLanguage, threeSixty } = getState();
       const { language } = stateLanguage;
-      const { builderId, propertyId, layoutName } = threeSixty;
-
+      const { builderId, propertyId, layoutName, selectedScene } = threeSixty;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         SessionAction.LOG_REQUEST,
@@ -45,6 +45,15 @@ export default class SessionAction {
         propertyId,
         layoutName,
         logs
+      );
+      dispatch(
+        SocketAction.socketMessage({
+          event: 'CHANGE-SCENE',
+          data: {
+            type: 'CHANGE-SCENE',
+            name: selectedScene
+          }
+        })
       );
       const isError = model instanceof HttpErrorResponseModel;
       return { model, isError };
