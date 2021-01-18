@@ -319,12 +319,12 @@ class ThreeSixtySphere {
     mesh.name = buildedScene.key;
     mesh.use = buildedScene.panorama.use;
 
-    scene.hotspots.forEach((hotspot) => {
-      this.createHotspot(hotspot, mesh);
-    });
-
     if (this.selectedScene !== mesh.name) {
       mesh.visible = false;
+    } else {
+      scene.hotspots.forEach((hotspot) => {
+        this.createHotspot(hotspot, mesh);
+      });
     }
 
     return mesh;
@@ -336,6 +336,14 @@ class ThreeSixtySphere {
       map: texture,
       side: THREE.DoubleSide
     });
+
+  /* */
+  addHotspots = (scene) => {
+    const currentScene = this.scenes.find((item) => item.key === scene);
+    currentScene.hotspots.forEach((hotspot) => {
+      this.createHotspot(hotspot, this.activeMesh);
+    });
+  };
 
   /* */
   getActiveMesh = (key) =>
@@ -794,14 +802,14 @@ class ThreeSixtySphere {
         this.activeMesh.visible = true;
         this.oldMesh.material.opacity = item.x;
         this.oldMesh.material.transparent = true;
-        this.toggleMeshChildren(this.oldMesh, false);
+        this.removeMeshChildren(this.oldMesh);
       })
       .onComplete(() => {
         this.oldMesh.visible = false;
         this.oldMesh.material.transparent = false;
         this.oldMesh.scale.set(1, 1, 1);
-        this.toggleMeshChildren(this.oldMesh, true);
         this.selectedScene = this.activeMesh.name;
+        this.addHotspots(this.selectedScene);
         this.currentScaleDown.stop();
       });
 
@@ -822,6 +830,11 @@ class ThreeSixtySphere {
       .onComplete(() => {
         this.currentScaleUp.stop();
       });
+
+  /* */
+  removeMeshChildren = (mesh) => {
+    mesh.children = [];
+  };
 
   /* */
   toggleMeshChildren = (mesh, visble) =>
@@ -892,11 +905,7 @@ class ThreeSixtySphere {
         true
       );
       if (intersects.length > 0) {
-        const { object, faceIndex } = intersects[0];
-        if (object.type !== 'Sprite') {
-          object.geometry.faces[faceIndex].color.set(Math.random() * 0xffffff);
-          object.geometry.colorsNeedUpdate = true;
-        }
+        const { object } = intersects[0];
 
         if (this.INTERSECTED !== object) {
           if (this.INTERSECTED) {
