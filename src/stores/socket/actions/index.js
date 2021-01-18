@@ -33,6 +33,7 @@ export default class SocketAction {
 
   /* */
   static socketMessage(data) {
+    console.log(data);
     return async (dispatch, getState) => {
       const { socket: socketState, session } = getState();
       const { socket } = socketState;

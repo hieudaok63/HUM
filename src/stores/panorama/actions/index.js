@@ -2,6 +2,7 @@ import ActionUtility from '../../../utilities/ActionUtility';
 import PanoramaErrorModel from '../../../models/PanoramaErrorModel';
 import PanoramaEffect from '../effects';
 import ThreeSixtyAction from '../../threeSixty/actions';
+import SocketAction from '../../socket/actions';
 
 export default class PanoramaAction {
   static PANORAMA_INFO_REQUEST = 'PANORAMA_INFO_REQUEST';
@@ -58,11 +59,29 @@ export default class PanoramaAction {
         async (sceneName, level, use) => {
           if (sceneName !== undefined) {
             await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
+            dispatch(
+              SocketAction.socketMessage({
+                event: 'CHANGE-SCENE',
+                data: {
+                  type: 'CHANGE-SCENE',
+                  name: sceneName
+                }
+              })
+            );
           }
           if (level !== undefined) {
             await dispatch(ThreeSixtyAction.setCurrentLevel(level));
             await dispatch(ThreeSixtyAction.getScenes());
             await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
+            dispatch(
+              SocketAction.socketMessage({
+                event: 'CHANGE-SCENE',
+                data: {
+                  type: 'CHANGE-SCENE',
+                  name: sceneName
+                }
+              })
+            );
           }
           if (use !== undefined) {
             await dispatch(ThreeSixtyAction.setSelectedUse(use));
