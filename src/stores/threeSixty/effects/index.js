@@ -11,7 +11,8 @@ import {
   ThreeSixtyStyleScenesModel,
   ThreeSixtyStylesMenuModel,
   ThreeSixtyUseWithFinishes,
-  ThreeSixtyFurnitureByStyles
+  ThreeSixtyFurnitureByStyles,
+  ThreeSixtyItem
 } from '../models';
 
 export default class ThreeSixtyEffect {
@@ -56,7 +57,6 @@ export default class ThreeSixtyEffect {
       VERSION,
       ''
     )}${VERSION}/${level}/${room}/${mode}`;
-
     const response = await HttpUtility.get(endpoint, {
       headers: {
         'x-api-key': THREE_SIXTY_API_KEY
@@ -71,37 +71,30 @@ export default class ThreeSixtyEffect {
     return model;
   }
 
-  static async getRoomUseWithFinishes(
+  static async getScenesByStyles(
     language,
     builderId,
     propertyId,
     layoutName,
     level,
-    style,
-    room,
-    uses,
-    mode,
-    finish
+    style
   ) {
-    const endpoint = `${THREE_SIXTY_API}${language}/360s/room-use-finish/${builderId}/${propertyId}/${layoutName.replace(
+    const endpoint = `${THREE_SIXTY_API}${language}/360s/style-scenes/${builderId}/${propertyId}/${layoutName.replace(
       VERSION,
       ''
-    )}${VERSION}/${level}/${style}/${room.trim()}/${finish}/${mode}`;
+    )}${VERSION}`;
 
     const response = await HttpUtility.post(endpoint, {
       headers: {
         'x-api-key': THREE_SIXTY_API_KEY
-      },
-      body: JSON.stringify({
-        uses
-      })
+      }
     });
 
     if (response instanceof HttpErrorResponseModel) {
       return response;
     }
 
-    const model = new ThreeSixtyUseWithFinishes(response.data);
+    const model = new ThreeSixtyUseWithFinishes({ ...response.data, level });
 
     return model;
   }
@@ -170,5 +163,87 @@ export default class ThreeSixtyEffect {
     }
 
     return true;
+  }
+
+  static async get360Item(
+    language,
+    builderId,
+    projectId,
+    layoutName,
+    selectedScene,
+    selectedStyle,
+    currentLevel
+  ) {
+    const endpoint = `${THREE_SIXTY_API}${language}/360s/${builderId}/${projectId}/${layoutName.replace(
+      VERSION,
+      ''
+    )}${VERSION}`;
+
+    const response = await HttpUtility.get(endpoint, {
+      headers: {
+        'x-api-key': THREE_SIXTY_API_KEY
+      }
+    });
+
+    if (response instanceof HttpErrorResponseModel) {
+      return response;
+    }
+
+    const model = new ThreeSixtyItem({
+      ...response.data,
+      selectedStyle,
+      selectedScene,
+      currentLevel
+    });
+
+    return model;
+  }
+
+  static async changeSceneSphere(threeSixty, key) {
+    threeSixty.changeSphereScene(key);
+  }
+
+  static async updateSpheresFinishes(threeSixty, finish) {
+    threeSixty.updateFinishes(finish);
+  }
+
+  static async updateSpheres(
+    threeSixty,
+    levels,
+    currentLevel,
+    selectedStyle,
+    selectedScene,
+    selectedFinish
+  ) {
+    const scenes = [];
+    levels.forEach((item) => {
+      const level = item.styles.find((style) => style.key === selectedStyle);
+      scenes.push(...level.scenes);
+    });
+    threeSixty.updateScenes(
+      scenes,
+      selectedScene,
+      selectedFinish,
+      selectedStyle
+    );
+  }
+
+  static async updateLevel(threeSixty, levels, currentLevel) {
+    const level = levels[currentLevel - 1];
+    threeSixty.changeSphereScene(level.defaultScene);
+    return level.defaultScene;
+  }
+
+  static async changeSphereUse(
+    threeSixty,
+    selectedScene,
+    selectedFinish,
+    selectedUse
+  ) {
+    threeSixty.updateUse(selectedScene, selectedFinish, selectedUse);
+  }
+
+  static async getSphereUse(threeSixty, selectedScene) {
+    return threeSixty.getSceneUse(selectedScene);
   }
 }

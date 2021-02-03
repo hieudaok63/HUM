@@ -5,9 +5,10 @@
   "dependencies": {
     "@material-ui/core": "^4.5.1",
     "@material-ui/icons": "^4.5.1",
-    "@tweenjs/tween.js": "^18.5.0",
+    "@tweenjs/tween.js": "^18.6.4",
     "babel-eslint": "^10.0.3",
     "bootstrap": "^4.3.1",
+    "gsap": "^3.5.1",
     "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.8.2",
@@ -24,15 +25,17 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "socket.io-client": "^3.0.3",
-    "three": "^0.117.1",
+    "socket.io-client": "2.3.0",
+    "three": "^0.124.0",
     "uuid": "^8.3.0"
   },
   "scripts": {
     "start": "env HOST=0.0.0.0 REACT_APP_ENV=production REACT_APP_VERSION=V4 react-scripts start",
     "start:dev": "env HOST=0.0.0.0 REACT_APP_ENV=development REACT_APP_VERSION=V4 react-scripts start",
+    "start:staging": "env HOST=0.0.0.0 REACT_APP_ENV=staging REACT_APP_VERSION=V4 react-scripts start",
     "build": "env REACT_APP_ENV=production REACT_APP_VERSION=V4 react-scripts build",
     "build:dev": "env REACT_APP_ENV=development REACT_APP_VERSION=V4 react-scripts build",
+    "build:staging": "env REACT_APP_ENV=staging REACT_APP_VERSION=V4 react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

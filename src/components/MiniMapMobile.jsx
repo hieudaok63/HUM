@@ -18,7 +18,6 @@ import {
   totalLevelsSelector
 } from '../selectors/menu';
 import { loadingSelector } from '../selectors/loading';
-import PanoramaAction from '../stores/panorama/actions';
 import SocketAction from '../stores/socket/actions';
 
 class MiniMap extends Component {
@@ -42,9 +41,7 @@ class MiniMap extends Component {
     const name = targetName || e.target.name || e.target.getAttribute('name');
     dispatch(ThreeSixtyAction.setSelectedScene(name));
     dispatch(ThreeSixtyAction.getStyles());
-    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
-    await dispatch(PanoramaAction.createPanoramaInfo());
-    dispatch(PanoramaAction.setPanorama());
+    await dispatch(ThreeSixtyAction.changeSceneSphere());
     dispatch(
       SocketAction.socketMessage({
         event: 'CHANGE-SCENE',
@@ -77,11 +74,9 @@ class MiniMap extends Component {
 
     await dispatch(ThreeSixtyAction.getScenes());
 
-    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
+    await dispatch(ThreeSixtyAction.getScenesByStyles());
 
-    await dispatch(PanoramaAction.createPanoramaInfo());
-
-    dispatch(PanoramaAction.setPanorama());
+    await dispatch(ThreeSixtyAction.updateLevel());
   };
 
   handleResize = () => {

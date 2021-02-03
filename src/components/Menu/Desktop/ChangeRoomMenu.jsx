@@ -4,7 +4,6 @@ import { string, arrayOf, shape, func } from 'prop-types';
 import ImageMenuItem from '../ImageMenuItem';
 import { getCurrentRoomUse, getUses } from '../../../selectors/menu';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
-import PanoramaAction from '../../../stores/panorama/actions';
 import SocketAction from '../../../stores/socket/actions';
 
 class ChangeRoomMenu extends Component {
@@ -15,11 +14,7 @@ class ChangeRoomMenu extends Component {
 
     await dispatch(ThreeSixtyAction.setSelectedUse(roomType));
 
-    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
-
-    await dispatch(PanoramaAction.createPanoramaInfo());
-
-    dispatch(PanoramaAction.setPanorama());
+    await dispatch(ThreeSixtyAction.changeSphereUse());
 
     dispatch(
       SocketAction.socketMessage({
@@ -33,22 +28,25 @@ class ChangeRoomMenu extends Component {
   };
 
   render() {
-    const { uses, currentRoomUse } = this.props;
+    const { uses, currentRoomUse, mode } = this.props;
     return (
       <div className="menu-properties-container d-flex flex-column justify-content-start align-items-start">
         <div className="title">CHANGE ROOMS</div>
         <div id="change-room-menu" className="change-room-menu sub-menu">
-          {uses.map((room, index) => (
-            <ImageMenuItem
-              key={room.key}
-              keyName={room.key}
-              name={room.name}
-              index={index}
-              onClick={this.changeRoomType}
-              img={room.image}
-              selected={currentRoomUse}
-            />
-          ))}
+          {uses.map((room, index) => {
+            const { key, modes, name } = room;
+            return (
+              <ImageMenuItem
+                key={key}
+                keyName={key}
+                name={name}
+                index={index}
+                onClick={this.changeRoomType}
+                img={modes[mode]}
+                selected={currentRoomUse}
+              />
+            );
+          })}
         </div>
       </div>
     );
@@ -58,12 +56,14 @@ class ChangeRoomMenu extends Component {
 ChangeRoomMenu.propTypes = {
   uses: arrayOf(shape({})).isRequired,
   currentRoomUse: string.isRequired,
+  mode: string.isRequired,
   dispatch: func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   uses: getUses(state),
-  currentRoomUse: getCurrentRoomUse(state)
+  currentRoomUse: getCurrentRoomUse(state),
+  mode: state.threeSixty.mode
 });
 
 const mapDispatchToProps = (dispatch) => ({

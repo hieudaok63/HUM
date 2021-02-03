@@ -4,7 +4,6 @@ import { string, arrayOf, shape, func } from 'prop-types';
 import ImageMenuItem from '../ImageMenuItem';
 import { getFinishScenes, getSelectedFinish } from '../../../selectors/menu';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
-import PanoramaAction from '../../../stores/panorama/actions';
 import SocketAction from '../../../stores/socket/actions';
 
 class FinishesMenu extends Component {
@@ -14,11 +13,7 @@ class FinishesMenu extends Component {
 
     await dispatch(ThreeSixtyAction.setSelectedFinish(finishType));
 
-    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
-
-    await dispatch(PanoramaAction.createPanoramaInfo());
-
-    dispatch(PanoramaAction.setPanorama());
+    await dispatch(ThreeSixtyAction.updateFinishes());
 
     dispatch(
       SocketAction.socketMessage({

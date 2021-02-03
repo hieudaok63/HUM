@@ -109,7 +109,6 @@ class ThreeSixtyUseWithFinishes {
     this.displayName = data.displayName;
     this.language = data.language;
     this.layoutName = data.layoutName;
-    this.levels = data.levels;
     this.menu = data.menu;
     this.personalized = data.personalized;
     this.projectId = data.projectId;
@@ -119,6 +118,10 @@ class ThreeSixtyUseWithFinishes {
     this.surveyCompletedDefaults = data.surveyCompletedDefaults;
     this.totalLevels = data.totalLevels;
     this.urls = data.urls;
+    this.level = data.level;
+    this.levels = data.levels;
+    this.levelScenes = this.getScenes(data.levels);
+    this.selectedScene = data.levels[data.level - 1].defaultScene;
   }
 
   builderId = '';
@@ -137,6 +140,19 @@ class ThreeSixtyUseWithFinishes {
   surveyCompletedDefaults = {};
   totalLevels = 1;
   urls = {};
+  level = 1;
+
+  getScenes(levels) {
+    const scenes = [];
+    levels.forEach((item) => {
+      const level = item.styles.find(
+        (style) => style.key === this.defaultStyle
+      );
+      scenes.push(...level.scenes);
+    });
+
+    return scenes;
+  }
 }
 
 class ThreeSixtyFurnitureByStyles {
@@ -147,10 +163,38 @@ class ThreeSixtyFurnitureByStyles {
   furniture = [];
 }
 
+class ThreeSixtyItem {
+  constructor(data) {
+    this.threeSixty = data.threeSixtyItem;
+    this.level = data.currentLevel;
+    this.selectedScene = data.selectedScene;
+    this.selectedStyle = data.selectedStyle;
+    this.levels = this.getScenes();
+  }
+
+  threeSixty = {};
+
+  getScenes() {
+    const selectedStyle =
+      this.selectedStyle === 'default'
+        ? this.threeSixty.defaultStyle
+        : this.selectedStyle;
+    const currentLevel = this.threeSixty.levels.find(
+      (level) => level.levelNumber === this.level
+    );
+    const scenes = currentLevel.styles.find((style) => {
+      return style.key === selectedStyle;
+    });
+
+    return scenes;
+  }
+}
+
 export {
   ThreeSixtyModel,
   ThreeSixtyStyleScenesModel,
   ThreeSixtyStylesMenuModel,
   ThreeSixtyUseWithFinishes,
-  ThreeSixtyFurnitureByStyles
+  ThreeSixtyFurnitureByStyles,
+  ThreeSixtyItem
 };

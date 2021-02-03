@@ -11,14 +11,18 @@ export default class SocketAction {
 
   static SOCKET_MESSAGE_REQUEST_FINISHED = 'SOCKET_MESSAGE_REQUEST_FINISHED';
 
+  /* */
   static initSocket(url) {
-    const io = socketIOClient(url);
+    const io = socketIOClient(url, {
+      reconnectionDelayMax: 10000
+    });
     return ActionUtility.createAction(
       SocketAction.SOCKET_INIT_REQUEST_FINISHED,
       io
     );
   }
 
+  /* */
   static disconnect() {
     return async (dispatch, getState) => {
       const { socket: socketState } = getState();
@@ -27,7 +31,9 @@ export default class SocketAction {
     };
   }
 
+  /* */
   static socketMessage(data) {
+    console.log(data);
     return async (dispatch, getState) => {
       const { socket: socketState, session } = getState();
       const { socket } = socketState;

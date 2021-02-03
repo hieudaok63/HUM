@@ -2,6 +2,7 @@ import ActionUtility from '../../../utilities/ActionUtility';
 import PanoramaErrorModel from '../../../models/PanoramaErrorModel';
 import PanoramaEffect from '../effects';
 import ThreeSixtyAction from '../../threeSixty/actions';
+import SocketAction from '../../socket/actions';
 
 export default class PanoramaAction {
   static PANORAMA_INFO_REQUEST = 'PANORAMA_INFO_REQUEST';
@@ -11,6 +12,7 @@ export default class PanoramaAction {
   static PANORAMA_REQUEST_FINISHED = 'PANORAMA_REQUEST_FINISHED';
   static AUTOROTATE_REQUEST = 'AUTOROTATE_REQUEST';
 
+  /* */
   static setContainer(container) {
     return ActionUtility.createAction(
       PanoramaAction.CONTAINER_REQUEST_FINISHED,
@@ -18,6 +20,7 @@ export default class PanoramaAction {
     );
   }
 
+  /* */
   static createPanoramaInfo() {
     return async (dispatch, getState) => {
       const { threeSixty, panorama } = getState();
@@ -33,44 +36,71 @@ export default class PanoramaAction {
         threeSixty.selectedStyle,
         threeSixty.selectedScene,
         threeSixty.currentRoomUse,
-        threeSixty.selectedFinish
+        threeSixty.selectedFinish,
+        threeSixty.levelScenes
       );
       const isError = model instanceof PanoramaErrorModel;
       return { model, isError };
     };
   }
 
+  /* */
   static setPanorama() {
     return async (dispatch, getState) => {
-      const { panorama } = getState();
+      const { panorama, threeSixty } = getState();
       const { panoramaInfo, panorama: threeSixtyPano } = panorama;
-
+      const { menu } = threeSixty;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         PanoramaAction.PANORAMA_REQUEST,
         PanoramaEffect.createThreeSixty,
         threeSixtyPano,
         panoramaInfo,
-        async (sceneName, level) => {
+        async (sceneName, level, use) => {
           if (sceneName !== undefined) {
             await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
+            dispatch(
+              SocketAction.socketMessage({
+                event: 'CHANGE-SCENE',
+                data: {
+                  type: 'CHANGE-SCENE',
+                  name: sceneName
+                }
+              })
+            );
           }
-          console.log('level', level);
           if (level !== undefined) {
             await dispatch(ThreeSixtyAction.setCurrentLevel(level));
+            await dispatch(ThreeSixtyAction.getScenes());
+            await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
+            dispatch(
+              SocketAction.socketMessage({
+                event: 'CHANGE-SCENE',
+                data: {
+                  type: 'CHANGE-SCENE',
+                  name: sceneName
+                }
+              })
+            );
+          }
+          if (use !== undefined) {
+            await dispatch(ThreeSixtyAction.setSelectedUse(use));
           }
 
           await dispatch(ThreeSixtyAction.getStyles());
-          const roomUseWithFinishes = await dispatch(
-            ThreeSixtyAction.getRoomUseWithFinishes()
-          );
-          if (!roomUseWithFinishes.isError) {
-            const panoInfo = await dispatch(
-              PanoramaAction.createPanoramaInfo()
+        },
+        async (expand) => {
+          if (expand !== undefined) {
+            await dispatch(ThreeSixtyAction.expandMenu(expand));
+            await dispatch(ThreeSixtyAction.setSelectedMenuOption(''));
+          }
+        },
+        async (style) => {
+          if (style !== undefined) {
+            const selectedStyle = menu.find((item) => item.type === style);
+            await dispatch(
+              ThreeSixtyAction.setSelectedNameStyle(selectedStyle.style)
             );
-            if (!panoInfo.isError) {
-              dispatch(PanoramaAction.setPanorama());
-            }
           }
         }
       );
@@ -81,6 +111,7 @@ export default class PanoramaAction {
     };
   }
 
+  /* */
   static activateAutoRotate(activate) {
     return async (dispatch, getState) => {
       const { panorama } = getState();

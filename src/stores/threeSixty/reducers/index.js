@@ -45,15 +45,17 @@ export default class ThreeSixtyReducer extends BaseReducer {
       'change-room',
       'finishes'
     ],
-    threeSixty: null
+    threeSixty: null,
+    threeSixtyItem: {},
+    levelsWithScenes: [],
+    levelScenes: []
   };
 
   [ThreeSixtyAction.VIEW_MENU_REQUEST_FINISHED](state, action) {
     return {
       ...state,
       scenes: action.payload.scenes,
-      builderLogo: action.payload.builderLogo,
-      selectedStyleName: action.payload.selectedStyleName
+      builderLogo: action.payload.builderLogo
     };
   }
 
@@ -80,7 +82,9 @@ export default class ThreeSixtyReducer extends BaseReducer {
       showError: action.payload.showError,
       surveyCompletedDefaults: action.payload.surveyCompletedDefaults,
       totalLevels: action.payload.totalLevels,
-      urls: action.payload.urls
+      urls: action.payload.urls,
+      levelScenes: action.payload.levelScenes,
+      selectedScene: action.payload.selectedScene
     };
   }
 
@@ -115,6 +119,13 @@ export default class ThreeSixtyReducer extends BaseReducer {
     return {
       ...state,
       selectedStyle: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.SET_SELECTED_STYLE_NAME_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      selectedStyleName: action.payload
     };
   }
 
@@ -159,10 +170,19 @@ export default class ThreeSixtyReducer extends BaseReducer {
       currentRoomUse: action.payload
     };
   }
+
   [ThreeSixtyAction.CURRENT_LEVEL_REQUEST_FINISHED](state, action) {
     return {
       ...state,
       currentLevel: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.GET_360_ITEM_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      threeSixtyItem: action.payload.threeSixty,
+      levelsWithScenes: action.payload.levels
     };
   }
 

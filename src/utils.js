@@ -81,7 +81,7 @@ const get360Style = (style, menu) => {
   return menuStyle && menuStyle[0];
 };
 
-const get360Use = (roomKey, scene) => {
+const getUse = (roomKey, scene) => {
   const use = scene.filter((item) =>
     item.key.toLowerCase() === roomKey.toLowerCase() ? item : null
   );
@@ -193,7 +193,7 @@ const getProcessed360Data = (data, level, style, room, roomUse, finish) => {
           jsonScene.defaultUse
         );
 
-        const use = get360Use(roomUseToRequest, jsonScene.uses);
+        const use = getUse(roomUseToRequest, jsonScene.uses);
         const uses = get360Uses(jsonScene.uses);
 
         const currentRoomUse = getCurrentRoomUse(use);
@@ -268,6 +268,20 @@ const build360Scene = (scene, hotspots = [], startScenePosition, finish) => {
   };
 };
 
+const getLevelScenes = (currentLevel, style) => {
+  const currentStyle = currentLevel.styles.filter(
+    (levelStyle) => levelStyle.key === style
+  );
+  return currentStyle.length > 0
+    ? currentStyle[currentStyle.length - 1].scenes
+    : [];
+};
+
+const getScene = (scenes, sceneKey) => {
+  const currentScene = scenes.filter((scene) => scene.key === sceneKey);
+  return currentScene.length > 0 ? currentScene[currentScene.length - 1] : null;
+};
+
 export {
   getClosest,
   callFilter,
@@ -288,11 +302,13 @@ export {
   titleCase,
   hasGyroscope,
   isPortrait,
-  get360Use,
+  getUse,
   get360Uses,
   getRoomToRequest,
   getCurrentRoomUse,
   getProcessed360Data,
   getViewerDependingOnPreview,
-  build360Scene
+  build360Scene,
+  getLevelScenes,
+  getScene
 };

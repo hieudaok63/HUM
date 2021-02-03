@@ -1,5 +1,12 @@
 import { createSelector } from 'reselect';
-import { isPortrait, isTablet } from '../../utils';
+import {
+  getLevelData,
+  isPortrait,
+  isTablet,
+  getLevelScenes,
+  getScene,
+  getUse
+} from '../../utils';
 
 export class MenuSelector {
   static getOptions(state) {
@@ -7,27 +14,130 @@ export class MenuSelector {
   }
 
   static getShoppingCarItems(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].styles[0].scenes[0].uses[0].furniture
-      : [];
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+      const style =
+        state.threeSixty.selectedStyle === 'default'
+          ? state.threeSixty.defaultStyle
+          : state.threeSixty.selectedStyle;
+
+      const scenes = getLevelScenes(currentLevel, style);
+
+      const sceneKey =
+        state.threeSixty.selectedScene === 'default'
+          ? currentLevel.defaultScene
+          : state.threeSixty.selectedScene;
+
+      const scene = getScene(scenes, sceneKey);
+
+      if (scene !== null) {
+        const useKey =
+          state.threeSixty.currentRoomUse === 'default'
+            ? scene.defaultUse
+            : state.threeSixty.currentRoomUse;
+
+        const use = getUse(useKey, scene.uses);
+
+        if (use !== null && use !== undefined) {
+          return use.furniture;
+        }
+      }
+    }
+    return [];
   }
 
   static getRoomUses(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].styles[0].scenes[0].uses
-      : [];
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+      const style =
+        state.threeSixty.selectedStyle === 'default'
+          ? state.threeSixty.defaultStyle
+          : state.threeSixty.selectedStyle;
+
+      const scenes = getLevelScenes(currentLevel, style);
+
+      const sceneKey =
+        state.threeSixty.selectedScene === 'default'
+          ? currentLevel.defaultScene
+          : state.threeSixty.selectedScene;
+
+      const scene = getScene(scenes, sceneKey);
+
+      if (scene !== null) {
+        return scene.uses;
+      }
+    }
+    return [];
   }
 
   static getFinishScenes(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].styles[0].scenes[0].uses[0].finishScenes
-      : [];
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+      const style =
+        state.threeSixty.selectedStyle === 'default'
+          ? state.threeSixty.defaultStyle
+          : state.threeSixty.selectedStyle;
+
+      const scenes = getLevelScenes(currentLevel, style);
+
+      const sceneKey =
+        state.threeSixty.selectedScene === 'default'
+          ? currentLevel.defaultScene
+          : state.threeSixty.selectedScene;
+
+      const scene = getScene(scenes, sceneKey);
+
+      if (scene !== null) {
+        const useKey =
+          state.threeSixty.currentRoomUse === 'default'
+            ? scene.defaultUse
+            : state.threeSixty.currentRoomUse;
+        const use = getUse(useKey, scene.uses);
+        if (use !== null && use !== undefined) {
+          if (use.finishScenes !== undefined) {
+            return use.finishScenes;
+          }
+        }
+      }
+    }
+
+    return [];
   }
 
   static getUses(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].styles[0].scenes[0].uses
-      : [];
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+      const style =
+        state.threeSixty.selectedStyle === 'default'
+          ? state.threeSixty.defaultStyle
+          : state.threeSixty.selectedStyle;
+
+      const scenes = getLevelScenes(currentLevel, style);
+
+      const sceneKey =
+        state.threeSixty.selectedScene === 'default'
+          ? currentLevel.defaultScene
+          : state.threeSixty.selectedScene;
+
+      const scene = getScene(scenes, sceneKey);
+
+      if (scene !== null) {
+        return scene.uses;
+      }
+    }
+    return [];
   }
 
   static filterMenuOptions(options, shoppingCarItems, roomUses, finishScenes) {
@@ -93,21 +203,39 @@ export class MenuSelector {
   }
 
   static getMapScenes(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].minimap.hotspots
-      : [];
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+
+      return currentLevel.minimap.hotspots;
+    }
+    return [];
   }
 
   static getMapImage(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].minimap.image
-      : '';
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+
+      return currentLevel.minimap.image;
+    }
+    return '';
   }
 
   static getMapSize(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].minimap.mapSize
-      : {};
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+
+      return currentLevel.minimap.mapSize;
+    }
+    return {};
   }
 
   static getShowMiniMap(state) {
@@ -119,54 +247,62 @@ export class MenuSelector {
   }
 
   static getCurrentLevel(state) {
-    return state.threeSixty.levels.length > 0
-      ? state.threeSixty.levels[0].levelNumber
-      : 1;
+    return state.threeSixty.currentLevel;
   }
 
   static getMaxMapHeight(state) {
-    const mapSize =
-      state.threeSixty.levels.length > 0
-        ? state.threeSixty.levels[0].minimap.mapSize
-        : {};
     let maxMapHeight = 0;
-    if (Object.keys(mapSize).length !== 0 && mapSize.constructor === Object) {
-      maxMapHeight =
-        Math.round(
-          ((window.innerWidth - 160) * mapSize.desktop.width) /
-            mapSize.desktop.height
-        ) <
-        window.innerHeight - 160
-          ? Math.round(
-              ((window.innerWidth - 160) * mapSize.desktop.width) /
-                mapSize.desktop.height
-            )
-          : window.innerHeight - 160;
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+
+      const { mapSize } = currentLevel.minimap;
+
+      if (Object.keys(mapSize).length !== 0 && mapSize.constructor === Object) {
+        maxMapHeight =
+          Math.round(
+            ((window.innerWidth - 160) * mapSize.desktop.width) /
+              mapSize.desktop.height
+          ) <
+          window.innerHeight - 160
+            ? Math.round(
+                ((window.innerWidth - 160) * mapSize.desktop.width) /
+                  mapSize.desktop.height
+              )
+            : window.innerHeight - 160;
+      }
     }
+
     return maxMapHeight;
   }
 
   static getMaxMapWidth(state) {
-    const mapSize =
-      state.threeSixty.levels.length > 0
-        ? state.threeSixty.levels[0].minimap.mapSize
-        : {};
     let maxMapWidth = 0;
-    if (Object.keys(mapSize).length !== 0 && mapSize.constructor === Object) {
-      maxMapWidth =
-        Math.round(
-          ((window.innerWidth - 160) * mapSize.desktop.width) /
-            mapSize.desktop.height
-        ) <
-        window.innerHeight - 160
-          ? Math.round(
-              ((window.innerWidth - 160) * mapSize.desktop.height) /
-                mapSize.desktop.width
-            )
-          : Math.round(
-              ((window.innerHeight - 160) * mapSize.desktop.height) /
-                mapSize.desktop.width
-            );
+    if (state.threeSixty.levels.length > 0) {
+      const currentLevel = getLevelData(
+        state.threeSixty.levels,
+        state.threeSixty.currentLevel
+      );
+
+      const { mapSize } = currentLevel.minimap;
+      if (Object.keys(mapSize).length !== 0 && mapSize.constructor === Object) {
+        maxMapWidth =
+          Math.round(
+            ((window.innerWidth - 160) * mapSize.desktop.width) /
+              mapSize.desktop.height
+          ) <
+          window.innerHeight - 160
+            ? Math.round(
+                ((window.innerWidth - 160) * mapSize.desktop.height) /
+                  mapSize.desktop.width
+              )
+            : Math.round(
+                ((window.innerHeight - 160) * mapSize.desktop.height) /
+                  mapSize.desktop.width
+              );
+      }
     }
 
     return maxMapWidth;

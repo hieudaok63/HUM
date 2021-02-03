@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { string, arrayOf, shape, func } from 'prop-types';
 import ImageMenuItem from '../ImageMenuItem';
 import ThreeSixtyAction from '../../../stores/threeSixty/actions';
-import PanoramaAction from '../../../stores/panorama/actions';
 import { getCurrentRoomUse, getUses } from '../../../selectors/menu';
 import SocketAction from '../../../stores/socket/actions';
 
@@ -15,11 +14,7 @@ class MobileChangeRoomsMenu extends Component {
 
     await dispatch(ThreeSixtyAction.setSelectedUse(roomType));
 
-    await dispatch(ThreeSixtyAction.getRoomUseWithFinishes());
-
-    await dispatch(PanoramaAction.createPanoramaInfo());
-
-    dispatch(PanoramaAction.setPanorama());
+    await dispatch(ThreeSixtyAction.changeSphereUse());
 
     dispatch(
       SocketAction.socketMessage({

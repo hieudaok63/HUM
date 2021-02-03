@@ -44,6 +44,7 @@ export default class SessionEffect {
     return model;
   }
 
+  /* */
   static async log(language, builderId, projectId, layoutName, logs) {
     const endpoint = `${THREE_SIXTY_API}${language}/360s/logs`;
     const log = {
