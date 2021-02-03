@@ -170,6 +170,7 @@ export default class ThreeSixtyReducer extends BaseReducer {
       currentRoomUse: action.payload
     };
   }
+
   [ThreeSixtyAction.CURRENT_LEVEL_REQUEST_FINISHED](state, action) {
     return {
       ...state,
