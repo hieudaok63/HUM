@@ -16,6 +16,10 @@ class ChangeRoomMenu extends Component {
 
     await dispatch(ThreeSixtyAction.changeSphereUse());
 
+    await dispatch(ThreeSixtyAction.setSelectedMenuOption(''));
+
+    await dispatch(ThreeSixtyAction.expandMenu(false));
+
     dispatch(
       SocketAction.socketMessage({
         event: 'CHANGE-ROOM',

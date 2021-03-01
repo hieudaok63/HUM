@@ -22,6 +22,10 @@ class StylesMenu extends Component {
 
     await dispatch(ThreeSixtyAction.getScenes());
 
+    await dispatch(ThreeSixtyAction.setSelectedMenuOption(''));
+
+    await dispatch(ThreeSixtyAction.expandMenu(false));
+
     dispatch(
       SocketAction.socketMessage({
         event: 'SET-STYLE',

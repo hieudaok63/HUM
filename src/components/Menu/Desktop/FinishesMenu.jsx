@@ -15,6 +15,10 @@ class FinishesMenu extends Component {
 
     await dispatch(ThreeSixtyAction.updateFinishes());
 
+    await dispatch(ThreeSixtyAction.setSelectedMenuOption(''));
+
+    await dispatch(ThreeSixtyAction.expandMenu(false));
+
     dispatch(
       SocketAction.socketMessage({
         event: 'CHANGE-FINISH',
