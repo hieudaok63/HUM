@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Component } from 'react';
-import { arrayOf, func, shape } from 'prop-types';
+import { arrayOf, bool, func, shape } from 'prop-types';
 import { connect } from 'react-redux';
 import ThreeSixtyAction from '../stores/threeSixty/actions';
+import Loader from '../components/Loader';
 import DesktopAthumLogo from '../components/DesktopAthumLogo';
 import Menu from '../components/Menu/Menu';
 import MiniMap from '../components/MiniMap';
@@ -42,10 +43,11 @@ class ThreeSixtyPage extends Component {
   }
 
   render() {
-    const { levels } = this.props;
+    const { levels, loading } = this.props;
     return (
       <>
         <div className="w-100 h-100">
+          {loading && <Loader loading={loading} />}
           <DesktopAthumLogo />
           <Menu />
           <MiniMap />
@@ -84,7 +86,8 @@ const mapStateToProps = (state) => {
 ThreeSixtyPage.propTypes = {
   builderInfo: shape({}).isRequired,
   levels: arrayOf(shape({})).isRequired,
-  dispatch: func.isRequired
+  dispatch: func.isRequired,
+  loading: bool.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({

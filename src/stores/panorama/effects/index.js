@@ -95,7 +95,8 @@ export default class SessionEffect {
     panoramaInfo,
     updateCall,
     updateMenuCall,
-    updateStyleCall
+    updateStyleCall,
+    loaderCall
   ) {
     const threeSixty = new THREESIXTY();
 
@@ -110,6 +111,9 @@ export default class SessionEffect {
       },
       updateStyleCall: async (style) => {
         updateStyleCall(style);
+      },
+      loaderCall: async (loading) => {
+        loaderCall(loading);
       }
     };
     threeSixty.init(params);

@@ -73,7 +73,8 @@ class ThreeSixtySphere {
     level,
     updateMenuCall,
     updateStyleCall,
-    style
+    style,
+    loaderCall
   }) => {
     this.container = container;
     this.loader = loader;
@@ -93,6 +94,7 @@ class ThreeSixtySphere {
     this.updateCallBack = updateCallBack;
     this.updateMenuCall = updateMenuCall;
     this.updateStyleCall = updateStyleCall;
+    this.loaderCall = loaderCall;
     this.level = level;
     this.currentStyle = style;
     this.initializeManager();
@@ -181,13 +183,10 @@ class ThreeSixtySphere {
   onTransitionEnd = (event) => {
     event.target.remove();
 
-    if (this.loadingCallBack !== null) {
-      this.loadingCallBack(false);
-    }
-
     this.firstLoad = false;
     this.loaderContainer.classList.remove('white-background');
     this.loaderContainer.classList.remove('none');
+    this.loaderCall(false);
   };
 
   /* */

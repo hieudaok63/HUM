@@ -3,6 +3,7 @@ import PanoramaErrorModel from '../../../models/PanoramaErrorModel';
 import PanoramaEffect from '../effects';
 import ThreeSixtyAction from '../../threeSixty/actions';
 import SocketAction from '../../socket/actions';
+import LoadingAction from '../../loading/actions';
 
 export default class PanoramaAction {
   static PANORAMA_INFO_REQUEST = 'PANORAMA_INFO_REQUEST';
@@ -101,6 +102,11 @@ export default class PanoramaAction {
             await dispatch(
               ThreeSixtyAction.setSelectedNameStyle(selectedStyle.style)
             );
+          }
+        },
+        async (loading) => {
+          if (loading !== undefined) {
+            await dispatch(LoadingAction.isLoading(loading));
           }
         }
       );

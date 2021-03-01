@@ -4,7 +4,7 @@ import BaseReducer from '../../../utilities/BaseReducer';
 
 export default class LoadingReducer extends BaseReducer {
   initialState = {
-    loading: false
+    loading: true
   };
 
   [LoadingAction.IS_LOADING](state, action) {

@@ -4,13 +4,11 @@ import loader from '../assets/home-white.gif';
 import './Loader.scss';
 
 const Loader = (props) => {
-  const { loading, firstLoad } = props;
+  const { loading } = props;
   return (
     <div
       id="loader"
-      className={`${loading ? '' : 'hide'} ${
-        firstLoad ? 'white-background' : ''
-      }`}
+      className={`${loading ? '' : 'none'} loader white-background`}
     >
       <div className="loader-image-container">
         <img src={loader} alt="athum loader" />
@@ -20,8 +18,7 @@ const Loader = (props) => {
 };
 
 Loader.propTypes = {
-  loading: bool.isRequired,
-  firstLoad: bool.isRequired
+  loading: bool.isRequired
 };
 
 export default Loader;
