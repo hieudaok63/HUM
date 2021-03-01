@@ -106,7 +106,7 @@ export default class PanoramaAction {
         },
         async (loading) => {
           if (loading !== undefined) {
-            await dispatch(LoadingAction.isLoading(loading));
+            await dispatch(LoadingAction.setLoader(loading));
           }
         }
       );

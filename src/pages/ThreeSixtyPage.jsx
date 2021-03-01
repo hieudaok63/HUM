@@ -14,6 +14,7 @@ import Autoplay from '../components/Autoplay';
 import ErrorModal from '../components/ErrorModal';
 import SessionAction from '../stores/session/actions';
 import SocketAction from '../stores/socket/actions';
+import LoadingAction from '../stores/loading/actions';
 import { SOCKET } from '../config/endpoints';
 
 class ThreeSixtyPage extends Component {
@@ -29,6 +30,8 @@ class ThreeSixtyPage extends Component {
   async loadContent() {
     const { builderInfo, dispatch } = this.props;
 
+    await dispatch(LoadingAction.setLoader(true));
+
     await dispatch(SocketAction.initSocket(SOCKET));
 
     await dispatch(ThreeSixtyAction.setBuilder({ ...builderInfo.params }));
@@ -43,11 +46,11 @@ class ThreeSixtyPage extends Component {
   }
 
   render() {
-    const { levels, loading } = this.props;
+    const { levels, loader } = this.props;
     return (
       <>
         <div className="w-100 h-100">
-          {loading && <Loader loading={loading} />}
+          {loader && <Loader loading={loader} />}
           <DesktopAthumLogo />
           <Menu />
           <MiniMap />
@@ -71,14 +74,14 @@ const mapStateToProps = (state) => {
     mode,
     levels
   } = state.threeSixty;
-  const { loading } = state.loading;
+  const { loader } = state.loading;
   return {
     currentLevel,
     selectedStyleName,
     selectedScene,
     selectedFinish,
     mode,
-    loading,
+    loader,
     levels
   };
 };
@@ -87,7 +90,7 @@ ThreeSixtyPage.propTypes = {
   builderInfo: shape({}).isRequired,
   levels: arrayOf(shape({})).isRequired,
   dispatch: func.isRequired,
-  loading: bool.isRequired
+  loader: bool.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({

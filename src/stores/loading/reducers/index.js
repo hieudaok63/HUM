@@ -4,13 +4,21 @@ import BaseReducer from '../../../utilities/BaseReducer';
 
 export default class LoadingReducer extends BaseReducer {
   initialState = {
-    loading: true
+    loading: false,
+    loader: false
   };
 
   [LoadingAction.IS_LOADING](state, action) {
     return {
       ...state,
       loading: action.payload
+    };
+  }
+
+  [LoadingAction.IS_LOADER](state, action) {
+    return {
+      ...state,
+      loader: action.payload
     };
   }
 }
