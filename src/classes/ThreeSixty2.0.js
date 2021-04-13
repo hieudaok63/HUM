@@ -331,7 +331,13 @@ class ThreeSixtySphere {
     const mesh = new THREE.Mesh(geometry, material);
     mesh.name = buildedScene.key;
     mesh.use = buildedScene.panorama.use;
+    mesh.startScenePosition = buildedScene.startScenePosition;
 
+    this.setCameraStartScenePosition(
+      mesh.startScenePosition.x,
+      mesh.startScenePosition.y,
+      mesh.startScenePosition.z
+    );
     if (this.selectedScene !== mesh.name) {
       mesh.visible = false;
     } else {
@@ -634,6 +640,7 @@ class ThreeSixtySphere {
     sprite.name = name;
     sprite.isHotspot = true;
     sprite.key = key;
+    sprite.startScenePosition = mesh.startScenePosition;
     sprite.position.copy(
       point
         .clone()
@@ -776,7 +783,10 @@ class ThreeSixtySphere {
         this.CLICKEDSPRITE.isHotspot &&
         this.CLICKEDSPRITE.parent.name === this.selectedScene
       ) {
-        this.changeSphereScene(this.CLICKEDSPRITE.key);
+        this.changeSphereScene(
+          this.CLICKEDSPRITE.key,
+          this.CLICKEDSPRITE.startScenePosition
+        );
         const use = this.getSceneUse(this.CLICKEDSPRITE.key);
         this.updateCallBack(
           this.CLICKEDSPRITE.key,
@@ -788,19 +798,19 @@ class ThreeSixtySphere {
   };
 
   /* */
-  changeSphereScene = (key) => {
+  changeSphereScene = (key, startScenePosition) => {
     this.oldMesh = this.scene.children.find(
       (child) => child.name === this.selectedScene
     );
     if (this.oldMesh) {
       this.activeMesh = this.getActiveMesh(key);
-      this.currentScaleDown = this.scaleDown(this.oldMesh);
+      this.currentScaleDown = this.scaleDown(this.oldMesh, startScenePosition);
       this.currentScaleDown.start();
     }
   };
 
   /* */
-  scaleDown = (mesh) =>
+  scaleDown = (mesh, startScenePosition) =>
     new TWEEN.Tween(mesh.scale)
       .to(
         {
@@ -823,8 +833,23 @@ class ThreeSixtySphere {
         this.oldMesh.scale.set(1, 1, 1);
         this.selectedScene = this.activeMesh.name;
         this.addHotspots(this.selectedScene);
+        this.setCameraStartScenePosition(
+          startScenePosition.x,
+          startScenePosition.y,
+          startScenePosition.z
+        );
         this.currentScaleDown.stop();
       });
+
+  setCameraStartScenePosition = (x, y, z) => {
+    const camDistance = this.camera.position.length();
+    const obj = new THREE.Vector3(x, y, z);
+    this.camera.position
+      .copy(obj)
+      .normalize()
+      .multiplyScalar(camDistance)
+      .negate();
+  };
 
   /* */
   scaleUp = (mesh) =>
