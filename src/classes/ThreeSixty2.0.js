@@ -834,9 +834,9 @@ class ThreeSixtySphere {
         this.selectedScene = this.activeMesh.name;
         this.addHotspots(this.selectedScene);
         this.setCameraStartScenePosition(
-          startScenePosition.x,
-          startScenePosition.y,
-          startScenePosition.z
+          this.activeMesh.startScenePosition.x,
+          this.activeMesh.startScenePosition.y,
+          this.activeMesh.startScenePosition.z
         );
         this.currentScaleDown.stop();
       });
