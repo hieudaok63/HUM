@@ -810,7 +810,7 @@ class ThreeSixtySphere {
   };
 
   /* */
-  scaleDown = (mesh, startScenePosition) =>
+  scaleDown = (mesh) =>
     new TWEEN.Tween(mesh.scale)
       .to(
         {
@@ -820,6 +820,13 @@ class ThreeSixtySphere {
         },
         500
       )
+      .onStart(() => {
+        this.setCameraStartScenePosition(
+          this.activeMesh.startScenePosition.x,
+          this.activeMesh.startScenePosition.y,
+          this.activeMesh.startScenePosition.z
+        );
+      })
       .onUpdate((item) => {
         this.render();
         this.activeMesh.visible = true;
@@ -833,11 +840,6 @@ class ThreeSixtySphere {
         this.oldMesh.scale.set(1, 1, 1);
         this.selectedScene = this.activeMesh.name;
         this.addHotspots(this.selectedScene);
-        this.setCameraStartScenePosition(
-          this.activeMesh.startScenePosition.x,
-          this.activeMesh.startScenePosition.y,
-          this.activeMesh.startScenePosition.z
-        );
         this.currentScaleDown.stop();
       });
 
