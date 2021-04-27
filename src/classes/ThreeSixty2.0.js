@@ -342,7 +342,7 @@ class ThreeSixtySphere {
       mesh.visible = false;
     } else {
       scene.hotspots.forEach((hotspot) => {
-        this.createHotspot(hotspot, mesh);
+        this.createHotspot(hotspot, mesh, scene.hotspots);
       });
     }
 
@@ -360,7 +360,7 @@ class ThreeSixtySphere {
   addHotspots = (scene) => {
     const currentScene = this.scenes.find((item) => item.key === scene);
     currentScene.hotspots.forEach((hotspot) => {
-      this.createHotspot(hotspot, this.activeMesh);
+      this.createHotspot(hotspot, this.activeMesh, currentScene.hotspots);
     });
   };
 
@@ -629,7 +629,7 @@ class ThreeSixtySphere {
   };
 
   /* */
-  createHotspot = ({ x, y, z, name, key, img, level }, mesh) => {
+  createHotspot = ({ x, y, z, name, key, img, level, startSceneKey }, mesh) => {
     const point = new THREE.Vector3(x, y, z);
     const texture = new TextureLoader.Load(img);
     const spriteMaterial = new THREE.SpriteMaterial({
@@ -641,6 +641,8 @@ class ThreeSixtySphere {
     sprite.isHotspot = true;
     sprite.key = key;
     sprite.startScenePosition = mesh.startScenePosition;
+    sprite.startSceneKey = startSceneKey || '';
+
     sprite.position.copy(
       point
         .clone()
@@ -785,7 +787,8 @@ class ThreeSixtySphere {
       ) {
         this.changeSphereScene(
           this.CLICKEDSPRITE.key,
-          this.CLICKEDSPRITE.startScenePosition
+          this.CLICKEDSPRITE.startScenePosition,
+          this.CLICKEDSPRITE.startSceneKey
         );
         const use = this.getSceneUse(this.CLICKEDSPRITE.key);
         this.updateCallBack(
@@ -798,19 +801,19 @@ class ThreeSixtySphere {
   };
 
   /* */
-  changeSphereScene = (key, startScenePosition) => {
+  changeSphereScene = (key, startScenePosition, startSceneKey) => {
     this.oldMesh = this.scene.children.find(
       (child) => child.name === this.selectedScene
     );
     if (this.oldMesh) {
       this.activeMesh = this.getActiveMesh(key);
-      this.currentScaleDown = this.scaleDown(this.oldMesh, startScenePosition);
+      this.currentScaleDown = this.scaleDown(this.oldMesh, startSceneKey);
       this.currentScaleDown.start();
     }
   };
 
   /* */
-  scaleDown = (mesh) =>
+  scaleDown = (mesh, startSceneKey) =>
     new TWEEN.Tween(mesh.scale)
       .to(
         {
@@ -821,10 +824,14 @@ class ThreeSixtySphere {
         500
       )
       .onStart(() => {
+        const startScenePosition = this.getStartScenePosition(
+          this.activeMesh.name,
+          startSceneKey
+        );
         this.setCameraStartScenePosition(
-          this.activeMesh.startScenePosition.x,
-          this.activeMesh.startScenePosition.y,
-          this.activeMesh.startScenePosition.z
+          startScenePosition.x,
+          startScenePosition.y,
+          startScenePosition.z
         );
       })
       .onUpdate((item) => {
@@ -842,6 +849,17 @@ class ThreeSixtySphere {
         this.addHotspots(this.selectedScene);
         this.currentScaleDown.stop();
       });
+  getStartScenePosition = (scene, key) => {
+    const currentScene = this.scenes.find((item) => item.key === scene);
+    const currentHotspot = currentScene.hotspots.find(
+      (hotspot) => hotspot.key === key
+    );
+    if (currentHotspot) {
+      return { x: currentHotspot.x, y: currentHotspot.y, z: currentHotspot.z };
+    }
+
+    return currentScene.startScenePosition;
+  };
 
   setCameraStartScenePosition = (x, y, z) => {
     const camDistance = this.camera.position.length();
