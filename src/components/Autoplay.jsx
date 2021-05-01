@@ -34,7 +34,6 @@ class Autoplay extends Component {
     const { status } = this.state;
     const elementClass = event.target.getAttribute('class') || '';
     if (status && !elementClass.includes('autoplay-button')) {
-      console.log('BODY');
       this.stopInterval();
       this.setStatus();
       this.messageHandler();

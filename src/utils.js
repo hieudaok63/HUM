@@ -3,24 +3,9 @@ import Data from './assets/Data';
 
 /* eslint-disable no-param-reassign */
 
-const getClosest = (elem, selector) => {
-  for (; elem && elem !== document; elem = elem.parentNode) {
-    if (elem.matches(selector)) return elem;
-  }
-  return null;
-};
-
-const callFilter = (items, node) =>
-  Array.prototype.slice.call(items).filter((item) => item !== node && item);
-
 const deleteWhiteSpaces = (s) => {
   if (typeof s !== 'string') return '';
   return s.replace(/ +/g, '');
-};
-
-const removeAccents = (s) => {
-  if (typeof s !== 'string') return '';
-  return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 };
 
 const bindEvent = (element, eventName, eventHandler) => {
@@ -71,16 +56,6 @@ const getLevelData = (levels, currentLevel) => {
   return level && level[0];
 };
 
-const get360Style = (style, menu) => {
-  const menuStyle = menu.filter((item) =>
-    item.name.toLowerCase() === style.toLowerCase() ||
-    item.key.toLowerCase() === style.toLowerCase()
-      ? item
-      : null
-  );
-  return menuStyle && menuStyle[0];
-};
-
 const getUse = (roomKey, scene) => {
   const use = scene.filter((item) =>
     item.key.toLowerCase() === roomKey.toLowerCase() ? item : null
@@ -88,42 +63,7 @@ const getUse = (roomKey, scene) => {
   return use && use[0];
 };
 
-const get360Uses = (uses) => {
-  if (uses.length > 1) {
-    return uses.map((use) => {
-      const { key, name, image } = use;
-      return {
-        key,
-        name,
-        image
-      };
-    });
-  }
-  return [];
-};
-
 const getCurrentRoomUse = (use) => use.key;
-
-const get360DataStyle = (currentStyle, styles) => {
-  const style = styles.filter((item) =>
-    item.key.toLowerCase() === currentStyle ? item : null
-  );
-  return style && style[0];
-};
-
-const get360Scene = (currentScene, scenes) => {
-  const scene = scenes.filter((item) => {
-    const currentItemName = item.name || '';
-    const currentItemKey = item.key || '';
-    return currentItemName.toLowerCase().includes(currentScene.toLowerCase()) ||
-      currentScene.toLowerCase().includes(currentItemName.toLowerCase()) ||
-      currentItemKey.toLowerCase().includes(currentScene.toLowerCase()) ||
-      currentScene.toLowerCase().includes(currentItemKey.toLowerCase())
-      ? item
-      : null;
-  });
-  return scene && scene[0];
-};
 
 const titleCase = (str) => {
   const splitStr = str.toLowerCase().split(' ');
@@ -172,65 +112,6 @@ const assignHotspotImage = (hotspots) =>
     return current;
   });
 
-const getProcessed360Data = (data, level, style, room, roomUse, finish) => {
-  const levelData = getLevelData(data.levels, level);
-  if (levelData) {
-    const { menu } = data;
-    const styleToRequest = style === 'default' ? data.defaultStyle : style;
-    const menuStyle = get360Style(styleToRequest, menu);
-
-    const jsonStyle = get360DataStyle(
-      menuStyle.key.toLowerCase(),
-      levelData.styles
-    );
-    if (jsonStyle) {
-      const roomToRequest = room === 'default' ? levelData.defaultScene : room;
-      const jsonScene = get360Scene(roomToRequest, jsonStyle.scenes);
-      if (jsonScene) {
-        const roomUseToRequest = getRoomToRequest(
-          roomUse,
-          jsonScene.uses,
-          jsonScene.defaultUse
-        );
-
-        const use = getUse(roomUseToRequest, jsonScene.uses);
-        const uses = get360Uses(jsonScene.uses);
-
-        const currentRoomUse = getCurrentRoomUse(use);
-        if (use) {
-          const { startScenePosition, key: sceneKey, hotspots } = jsonScene;
-          const hotspotsWithAssignedImage = assignHotspotImage(hotspots);
-          const finishToRequest =
-            finish === 'default' ? jsonScene.defaultFinish : finish;
-          return {
-            use,
-            uses,
-            currentRoomUse,
-            levelData,
-            jsonStyle,
-            startScenePosition,
-            menuStyle,
-            sceneKey,
-            hotspots: hotspotsWithAssignedImage,
-            finishToRequest
-          };
-        }
-      }
-    }
-  }
-  return null;
-};
-
-const getViewerDependingOnPreview = (preview, viewer) => {
-  if (preview) {
-    viewer.scene.children[0].children.forEach((child) => {
-      const element = child;
-      element.visible = false;
-    });
-  }
-  return viewer;
-};
-
 const getSelectedFinish = (selectedKey, scenes) => {
   if (
     selectedKey === 'default' ||
@@ -250,24 +131,6 @@ const getSelectedFinish = (selectedKey, scenes) => {
   return 'default';
 };
 
-const build360Scene = (scene, hotspots = [], startScenePosition, finish) => {
-  const { name, furniture, key, finishScenes } = scene;
-  const time = new Date().getTime();
-  const uri = `${scene.image}?${time}`;
-  const panorama = {};
-  panorama.uri = uri;
-  panorama.name = key;
-  panorama.finish = getSelectedFinish(finish, finishScenes);
-  return {
-    name,
-    key,
-    panorama,
-    hotspots,
-    startScenePosition,
-    furniture
-  };
-};
-
 const getLevelScenes = (currentLevel, style) => {
   const currentStyle = currentLevel.styles.filter(
     (levelStyle) => levelStyle.key === style
@@ -282,11 +145,17 @@ const getScene = (scenes, sceneKey) => {
   return currentScene.length > 0 ? currentScene[currentScene.length - 1] : null;
 };
 
+const getScenes = (levels, selectedStyle) => {
+  const scenes = [];
+  levels.forEach((item) => {
+    const level = item.styles.find((style) => style.key === selectedStyle);
+    scenes.push(...level.scenes);
+  });
+  return scenes;
+};
+
 export {
-  getClosest,
-  callFilter,
   deleteWhiteSpaces,
-  removeAccents,
   bindEvent,
   sendMessage,
   truncate,
@@ -296,19 +165,15 @@ export {
   isPreview,
   isSurveyCompleted,
   getLevelData,
-  get360DataStyle,
-  get360Scene,
-  get360Style,
   titleCase,
   hasGyroscope,
   isPortrait,
   getUse,
-  get360Uses,
   getRoomToRequest,
   getCurrentRoomUse,
-  getProcessed360Data,
-  getViewerDependingOnPreview,
-  build360Scene,
   getLevelScenes,
-  getScene
+  getSelectedFinish,
+  assignHotspotImage,
+  getScene,
+  getScenes
 };

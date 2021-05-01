@@ -29,7 +29,11 @@ class ThreeSixtyPage extends Component {
 
   async loadContent() {
     const { builderInfo, dispatch } = this.props;
-
+    const url = new URL(window.location.href);
+    const selectedStyleParam = url.searchParams.get('selectedStyle');
+    if (selectedStyleParam) {
+      await dispatch(ThreeSixtyAction.setSelectedStyle(selectedStyleParam));
+    }
     await dispatch(LoadingAction.setLoader(true));
 
     await dispatch(SocketAction.initSocket(SOCKET));

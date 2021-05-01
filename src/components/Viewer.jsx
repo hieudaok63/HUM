@@ -19,7 +19,7 @@ class Viewer extends Component {
     const panoramaInfo = await dispatch(PanoramaAction.createPanoramaInfo());
 
     if (!panoramaInfo.isError) {
-      dispatch(PanoramaAction.setPanorama());
+      await dispatch(PanoramaAction.setPanorama());
     }
   }
 

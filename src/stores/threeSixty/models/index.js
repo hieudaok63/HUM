@@ -105,7 +105,8 @@ class ThreeSixtyUseWithFinishes {
   constructor(data) {
     this.builderId = data.builderId;
     this.builderLogo = data.builderLogo;
-    this.defaultStyle = data.defaultStyle;
+    this.defaultStyle =
+      data.selectedStyle === 'default' ? data.defaultStyle : data.selectedStyle;
     this.displayName = data.displayName;
     this.language = data.language;
     this.layoutName = data.layoutName;

@@ -419,7 +419,7 @@ export default class ThreeSixtyAction {
   }
 
   /* */
-  static setSelectedStyle(style, styleName) {
+  static setSelectedStyle(style) {
     return ActionUtility.createAction(
       ThreeSixtyAction.SET_SELECTED_STYLE_REQUEST_FINISHED,
       style

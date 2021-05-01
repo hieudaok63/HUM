@@ -14,6 +14,7 @@ import {
   ThreeSixtyFurnitureByStyles,
   ThreeSixtyItem
 } from '../models';
+import { getScenes } from '../../../utils';
 
 export default class ThreeSixtyEffect {
   static async getScenes(
@@ -71,13 +72,14 @@ export default class ThreeSixtyEffect {
     return model;
   }
 
+  /** this one request the 360 datas */
   static async getScenesByStyles(
     language,
     builderId,
     propertyId,
     layoutName,
     level,
-    style
+    selectedStyle
   ) {
     const endpoint = `${THREE_SIXTY_API}${language}/360s/style-scenes/${builderId}/${propertyId}/${layoutName.replace(
       VERSION,
@@ -94,7 +96,11 @@ export default class ThreeSixtyEffect {
       return response;
     }
 
-    const model = new ThreeSixtyUseWithFinishes({ ...response.data, level });
+    const model = new ThreeSixtyUseWithFinishes({
+      ...response.data,
+      level,
+      selectedStyle
+    });
 
     return model;
   }
@@ -215,11 +221,7 @@ export default class ThreeSixtyEffect {
     selectedScene,
     selectedFinish
   ) {
-    const scenes = [];
-    levels.forEach((item) => {
-      const level = item.styles.find((style) => style.key === selectedStyle);
-      scenes.push(...level.scenes);
-    });
+    const scenes = getScenes(levels, selectedStyle);
     threeSixty.updateScenes(
       scenes,
       selectedScene,
