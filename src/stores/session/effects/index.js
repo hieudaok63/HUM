@@ -55,7 +55,8 @@ export default class SessionEffect {
     };
     const response = await HttpUtility.post(endpoint, {
       headers: {
-        'x-api-key': THREE_SIXTY_API_KEY
+        'x-api-key': THREE_SIXTY_API_KEY,
+        'content-type': 'application/json'
       },
       body: JSON.stringify(log)
     });

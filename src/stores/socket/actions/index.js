@@ -33,13 +33,16 @@ export default class SocketAction {
 
   /* */
   static socketMessage(data) {
-    console.log(data);
     return async (dispatch, getState) => {
-      const { socket: socketState, session } = getState();
+      const { socket: socketState, session, threeSixty } = getState();
       const { socket } = socketState;
       const { logId } = session;
+      const { builderId, propertyId, layoutName } = threeSixty;
       const socketData = data;
       socketData.id = logId;
+      socketData.data.builderId = builderId;
+      socketData.data.propertyId = propertyId;
+      socketData.data.layoutName = layoutName;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         SocketAction.SOCKET_MESSAGE_REQUEST,

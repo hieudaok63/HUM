@@ -7,5 +7,11 @@ export default class SocketModel {
 
   id = '';
   event = '';
-  data = { type: '', action: '' };
+  data = {
+    type: '',
+    action: '',
+    builderId: '',
+    propertyId: '',
+    layoutName: ''
+  };
 }

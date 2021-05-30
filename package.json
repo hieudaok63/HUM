@@ -30,9 +30,7 @@
     "uuid": "^8.3.0"
   },
   "scripts": {
-    "start": "env HOST=0.0.0.0 REACT_APP_ENV=production REACT_APP_VERSION=V4 react-scripts start",
-    "start:dev": "env HOST=0.0.0.0 REACT_APP_ENV=development REACT_APP_VERSION=V4 react-scripts start",
-    "start:staging": "env HOST=0.0.0.0 REACT_APP_ENV=staging REACT_APP_VERSION=V4 react-scripts start",
+    "start": "env HOST=0.0.0.0 REACT_APP_ENV=development REACT_APP_VERSION=V4 react-scripts start",
     "build": "env REACT_APP_ENV=production REACT_APP_VERSION=V4 react-scripts build",
     "build:dev": "env REACT_APP_ENV=development REACT_APP_VERSION=V4 react-scripts build",
     "build:staging": "env REACT_APP_ENV=staging REACT_APP_VERSION=V4 react-scripts build",
@@ -65,5 +63,5 @@
     "panolens": "^0.11.0",
     "prettier": "^1.18.2"
   },
-  "homepage": "https://360s.athum.com/"
+  "homepage": "https://dev-360-test.athum.co/"
 }

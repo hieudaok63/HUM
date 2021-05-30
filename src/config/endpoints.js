@@ -1,26 +1,27 @@
+const ENV = localStorage.getItem('ENV') || 'production';
 export const WEBAPP_API_DEV = 'https://test-webapp-api.athum.co';
 export const WEBAPP_API_PROD = 'https://webapp-api.athum.co';
 export const WEBAPP_API =
-  process.env.REACT_APP_ENV === 'production' ? WEBAPP_API_PROD : WEBAPP_API_DEV;
+  ENV === 'production' ? WEBAPP_API_PROD : WEBAPP_API_DEV;
 
 export const WEBAPP_API_KEY_DEV = 'f4SkXvQiyq2kGtKvaBP3b1OHcWROXreG6Vq6wO7e';
 export const WEBAPP_API_KEY_PROD = 'RVSTgA7lWk3hFLgka7j68S2moU5zmzA5OkT0Qmr8';
 export const WEBAPP_API_KEY =
-  process.env.REACT_APP_ENV === 'production'
-    ? WEBAPP_API_KEY_PROD
-    : WEBAPP_API_KEY_DEV;
+  ENV === 'production' ? WEBAPP_API_KEY_PROD : WEBAPP_API_KEY_DEV;
 
 export const THREE_SIXTY_API_DEV = 'https://dev-360-api.athum.com/v3/';
 export const THREE_SIXTY_API_STAGING = 'https://staging-360-api.athum.com/';
 export const THREE_SIXTY_API_PROD = 'https://360-api.athum.com/v3/';
+export const THREE_SIXTY_GOOGLE_API_PROD =
+  'https://us-west2-avria-production.cloudfunctions.net/three_sixty_api/prod/v1/';
 
 const threeSixtyApi = {
-  production: THREE_SIXTY_API_PROD,
+  production: THREE_SIXTY_GOOGLE_API_PROD,
   development: THREE_SIXTY_API_DEV,
   staging: THREE_SIXTY_API_STAGING
 };
 
-export const THREE_SIXTY_API = threeSixtyApi[process.env.REACT_APP_ENV];
+export const THREE_SIXTY_API = threeSixtyApi[ENV];
 
 export const THREE_SIXTY_API_PROD_KEY =
   'tHcR7YBjJG4Ty9I0IYEVU4ejEotjYksb1uFC0wbr';
@@ -35,7 +36,7 @@ const threeSixtyApiKey = {
   staging: THREE_SIXTY_API_STAGING_KEY
 };
 
-export const THREE_SIXTY_API_KEY = threeSixtyApiKey[process.env.REACT_APP_ENV];
+export const THREE_SIXTY_API_KEY = threeSixtyApiKey[ENV];
 
 export const SOCKET_TEST_API = 'https://virtualsalesapp.azurewebsites.net';
 export const SOCKET_PROD_API = 'https://prod-athum-rso-ws.azurewebsites.net/';
@@ -46,6 +47,6 @@ const socket = {
   development: SOCKET_TEST_API,
   staging: SOCKET_STAGING_API
 };
-export const SOCKET = socket[process.env.REACT_APP_ENV];
+export const SOCKET = socket[ENV];
 
 export const VERSION = process.env.REACT_APP_VERSION;
