@@ -18,13 +18,13 @@ import LoadingAction from '../stores/loading/actions';
 import { SOCKET } from '../config/endpoints';
 
 class ThreeSixtyPage extends Component {
+  componentDidMount() {
+    this.loadContent();
+  }
+
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch(SocketAction.disconnect());
-  }
-
-  componentDidMount() {
-    this.loadContent();
   }
 
   async loadContent() {

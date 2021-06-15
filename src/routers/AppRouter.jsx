@@ -6,6 +6,7 @@ import App from '../App';
 import strings from '../language';
 import LanguageActions from '../stores/language/actions';
 import NotFoundPage from '../pages/NotFoundPage';
+import UIPage from '../pages/UIPage';
 
 class AppRouter extends Component {
   async componentDidMount() {
@@ -32,6 +33,7 @@ class AppRouter extends Component {
               component={App}
             />
           )}
+          <Route path="/ui" component={UIPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </Router>
