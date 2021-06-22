@@ -1,0 +1,927 @@
+{
+  "builderId": "9768b832-db87-4ada-8ff0-ecace5c5315d",
+  "projectId": 31,
+  "logo": {
+    "reduceLogo": "https://developers-assets.athum.com/athum-assets/coke-short.svg",
+    "expandedLogo": "https://developers-assets.athum.com/athum-assets/coke-long.svg",
+    "backgroundColor": ""
+  },
+  "defaultLanguage": "es",
+  "availableLanguages": ["es", "us", "fr"],
+  "floorplans": [
+    {
+      "displayName": "C2",
+      "floorPlanId": 740,
+      "features": {
+        "es": [
+          { "text": "PB área interior: 283.23 m2" },
+          { "text": "PA área interior: 258.29 m2" },
+          { "text": "área de terrazas: 138.23 m2" }
+        ],
+        "en": [
+          { "text": "PB área interior: 283.23 m2" },
+          { "text": "PA área interior: 258.29 m2" },
+          { "text": "área de terrazas: 138.23 m2" }
+        ]
+      },
+      "available": [301, 303, 305, 501, 503, 505, 701, 703, 705, 901, 903, 905],
+      "bedrooms": 3,
+      "bathrooms": 3.5,
+      "parking": 4,
+      "area": {
+        "measure": 311.57,
+        "unit": "sq.m"
+      },
+      "defaultStyle": "StyleTwo",
+      "styles": [
+        {
+          "key": "StyleOne",
+          "name": {
+            "es": "Moderno",
+            "en": "Modern"
+          }
+        },
+        {
+          "key": "StyleTwo",
+          "name": {
+            "es": "Contemporáneo",
+            "en": "Contemporary"
+          }
+        },
+        {
+          "key": "StyleThree",
+          "name": {
+            "es": "Transicional",
+            "en": "Transitional"
+          }
+        }
+      ],
+      "floorplansUrl": [
+        {
+          "svgImage": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/FP/svg/C2.svg",
+          "defaultHeight": "1"
+        }
+      ],
+      "levels": [
+        {
+          "minimap": {
+            "hotspots": [
+              {
+                "key": "living-room",
+                "name": {
+                  "es": "Sala",
+                  "en": "Living"
+                },
+                "x": 284,
+                "y": 171
+              },
+              {
+                "key": "kitchen",
+                "name": {
+                  "es": "Cocina",
+                  "en": "Kitchen"
+                },
+                "x": 336,
+                "y": 445
+              },
+              {
+                "key": "dining-room",
+                "name": {
+                  "es": "Comedor",
+                  "en": "Dining"
+                },
+                "x": 251,
+                "y": 356
+              },
+              {
+                "key": "bath-room-1",
+                "name": {
+                  "es": "Baño 1",
+                  "en": "Bath 1"
+                },
+                "x": 340,
+                "y": 89
+              },
+              {
+                "key": "bath-room-2",
+                "name": {
+                  "es": "Baño 2",
+                  "en": "Bath 2"
+                },
+                "x": 404,
+                "y": 272
+              },
+              {
+                "key": "bath-room-3",
+                "name": {
+                  "es": "Baño 3",
+                  "en": "Bath 3"
+                },
+                "x": 312,
+                "y": 190
+              },
+              {
+                "key": "bath-room-4",
+                "name": {
+                  "es": "Baño 4",
+                  "en": "Bath 4"
+                },
+                "x": 326,
+                "y": 368
+              },
+              {
+                "key": "bed-room-1",
+                "name": {
+                  "es": "Recámara 1",
+                  "en": "Bed 1"
+                },
+                "x": 268,
+                "y": 117
+              },
+              {
+                "key": "bed-room-2",
+                "name": {
+                  "es": "Recámara 2",
+                  "en": "Bed 2"
+                },
+                "x": 398,
+                "y": 208
+              },
+              {
+                "key": "bed-room-3",
+                "name": {
+                  "es": "Recámara 3",
+                  "en": "Bed 3"
+                },
+                "x": 247,
+                "y": 164
+              },
+              {
+                "key": "other-room-1",
+                "name": {
+                  "es": "Sala de TV",
+                  "en": "TV room"
+                },
+                "x": 352,
+                "y": 259
+              },
+              {
+                "key": "other-room-2",
+                "name": {
+                  "es": "Entrada",
+                  "en": "Entrance"
+                },
+                "x": 384,
+                "y": 356
+              },
+              {
+                "key": "other-room-3",
+                "name": {
+                  "es": "Terraza",
+                  "en": "Terrace"
+                },
+                "x": 165,
+                "y": 289
+              },
+              {
+                "key": "other-room-4",
+                "name": {
+                  "es": "Cuarto de Servicio",
+                  "en": "Service Room"
+                },
+                "x": 398,
+                "y": 452
+              }
+            ],
+            "image": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/Minimap_Tipo2.png"
+          },
+          "scenes": [
+            {
+              "defaultFinish": "finish-01",
+              "defaultUse": "living-room",
+              "hotspots": [
+                {
+                  "key": "dining-room",
+                  "name": {
+                    "en": "Dining",
+                    "es": "Comedor"
+                  },
+                  "x": 93.38,
+                  "y": 2.12,
+                  "z": 35.16,
+                  "startSceneKey": "living-room"
+                },
+                {
+                  "key": "other-room-1",
+                  "name": {
+                    "en": "TV room",
+                    "es": "Sala de TV"
+                  },
+                  "x": -88.07,
+                  "y": -0.88,
+                  "z": -47.04,
+                  "startSceneKey": "bed-room-1"
+                },
+                {
+                  "key": "other-room-2",
+                  "name": {
+                    "en": "Entrance",
+                    "es": "Entrada"
+                  },
+                  "x": 12.43,
+                  "y": -9.14,
+                  "z": -98.67
+                },
+                {
+                  "key": "other-room-3",
+                  "name": {
+                    "en": "Terrace",
+                    "es": "Terraza"
+                  },
+                  "x": -11.49,
+                  "y": 2.16,
+                  "z": 99.2
+                }
+              ],
+              "key": "living-room",
+              "room": {
+                "en": "Living",
+                "es": "Sala"
+              },
+              "startScenePosition": {
+                "x": 47.78,
+                "y": 1.22,
+                "z": 87.68
+              },
+              "uses": [
+                {
+                  "combinations": [],
+                  "finishesItems": [],
+                  "finishScenes": [
+                    {
+                      "key": "finish-02",
+                      "StyleOne": {
+                        "thumbnail": "",
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingModern.jpg",
+                          "night": "without-mage",
+                          "alternates": {
+                            "modes": {
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingModern.jpg",
+                              "night": "without-mage"
+                            }
+                          }
+                        }
+                      },
+                      "StyleTwo": {
+                        "thumbnail": "",
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingContemporary.jpg",
+                          "night": "without-mage",
+                          "alternates": {
+                            "modes": {
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingContemporary.jpg",
+                              "night": "without-mage"
+                            }
+                          }
+                        }
+                      },
+                      "StyleThree": {
+                        "thumbnail": "",
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingTransitional.jpg",
+                          "night": "without-mage",
+                          "alternates": {
+                            "modes": {
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingTransitional.jpg",
+                              "night": "without-mage"
+                            }
+                          }
+                        }
+                      },
+                      "Empty": {
+                        "thumbnail": "",
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivingEmpty.jpg",
+                          "night": "without-mage"
+                        }
+                      },
+                      "name": "Finish 2"
+                    },
+                    {
+                      "key": "finish-02",
+                      "StyleOne": {
+                        "thumbnail": "",
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingModern.jpg",
+                          "night": "without-mage",
+                          "alternates": {
+                            "modes": {
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingModern.jpg",
+                              "night": "without-mage"
+                            }
+                          }
+                        }
+                      },
+                      "StyleTwo": {
+                        "thumbnail": "",
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingContemporary.jpg",
+                          "night": "without-mage",
+                          "alternates": {
+                            "modes": {
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingContemporary.jpg",
+                              "night": "without-mage"
+                            }
+                          }
+                        }
+                      },
+                      "StyleThree": {
+                        "thumbnail": "",
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingTransitional.jpg",
+                          "night": "without-mage",
+                          "alternates": {
+                            "modes": {
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingTransitional.jpg",
+                              "night": "without-mage"
+                            }
+                          }
+                        }
+                      },
+                      "Empty": {
+                        "thumbnail": "",
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivingEmpty.jpg",
+                          "night": "without-mage"
+                        }
+                      },
+                      "name": "Finish 1"
+                    }
+                  ],
+                  "furniture": [],
+                  "key": "living-room",
+                  "StyleOne": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingModern.jpg",
+                      "night": "without-mage",
+                      "alternates": {
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingModern.jpg",
+                          "night": "without-mage"
+                        }
+                      }
+                    }
+                  },
+                  "StyleTwo": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingContemporary.jpg",
+                      "night": "without-mage",
+                      "alternates": {
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingContemporary.jpg",
+                          "night": "without-mage"
+                        }
+                      }
+                    }
+                  },
+                  "StyleThree": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingTransitional.jpg",
+                      "night": "without-mage",
+                      "alternates": {
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingTransitional.jpg",
+                          "night": "without-mage"
+                        }
+                      }
+                    }
+                  },
+                  "Empty": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivingEmpty.jpg",
+                      "night": "without-mage"
+                    }
+                  },
+                  "name": {
+                    "es": "Sala",
+                    "en": "Living"
+                  }
+                }
+              ]
+            },
+            {
+              "defaultFinish": "finish-01",
+              "defaultUse": "dining-room",
+              "hotspots": [
+                {
+                  "key": "living-room",
+                  "name": {
+                    "en": "Living",
+                    "es": "Sala"
+                  },
+                  "x": 94.5,
+                  "y": -5.89,
+                  "z": -31.83
+                },
+                {
+                  "key": "other-room-1",
+                  "name": {
+                    "en": "TV room",
+                    "es": "Sala de TV"
+                  },
+                  "x": 81.05,
+                  "y": -3.46,
+                  "z": 58.29
+                },
+                {
+                  "key": "other-room-2",
+                  "name": {
+                    "en": "Entrance",
+                    "es": "Entrada"
+                  },
+                  "x": 32.73,
+                  "y": -0.81,
+                  "z": 94.37
+                },
+                {
+                  "key": "other-room-3",
+                  "name": {
+                    "en": "Terrace",
+                    "es": "Terraza"
+                  },
+                  "x": -37.42,
+                  "y": 3.73,
+                  "z": -92.45
+                }
+              ],
+              "key": "dining-room",
+              "room": {
+                "en": "Dining",
+                "es": "Comedor"
+              },
+              "startScenePosition": {
+                "x": 80.87,
+                "y": -34.64,
+                "z": 47.33
+              },
+              "uses": [
+                {
+                  "combinations": [],
+                  "finishesItems": [],
+                  "finishScenes": [],
+                  "furniture": [],
+                  "key": "living-room",
+                  "StyleOne": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningdiningModern.jpg",
+                      "night": "without-mage",
+                      "alternates": {
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningdiningModern.jpg",
+                          "night": "without-mage"
+                        }
+                      }
+                    }
+                  },
+                  "StyleTwo": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningdiningContemporary.jpg",
+                      "night": "without-mage",
+                      "alternates": {
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningdiningContemporary.jpg",
+                          "night": "without-mage"
+                        }
+                      }
+                    }
+                  },
+                  "StyleThree": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningdiningTransitional.jpg",
+                      "night": "without-mage",
+                      "alternates": {
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningdiningTransitional.jpg",
+                          "night": "without-mage"
+                        }
+                      }
+                    }
+                  },
+                  "Empty": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningEmpty.jpg",
+                      "night": "without-mage"
+                    }
+                  },
+                  "name": {
+                    "es": "Comedor",
+                    "en": "Dining"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "amenities": [
+    {
+      "key": "garden",
+      "room": {
+        "es": "Zen Garden",
+        "en": "Garden"
+      },
+      "type": "2d",
+      "image": [
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img9.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": [
+            {
+              "name": {
+                "en": "Tennis Court",
+                "es": "Pista de tenis"
+              },
+              "thumbnail": "",
+              "in": "amenities",
+              "key": "park",
+              "x": -29.49,
+              "y": -25.54
+            }
+          ]
+        },
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img10.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": []
+        },
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img11.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": []
+        },
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img12.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": []
+        },
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img13.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": []
+        }
+      ],
+      "thumbnail": "",
+      "features": {
+        "es": [
+          { "text": "Áreas Verdes" },
+          { "text": "Play ground" },
+          { "text": "Zen Garden" }
+        ],
+        "en": [
+          { "text": "Park" },
+          { "text": "Play Ground" },
+          { "text": "Garden" }
+        ]
+      }
+    },
+    {
+      "key": "Lobby",
+      "room": {
+        "es": "Lobby",
+        "en": "Lobby"
+      },
+      "type": "pano",
+      "image": [
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img9.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {
+            "x": -61.34,
+            "y": -8.86,
+            "z": 78.28
+          },
+          "infospots": [
+            {
+              "name": {
+                "en": "Restaurant",
+                "es": "Restaurante"
+              },
+              "thumbnail": "",
+              "x": -29.49,
+              "y": -25.54,
+              "z": -91.99
+            }
+          ]
+        },
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img10.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": []
+        },
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img11.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": []
+        },
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img12.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": []
+        },
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img13.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": []
+        }
+      ],
+      "thumbnail": "",
+      "features": {
+        "es": [
+          { "text": "Áreas Verdes" },
+          { "text": "Play ground" },
+          { "text": "Zen Garden" }
+        ],
+        "en": [
+          { "text": "Park" },
+          { "text": "Play Ground" },
+          { "text": "Garden" }
+        ]
+      }
+    }
+  ],
+  "exterior": [
+    {
+      "key": "entry",
+      "room": {
+        "en": "Entry",
+        "es": "Entrada"
+      },
+      "type": "2d",
+      "image": [
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img5.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": [
+            {
+              "name": {
+                "en": "Lobby",
+                "es": "Lobby"
+              },
+              "thumbnail": "",
+              "in": "amenities",
+              "key": "lobby",
+              "x": -29.49,
+              "y": -25.54
+            }
+          ]
+        },
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img6.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": []
+        },
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img7.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": []
+        },
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img8.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": []
+        },
+        {
+          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img9.svg",
+          "defaultHeight": "1",
+          "startScenePosition": {},
+          "infospots": []
+        }
+      ],
+      "thumbnail": "",
+      "features": {
+        "es": [
+          { "text": "3 torres" },
+          { "text": "con 20 residencias en cada una" },
+          { "text": "en una de las mejores zonas de la Ciudad de M�xico" }
+        ],
+        "en": [
+          { "text": "3 towers" },
+          { "text": "20 unique residences" },
+          { "text": "Best location in CDMX" }
+        ]
+      }
+    }
+  ],
+  "urls": {
+    "avria": "null",
+    "registration": "null",
+    "test": "null"
+  },
+  "location": {
+    "lng": 19.349540243375234,
+    "lat": -99.25829283097578,
+    "markerIcon": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/map_marker.png",
+    "categories": [
+      {
+        "icon": "https://rso-assets.athum.com/Icon_parks.svg",
+        "name": "Parques",
+        "color": "#68A129",
+        "places": [
+          {
+            "name": "Parque La Mexicana",
+            "latitude": 19.357455,
+            "longitude": -99.271192
+          }
+        ],
+        "markerIcon": "https://rso-assets.athum.com/Icon_parks.svg"
+      },
+      {
+        "icon": "https://rso-assets.athum.com/Icon_education.svg",
+        "name": "Escuelas",
+        "color": "#ED6B6A",
+        "places": [
+          {
+            "name": "Universidad Iberoamericana",
+            "latitude": 19.370657,
+            "longitude": -99.264642
+          },
+          {
+            "name": "Itesm Santa Fe",
+            "latitude": 19.359227,
+            "longitude": -99.258654
+          },
+          {
+            "name": "Colegio Eton",
+            "latitude": 19.357171,
+            "longitude": -99.264668
+          },
+          {
+            "name": "Colegio Eugenio de Mazenod",
+            "latitude": 19.356594,
+            "longitude": -99.265236
+          },
+          {
+            "name": "Colegio Pinecrest",
+            "latitude": 19.359914,
+            "longitude": -99.265966
+          },
+          {
+            "name": "Westhill",
+            "latitude": 19.358001,
+            "longitude": -99.265451
+          }
+        ],
+        "markerIcon": "https://rso-assets.athum.com/Icon_education.svg"
+      },
+      {
+        "icon": "https://rso-assets.athum.com/Icon_shopping.svg",
+        "name": "Centros Comerciales",
+        "color": "#1991EB",
+        "places": [
+          {
+            "name": "Centro Comercial Santa Fe",
+            "latitude": 19.361013,
+            "longitude": -99.274693
+          },
+          {
+            "name": "Samara Shops",
+            "latitude": 19.367412,
+            "longitude": -99.259561
+          },
+          {
+            "name": "Garden Santa Fe",
+            "latitude": 19.365385,
+            "longitude": -99.264632
+          },
+          {
+            "name": "Park Plaza",
+            "latitude": 19.364698,
+            "longitude": -99.25974
+          },
+          {
+            "name": "Patio Santa Fe",
+            "latitude": 19.377648,
+            "longitude": -99.25453
+          }
+        ],
+        "markerIcon": "https://rso-assets.athum.com/Icon_shopping.svg"
+      },
+      {
+        "icon": "https://rso-assets.athum.com/Icon_medical.svg",
+        "name": "Hospitales",
+        "color": "#ED9392",
+        "places": [
+          {
+            "name": "Centro Médico ABC",
+            "latitude": 19.356553,
+            "longitude": -99.282957
+          }
+        ],
+        "markerIcon": "https://rso-assets.athum.com/Icon_medical.svg"
+      },
+      {
+        "icon": "https://rso-assets.athum.com/Icon_restaurant.svg",
+        "name": "Restaurantes",
+        "color": "#E07A00",
+        "places": [
+          {
+            "name": "Guria",
+            "latitude": 19.364833,
+            "longitude": -99.260492
+          },
+          {
+            "name": "Harry's Steakhouse",
+            "latitude": 19.367787,
+            "longitude": -99.259329
+          },
+          {
+            "name": "Prendes La Mexicana",
+            "latitude": 19.358055,
+            "longitude": -99.272024
+          },
+          {
+            "name": "Sonora Grill Prime",
+            "latitude": 19.361937,
+            "longitude": -99.266376
+          },
+          {
+            "name": "Shu",
+            "latitude": 19.365374,
+            "longitude": -99.262097
+          }
+        ],
+        "markerIcon": "https://rso-assets.athum.com/Icon_restaurant.svg"
+      },
+      {
+        "icon": "https://rso-assets.athum.com/Icon_culture.svg",
+        "name": "Cultural",
+        "color": "#56B0C0",
+        "places": [
+          {
+            "name": "Expo Santa Fe",
+            "latitude": 19.363341,
+            "longitude": -99.262887
+          }
+        ],
+        "markerIcon": "https://rso-assets.athum.com/Icon_culture.svg"
+      },
+      {
+        "icon": "https://rso-assets.athum.com/Icon_hotel_blue.svg",
+        "name": "Hoteles",
+        "color": "#6089F2",
+        "places": [
+          {
+            "name": "NH Collection Mexico",
+            "latitude": 19.360024,
+            "longitude": -99.278491
+          },
+          {
+            "name": "Presidente Intercontinental Santa Fe",
+            "latitude": 19.359012,
+            "longitude": -99.278491
+          },
+          {
+            "name": "Hilton Santa Fe",
+            "latitude": 19.369012,
+            "longitude": -99.259222
+          },
+          {
+            "name": "Camino Real Santa Fe",
+            "latitude": 19.368284,
+            "longitude": -99.26141
+          },
+          {
+            "name": "JW Marriott Hotel Santa Fe",
+            "latitude": 19.367429,
+            "longitude": -99.260512
+          }
+        ],
+        "markerIcon": "https://rso-assets.athum.com/Icon_hotel_blue.svg"
+      }
+    ]
+  }
+}

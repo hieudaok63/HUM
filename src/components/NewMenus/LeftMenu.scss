@@ -7,41 +7,38 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.minified-menu-title {
-  width: 150px;
-  height: 50px;
-  background: #000000;
-  border-radius: 0px 0px 2px 2px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.minified-menu-title h1 {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: #ffffff;
-}
-
-.minified-menu-logo {
-  width: 50px;
-  height: 50px;
-  background: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.minified-menu-logo img {
-  transform: rotate(90deg);
+  &-title {
+    width: 150px;
+    height: 50px;
+    background: #000000;
+    border-radius: 0px 0px 2px 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & h1 {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: #ffffff;
+    }
+  }
+  &-logo {
+    width: 50px;
+    height: 50px;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & img {
+      transform: rotate(90deg);
+      max-width: 100%;
+    }
+  }
 }
 
 .menu {
@@ -51,21 +48,27 @@
   z-index: 2;
   left: 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
+  flex-direction: column;
   background: #1d1c1b;
   color: #ffffff;
-}
-
-.menu-header {
-  width: 100%;
-  height: 54px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #ffffff;
-  color: #000000;
-  padding: 12px;
+  &-header {
+    width: 100%;
+    height: 54px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    color: #000000;
+    padding: 12px;
+    & img {
+      max-height: 100%;
+    }
+    & .close-icon {
+      cursor: pointer;
+    }
+  }
 }
 
 .minified-left-fade-out {
@@ -126,4 +129,12 @@
   100% {
     left: -300px;
   }
+}
+
+.athum-logo {
+  position: absolute;
+  left: 30px;
+  bottom: 30px;
+  width: 67px;
+  height: 67px;
 }

@@ -1,0 +1,232 @@
+.menu-action {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 36px;
+  border: 1px solid;
+  border-color: #ffffff;
+  position: absolute;
+  color: #ffffff;
+  cursor: pointer;
+  &:hover:not([disabled]) {
+    color: #ed6b6a;
+    border-color: #ed6b6a;
+  }
+  &[disabled] {
+    background: rgba(29, 28, 27, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: auto;
+  }
+}
+
+.secondary-action {
+  background: #1d1c1b;
+}
+
+.info-action {
+  bottom: 30px;
+  right: 30px;
+}
+
+.info-icon {
+  height: 16px;
+  width: 16px;
+}
+
+.slow-mo-action {
+  bottom: 30px;
+  right: 100px;
+  animation-name: slowMoActionFadeIn;
+  animation-duration: 1s;
+}
+
+@keyframes slowMoActionFadeIn {
+  0% {
+    bottom: 30px;
+    right: 30px;
+    opacity: 0;
+  }
+  100% {
+    bottom: 30px;
+    right: 100px;
+    opacity: 1;
+  }
+}
+
+.slow-mo-icon {
+  height: 24px;
+  width: 24px;
+}
+
+.language-action {
+  bottom: 30px;
+  right: 170px;
+  animation-name: languageActionFadeIn;
+  animation-duration: 1s;
+}
+
+@keyframes languageActionFadeIn {
+  0% {
+    bottom: 30px;
+    right: 30px;
+    opacity: 0;
+  }
+  100% {
+    bottom: 30px;
+    right: 170px;
+    opacity: 1;
+  }
+}
+
+.share-action {
+  bottom: 30px;
+  right: 240px;
+  animation-name: shareActionFadeIn;
+  animation-duration: 1s;
+}
+
+@keyframes shareActionFadeIn {
+  0% {
+    bottom: 30px;
+    right: 30px;
+    opacity: 0;
+  }
+  100% {
+    bottom: 30px;
+    right: 240px;
+    opacity: 1;
+  }
+}
+
+.share-icon {
+  height: 24px;
+  width: 24px;
+}
+
+.full-screen-action {
+  bottom: 30px;
+  right: 310px;
+  animation-name: fullScreenActionFadeIn;
+  animation-duration: 1s;
+}
+
+@keyframes fullScreenActionFadeIn {
+  0% {
+    bottom: 30px;
+    right: 30px;
+    opacity: 0;
+  }
+  100% {
+    bottom: 30px;
+    right: 310px;
+    opacity: 1;
+  }
+}
+
+.full-screen-icon {
+  height: 24px;
+  width: 24px;
+}
+
+.light-action {
+  bottom: 100px;
+  right: 30px;
+  animation-name: lightActionFadeIn;
+  animation-duration: 1s;
+}
+
+@keyframes lightActionFadeIn {
+  0% {
+    bottom: 30px;
+    right: 30px;
+    opacity: 0;
+  }
+  100% {
+    bottom: 100px;
+    right: 30px;
+    opacity: 1;
+  }
+}
+
+.light-icon {
+  height: 20px;
+  width: 20px;
+}
+
+.settings-action {
+  bottom: 170px;
+  right: 30px;
+  animation-name: settingsActionFadeIn;
+  animation-duration: 1s;
+}
+
+@keyframes settingsActionFadeIn {
+  0% {
+    bottom: 30px;
+    right: 30px;
+    opacity: 0;
+  }
+  100% {
+    bottom: 170px;
+    right: 30px;
+    opacity: 1;
+  }
+}
+
+.settings-icon {
+  height: 20px;
+  width: 20px;
+}
+
+.styles-action {
+  bottom: 240px;
+  right: 30px;
+  animation-name: stylesActionFadeIn;
+  animation-duration: 1s;
+}
+
+@keyframes stylesActionFadeIn {
+  0% {
+    bottom: 30px;
+    right: 30px;
+    opacity: 0;
+  }
+  100% {
+    bottom: 240px;
+    right: 30px;
+    opacity: 1;
+  }
+}
+
+.styles-new-icon {
+  height: 20px;
+  width: 20px;
+}
+
+.eye-action {
+  bottom: 310px;
+  right: 30px;
+  animation-name: eyeActionFadeIn;
+  animation-duration: 1s;
+}
+
+@keyframes eyeActionFadeIn {
+  0% {
+    bottom: 30px;
+    right: 30px;
+    opacity: 0;
+  }
+  100% {
+    bottom: 310px;
+    right: 30px;
+    opacity: 1;
+  }
+}
+
+.eye-icon {
+  height: 20px;
+  width: 20px;
+}
