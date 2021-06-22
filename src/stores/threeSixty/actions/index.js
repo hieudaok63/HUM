@@ -1,483 +1,108 @@
-import HttpErrorResponseModel from '../../../models/HttpErrorResponseModel';
 import ActionUtility from '../../../utilities/ActionUtility';
 import ThreeSixtyEffect from '../effects';
 
 export default class ThreeSixtyAction {
-  static SAVE_LOG_REQUEST = 'SAVE_LOG_REQUEST';
-
-  static SAVE_LOG_REQUEST_FINISHED = 'SAVE_LOG_REQUEST_FINISHED';
-
-  static VIEW_MENU_REQUEST = 'ThreeSixtyAction.VIEW_MENU_REQUEST';
-
-  static VIEW_MENU_REQUEST_FINISHED =
-    'ThreeSixtyAction.VIEW_MENU_REQUEST_FINISHED';
-
-  static STYLE_MENU_REQUEST = 'ThreeSixtyAction.STYLE_MENU_REQUEST';
-
-  static STYLE_MENU_REQUEST_FINISHED =
-    'ThreeSixtyAction.STYLE_MENU_REQUEST_FINISHED';
-
-  static THREE_SIXTY_DATA_REQUEST = 'ThreeSixtyAction.THREE_SIXTY_DATA_REQUEST';
-
-  static THREE_SIXTY_DATA_REQUEST_FINISHED =
-    'ThreeSixtyAction.THREE_SIXTY_DATA_REQUEST_FINISHED';
-
-  static GET_FURNITURE_BY_STYLES_REQUEST = 'GET_FURNITURE_BY_STYLES_REQUEST';
-
-  static GET_FURNITURE_BY_STYLES_REQUEST_FINISHED =
-    'GET_FURNITURE_BY_STYLES_REQUEST_FINISHED';
-
-  static CLICK_FURNITURE_REQUEST_FINISHED = 'CLICK_FURNITURE_REQUEST_FINISHED';
-
-  static RESET_REQUEST_FINISHED = 'RESET_REQUEST_FINISHED';
-
-  static SET_TOUR_360_REQUEST_FINISHED = 'SET_TOUR_360_REQUEST_FINISHED';
-
-  static SET_PREVIEW_REQUEST_FINISHED = 'SET_PREVIEW_REQUEST_FINISHED';
-
-  static SET_SURVEY_REQUEST_FINISHED = 'SET_SURVEY_REQUEST_FINISHED';
-
-  static SET_SELECTED_STYLE_REQUEST_FINISHED =
-    'SET_SELECTED_STYLE_REQUEST_FINISHED';
-
-  static SET_SELECTED_STYLE_NAME_REQUEST_FINISHED =
-    'SET_SELECTED_STYLE_NAME_REQUEST_FINISHED';
-
-  static SET_SELECTED_SCENE_REQUEST = 'SET_SELECTED_SCENE_REQUEST';
-
-  static SET_SELECTED_SCENE_REQUEST_FINISHED =
-    'SET_SELECTED_SCENE_REQUEST_FINISHED';
-
-  static SET_SELECTED_FINISH_REQUEST_FINISHED =
-    'SET_SELECTED_FINISH_REQUEST_FINISHED';
-
-  static EXPAND_REQUEST_FINISHED = 'EXPAND_REQUEST_FINISHED';
-
-  static SET_BUILDER_REQUEST_FINISHED = 'SET_BUILDER_REQUEST_FINISHED';
-
-  static SELECTED_MENU_OPTION_REQUEST_FINISHED =
-    'SELECTED_MENU_OPTION_REQUEST_FINISHED';
-
-  static SELECTED_USE_REQUEST = 'SELECTED_USE_REQUEST';
-
-  static SELECTED_USE_REQUEST_FINISHED = 'SELECTED_USE_REQUEST_FINISHED';
-
-  static CURRENT_LEVEL_REQUEST_FINISHED = 'CURRENT_LEVEL_REQUEST_FINISHED';
-
-  static GET_360_ITEM_REQUEST = 'GET_360_ITEM_REQUEST';
-
-  static GET_360_ITEM_REQUEST_FINISHED = 'GET_360_ITEM_REQUEST_FINISHED';
-
-  static CHANGE_SCENE_SPHERE_REQUEST = 'CHANGE_SCENE_SPHERE_REQUEST';
-
-  static CHANGE_SCENE_SPHERE_REQUEST_FINISHED =
-    'CHANGE_SCENE_SPHERE_REQUEST_FINISHED';
-
-  static UPDATE_SPHERES_FINISHES_REQUEST = 'UPDATE_SPHERES_FINISHES_REQUEST';
-
-  static UPDATE_SPHERES_FINISHES_REQUEST_FINISHED =
-    'UPDATE_SPHERES_FINISHES_REQUEST_FINISHED';
-
-  static UPDATE_SPHERE_USE_REQUEST = 'UPDATE_SPHERE_USE_REQUEST';
-
-  static UPDATE_SPHERE_USE_REQUEST_FINISHED =
-    'UPDATE_SPHERE_USE_REQUEST_FINISHED';
+  static SET_STYLES = 'ThreeSixtyAction.SET_STYLES';
+  static SET_MINIMAP = 'ThreeSixtyAction.SET_MINIMAP';
+  static SET_USES = 'ThreeSixtyAction.SET_USES';
+  static SET_LEVELS = 'ThreeSixtyAction.SET_LEVELS';
+  static SET_SCENES = 'ThreeSixtyAction.SET_SCENES';
+  static SET_SCENE = 'ThreeSixtyAction.SET_SCENE';
+  static SET_STYLES_FINISHED = 'ThreeSixtyAction.SET_STYLES_FINISHED';
+  static SET_MINIMAP_FINISHED = 'ThreeSixtyAction.SET_MINIMAP_FINISHED';
+  static SET_USES_FINISHED = 'ThreeSixtyAction.SET_USES_FINISHED';
+  static SET_LEVELS_FINISHED = 'ThreeSixtyAction.SET_LEVELS_FINISHED';
+  static SET_SCENES_FINISHED = 'ThreeSixtyAction.SET_SCENES_FINISHED';
+  static SET_SCENE_FINISHED = 'ThreeSixtyAction.SET_SCENE_FINISHED';
 
   /* */
-  static getScenes() {
+  static setStyles() {
     return async (dispatch, getState) => {
-      const { language: stateLanguage, threeSixty } = getState();
-      const { language } = stateLanguage;
-      const {
-        builderId,
-        propertyId,
-        layoutName,
-        currentLevel,
-        selectedStyle,
-        mode
-      } = threeSixty;
-
+      const { tour } = getState();
+      const { selectedFloorplan } = tour;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
-        ThreeSixtyAction.VIEW_MENU_REQUEST,
-        ThreeSixtyEffect.getScenes,
-        language,
-        builderId,
-        propertyId,
-        layoutName,
-        currentLevel,
-        selectedStyle,
-        mode
+        ThreeSixtyAction.SET_STYLES,
+        ThreeSixtyEffect.setStyles,
+        selectedFloorplan.styles
       );
 
-      const isError = model instanceof HttpErrorResponseModel;
-      return { model, isError };
+      return { model };
     };
   }
 
-  /* */
-  static getStyles() {
+  static setLevels() {
     return async (dispatch, getState) => {
-      const { language: stateLanguage, threeSixty } = getState();
-      const { language } = stateLanguage;
-      const {
-        builderId,
-        propertyId,
-        layoutName,
-        currentLevel,
-        selectedScene,
-        mode
-      } = threeSixty;
-
+      const { tour } = getState();
+      const { selectedFloorplan } = tour;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
-        ThreeSixtyAction.STYLE_MENU_REQUEST,
-        ThreeSixtyEffect.getStyles,
-        language,
-        builderId,
-        propertyId,
-        layoutName,
-        currentLevel,
-        selectedScene,
-        mode
+        ThreeSixtyAction.SET_LEVELS,
+        ThreeSixtyEffect.setLevels,
+        selectedFloorplan.levels
       );
 
-      const isError = model instanceof HttpErrorResponseModel;
-      return { model, isError };
+      return { model };
     };
   }
 
-  /* */
-  static getScenesByStyles() {
+  static setMinimap() {
     return async (dispatch, getState) => {
-      const { language: stateLanguage, threeSixty } = getState();
-      const { language } = stateLanguage;
-      const {
-        builderId,
-        propertyId,
-        layoutName,
-        currentLevel,
-        selectedStyle
-      } = threeSixty;
-
+      const { threeSixty } = getState();
+      const { level } = threeSixty;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
-        ThreeSixtyAction.THREE_SIXTY_DATA_REQUEST,
-        ThreeSixtyEffect.getScenesByStyles,
-        language,
-        builderId,
-        propertyId,
-        layoutName,
-        currentLevel,
-        selectedStyle
+        ThreeSixtyAction.SET_MINIMAP,
+        ThreeSixtyEffect.setMinimap,
+        level.miniMap
       );
 
-      const isError = model instanceof HttpErrorResponseModel;
-      return { model, isError };
+      return { model };
     };
   }
 
-  static getFurnitureByStyles(builderId, projectId) {
+  static setScenes() {
     return async (dispatch, getState) => {
-      const { language: stateLanguage, threeSixty } = getState();
-      const { language } = stateLanguage;
-      const {
-        selectedStyle,
-        selectedScene,
-        displayName,
-        currentLevel
-      } = threeSixty;
-
+      const { threeSixty } = getState();
+      const { level } = threeSixty;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
-        ThreeSixtyAction.GET_FURNITURE_BY_STYLES_REQUEST,
-        ThreeSixtyEffect.getFurnitureByStyles,
-        language,
-        builderId,
-        projectId,
-        [selectedStyle],
-        selectedScene,
-        displayName,
-        currentLevel
+        ThreeSixtyAction.SET_SCENES,
+        ThreeSixtyEffect.setScenes,
+        level.scenes
       );
 
-      const isError = model instanceof HttpErrorResponseModel;
-      return { model, isError };
+      return { model };
     };
   }
 
-  static furnitureCount(body) {
+  static setScene() {
     return async (dispatch, getState) => {
-      const { language: stateLanguage } = getState();
-      const { language } = stateLanguage;
+      const { threeSixty } = getState();
+      const { level } = threeSixty;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
-        ThreeSixtyAction.CLICK_FURNITURE_REQUEST_FINISHED,
-        ThreeSixtyEffect.furnitureCount,
-        language,
-        body
+        ThreeSixtyAction.SET_SCENE,
+        ThreeSixtyEffect.setScene,
+        level.scenes
       );
 
-      const isError = model instanceof HttpErrorResponseModel;
-      return { model, isError };
+      return { model };
     };
   }
 
-  static reset() {
-    return ActionUtility.createAction(
-      ThreeSixtyAction.RESET_REQUEST_FINISHED,
-      ''
-    );
-  }
-
-  static saveLog(log) {
+  static setUses() {
     return async (dispatch, getState) => {
-      const { language: stateLanguage } = getState();
-      const { language } = stateLanguage;
-
+      const { threeSixty } = getState();
+      const { scene } = threeSixty;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
-        ThreeSixtyAction.SAVE_LOG_REQUEST,
-        ThreeSixtyEffect.saveLog,
-        language,
-        log
+        ThreeSixtyAction.SET_USES,
+        ThreeSixtyEffect.setUses,
+        scene.uses
       );
 
-      const isError = model instanceof HttpErrorResponseModel;
-      return { model, isError };
+      return { model };
     };
-  }
-
-  static get360Item() {
-    return async (dispatch, getState) => {
-      const { language: stateLanguage, threeSixty } = getState();
-      const { language } = stateLanguage;
-      const {
-        builderId,
-        propertyId,
-        layoutName,
-        selectedScene,
-        selectedStyle,
-        currentLevel
-      } = threeSixty;
-
-      const model = await ActionUtility.createThunkEffect(
-        dispatch,
-        ThreeSixtyAction.GET_360_ITEM_REQUEST,
-        ThreeSixtyEffect.get360Item,
-        language,
-        builderId,
-        propertyId,
-        layoutName,
-        selectedScene,
-        selectedStyle,
-        currentLevel
-      );
-
-      const isError = model instanceof HttpErrorResponseModel;
-      return { model, isError };
-    };
-  }
-
-  /* */
-  static changeSceneSphere() {
-    return async (dispatch, getState) => {
-      const { panorama: panoramaState, threeSixty } = getState();
-      const { panorama } = panoramaState;
-      const { selectedScene } = threeSixty;
-      await ActionUtility.createThunkEffect(
-        dispatch,
-        ThreeSixtyAction.CHANGE_SCENE_SPHERE_REQUEST,
-        ThreeSixtyEffect.changeSceneSphere,
-        panorama,
-        selectedScene
-      );
-    };
-  }
-
-  /* */
-  static updateFinishes() {
-    return async (dispatch, getState) => {
-      const { panorama: panoramaState, threeSixty } = getState();
-      const { panorama } = panoramaState;
-      const { selectedFinish } = threeSixty;
-      await ActionUtility.createThunkEffect(
-        dispatch,
-        ThreeSixtyAction.UPDATE_SPHERES_FINISHES_REQUEST,
-        ThreeSixtyEffect.updateSpheresFinishes,
-        panorama,
-        selectedFinish
-      );
-    };
-  }
-
-  /* */
-  static updateSpheres(selectedStyle) {
-    return async (dispatch, getState) => {
-      const { panorama: panoramaState, threeSixty } = getState();
-      const { panorama } = panoramaState;
-      const {
-        levels,
-        currentLevel,
-        selectedScene,
-        selectedFinish
-      } = threeSixty;
-      await ActionUtility.createThunkEffect(
-        dispatch,
-        ThreeSixtyAction.CHANGE_SCENE_SPHERE_REQUEST,
-        ThreeSixtyEffect.updateSpheres,
-        panorama,
-        levels,
-        currentLevel,
-        selectedStyle,
-        selectedScene,
-        selectedFinish
-      );
-    };
-  }
-
-  /* */
-  static updateLevel() {
-    return async (dispatch, getState) => {
-      const { panorama: panoramaState, threeSixty } = getState();
-      const { panorama } = panoramaState;
-      const { levels, currentLevel } = threeSixty;
-      await ActionUtility.createThunkEffect(
-        dispatch,
-        ThreeSixtyAction.SET_SELECTED_SCENE_REQUEST,
-        ThreeSixtyEffect.updateLevel,
-        panorama,
-        levels,
-        currentLevel
-      );
-    };
-  }
-
-  /* */
-  static changeSphereUse() {
-    return async (dispatch, getState) => {
-      const { panorama: panoramaState, threeSixty } = getState();
-      const { panorama } = panoramaState;
-      const { selectedScene, selectedFinish, currentRoomUse } = threeSixty;
-      await ActionUtility.createThunkEffect(
-        dispatch,
-        ThreeSixtyAction.UPDATE_SPHERE_USE_REQUEST,
-        ThreeSixtyEffect.changeSphereUse,
-        panorama,
-        selectedScene,
-        selectedFinish,
-        currentRoomUse
-      );
-    };
-  }
-
-  /* */
-  static getSphereUse() {
-    return async (dispatch, getState) => {
-      const { panorama: panoramaState, threeSixty } = getState();
-      const { panorama } = panoramaState;
-      const { selectedScene } = threeSixty;
-      await ActionUtility.createThunkEffect(
-        dispatch,
-        ThreeSixtyAction.SELECTED_USE_REQUEST,
-        ThreeSixtyEffect.getSphereUse,
-        panorama,
-        selectedScene
-      );
-    };
-  }
-
-  // maybe this ones can be selectors instead of actions
-
-  /* */
-  static setBuilder(builder) {
-    return ActionUtility.createAction(
-      ThreeSixtyAction.SET_BUILDER_REQUEST_FINISHED,
-      builder
-    );
-  }
-
-  static has360Tour(hasTour) {
-    return ActionUtility.createAction(
-      ThreeSixtyAction.SET_TOUR_360_REQUEST_FINISHED,
-      hasTour
-    );
-  }
-
-  static isPreview(isPreview) {
-    return ActionUtility.createAction(
-      ThreeSixtyAction.SET_PREVIEW_REQUEST_FINISHED,
-      isPreview
-    );
-  }
-
-  static isSurveryCompleted(isSurveryCompleted) {
-    return ActionUtility.createAction(
-      ThreeSixtyAction.SET_SURVEY_REQUEST_FINISHED,
-      isSurveryCompleted
-    );
-  }
-
-  /* */
-  static setSelectedStyle(style) {
-    return ActionUtility.createAction(
-      ThreeSixtyAction.SET_SELECTED_STYLE_REQUEST_FINISHED,
-      style
-    );
-  }
-
-  static setSelectedNameStyle(styleName) {
-    return ActionUtility.createAction(
-      ThreeSixtyAction.SET_SELECTED_STYLE_NAME_REQUEST_FINISHED,
-      styleName
-    );
-  }
-
-  /* */
-  static setSelectedScene(scene) {
-    return ActionUtility.createAction(
-      ThreeSixtyAction.SET_SELECTED_SCENE_REQUEST_FINISHED,
-      scene
-    );
-  }
-
-  /* */
-  static setSelectedFinish(finish) {
-    return ActionUtility.createAction(
-      ThreeSixtyAction.SET_SELECTED_FINISH_REQUEST_FINISHED,
-      finish
-    );
-  }
-
-  /* */
-  static expandMenu(expand) {
-    return ActionUtility.createAction(
-      ThreeSixtyAction.EXPAND_REQUEST_FINISHED,
-      expand
-    );
-  }
-
-  /* */
-  static setSelectedMenuOption(option) {
-    return ActionUtility.createAction(
-      ThreeSixtyAction.SELECTED_MENU_OPTION_REQUEST_FINISHED,
-      option
-    );
-  }
-
-  /* */
-  static setSelectedUse(option) {
-    return ActionUtility.createAction(
-      ThreeSixtyAction.SELECTED_USE_REQUEST_FINISHED,
-      option
-    );
-  }
-
-  /* */
-  static setCurrentLevel(option) {
-    return ActionUtility.createAction(
-      ThreeSixtyAction.CURRENT_LEVEL_REQUEST_FINISHED,
-      option
-    );
   }
 }

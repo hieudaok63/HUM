@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import App from '../App';
 import strings from '../language';
 import LanguageActions from '../stores/language/actions';
-import NotFoundPage from '../pages/NotFoundPage';
+// import NotFoundPage from '../pages/NotFoundPage';
+import Test from '../pages/Test';
 
 class AppRouter extends Component {
   async componentDidMount() {
@@ -32,7 +33,7 @@ class AppRouter extends Component {
               component={App}
             />
           )}
-          <Route component={NotFoundPage} />
+          {language && <Route component={Test} />}
         </Switch>
       </Router>
     );
