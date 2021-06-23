@@ -9,7 +9,8 @@ export const WEBAPP_API_KEY_PROD = 'RVSTgA7lWk3hFLgka7j68S2moU5zmzA5OkT0Qmr8';
 export const WEBAPP_API_KEY =
   ENV === 'production' ? WEBAPP_API_KEY_PROD : WEBAPP_API_KEY_DEV;
 
-export const THREE_SIXTY_API_DEV = 'https://dev-360-api.athum.com/v3/';
+export const THREE_SIXTY_API_DEV =
+  'https://dev-360-api.athum.com/three_sixty_api_dev/v1/';
 export const THREE_SIXTY_API_STAGING = 'https://staging-360-api.athum.com/';
 export const THREE_SIXTY_API_PROD = 'https://360-api.athum.com/v3/';
 export const THREE_SIXTY_GOOGLE_API_PROD =
@@ -39,7 +40,7 @@ const threeSixtyApiKey = {
 export const THREE_SIXTY_API_KEY = threeSixtyApiKey[ENV];
 
 export const SOCKET_TEST_API = 'https://virtualsalesapp.azurewebsites.net';
-export const SOCKET_PROD_API = 'https://prod-athum-rso-ws.azurewebsites.net/';
+export const SOCKET_PROD_API = 'https://prod-rso-websocket.azurewebsites.net';
 export const SOCKET_STAGING_API =
   'https://staging-athum-rso-ws.azurewebsites.net';
 const socket = {

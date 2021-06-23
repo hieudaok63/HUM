@@ -760,6 +760,7 @@ class ThreeSixtySphere {
     this.mouseDown = true;
     this.getMouse(event);
     this.updateMenuCall(false);
+    // this.displayPosition();
   };
 
   /* */
@@ -900,12 +901,17 @@ class ThreeSixtySphere {
       item.visible = visble;
     });
 
+  getVisbleMesh = () => this.scene.children.find((mesh) => mesh.visible);
+
   /* */
   displayPosition = () => {
-    const intersection = this.raycaster.intersectObject(this.mesh);
-    if (intersection.length > 0) {
-      const { point } = intersection[0];
-      console.log(point);
+    const visibleMesh = this.getVisbleMesh();
+    if (visibleMesh) {
+      const intersection = this.raycaster.intersectObject(visibleMesh);
+      if (intersection.length > 0) {
+        const { point } = intersection[0];
+        console.log(point);
+      }
     }
   };
 
