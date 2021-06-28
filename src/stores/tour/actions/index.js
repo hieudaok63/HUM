@@ -17,15 +17,17 @@ export default class TourAction {
     'ToutAction.TOUR_SELECTED_AMENTIE_FINISHED';
 
   /* */
-  static getMockData() {
+  static getData(builder, project) {
     return async (dispatch, getState) => {
       const { language: stateLanguage } = getState();
       const { language } = stateLanguage;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         TourAction.TOUR_DATA_REQUEST,
-        TourEffect.getMockData,
-        language
+        TourEffect.getData,
+        language,
+        builder,
+        project
       );
       const isError = model instanceof HttpErrorResponseModel;
       return { model, isError };

@@ -36,7 +36,9 @@ class AppRouter extends Component {
             />
           )}
           <Route path="/ui" component={UIPage} />
-          {language && <Route path="/test" component={Test} />}
+          {language && (
+            <Route path="/:builderId/:projectId" exact component={Test} />
+          )}
           <Route component={NotFoundPage} />
         </Switch>
       </Router>

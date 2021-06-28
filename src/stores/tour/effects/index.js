@@ -4,8 +4,8 @@ import HttpErrorResponseModel from '../../../models/HttpErrorResponseModel';
 import Tour from '../models';
 
 export default class TourEffect {
-  static async getMockData(language) {
-    const endpoint = `${THREE_SIXTY_API}${language}/360s`;
+  static async getData(language, builder, project) {
+    const endpoint = `${THREE_SIXTY_API}${language}/builders/${builder}/projects/${project}/360s`;
     const response = await HttpUtility.get(endpoint);
 
     if (response instanceof HttpErrorResponseModel) {
