@@ -10,6 +10,10 @@
   position: absolute;
   color: #ffffff;
   cursor: pointer;
+  &-active {
+    color: #ed6b6a;
+    border-color: #ed6b6a;
+  }
   &:hover:not([disabled]) {
     color: #ed6b6a;
     border-color: #ed6b6a;
@@ -19,6 +23,33 @@
     border-color: rgba(255, 255, 255, 0.5);
     color: rgba(255, 255, 255, 0.5);
     cursor: auto;
+  }
+  &-submenu {
+    display: flex;
+    right: 36px;
+    height: 36px;
+    position: absolute;
+    justify-content: flex-end;
+    &-option {
+      height: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 36px;
+      border: 1px solid;
+      border-color: #ffffff;
+      color: #ffffff;
+      cursor: pointer;
+      padding: 0 10px;
+      margin: 0 10px;
+      background-color: #1d1c1b;
+      font-weight: normal;
+      font-size: 10px;
+      line-height: 12px;
+      &:hover:not([disabled]) {
+        background-color: #ed6b6a;
+      }
+    }
   }
 }
 

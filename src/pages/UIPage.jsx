@@ -14,7 +14,7 @@ const UIPage = () => {
         amenities={amenities}
         exterior={exterior}
       />
-      <ActionsMenu />
+      <ActionsMenu styles={floorplans[0].styles} />
     </div>
   );
 };
