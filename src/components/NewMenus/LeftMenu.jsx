@@ -2,19 +2,18 @@ import React from 'react';
 import { string, arrayOf, shape } from 'prop-types';
 import { ReactComponent as CloseIcon } from '../../assets/Icons/close.svg';
 import { ReactComponent as AthumLogo } from '../../assets/athum-logo-minified.svg';
-import { ReactComponent as BedroomIcon } from '../../assets/Icons/icon_bedroom.svg';
-import { ReactComponent as BathroomIcon } from '../../assets/Icons/icon_bathroom.svg';
-import { ReactComponent as CarIcon } from '../../assets/Icons/icon_car.svg';
-import { ReactComponent as AreaIcon } from '../../assets/Icons/icon_area.svg';
 import './LeftMenu.scss';
+import FloorplansSubmenu from './FloorplansSubmenu';
+import ExteriorsSubmenu from './ExteriorsSubmenu';
+import AmmenitiesSubmenu from './AmmenitiesSubmenu';
 
 const LeftMenu = ({
   reduceLogo,
   expandedLogo,
   backgroundColor,
-  floorplans
-  //   amenities,
-  //   exterior
+  floorplans,
+  exterior,
+  amenities
 }) => {
   const [openedMenu, setOpenedMenu] = React.useState('');
   const minifiedMenu = React.useRef(null);
@@ -56,6 +55,14 @@ const LeftMenu = ({
     };
   }, []);
 
+  const changeOpenedMenu = (newOpenedMenu) => {
+    if (openedMenu === newOpenedMenu) {
+      setOpenedMenu('');
+    } else {
+      setOpenedMenu(newOpenedMenu);
+    }
+  };
+
   return (
     <>
       <div onMouseEnter={showMenu} className="minified-menu" ref={minifiedMenu}>
@@ -71,57 +78,22 @@ const LeftMenu = ({
           <img src={expandedLogo} alt="Logo" />
           <CloseIcon onClick={hideMenu} className="close-icon" />
         </div>
-        <div>
-          {floorplans.length > 0 && (
-            <div>
-              <div onClick={() => setOpenedMenu('floorplans')}>Floorplans</div>
-              {openedMenu === 'floorplans' &&
-                floorplans.map(
-                  ({
-                    displayName,
-                    floorPlanId,
-                    levels,
-                    defaultStyle,
-                    bedrooms,
-                    bathrooms,
-                    parking,
-                    area
-                  }) => {
-                    const { scenes } = levels[0];
-                    const { defaultUse, uses } = scenes[0];
-                    const { modes } = uses.find(
-                      ({ key }) => defaultUse === key
-                    )[defaultStyle];
-                    const { day } = modes;
-                    const { measure, unit } = area;
-                    return (
-                      <div key={floorPlanId}>
-                        <img
-                          src={day}
-                          alt={displayName}
-                          style={{ maxWidth: '100%' }}
-                        />
-                        <div>
-                          <div>{displayName}</div>
-                          <div style={{ display: 'flex' }}>
-                            <BedroomIcon />
-                            <div style={{ margin: '0 10px' }}>{bedrooms}</div>
-                            <BathroomIcon />
-                            <div style={{ margin: '0 10px' }}>{bathrooms}</div>
-                            <CarIcon />
-                            <div style={{ margin: '0 10px' }}>{parking}</div>
-                            <AreaIcon />
-                            <div style={{ margin: '0 10px' }}>
-                              {`${measure} ${unit}`}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  }
-                )}
-            </div>
-          )}
+        <div className="w-100">
+          <FloorplansSubmenu
+            openedMenu={openedMenu}
+            changeOpenedMenu={changeOpenedMenu}
+            floorplans={floorplans}
+          />
+          <ExteriorsSubmenu
+            openedMenu={openedMenu}
+            changeOpenedMenu={changeOpenedMenu}
+            exterior={exterior}
+          />
+          <AmmenitiesSubmenu
+            openedMenu={openedMenu}
+            changeOpenedMenu={changeOpenedMenu}
+            ammenities={amenities}
+          />
         </div>
       </div>
       <AthumLogo className="athum-logo" />
@@ -133,9 +105,9 @@ LeftMenu.propTypes = {
   reduceLogo: string.isRequired,
   expandedLogo: string.isRequired,
   backgroundColor: string,
-  floorplans: arrayOf(shape({})).isRequired
-  //   amenities: arrayOf(shape({})).isRequired,
-  //   exterior: arrayOf(shape({})).isRequired
+  floorplans: arrayOf(shape({})).isRequired,
+  exterior: arrayOf(shape({})).isRequired,
+  amenities: arrayOf(shape({})).isRequired
 };
 
 LeftMenu.defaultProps = {
