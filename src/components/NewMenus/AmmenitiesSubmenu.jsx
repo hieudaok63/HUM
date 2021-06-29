@@ -55,7 +55,7 @@ const AmmenitiesSubmenu = ({ openedMenu, changeOpenedMenu, ammenities }) => {
           >
             Ammenities{' '}
             <DropdownIcon
-              className={`dropdown-icon ${isOpen && 'dropdown-icon-inverted'}`}
+              className={`dropdown-icon ${!isOpen && 'dropdown-icon-inverted'}`}
             />
           </div>
           <div ref={submenu} className="hidden">

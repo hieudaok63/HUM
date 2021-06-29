@@ -10,732 +10,1701 @@
   "availableLanguages": ["es", "us", "fr"],
   "floorplans": [
     {
-      "displayName": "C2",
-      "floorPlanId": 740,
-      "features": {
-        "es": [
-          { "text": "PB área interior: 283.23 m2" },
-          { "text": "PA área interior: 258.29 m2" },
-          { "text": "área de terrazas: 138.23 m2" }
-        ],
-        "en": [
-          { "text": "PB área interior: 283.23 m2" },
-          { "text": "PA área interior: 258.29 m2" },
-          { "text": "área de terrazas: 138.23 m2" }
-        ]
-      },
-      "available": [301, 303, 305, 501, 503, 505, 701, 703, 705, 901, 903, 905],
-      "bedrooms": 3,
-      "bathrooms": 3.5,
+      "displayName": "Pent Garden D",
+      "area": 630.84,
+      "unit": "m2",
+      "layoutName": "PentGardenD",
+      "bedrooms": 4,
+      "bathrooms": 4.5,
       "parking": 4,
-      "area": {
-        "measure": 311.57,
-        "unit": "sq.m"
-      },
-      "defaultStyle": "StyleTwo",
+      "features": [],
       "styles": [
         {
-          "key": "StyleOne",
           "name": {
-            "es": "Moderno",
-            "en": "Modern"
+            "en": "Modern",
+            "fr": "Moderne"
+          },
+          "key": "StyleOne"
+        },
+        {
+          "name": {
+            "fr": "Contemporain",
+            "en": "Contemporary"
+          },
+          "key": "StyleTwo"
+        },
+        {
+          "key": "StyleThree",
+          "name": {
+            "fr": "Scandinave",
+            "en": "Scandinavian"
           }
+        }
+      ],
+      "levels": [
+        {
+          "scenes": [
+            {
+              "uses": [
+                {
+                  "key": "living-room",
+                  "name": {
+                    "fr": "Le salon",
+                    "en": "Living"
+                  },
+                  "StyleThree": {
+                    "thumbnail": "",
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-SC-D-00741A.jpg",
+                      "alternates": {
+                        "modes": {
+                          "night": "without-mage",
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-SC-D-00741A.jpg"
+                        }
+                      }
+                    }
+                  },
+                  "finishScenes": [
+                    {
+                      "Empty": {
+                        "thumbnail": "",
+                        "modes": {
+                          "night": "without-mage",
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-00-00-00741A.jpg"
+                        }
+                      },
+                      "StyleTwo": {
+                        "thumbnail": "",
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-CN-D-00741A.jpg",
+                          "alternates": {
+                            "modes": {
+                              "night": "without-mage",
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-CN-D-00741A.jpg"
+                            }
+                          },
+                          "night": "without-mage"
+                        }
+                      },
+                      "StyleOne": {
+                        "thumbnail": "",
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-MO-D-00741A.jpg",
+                          "night": "without-mage",
+                          "alternates": {
+                            "modes": {
+                              "night": "without-mage",
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-MO-D-00741A.jpg"
+                            }
+                          }
+                        }
+                      },
+                      "key": "finish-02",
+                      "StyleThree": {
+                        "thumbnail": "",
+                        "modes": {
+                          "alternates": {
+                            "modes": {
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-SC-D-00741A.jpg",
+                              "night": "without-mage"
+                            }
+                          },
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-SC-D-00741A.jpg",
+                          "night": "without-mage"
+                        }
+                      },
+                      "name": {
+                        "fr": "Finish-2",
+                        "en": "Finish 2"
+                      }
+                    },
+                    {
+                      "Empty": {
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-00-00-00741A.jpg",
+                          "night": "without-mage"
+                        },
+                        "thumbnail": ""
+                      },
+                      "StyleTwo": {
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-CN-D-00741A.jpg",
+                          "alternates": {
+                            "modes": {
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-CN-D-00741A.jpg",
+                              "night": "without-mage"
+                            }
+                          },
+                          "night": "without-mage"
+                        },
+                        "thumbnail": ""
+                      },
+                      "key": "finish-01",
+                      "StyleThree": {
+                        "thumbnail": "",
+                        "modes": {
+                          "night": "without-mage",
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-SC-D-00741A.jpg",
+                          "alternates": {
+                            "modes": {
+                              "night": "without-mage",
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-SC-D-00741A.jpg"
+                            }
+                          }
+                        }
+                      },
+                      "name": {
+                        "fr": "Finish-1",
+                        "en": "Finish 1"
+                      },
+                      "StyleOne": {
+                        "thumbnail": "",
+                        "modes": {
+                          "night": "without-mage",
+                          "alternates": {
+                            "modes": {
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-MO-D-00741A.jpg",
+                              "night": "without-mage"
+                            }
+                          },
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-MO-D-00741A.jpg"
+                        }
+                      }
+                    }
+                  ],
+                  "StyleOne": {
+                    "modes": {
+                      "alternates": {
+                        "modes": {
+                          "night": "without-mage",
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-MO-D-00741A.jpg"
+                        }
+                      },
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-MO-D-00741A.jpg"
+                    },
+                    "thumbnail": ""
+                  },
+                  "combinations": [],
+                  "finishesItems": [],
+                  "Empty": {
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-00-00-00741A.jpg",
+                      "night": "without-mage"
+                    },
+                    "thumbnail": ""
+                  },
+                  "furniture": [],
+                  "StyleTwo": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-CN-D-00741A.jpg",
+                      "night": "without-mage",
+                      "alternates": {
+                        "modes": {
+                          "night": "without-mage",
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-LIV-17-CN-D-00741A.jpg"
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "startScenePosition": {
+                "y": -9.85,
+                "z": 58.84,
+                "x": -80.15
+              },
+              "hotspots": [
+                {
+                  "key": "bath-room-1",
+                  "y": -3.52,
+                  "name": {
+                    "en": "Bath 1",
+                    "fr": "Bain 1"
+                  },
+                  "z": -87.36,
+                  "x": 48.21
+                },
+                {
+                  "key": "kitchen",
+                  "x": 89.87,
+                  "name": {
+                    "en": "Kitchen",
+                    "fr": "Cuisine"
+                  },
+                  "y": -3.68,
+                  "z": -43.28
+                },
+                {
+                  "key": "other-room-1",
+                  "startSceneKey": "kitchen",
+                  "x": 99.45,
+                  "z": 6.69,
+                  "y": -5.1,
+                  "name": {
+                    "fr": "Entrée",
+                    "en": "Entry"
+                  }
+                }
+              ],
+              "room": {
+                "en": "Living",
+                "fr": "Le salon"
+              },
+              "defaultFinish": "finish-01",
+              "defaultUse": "living-room",
+              "key": "living-room"
+            },
+            {
+              "startScenePosition": {
+                "y": -32.37,
+                "x": 88.13,
+                "z": -33.94
+              },
+              "defaultUse": "kitchen",
+              "uses": [
+                {
+                  "furniture": [],
+                  "finishesItems": [],
+                  "key": "kitchen",
+                  "StyleOne": {
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-KIT-15-MO-D-00741A.jpg",
+                      "alternates": {}
+                    },
+                    "thumbnail": ""
+                  },
+                  "finishScenes": [],
+                  "StyleThree": {
+                    "modes": {
+                      "alternates": {},
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-KIT-15-SC-D-00741A.jpg",
+                      "night": "without-mage"
+                    },
+                    "thumbnail": ""
+                  },
+                  "combinations": [],
+                  "Empty": {
+                    "thumbnail": "",
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-KIT-00-00-00741A.jpg"
+                    }
+                  },
+                  "name": {
+                    "en": "Kitchen",
+                    "fr": "Cuisine"
+                  },
+                  "StyleTwo": {
+                    "thumbnail": "",
+                    "modes": {
+                      "night": "without-mage",
+                      "alternates": {},
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-KIT-15-CN-D-00741A.jpg"
+                    }
+                  }
+                }
+              ],
+              "room": {
+                "en": "Kitchen",
+                "fr": "Cuisine"
+              },
+              "hotspots": [
+                {
+                  "key": "other-room-1",
+                  "y": -4.29,
+                  "startSceneKey": "living-room",
+                  "x": 5.89,
+                  "name": {
+                    "fr": "Entrée",
+                    "en": "Entry"
+                  },
+                  "z": 99.52
+                }
+              ],
+              "key": "kitchen",
+              "defaultFinish": "kitchen"
+            },
+            {
+              "defaultFinish": "bath-room-1",
+              "defaultUse": "bath-room-1",
+              "startScenePosition": {
+                "y": 5.77,
+                "x": 92.5,
+                "z": 37.05
+              },
+              "uses": [
+                {
+                  "Empty": {
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-BT1-00-00-00741A.jpg"
+                    },
+                    "thumbnail": ""
+                  },
+                  "StyleOne": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-BT1-02-MO-D-00741A.jpg",
+                      "alternates": {},
+                      "night": "without-mage"
+                    }
+                  },
+                  "combinations": [],
+                  "finishScenes": [],
+                  "name": {
+                    "en": "Bath 1",
+                    "fr": "Bain 1"
+                  },
+                  "furniture": [],
+                  "StyleThree": {
+                    "thumbnail": "",
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-BT1-02-SC-D-00741A.jpg",
+                      "alternates": {}
+                    }
+                  },
+                  "key": "bath-room-1",
+                  "finishesItems": [],
+                  "StyleTwo": {
+                    "thumbnail": "",
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-BT1-02-CN-D-00741A.jpg",
+                      "alternates": {}
+                    }
+                  }
+                }
+              ],
+              "hotspots": [
+                {
+                  "z": 99.3,
+                  "startSceneKey": "kitchen",
+                  "key": "living-room",
+                  "name": {
+                    "en": "Living",
+                    "fr": "Le salon"
+                  },
+                  "y": -5.28,
+                  "x": -9.49
+                },
+                {
+                  "x": -44.63,
+                  "key": "bed-room-1",
+                  "startSceneKey": "living-room",
+                  "name": {
+                    "fr": "Chambre 1",
+                    "en": "Bed 1"
+                  },
+                  "z": 89.12,
+                  "y": -4.85
+                }
+              ],
+              "key": "bath-room-1",
+              "room": {
+                "en": "Bath 1",
+                "fr": "Bain 1"
+              }
+            },
+            {
+              "defaultUse": "bed-room-1",
+              "startScenePosition": {
+                "x": -52.21,
+                "z": -84.85,
+                "y": -6.88
+              },
+              "uses": [
+                {
+                  "furniture": [],
+                  "StyleThree": {
+                    "thumbnail": "",
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-BD1-03-SC-D-00741A.jpg",
+                      "alternates": {}
+                    }
+                  },
+                  "finishScenes": [],
+                  "key": "bed-room-1",
+                  "name": {
+                    "en": "Bed 1",
+                    "fr": "Chambre 1"
+                  },
+                  "finishesItems": [],
+                  "Empty": {
+                    "thumbnail": "",
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-BD1-00-00-00741A.jpg"
+                    }
+                  },
+                  "StyleTwo": {
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-BD1-03-CN-D-00741A.jpg",
+                      "alternates": {},
+                      "night": "without-mage"
+                    },
+                    "thumbnail": ""
+                  },
+                  "StyleOne": {
+                    "modes": {
+                      "alternates": {},
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-BD1-03-MO-D-00741A.jpg",
+                      "night": "without-mage"
+                    },
+                    "thumbnail": ""
+                  },
+                  "combinations": []
+                }
+              ],
+              "key": "bed-room-1",
+              "defaultFinish": "bed-room-1",
+              "room": {
+                "fr": "Chambre 1",
+                "en": "Bed 1"
+              },
+              "hotspots": [
+                {
+                  "startSceneKey": "kitchen",
+                  "y": -0.75,
+                  "key": "living-room",
+                  "x": 96.07,
+                  "name": {
+                    "fr": "Le salon",
+                    "en": "Living"
+                  },
+                  "z": 27.17
+                },
+                {
+                  "z": -16.37,
+                  "y": -4.34,
+                  "x": 98.34,
+                  "name": {
+                    "fr": "Bain 1",
+                    "en": "Bath 1"
+                  },
+                  "key": "bath-room-1"
+                }
+              ]
+            },
+            {
+              "startScenePosition": {
+                "y": -6.09,
+                "z": -26.66,
+                "x": -96
+              },
+              "key": "other-room-1",
+              "hotspots": [
+                {
+                  "x": -99.67,
+                  "key": "living-room",
+                  "y": -5.42,
+                  "name": {
+                    "en": "Living",
+                    "fr": "Le salon"
+                  },
+                  "z": -2.25
+                },
+                {
+                  "x": 3.97,
+                  "y": -10.83,
+                  "name": {
+                    "en": "Kitchen",
+                    "fr": "Cuisine"
+                  },
+                  "key": "kitchen",
+                  "z": -99.13
+                },
+                {
+                  "x": -77.52,
+                  "key": "bed-room-1",
+                  "name": {
+                    "en": "Bed 1",
+                    "fr": "Chambre 1"
+                  },
+                  "z": -62.66,
+                  "y": -4.66
+                }
+              ],
+              "defaultFinish": "other-room-1",
+              "room": {
+                "fr": "Entrée",
+                "en": "Entry"
+              },
+              "defaultUse": "other-room-1",
+              "uses": [
+                {
+                  "Empty": {
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-ENT-00-00-00741A.jpg",
+                      "night": "without-mage"
+                    },
+                    "thumbnail": ""
+                  },
+                  "finishScenes": [],
+                  "key": "other-room-1",
+                  "finishesItems": [],
+                  "combinations": [],
+                  "furniture": [],
+                  "name": {
+                    "fr": "Entrée",
+                    "en": "Entry"
+                  },
+                  "StyleOne": {
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-ENT-08-MO-D-00741A.jpg",
+                      "alternates": {},
+                      "night": "without-mage"
+                    },
+                    "thumbnail": ""
+                  },
+                  "StyleTwo": {
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-ENT-08-CN-D-00741A.jpg",
+                      "alternates": {}
+                    },
+                    "thumbnail": ""
+                  },
+                  "StyleThree": {
+                    "thumbnail": "",
+                    "modes": {
+                      "alternates": {},
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09935-OH-A-ENT-08-SC-D-00741A.jpg"
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "minimap": {
+            "image": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/908_minimap.png",
+            "hotspots": [
+              {
+                "y": 284,
+                "x": 177,
+                "key": "living-room",
+                "name": {
+                  "en": "Living",
+                  "fr": "Le salon"
+                }
+              },
+              {
+                "key": "kitchen",
+                "y": 495,
+                "name": {
+                  "fr": "Cuisine",
+                  "en": "Kitchen"
+                },
+                "x": 370
+              },
+              {
+                "y": 356,
+                "x": 428,
+                "name": {
+                  "fr": "Bain 1",
+                  "en": "Bath 1"
+                },
+                "key": "bath-room-1"
+              },
+              {
+                "name": {
+                  "en": "Bed 1",
+                  "fr": "Chambre 1"
+                },
+                "key": "bed-room-1",
+                "x": 401,
+                "y": 143
+              },
+              {
+                "key": "other-room-1",
+                "y": 482,
+                "name": {
+                  "fr": "Entrée",
+                  "en": "Entrance"
+                },
+                "x": 196
+              }
+            ]
+          }
+        }
+      ],
+      "thumbnail": "test",
+      "defaultStyle": "StyleTwo",
+      "floorPlanId": 378
+    },
+    {
+      "displayName": "Pent Garden D2",
+      "area": 634,
+      "unit": "m2",
+      "layoutName": "PentGardenD2",
+      "bedrooms": 4,
+      "bathrooms": 4.5,
+      "parking": 4,
+      "features": [],
+      "styles": [
+        {
+          "name": {
+            "fr": "Moderne",
+            "en": "Modern"
+          },
+          "key": "StyleOne"
         },
         {
           "key": "StyleTwo",
           "name": {
-            "es": "Contemporáneo",
+            "fr": "Contemporain",
             "en": "Contemporary"
           }
         },
         {
           "key": "StyleThree",
           "name": {
-            "es": "Transicional",
-            "en": "Transitional"
+            "en": "Scandinavian",
+            "fr": "Scandinave"
           }
-        }
-      ],
-      "floorplansUrl": [
-        {
-          "svgImage": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/FP/svg/C2.svg",
-          "defaultHeight": "1"
         }
       ],
       "levels": [
         {
           "minimap": {
+            "image": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/1009_minimap.png",
             "hotspots": [
               {
+                "y": 255,
+                "x": 136,
                 "key": "living-room",
                 "name": {
-                  "es": "Sala",
+                  "fr": "Le salon",
                   "en": "Living"
-                },
-                "x": 284,
-                "y": 171
+                }
               },
               {
+                "y": 471,
+                "x": 272,
                 "key": "kitchen",
                 "name": {
-                  "es": "Cocina",
+                  "fr": "Cuisine",
                   "en": "Kitchen"
-                },
-                "x": 336,
-                "y": 445
-              },
-              {
-                "key": "dining-room",
-                "name": {
-                  "es": "Comedor",
-                  "en": "Dining"
-                },
-                "x": 251,
-                "y": 356
+                }
               },
               {
                 "key": "bath-room-1",
+                "x": 503,
+                "y": 364,
                 "name": {
-                  "es": "Baño 1",
-                  "en": "Bath 1"
-                },
-                "x": 340,
-                "y": 89
+                  "en": "Bath 1",
+                  "fr": "Bain 1"
+                }
               },
               {
-                "key": "bath-room-2",
                 "name": {
-                  "es": "Baño 2",
-                  "en": "Bath 2"
+                  "en": "Bed 1",
+                  "fr": "Chambre 1"
                 },
-                "x": 404,
-                "y": 272
-              },
-              {
-                "key": "bath-room-3",
-                "name": {
-                  "es": "Baño 3",
-                  "en": "Bath 3"
-                },
-                "x": 312,
-                "y": 190
-              },
-              {
-                "key": "bath-room-4",
-                "name": {
-                  "es": "Baño 4",
-                  "en": "Bath 4"
-                },
-                "x": 326,
-                "y": 368
-              },
-              {
+                "y": 155,
                 "key": "bed-room-1",
-                "name": {
-                  "es": "Recámara 1",
-                  "en": "Bed 1"
-                },
-                "x": 268,
-                "y": 117
+                "x": 472
               },
               {
                 "key": "bed-room-2",
+                "x": 316,
+                "y": 196,
                 "name": {
-                  "es": "Recámara 2",
-                  "en": "Bed 2"
-                },
-                "x": 398,
-                "y": 208
+                  "en": "Bed 1",
+                  "fr": "Chambre 2"
+                }
               },
               {
-                "key": "bed-room-3",
+                "y": 484,
+                "x": 131,
                 "name": {
-                  "es": "Recámara 3",
-                  "en": "Bed 3"
-                },
-                "x": 247,
-                "y": 164
-              },
-              {
-                "key": "other-room-1",
-                "name": {
-                  "es": "Sala de TV",
-                  "en": "TV room"
-                },
-                "x": 352,
-                "y": 259
-              },
-              {
-                "key": "other-room-2",
-                "name": {
-                  "es": "Entrada",
+                  "fr": "Entrée",
                   "en": "Entrance"
                 },
-                "x": 384,
-                "y": 356
+                "key": "other-room-1"
               },
               {
-                "key": "other-room-3",
+                "y": 323,
                 "name": {
-                  "es": "Terraza",
-                  "en": "Terrace"
+                  "fr": "Salle",
+                  "en": "Hall"
                 },
-                "x": 165,
-                "y": 289
-              },
-              {
-                "key": "other-room-4",
-                "name": {
-                  "es": "Cuarto de Servicio",
-                  "en": "Service Room"
-                },
-                "x": 398,
-                "y": 452
+                "x": 421,
+                "key": "other-room-2"
               }
-            ],
-            "image": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/Minimap_Tipo2.png"
+            ]
           },
           "scenes": [
             {
-              "defaultFinish": "finish-01",
-              "defaultUse": "living-room",
-              "hotspots": [
-                {
-                  "key": "dining-room",
-                  "name": {
-                    "en": "Dining",
-                    "es": "Comedor"
-                  },
-                  "x": 93.38,
-                  "y": 2.12,
-                  "z": 35.16,
-                  "startSceneKey": "living-room"
-                },
-                {
-                  "key": "other-room-1",
-                  "name": {
-                    "en": "TV room",
-                    "es": "Sala de TV"
-                  },
-                  "x": -88.07,
-                  "y": -0.88,
-                  "z": -47.04,
-                  "startSceneKey": "bed-room-1"
-                },
-                {
-                  "key": "other-room-2",
-                  "name": {
-                    "en": "Entrance",
-                    "es": "Entrada"
-                  },
-                  "x": 12.43,
-                  "y": -9.14,
-                  "z": -98.67
-                },
-                {
-                  "key": "other-room-3",
-                  "name": {
-                    "en": "Terrace",
-                    "es": "Terraza"
-                  },
-                  "x": -11.49,
-                  "y": 2.16,
-                  "z": 99.2
-                }
-              ],
-              "key": "living-room",
-              "room": {
-                "en": "Living",
-                "es": "Sala"
-              },
               "startScenePosition": {
-                "x": 47.78,
-                "y": 1.22,
-                "z": 87.68
+                "y": -10.39,
+                "z": 67.53,
+                "x": -72.83
               },
+              "defaultUse": "living-room",
               "uses": [
                 {
-                  "combinations": [],
+                  "key": "living-room",
                   "finishesItems": [],
                   "finishScenes": [
                     {
                       "key": "finish-02",
+                      "StyleThree": {
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-SC-D-00741A.jpg",
+                          "alternates": {
+                            "modes": {
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-SC-D-00741A.jpg",
+                              "night": "without-mage"
+                            }
+                          },
+                          "night": "without-mage"
+                        },
+                        "thumbnail": ""
+                      },
+                      "StyleTwo": {
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-CN-D-00741A.jpg",
+                          "alternates": {
+                            "modes": {
+                              "night": "without-mage",
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-CN-D-00741A.jpg"
+                            }
+                          },
+                          "night": "without-mage"
+                        },
+                        "thumbnail": ""
+                      },
+                      "name": {
+                        "en": "Finish 2",
+                        "fr": "Finish-2"
+                      },
                       "StyleOne": {
                         "thumbnail": "",
                         "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingModern.jpg",
                           "night": "without-mage",
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-MO-D-00741A.jpg",
                           "alternates": {
                             "modes": {
-                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingModern.jpg",
-                              "night": "without-mage"
-                            }
-                          }
-                        }
-                      },
-                      "StyleTwo": {
-                        "thumbnail": "",
-                        "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingContemporary.jpg",
-                          "night": "without-mage",
-                          "alternates": {
-                            "modes": {
-                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingContemporary.jpg",
-                              "night": "without-mage"
-                            }
-                          }
-                        }
-                      },
-                      "StyleThree": {
-                        "thumbnail": "",
-                        "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingTransitional.jpg",
-                          "night": "without-mage",
-                          "alternates": {
-                            "modes": {
-                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingTransitional.jpg",
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-MO-D-00741A.jpg",
                               "night": "without-mage"
                             }
                           }
                         }
                       },
                       "Empty": {
-                        "thumbnail": "",
                         "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivingEmpty.jpg",
-                          "night": "without-mage"
-                        }
-                      },
-                      "name": "Finish 2"
+                          "night": "without-mage",
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-00-00-00741A.jpg"
+                        },
+                        "thumbnail": ""
+                      }
                     },
                     {
-                      "key": "finish-02",
                       "StyleOne": {
-                        "thumbnail": "",
                         "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingModern.jpg",
-                          "night": "without-mage",
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-MO-D-00741A.jpg",
                           "alternates": {
                             "modes": {
-                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingModern.jpg",
+                              "night": "without-mage",
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-MO-D-00741A.jpg"
+                            }
+                          },
+                          "night": "without-mage"
+                        },
+                        "thumbnail": ""
+                      },
+                      "name": {
+                        "en": "Finish 2",
+                        "fr": "Finish-2"
+                      },
+                      "key": "finish-01",
+                      "Empty": {
+                        "thumbnail": "",
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-00-00-00741A.jpg",
+                          "night": "without-mage"
+                        }
+                      },
+                      "StyleThree": {
+                        "thumbnail": "",
+                        "modes": {
+                          "night": "without-mage",
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-SC-D-00741A.jpg",
+                          "alternates": {
+                            "modes": {
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-SC-D-00741A.jpg",
                               "night": "without-mage"
                             }
                           }
                         }
                       },
                       "StyleTwo": {
-                        "thumbnail": "",
                         "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingContemporary.jpg",
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-CN-D-00741A.jpg",
                           "night": "without-mage",
                           "alternates": {
                             "modes": {
-                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingContemporary.jpg",
+                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-CN-D-00741A.jpg",
                               "night": "without-mage"
                             }
                           }
-                        }
-                      },
-                      "StyleThree": {
-                        "thumbnail": "",
-                        "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingTransitional.jpg",
-                          "night": "without-mage",
-                          "alternates": {
-                            "modes": {
-                              "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingTransitional.jpg",
-                              "night": "without-mage"
-                            }
-                          }
-                        }
-                      },
-                      "Empty": {
-                        "thumbnail": "",
-                        "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivingEmpty.jpg",
-                          "night": "without-mage"
-                        }
-                      },
-                      "name": "Finish 1"
+                        },
+                        "thumbnail": ""
+                      }
                     }
                   ],
-                  "furniture": [],
-                  "key": "living-room",
                   "StyleOne": {
-                    "thumbnail": "",
                     "modes": {
-                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingModern.jpg",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-MO-D-00741A.jpg",
                       "night": "without-mage",
                       "alternates": {
                         "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingModern.jpg",
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-MO-D-00741A.jpg",
                           "night": "without-mage"
                         }
                       }
-                    }
+                    },
+                    "thumbnail": ""
                   },
+                  "StyleTwo": {
+                    "modes": {
+                      "alternates": {
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-CN-D-00741A.jpg",
+                          "night": "without-mage"
+                        }
+                      },
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-CN-D-00741A.jpg"
+                    },
+                    "thumbnail": ""
+                  },
+                  "furniture": [],
+                  "combinations": [],
+                  "name": {
+                    "en": "Living",
+                    "fr": "Le salon"
+                  },
+                  "StyleThree": {
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-SC-D-00741A.jpg",
+                      "night": "without-mage",
+                      "alternates": {
+                        "modes": {
+                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-17-SC-D-00741A.jpg",
+                          "night": "without-mage"
+                        }
+                      }
+                    },
+                    "thumbnail": ""
+                  },
+                  "Empty": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-LIV-00-00-00741A.jpg",
+                      "night": "without-mage"
+                    }
+                  }
+                }
+              ],
+              "key": "living-room",
+              "defaultFinish": "living-room",
+              "hotspots": [
+                {
+                  "name": {
+                    "fr": "Entrée",
+                    "en": "Entry"
+                  },
+                  "y": -8.04,
+                  "key": "other-room-1",
+                  "x": 99.17,
+                  "startSceneKey": "kitchen",
+                  "z": 9.5
+                },
+                {
+                  "key": "kitchen",
+                  "x": 89.82,
+                  "z": -43.22,
+                  "y": -5.45,
+                  "name": {
+                    "fr": "Cuisine",
+                    "en": "Kitchen"
+                  }
+                }
+              ],
+              "room": {
+                "fr": "Le salon",
+                "en": "Living"
+              }
+            },
+            {
+              "uses": [
+                {
+                  "finishScenes": [],
+                  "combinations": [],
+                  "furniture": [],
+                  "key": "kitchen",
                   "StyleTwo": {
                     "thumbnail": "",
                     "modes": {
-                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingContemporary.jpg",
+                      "alternates": {},
                       "night": "without-mage",
-                      "alternates": {
-                        "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingContemporary.jpg",
-                          "night": "without-mage"
-                        }
-                      }
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-KIT-15-CN-D-00741A.jpg"
+                    }
+                  },
+                  "finishesItems": [],
+                  "Empty": {
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-KIT-00-00-00741A.jpg",
+                      "night": "without-mage"
+                    },
+                    "thumbnail": ""
+                  },
+                  "StyleOne": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-KIT-15-MO-D-00741A.jpg",
+                      "alternates": {},
+                      "night": "without-mage"
                     }
                   },
                   "StyleThree": {
                     "thumbnail": "",
                     "modes": {
-                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingTransitional.jpg",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-KIT-15-SC-D-00741A.jpg",
                       "night": "without-mage",
-                      "alternates": {
-                        "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivinglivingTransitional.jpg",
-                          "night": "without-mage"
-                        }
-                      }
+                      "alternates": {}
                     }
                   },
+                  "name": {
+                    "fr": "Cuisine",
+                    "en": "Kitchen"
+                  }
+                }
+              ],
+              "key": "kitchen",
+              "defaultFinish": "kitchen",
+              "room": {
+                "fr": "Cuisine",
+                "en": "Kitchen"
+              },
+              "hotspots": [
+                {
+                  "key": "other-room-1",
+                  "y": -8.22,
+                  "z": 99.31,
+                  "x": 6.39,
+                  "name": {
+                    "fr": "Entrée",
+                    "en": "Entry"
+                  }
+                },
+                {
+                  "z": 60.55,
+                  "x": -79.27,
+                  "name": {
+                    "fr": "Le salon",
+                    "en": "Living"
+                  },
+                  "y": -3.92,
+                  "key": "living-room"
+                }
+              ],
+              "startScenePosition": {
+                "x": 91.06,
+                "z": -39.28,
+                "y": -11.76
+              },
+              "defaultUse": "kitchen"
+            },
+            {
+              "room": {
+                "fr": "Bain 1",
+                "en": "Bath 1"
+              },
+              "defaultFinish": "bath-room-1",
+              "uses": [
+                {
+                  "finishScenes": [],
+                  "StyleThree": {
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-BT1-02-SC-D-00741A.jpg",
+                      "night": "without-mage",
+                      "alternates": {}
+                    },
+                    "thumbnail": ""
+                  },
+                  "combinations": [],
                   "Empty": {
                     "thumbnail": "",
                     "modes": {
-                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-LivingEmpty.jpg",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-BT1-00-00-00741A.jpg",
+                      "night": "without-mage"
+                    }
+                  },
+                  "key": "bath-room-1",
+                  "furniture": [],
+                  "name": {
+                    "en": "Bath 1",
+                    "fr": "Bain 1"
+                  },
+                  "StyleTwo": {
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-BT1-02-CN-D-00741A.jpg",
+                      "alternates": {}
+                    },
+                    "thumbnail": ""
+                  },
+                  "StyleOne": {
+                    "modes": {
+                      "alternates": {},
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-BT1-02-MO-D-00741A.jpg"
+                    },
+                    "thumbnail": ""
+                  },
+                  "finishesItems": []
+                }
+              ],
+              "key": "bath-room-1",
+              "hotspots": [
+                {
+                  "key": "other-room-2",
+                  "name": {
+                    "fr": "Salle",
+                    "en": "Hall"
+                  },
+                  "x": 54.06,
+                  "y": -9.78,
+                  "startSceneKey": "other-room-1",
+                  "z": 83.32
+                }
+              ],
+              "startScenePosition": {
+                "y": -1.33,
+                "z": -91.61,
+                "x": 39.86
+              },
+              "defaultUse": "bath-room-1"
+            },
+            {
+              "uses": [
+                {
+                  "furniture": [],
+                  "key": "bed-room-1",
+                  "Empty": {
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-BD1-00-00-00741A.jpg",
+                      "night": "without-mage"
+                    },
+                    "thumbnail": ""
+                  },
+                  "combinations": [],
+                  "StyleTwo": {
+                    "thumbnail": "",
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-BD1-03-CN-D-00741A.jpg",
+                      "alternates": {}
+                    }
+                  },
+                  "finishesItems": [],
+                  "StyleOne": {
+                    "thumbnail": "",
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-BD1-03-MO-D-00741A.jpg",
+                      "alternates": {}
+                    }
+                  },
+                  "finishScenes": [],
+                  "StyleThree": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-BD1-03-SC-D-00741A.jpg",
+                      "night": "without-mage",
+                      "alternates": {}
+                    }
+                  },
+                  "name": {
+                    "en": "Bed 1",
+                    "fr": "Chambre 1"
+                  }
+                }
+              ],
+              "startScenePosition": {
+                "z": -76.29,
+                "y": -4.92,
+                "x": -64.17
+              },
+              "defaultUse": "bed-room-1",
+              "hotspots": [
+                {
+                  "name": {
+                    "en": "Bed 2",
+                    "fr": "Chambre 2"
+                  },
+                  "z": 46.93,
+                  "x": 88,
+                  "key": "bed-room-2",
+                  "y": -3.77
+                },
+                {
+                  "key": "other-room-2",
+                  "x": 99.73,
+                  "name": {
+                    "fr": "Salle",
+                    "en": "Hall"
+                  },
+                  "z": 0.39,
+                  "startSceneKey": "other-room-1",
+                  "y": -6.27
+                },
+                {
+                  "name": {
+                    "en": "Bath 1",
+                    "fr": "Bain 1"
+                  },
+                  "y": -5.73,
+                  "x": 95.39,
+                  "key": "bath-room-1",
+                  "z": -28.96
+                }
+              ],
+              "key": "bed-room-1",
+              "defaultFinish": "bed-room-1",
+              "room": {
+                "fr": "Chambre 1",
+                "en": "Bed 1"
+              }
+            },
+            {
+              "defaultUse": "bed-room-2",
+              "key": "bed-room-2",
+              "uses": [
+                {
+                  "StyleOne": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-BD2-03-MO-D-00741A.jpg",
+                      "alternates": {},
+                      "night": "without-mage"
+                    }
+                  },
+                  "furniture": [],
+                  "Empty": {
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-BD2-00-00-00741A.jpg",
+                      "night": "without-mage"
+                    },
+                    "thumbnail": ""
+                  },
+                  "combinations": [],
+                  "StyleTwo": {
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-BD2-03-CN-D-00741A.jpg",
+                      "alternates": {}
+                    },
+                    "thumbnail": ""
+                  },
+                  "finishesItems": [],
+                  "StyleThree": {
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-BD2-03-SC-D-00741A.jpg",
+                      "night": "without-mage",
+                      "alternates": {}
+                    },
+                    "thumbnail": ""
+                  },
+                  "finishScenes": [],
+                  "key": "bed-room-1",
+                  "name": {
+                    "en": "Bed 2",
+                    "fr": "Chambre 2"
+                  }
+                }
+              ],
+              "startScenePosition": {
+                "z": 49.19,
+                "y": -9.24,
+                "x": -86.49
+              },
+              "room": {
+                "fr": "Chambre 2",
+                "en": "Bed 2"
+              },
+              "hotspots": [
+                {
+                  "x": 63.1,
+                  "z": -77.35,
+                  "name": {
+                    "en": "Bath 1",
+                    "fr": "Bain 1"
+                  },
+                  "key": "bath-room-1",
+                  "y": -1.19
+                }
+              ],
+              "defaultFinish": "bed-room-2"
+            },
+            {
+              "room": {
+                "fr": "Entrée",
+                "en": "Entry"
+              },
+              "defaultUse": "other-room-1",
+              "uses": [
+                {
+                  "key": "other-room-1",
+                  "finishScenes": [],
+                  "StyleTwo": {
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-ENT-08-CN-D-00741A.jpg",
+                      "alternates": {},
+                      "night": "without-mage"
+                    },
+                    "thumbnail": "test"
+                  },
+                  "StyleThree": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-ENT-08-SC-D-00741A.jpg",
+                      "night": "without-mage",
+                      "alternates": {}
+                    }
+                  },
+                  "finishesItems": [],
+                  "furniture": [],
+                  "Empty": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-ENT-00-00-00741A.jpg",
                       "night": "without-mage"
                     }
                   },
                   "name": {
-                    "es": "Sala",
-                    "en": "Living"
+                    "en": "Entry",
+                    "fr": "Entrée"
+                  },
+                  "combinations": [],
+                  "StyleOne": {
+                    "thumbnail": "",
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-ENT-08-MO-D-00741A.jpg",
+                      "alternates": {}
+                    }
                   }
                 }
-              ]
-            },
-            {
-              "defaultFinish": "finish-01",
-              "defaultUse": "dining-room",
+              ],
+              "key": "other-room-1",
               "hotspots": [
                 {
                   "key": "living-room",
                   "name": {
                     "en": "Living",
-                    "es": "Sala"
+                    "fr": "Le salon"
                   },
-                  "x": 94.5,
-                  "y": -5.89,
-                  "z": -31.83
+                  "z": -1.64,
+                  "y": -13.83,
+                  "x": -98.9
                 },
                 {
-                  "key": "other-room-1",
+                  "key": "kitchen",
+                  "x": 4.21,
+                  "z": -99.35,
                   "name": {
-                    "en": "TV room",
-                    "es": "Sala de TV"
+                    "fr": "Cuisine",
+                    "en": "Kitchen"
                   },
-                  "x": 81.05,
-                  "y": -3.46,
-                  "z": 58.29
+                  "y": -8.84
                 },
                 {
+                  "y": -1.45,
                   "key": "other-room-2",
+                  "x": -37.66,
                   "name": {
-                    "en": "Entrance",
-                    "es": "Entrada"
+                    "en": "Hall",
+                    "fr": "Salle"
                   },
-                  "x": 32.73,
-                  "y": -0.81,
-                  "z": 94.37
-                },
-                {
-                  "key": "other-room-3",
-                  "name": {
-                    "en": "Terrace",
-                    "es": "Terraza"
-                  },
-                  "x": -37.42,
-                  "y": 3.73,
                   "z": -92.45
                 }
               ],
-              "key": "dining-room",
-              "room": {
-                "en": "Dining",
-                "es": "Comedor"
-              },
               "startScenePosition": {
-                "x": 80.87,
-                "y": -34.64,
-                "z": 47.33
+                "x": 98.9,
+                "y": -7.25,
+                "z": 12.13
               },
+              "defaultFinish": "other-room-1"
+            },
+            {
+              "key": "other-room-2",
+              "defaultFinish": "other-room-2",
               "uses": [
                 {
-                  "combinations": [],
-                  "finishesItems": [],
-                  "finishScenes": [],
-                  "furniture": [],
-                  "key": "living-room",
-                  "StyleOne": {
-                    "thumbnail": "",
-                    "modes": {
-                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningdiningModern.jpg",
-                      "night": "without-mage",
-                      "alternates": {
-                        "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningdiningModern.jpg",
-                          "night": "without-mage"
-                        }
-                      }
-                    }
-                  },
                   "StyleTwo": {
                     "thumbnail": "",
                     "modes": {
-                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningdiningContemporary.jpg",
-                      "night": "without-mage",
-                      "alternates": {
-                        "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningdiningContemporary.jpg",
-                          "night": "without-mage"
-                        }
-                      }
-                    }
-                  },
-                  "StyleThree": {
-                    "thumbnail": "",
-                    "modes": {
-                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningdiningTransitional.jpg",
-                      "night": "without-mage",
-                      "alternates": {
-                        "modes": {
-                          "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningdiningTransitional.jpg",
-                          "night": "without-mage"
-                        }
-                      }
-                    }
-                  },
-                  "Empty": {
-                    "thumbnail": "",
-                    "modes": {
-                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/AlcadaC2-DiningEmpty.jpg",
+                      "alternates": {},
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-HAL-12-CN-D-00741A.jpg",
                       "night": "without-mage"
                     }
                   },
+                  "key": "other-room-2",
+                  "finishesItems": [],
+                  "Empty": {
+                    "thumbnail": "",
+                    "modes": {
+                      "night": "without-mage",
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-HAL-00-00-00741A.jpg"
+                    }
+                  },
+                  "furniture": [],
+                  "StyleOne": {
+                    "thumbnail": "",
+                    "modes": {
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-HAL-12-MO-D-00741A.jpg",
+                      "alternates": {},
+                      "night": "without-mage"
+                    }
+                  },
+                  "StyleThree": {
+                    "modes": {
+                      "night": "without-mage",
+                      "alternates": {},
+                      "day": "https://360-image-collection-3js.s3.us-west-2.amazonaws.com/1e1b32d5-d1e5-45ea-a4cd-392793d8cd35/741/00741-09936-OH-A-HAL-12-SC-D-00741A.jpg"
+                    },
+                    "thumbnail": ""
+                  },
+                  "finishScenes": [],
                   "name": {
-                    "es": "Comedor",
-                    "en": "Dining"
-                  }
+                    "en": "Hall",
+                    "fr": "Salle"
+                  },
+                  "combinations": []
                 }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "amenities": [
-    {
-      "key": "garden",
-      "room": {
-        "es": "Zen Garden",
-        "en": "Garden"
-      },
-      "type": "2d",
-      "image": [
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img9.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": [
-            {
-              "name": {
-                "en": "Tennis Court",
-                "es": "Pista de tenis"
+              ],
+              "room": {
+                "fr": "Salle",
+                "en": "Hall"
               },
-              "thumbnail": "",
-              "in": "amenities",
-              "key": "park",
-              "x": -29.49,
-              "y": -25.54
+              "hotspots": [
+                {
+                  "y": -1.97,
+                  "name": {
+                    "fr": "Chambre 1",
+                    "en": "Bed 1"
+                  },
+                  "z": 5.78,
+                  "x": -99.62,
+                  "key": "bed-room-1"
+                },
+                {
+                  "y": -1.21,
+                  "key": "bed-room-2",
+                  "x": -77.24,
+                  "name": {
+                    "fr": "Chambre 2",
+                    "en": "Bed 2"
+                  },
+                  "z": 63.23
+                },
+                {
+                  "key": "bath-room-1",
+                  "x": 64.1,
+                  "name": {
+                    "fr": "Bain 1",
+                    "en": "Bath 1"
+                  },
+                  "z": -76.4,
+                  "y": 3.84
+                },
+                {
+                  "y": -2.37,
+                  "name": {
+                    "en": "Entry",
+                    "fr": "Entrée"
+                  },
+                  "key": "other-room-1",
+                  "z": 86.61,
+                  "x": 49.78
+                }
+              ],
+              "defaultUse": "other-room-2",
+              "startScenePosition": {
+                "x": -99.62,
+                "y": -1.97,
+                "z": 5.78
+              }
             }
           ]
-        },
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img10.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": []
-        },
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img11.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": []
-        },
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img12.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": []
-        },
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img13.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": []
         }
       ],
-      "thumbnail": "",
-      "features": {
-        "es": [
-          { "text": "Áreas Verdes" },
-          { "text": "Play ground" },
-          { "text": "Zen Garden" }
-        ],
-        "en": [
-          { "text": "Park" },
-          { "text": "Play Ground" },
-          { "text": "Garden" }
-        ]
-      }
+      "thumbnail": null,
+      "defaultStyle": "StyleOne",
+      "floorPlanId": 379
+    }
+  ],
+  "exterior": {
+    "key": "exterior",
+    "name": {
+      "en": "Exterior"
     },
-    {
-      "key": "Lobby",
-      "room": {
-        "es": "Lobby",
-        "en": "Lobby"
-      },
-      "type": "pano",
-      "image": [
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img9.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {
-            "x": -61.34,
-            "y": -8.86,
-            "z": 78.28
+    "content": [
+      {
+        "key": "entry",
+        "room": {
+          "en": "Entry",
+          "es": "Entrada"
+        },
+        "type": "2d",
+        "images": [
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img5.svg",
+            "infospots": [
+              {
+                "x": -29.49,
+                "y": -25.54,
+                "in": "amenities",
+                "key": "lobby",
+                "name": {
+                  "en": "Lobby",
+                  "es": "Lobby"
+                },
+                "thumbnail": ""
+              }
+            ],
+            "defaultHeight": "1",
+            "startScenePosition": {}
           },
-          "infospots": [
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img6.svg",
+            "infospots": [],
+            "defaultHeight": "1",
+            "startScenePosition": {}
+          },
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img7.svg",
+            "infospots": [],
+            "defaultHeight": "1",
+            "startScenePosition": {}
+          },
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img8.svg",
+            "infospots": [],
+            "defaultHeight": "1",
+            "startScenePosition": {}
+          },
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img9.svg",
+            "infospots": [],
+            "defaultHeight": "1",
+            "startScenePosition": {}
+          }
+        ],
+        "features": {
+          "en": [
             {
-              "name": {
-                "en": "Restaurant",
-                "es": "Restaurante"
-              },
-              "thumbnail": "",
-              "x": -29.49,
-              "y": -25.54,
-              "z": -91.99
+              "text": "3 towers"
+            },
+            {
+              "text": "20 unique residences"
+            },
+            {
+              "text": "Best location in CDMX"
+            }
+          ],
+          "es": [
+            {
+              "text": "3 torres"
+            },
+            {
+              "text": "con 20 residencias en cada una"
+            },
+            {
+              "text": "en una de las mejores zonas de la Ciudad de M�xico"
             }
           ]
         },
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img10.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": []
-        },
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img11.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": []
-        },
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img12.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": []
-        },
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img13.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": []
-        }
-      ],
-      "thumbnail": "",
-      "features": {
-        "es": [
-          { "text": "Áreas Verdes" },
-          { "text": "Play ground" },
-          { "text": "Zen Garden" }
-        ],
-        "en": [
-          { "text": "Park" },
-          { "text": "Play Ground" },
-          { "text": "Garden" }
-        ]
+        "thumbnail": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img5.svg"
       }
-    }
-  ],
-  "exterior": [
-    {
-      "key": "entry",
-      "room": {
-        "en": "Entry",
-        "es": "Entrada"
+    ]
+  },
+  "amenities": {
+    "key": "amenities",
+    "name": {
+      "en": "Amenities"
+    },
+    "content": [
+      {
+        "key": "garden",
+        "room": {
+          "en": "Garden",
+          "es": "Zen Garden"
+        },
+        "type": "2d",
+        "images": [
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img9.svg",
+            "infospots": [
+              {
+                "x": -29.49,
+                "y": -25.54,
+                "in": "amenities",
+                "key": "park",
+                "name": {
+                  "en": "Tennis Court",
+                  "es": "Pista de tenis"
+                },
+                "thumbnail": ""
+              }
+            ],
+            "defaultHeight": "1",
+            "startScenePosition": {}
+          },
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img10.svg",
+            "infospots": [],
+            "defaultHeight": "1",
+            "startScenePosition": {}
+          },
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img11.svg",
+            "infospots": [],
+            "defaultHeight": "1",
+            "startScenePosition": {}
+          },
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img12.svg",
+            "infospots": [],
+            "defaultHeight": "1",
+            "startScenePosition": {}
+          },
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img13.svg",
+            "infospots": [],
+            "defaultHeight": "1",
+            "startScenePosition": {}
+          }
+        ],
+        "features": {
+          "en": [
+            {
+              "text": "Park"
+            },
+            {
+              "text": "Play Ground"
+            },
+            {
+              "text": "Garden"
+            }
+          ],
+          "es": [
+            {
+              "text": "Áreas Verdes"
+            },
+            {
+              "text": "Play ground"
+            },
+            {
+              "text": "Zen Garden"
+            }
+          ]
+        },
+        "thumbnail": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img9.svg"
       },
-      "type": "2d",
-      "image": [
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img5.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": [
+      {
+        "key": "Lobby",
+        "room": {
+          "en": "Lobby",
+          "es": "Lobby"
+        },
+        "type": "pano",
+        "images": [
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img9.svg",
+            "infospots": [
+              {
+                "x": -29.49,
+                "y": -25.54,
+                "z": -91.99,
+                "name": {
+                  "en": "Restaurant",
+                  "es": "Restaurante"
+                },
+                "thumbnail": ""
+              }
+            ],
+            "defaultHeight": "1",
+            "startScenePosition": {
+              "x": -61.34,
+              "y": -8.86,
+              "z": 78.28
+            }
+          },
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img10.svg",
+            "infospots": [],
+            "defaultHeight": "1",
+            "startScenePosition": {}
+          },
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img11.svg",
+            "infospots": [],
+            "defaultHeight": "1",
+            "startScenePosition": {}
+          },
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img12.svg",
+            "infospots": [],
+            "defaultHeight": "1",
+            "startScenePosition": {}
+          },
+          {
+            "image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img13.svg",
+            "infospots": [],
+            "defaultHeight": "1",
+            "startScenePosition": {}
+          }
+        ],
+        "features": {
+          "en": [
             {
-              "name": {
-                "en": "Lobby",
-                "es": "Lobby"
-              },
-              "thumbnail": "",
-              "in": "amenities",
-              "key": "lobby",
-              "x": -29.49,
-              "y": -25.54
+              "text": "Park"
+            },
+            {
+              "text": "Play Ground"
+            },
+            {
+              "text": "Garden"
+            }
+          ],
+          "es": [
+            {
+              "text": "�reas Verdes"
+            },
+            {
+              "text": "Play ground"
+            },
+            {
+              "text": "Zen Garden"
             }
           ]
         },
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img6.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": []
-        },
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img7.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": []
-        },
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img8.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": []
-        },
-        {
-          "Image": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec3/ss2/img9.svg",
-          "defaultHeight": "1",
-          "startScenePosition": {},
-          "infospots": []
-        }
-      ],
-      "thumbnail": "",
-      "features": {
-        "es": [
-          { "text": "3 torres" },
-          { "text": "con 20 residencias en cada una" },
-          { "text": "en una de las mejores zonas de la Ciudad de M�xico" }
-        ],
-        "en": [
-          { "text": "3 towers" },
-          { "text": "20 unique residences" },
-          { "text": "Best location in CDMX" }
-        ]
+        "thumbnail": "https://developers-assets.athum.com/9768b832-db87-4ada-8ff0-ecace5c5315d/31/sec4/ss2/img9.svg"
       }
-    }
-  ],
+    ],
+    "thumbnail": ""
+  },
   "urls": {
     "avria": "null",
     "registration": "null",

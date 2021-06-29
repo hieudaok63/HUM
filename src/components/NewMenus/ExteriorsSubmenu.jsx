@@ -55,7 +55,7 @@ const ExteriorsSubmenu = ({ openedMenu, changeOpenedMenu, exterior }) => {
           >
             Exteriors{' '}
             <DropdownIcon
-              className={`dropdown-icon ${isOpen && 'dropdown-icon-inverted'}`}
+              className={`dropdown-icon ${!isOpen && 'dropdown-icon-inverted'}`}
             />
           </div>
           <div ref={submenu} className="hidden">

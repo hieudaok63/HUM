@@ -59,7 +59,7 @@ const FloorplansSubmenu = ({ openedMenu, changeOpenedMenu, floorplans }) => {
           >
             Floorplans{' '}
             <DropdownIcon
-              className={`dropdown-icon ${isOpen && 'dropdown-icon-inverted'}`}
+              className={`dropdown-icon ${!isOpen && 'dropdown-icon-inverted'}`}
             />
           </div>
           <div ref={submenu} className="hidden">
@@ -67,49 +67,56 @@ const FloorplansSubmenu = ({ openedMenu, changeOpenedMenu, floorplans }) => {
               ({
                 displayName,
                 floorPlanId,
-                levels,
-                defaultStyle,
                 bedrooms,
                 bathrooms,
                 parking,
-                area
-              }) => {
-                const { scenes } = levels[0];
-                const { defaultUse, uses } = scenes[0];
-                const { modes } = uses.find(({ key }) => defaultUse === key)[
-                  defaultStyle
-                ];
-                const { day } = modes;
-                const { measure, unit } = area;
-                return (
-                  <div key={floorPlanId} className="floorplan">
-                    <img src={day} alt={displayName} className="w-100" />
-                    <div className="floorplan-content">
-                      <div className="floorplan-content-name">
-                        {displayName}
-                      </div>
-                      <div className="floorplan-content-features">
-                        <BedroomIcon className="floorplan-content-features-icon" />
-                        <div className="floorplan-content-features-value">
-                          {bedrooms}
-                        </div>
-                        <BathroomIcon className="floorplan-content-features-icon" />
-                        <div className="floorplan-content-features-value">
-                          {bathrooms}
-                        </div>
-                        <CarIcon className="floorplan-content-features-icon" />
-                        <div className="floorplan-content-features-value">
-                          {parking}
-                        </div>
-                        <AreaIcon className="floorplan-content-features-icon" />
-                        <div className="floorplan-content-features-value">
-                          {`${measure} ${unit}`}
-                        </div>
-                      </div>
+                area,
+                unit,
+                thumbnail
+              }) => (
+                <div key={floorPlanId} className="floorplan">
+                  {thumbnail && (
+                    <img src={thumbnail} alt={displayName} className="w-100" />
+                  )}
+                  <div className="floorplan-content">
+                    <div className="floorplan-content-name">{displayName}</div>
+                    <div className="floorplan-content-features">
+                      {bedrooms && (
+                        <>
+                          <BedroomIcon className="floorplan-content-features-icon" />
+                          <div className="floorplan-content-features-value">
+                            {bedrooms}
+                          </div>
+                        </>
+                      )}
+                      {bathrooms && (
+                        <>
+                          <BathroomIcon className="floorplan-content-features-icon" />
+                          <div className="floorplan-content-features-value">
+                            {bathrooms}
+                          </div>
+                        </>
+                      )}
+                      {parking && (
+                        <>
+                          <CarIcon className="floorplan-content-features-icon" />
+                          <div className="floorplan-content-features-value">
+                            {parking}
+                          </div>
+                        </>
+                      )}
+                      {area && unit && (
+                        <>
+                          <AreaIcon className="floorplan-content-features-icon" />
+                          <div className="floorplan-content-features-value">
+                            {`${area} ${unit}`}
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
-                );
-              }
+                </div>
+              )
             )}
           </div>
         </div>
