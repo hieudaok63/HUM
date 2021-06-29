@@ -24,8 +24,9 @@ export default class PanoramaAction {
   /* */
   static createPanoramaInfo() {
     return async (dispatch, getState) => {
-      const { threeSixty, panorama } = getState();
+      const { threeSixty, panorama, tour } = getState();
       const { container } = panorama;
+      const { floorplans, selectedFloorplan } = tour;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         PanoramaAction.PANORAMA_INFO_REQUEST,
@@ -38,7 +39,8 @@ export default class PanoramaAction {
         threeSixty.selectedScene,
         threeSixty.currentRoomUse,
         threeSixty.selectedFinish,
-        threeSixty.levelScenes
+        threeSixty.levelScenes,
+        floorplans[selectedFloorplan].styles
       );
       const isError = model instanceof PanoramaErrorModel;
       return { model, isError };

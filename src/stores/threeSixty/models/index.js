@@ -1,5 +1,6 @@
 export default class ThreeSixtyModel {
   constructor(data) {
+    console.log(data);
     this.builderId = data.builderId;
     this.projectId = data.projectId;
     this.floorplan = data.floorplan;
@@ -17,6 +18,8 @@ export default class ThreeSixtyModel {
     this.parking = this.getParking();
     this.unit = this.getUnit();
     this.level = this.getLevel();
+    this.levelScenes = this.getLevelScenes();
+    this.miniMap = this.getLevelMinimap();
   }
 
   builderId = '';
@@ -87,5 +90,13 @@ export default class ThreeSixtyModel {
 
   getLevel() {
     return this.floorplan.levels[0];
+  }
+
+  getLevelScenes() {
+    return this.level.scenes;
+  }
+
+  getLevelMinimap() {
+    return this.level.minimap;
   }
 }

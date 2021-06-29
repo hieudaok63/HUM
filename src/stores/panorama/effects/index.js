@@ -13,16 +13,14 @@ export default class SessionEffect {
     room,
     use,
     finish,
-    scenes
+    scenes,
+    styles
   ) {
-    const selectedLevel = SessionEffect.getLevel(levels, level);
-
+    const selectedLevel = levels[level];
     if (selectedLevel) {
       const styleToRequest = style === 'default' ? defaultStyle : style;
-      const selectedStyle = SessionEffect.getStyle(
-        selectedLevel.styles,
-        styleToRequest
-      );
+      const selectedStyle = SessionEffect.getStyle(styles, styleToRequest);
+      console.log('selected', selectedStyle);
       if (selectedStyle) {
         const roomToRequest =
           room === 'default' ? selectedLevel.defaultScene : room;
@@ -56,18 +54,6 @@ export default class SessionEffect {
 
     if (selectedStyle.length > 0) {
       return selectedStyle[0];
-    }
-
-    return null;
-  }
-
-  /* */
-  static getLevel(levels, level) {
-    const currentLevel = levels.filter((item) =>
-      item.levelNumber === level ? item : null
-    );
-    if (currentLevel.length > 0) {
-      return currentLevel[0];
     }
 
     return null;

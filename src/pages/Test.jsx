@@ -41,6 +41,7 @@ const ThreeSixtyPage = ({ floorplans, dispatch, loader, levels }) => {
           {floorplan.displayName}
         </button>
       ))}
+      {levels.length > 0 && <Viewer />}
     </div>
   );
 };

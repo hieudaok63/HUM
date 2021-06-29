@@ -8,6 +8,10 @@ export default class ThreeSixtyAction {
 
   static SET_THREESIXTY_DATA_FINISHED =
     'ThreeSixtyAction.SET_THREESIXTY_DATA_FINISHED';
+
+  static GET_SCENES = 'ThreeSixtyAction.GET_SCENES';
+
+  static GET_SCENES_FINISHED = 'ThreeSixtyAction.GET_SCENES_FINISHED';
   // new
   static SAVE_LOG_REQUEST = 'SAVE_LOG_REQUEST';
 

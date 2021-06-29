@@ -19,7 +19,16 @@ export default class ThreeSixtyReducer extends BaseReducer {
     floorPlanId: null,
     parking: 0,
     unit: '',
-    level: {}
+    level: {},
+    selectedScene: 'default',
+    selectedFinish: 'default',
+    selectedStyle: 'default',
+    selectedStyleName: 'default',
+    currentRoomUse: 'default',
+    currentLevel: 0,
+    mode: 'day',
+    selectedMenuOption: '',
+    levelScenes: []
   };
 
   [ThreeSixtyAction.SET_THREESIXTY_DATA_FINISHED](state, action) {
@@ -40,7 +49,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
       floorPlanId: action.payload.floorPlanId,
       parking: action.payload.parking,
       unit: action.payload.unit,
-      level: action.payload.level
+      level: action.payload.level,
+      levelScenes: action.payload.levelScenes
     };
   }
 

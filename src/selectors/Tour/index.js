@@ -5,9 +5,9 @@ export class TourSelector {
     return state.tour.floorplans;
   }
   static getLevels(state) {
-    const { tour } = state;
-    const { floorplans, selectedFloorplan } = tour;
-    return floorplans[selectedFloorplan]?.levels || [];
+    const { threeSixty } = state;
+    const { levels } = threeSixty;
+    return levels || [];
   }
 }
 
