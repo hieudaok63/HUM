@@ -20,8 +20,9 @@ export default class SessionEffect {
     if (selectedLevel) {
       const styleToRequest = style === 'default' ? defaultStyle : style;
       const selectedStyle = SessionEffect.getStyle(styles, styleToRequest);
-      console.log('selected', selectedStyle);
+
       if (selectedStyle) {
+        console.log('selected', selectedStyle);
         const roomToRequest =
           room === 'default' ? selectedLevel.defaultScene : room;
 
