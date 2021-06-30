@@ -412,6 +412,7 @@ class ThreeSixtySphere {
     const { name, furniture, finishScenes } = scene;
     const displayingName = name[this.language];
     let current = null;
+    console.log('hey', finish, use, finishScenes);
     if (finish !== undefined && use !== undefined) {
       if (
         finish.toLowerCase() === use.toLowerCase() &&
@@ -443,6 +444,7 @@ class ThreeSixtySphere {
 
   /* */
   getSelectedFinish = (scenes, key) => {
+    console.log('scenes', scenes, key);
     if (key === 'default' || key === undefined || scenes.length === 0) {
       return 'default';
     }

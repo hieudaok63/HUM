@@ -9,6 +9,8 @@ import { ReactComponent as DropdownIcon } from '../../assets/Icons/icon_dropdown
 import './LeftMenu.scss';
 import { selectedFloorplanSelector } from '../../selectors/Tour';
 import TourAction from '../../stores/tour/actions';
+import PanoramaAction from '../../stores/panorama/actions';
+import ThreeSixtyAction from '../../stores/threeSixty/actions';
 
 const FloorplansSubmenu = ({
   openedMenu,
@@ -53,6 +55,13 @@ const FloorplansSubmenu = ({
 
   const setSelectedFloorplan = async (floorplan) => {
     await dispatch(TourAction.selectFloorplan(floorplan));
+    await dispatch(PanoramaAction.destroyPanorama());
+    await dispatch(ThreeSixtyAction.setThreeSixtyData());
+    const panoramaInfo = await dispatch(PanoramaAction.createPanoramaInfo());
+
+    if (!panoramaInfo.isError) {
+      await dispatch(PanoramaAction.setPanorama());
+    }
   };
 
   return (

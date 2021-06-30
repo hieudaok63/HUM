@@ -12,6 +12,7 @@ export default class PanoramaAction {
   static PANORAMA_REQUEST = 'PANORAMA_REQUEST';
   static PANORAMA_REQUEST_FINISHED = 'PANORAMA_REQUEST_FINISHED';
   static AUTOROTATE_REQUEST = 'AUTOROTATE_REQUEST';
+  static DESTROY_PANORAMA = 'DESTROY_PANORAMA';
 
   /* */
   static setContainer(container) {
@@ -136,5 +137,9 @@ export default class PanoramaAction {
         activate
       );
     };
+  }
+
+  static destroyPanorama() {
+    return ActionUtility.createAction(PanoramaAction.DESTROY_PANORAMA);
   }
 }

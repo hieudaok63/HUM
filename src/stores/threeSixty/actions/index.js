@@ -203,7 +203,6 @@ export default class ThreeSixtyAction {
 
   static setThreeSixtyData() {
     return async (dispatch, getState) => {
-      console.log('HEY');
       const { tour, language: stateLanguage } = getState();
       const { language } = stateLanguage;
       const { builderId, projectId, selectedFloorplan, floorplans } = tour;

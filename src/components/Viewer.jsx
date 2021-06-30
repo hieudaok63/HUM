@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { string, func } from 'prop-types';
+import { string, func, shape } from 'prop-types';
 import PanoramaAction from '../stores/panorama/actions';
 import { errorSelector } from '../selectors/error';
 import { menuOptionSelector } from '../selectors/menu';
+import { panoramaSelector } from '../selectors/Panorama';
 
 class Viewer extends Component {
   constructor() {
@@ -11,7 +12,11 @@ class Viewer extends Component {
     this.atHUMViewer = null;
   }
 
-  async componentDidMount() {
+  componentDidMount = () => {
+    this.reset();
+  };
+
+  reset = async () => {
     const { dispatch } = this.props;
 
     await dispatch(PanoramaAction.setContainer(this.atHUMViewer));
@@ -21,7 +26,7 @@ class Viewer extends Component {
     if (!panoramaInfo.isError) {
       await dispatch(PanoramaAction.setPanorama());
     }
-  }
+  };
 
   render() {
     const { error } = this.props;
@@ -39,12 +44,14 @@ class Viewer extends Component {
 
 Viewer.propTypes = {
   error: string.isRequired,
-  dispatch: func.isRequired
+  dispatch: func.isRequired,
+  panorama: shape({}).isRequired
 };
 
 const mapStateToProps = (state) => ({
   error: errorSelector(state),
-  selectedMenuOption: menuOptionSelector(state)
+  selectedMenuOption: menuOptionSelector(state),
+  panorama: panoramaSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

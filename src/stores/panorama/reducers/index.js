@@ -29,4 +29,12 @@ export default class PanoramaReducer extends BaseReducer {
       panorama: action.payload
     };
   }
+
+  [PanoramaActions.DESTROY_PANORAMA](state) {
+    return {
+      ...state,
+      panoramaInfo: this.initialState.panoramaInfo,
+      panorama: this.initialState.panorama
+    };
+  }
 }
