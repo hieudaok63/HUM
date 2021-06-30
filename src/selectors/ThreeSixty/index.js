@@ -10,6 +10,13 @@ export class ThreeSixtySelector {
   static getSelectedStyle(state) {
     return state.threeSixty.selectedStyle;
   }
+  static getMinimap(state) {
+    return state.threeSixty.level.minimap;
+  }
+  static getFloorplanFeatures(state) {
+    const { area, bathrooms, bedrooms, unit, parking } = state.threeSixty;
+    return { area, bathrooms, bedrooms, unit, parking };
+  }
 }
 
 export const sceneSelector = createSelector(
@@ -25,4 +32,14 @@ export const stylesSelector = createSelector(
 export const selectedStyleSelector = createSelector(
   [ThreeSixtySelector.getSelectedStyle],
   (selectedStyle) => selectedStyle
+);
+
+export const minimapSelector = createSelector(
+  [ThreeSixtySelector.getMinimap],
+  (minimap) => minimap
+);
+
+export const floorplanFeaturesSelector = createSelector(
+  [ThreeSixtySelector.getFloorplanFeatures],
+  (floorplanFeatures) => floorplanFeatures
 );

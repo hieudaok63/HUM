@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { arrayOf, shape, func } from 'prop-types';
 import { ReactComponent as InfoIcon } from '../../assets/Icons/icon_info.svg';
 import { ReactComponent as SlowMoIcon } from '../../assets/Icons/icon_slow_motion.svg';
@@ -6,8 +7,12 @@ import { ReactComponent as ShareIcon } from '../../assets/Icons/icon_share.svg';
 import { ReactComponent as FullScreenIcon } from '../../assets/Icons/icon_full_screen.svg';
 import './ActionsMenu.scss';
 import ThreeSixtyMenu from './ThreeSixtyMenu';
+import {
+  floorplanFeaturesSelector,
+  minimapSelector
+} from '../../selectors/ThreeSixty';
 
-const ActionsMenu = ({ styles, setInfoPage }) => {
+const ActionsMenu = ({ styles, setInfoPage, minimap, floorplanFeatures }) => {
   const [showSubmenu, setShowSubmenu] = React.useState('');
 
   React.useEffect(() => {
@@ -28,7 +33,12 @@ const ActionsMenu = ({ styles, setInfoPage }) => {
 
   return (
     <>
-      <div className="menu-action info-action" onClick={setInfoPage}>
+      <div
+        className="menu-action info-action"
+        onClick={() => {
+          setInfoPage({ minimap, floorplanFeatures });
+        }}
+      >
         <InfoIcon className="info-icon" />
       </div>
       <div className="menu-action slow-mo-action" disabled>
@@ -52,7 +62,14 @@ const ActionsMenu = ({ styles, setInfoPage }) => {
 
 ActionsMenu.propTypes = {
   styles: arrayOf(shape({})).isRequired,
-  setInfoPage: func.isRequired
+  setInfoPage: func.isRequired,
+  minimap: shape({}).isRequired,
+  floorplanFeatures: shape({}).isRequired
 };
 
-export default ActionsMenu;
+const mapStateToProps = (state) => ({
+  minimap: minimapSelector(state),
+  floorplanFeatures: floorplanFeaturesSelector(state)
+});
+
+export default connect(mapStateToProps, null)(ActionsMenu);

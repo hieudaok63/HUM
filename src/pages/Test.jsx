@@ -21,6 +21,7 @@ import ThreeSixtyAction from '../stores/threeSixty/actions';
 import LeftMenu from '../components/NewMenus/LeftMenu';
 import ActionsMenu from '../components/NewMenus/ActionsMenu';
 import { stylesSelector } from '../selectors/ThreeSixty';
+import InfoPage from '../components/InfoPage/InfoPage';
 
 const ThreeSixtyPage = ({
   floorplans,
@@ -31,6 +32,7 @@ const ThreeSixtyPage = ({
   styles
 }) => {
   const { builderId, projectId } = useParams();
+  const [infoPage, setInfoPage] = React.useState(null);
 
   React.useEffect(() => {
     async function getData() {
@@ -54,11 +56,8 @@ const ThreeSixtyPage = ({
           // amenities={amenities.content}
           // exterior={exterior.content}
         />
-        <ActionsMenu
-          styles={styles}
-          // setInfoPage={() => setInfoPage(exterior.content[0])}
-        />
-        {/* {infoPage && <InfoPage infoPage={infoPage} setInfoPage={setInfoPage} />} */}
+        <ActionsMenu styles={styles} setInfoPage={setInfoPage} />
+        {infoPage && <InfoPage infoPage={infoPage} setInfoPage={setInfoPage} />}
       </div>
     </>
   );

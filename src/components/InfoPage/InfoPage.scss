@@ -26,6 +26,9 @@
   & h1 {
     color: white;
   }
+  & h3 {
+    color: white;
+  }
   & ul {
     & li {
       color: white;
@@ -53,5 +56,21 @@
       transform: rotate(90deg);
       right: 10px;
     }
+  }
+}
+
+.minimap-container {
+  position: relative;
+  &-hotspot {
+    position: absolute;
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    background-color: rgba(249, 179, 66, 0.5);
+    border: 2px solid #f9b342;
+    background-clip: content-box;
+    padding: 8px;
+    cursor: pointer;
   }
 }
