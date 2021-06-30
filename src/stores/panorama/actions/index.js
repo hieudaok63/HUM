@@ -99,8 +99,12 @@ export default class PanoramaAction {
         },
         async (style) => {
           if (style !== undefined) {
-            const selectedStyle = styles.find((item) => item.key === style);
-            console.log('style', selectedStyle, style);
+            const currentStyles = [...styles];
+            currentStyles.push({ key: 'Empty' });
+            const selectedStyle = currentStyles.find(
+              (item) => item.key === style
+            );
+            console.log('style', selectedStyle, style, styles);
             await dispatch(
               ThreeSixtyAction.setSelectedNameStyle(selectedStyle.style)
             );
