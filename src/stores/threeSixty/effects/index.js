@@ -19,6 +19,10 @@ export default class ThreeSixtyEffect {
     );
   }
 
+  static async changeSceneSphere(threeSixty, key) {
+    threeSixty.changeSphereScene(key);
+  }
+
   // // get scenes for menu
   // static async getScenes(
   //   language,
@@ -207,10 +211,6 @@ export default class ThreeSixtyEffect {
   //   });
 
   //   return model;
-  // }
-
-  // static async changeSceneSphere(threeSixty, key) {
-  //   threeSixty.changeSphereScene(key);
   // }
 
   // static async updateSpheresFinishes(threeSixty, finish) {
