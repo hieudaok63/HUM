@@ -77,6 +77,7 @@ class ThreeSixtySphere {
     loaderCall,
     language
   }) => {
+    console.log('selectedScene', selectedScene);
     this.container = container;
     this.loader = loader;
     this.createBlur();
@@ -283,6 +284,7 @@ class ThreeSixtySphere {
 
   /* */
   createSceneInfo = (scene) => {
+    console.log('scene', scene);
     const useToRequest = this.getRoomToRequest(scene.uses, scene.defaultUse);
     const selectedUse = this.getUse(scene.uses, useToRequest);
     if (selectedUse) {
@@ -638,7 +640,7 @@ class ThreeSixtySphere {
     // spriteMaterial.alphaTest = 0.1;
     const sprite = new THREE.Sprite(spriteMaterial);
 
-    sprite.name = name[this.language];
+    sprite.name = name;
     sprite.isHotspot = true;
     sprite.key = key;
     sprite.startScenePosition = mesh.startScenePosition;
@@ -971,7 +973,6 @@ class ThreeSixtySphere {
       );
       if (intersects.length > 0) {
         const { object } = intersects[0];
-
         if (this.INTERSECTED !== object) {
           if (this.INTERSECTED) {
             if (
@@ -990,6 +991,7 @@ class ThreeSixtySphere {
           }
 
           this.INTERSECTED = object;
+          console.log('HERE', object.parent.name, this.selectedScene);
           if (
             this.INTERSECTED.type === 'Sprite' &&
             object.parent.name === this.selectedScene
@@ -1008,7 +1010,7 @@ class ThreeSixtySphere {
               this.tooltip.style.left = `${((position.x + 1) * this.width) /
                 2}px`;
               this.tooltip.classList.add('is-active');
-              this.tooltip.innerHTML = this.INTERSECTED.name;
+              this.tooltip.innerHTML = this.INTERSECTED.name[this.language];
               this.container.style.cursor = 'pointer';
             }
             this.hover = true;
@@ -1083,6 +1085,10 @@ class ThreeSixtySphere {
   /* */
   dispose = () => {
     this.renderer.renderLists.dispose();
+  };
+
+  changeLanguage = (language) => {
+    this.language = language;
   };
 }
 export default ThreeSixtySphere;

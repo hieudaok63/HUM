@@ -19,6 +19,14 @@ export class TourSelector {
     const { selectedFloorplan } = tour;
     return selectedFloorplan || 0;
   }
+  static getAvailableLanguages(state) {
+    const { tour } = state;
+    return tour.availableLanguages;
+  }
+  static getDefaultLanguage(state) {
+    const { tour } = state;
+    return tour.defaultLanguage;
+  }
 }
 
 export const floorplansSelector = createSelector(
@@ -39,4 +47,14 @@ export const logoSelector = createSelector(
 export const selectedFloorplanSelector = createSelector(
   [TourSelector.getSelectedFloorplan],
   (selectedFloorplan) => selectedFloorplan
+);
+
+export const availableLanguagesSelector = createSelector(
+  [TourSelector.getAvailableLanguages],
+  (availableLanguages) => availableLanguages
+);
+
+export const defaultLanguageSelector = createSelector(
+  [TourSelector.getDefaultLanguage],
+  (defaultLanguage) => defaultLanguage
 );

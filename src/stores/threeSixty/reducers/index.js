@@ -51,7 +51,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
       parking: action.payload.parking,
       unit: action.payload.unit,
       level: action.payload.level,
-      levelScenes: action.payload.levelScenes
+      levelScenes: action.payload.levelScenes,
+      selectedScene: action.payload.selectedScene
     };
   }
 
@@ -156,6 +157,13 @@ export default class ThreeSixtyReducer extends BaseReducer {
       ...state,
       threeSixtyItem: action.payload.threeSixty,
       levelsWithScenes: action.payload.levels
+    };
+  }
+
+  [ThreeSixtyAction.CHANGE_LANGUAGE_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      language: action.payload
     };
   }
 

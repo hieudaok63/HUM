@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { arrayOf, shape, func } from 'prop-types';
+import { arrayOf, shape, func, string } from 'prop-types';
 import { ReactComponent as InfoIcon } from '../../assets/Icons/icon_info.svg';
 import { ReactComponent as SlowMoIcon } from '../../assets/Icons/icon_slow_motion.svg';
 import { ReactComponent as ShareIcon } from '../../assets/Icons/icon_share.svg';
@@ -11,9 +11,34 @@ import {
   floorplanFeaturesSelector,
   minimapSelector
 } from '../../selectors/ThreeSixty';
+import {
+  availableLanguagesSelector,
+  defaultLanguageSelector
+} from '../../selectors/Tour';
 
-const ActionsMenu = ({ styles, setInfoPage, minimap, floorplanFeatures }) => {
+const ActionsMenu = ({
+  styles,
+  setInfoPage,
+  defaultLanguage,
+  availableLanguages,
+  minimap,
+  floorplanFeatures
+}) => {
   const [showSubmenu, setShowSubmenu] = React.useState('');
+  const [language, setLanguage] = React.useState('');
+
+  const changeLanguage = () => {
+    const totalLanguages = availableLanguages.length;
+    const currentIndex = availableLanguages.findIndex(
+      (item) => item === language
+    );
+
+    if (totalLanguages - 1 === currentIndex) {
+      setLanguage(availableLanguages[0]);
+    } else {
+      setLanguage(availableLanguages[currentIndex + 1]);
+    }
+  };
 
   React.useEffect(() => {
     const handleClickOutside = (e) => {
@@ -31,6 +56,11 @@ const ActionsMenu = ({ styles, setInfoPage, minimap, floorplanFeatures }) => {
     };
   }, []);
 
+  React.useEffect(() => {
+    console.log(defaultLanguage);
+    setLanguage(defaultLanguage);
+  }, [defaultLanguage]);
+
   return (
     <>
       <div
@@ -44,7 +74,14 @@ const ActionsMenu = ({ styles, setInfoPage, minimap, floorplanFeatures }) => {
       <div className="menu-action slow-mo-action" disabled>
         <SlowMoIcon className="slow-mo-icon" />
       </div>
-      <div className="menu-action language-action">EN</div>
+      <div
+        className="menu-action language-action"
+        onClick={() => {
+          changeLanguage();
+        }}
+      >
+        {language}
+      </div>
       <div className="menu-action share-action" disabled>
         <ShareIcon className="share-icon" />
       </div>
@@ -64,12 +101,20 @@ ActionsMenu.propTypes = {
   styles: arrayOf(shape({})).isRequired,
   setInfoPage: func.isRequired,
   minimap: shape({}).isRequired,
-  floorplanFeatures: shape({}).isRequired
+  floorplanFeatures: shape({}).isRequired,
+  defaultLanguage: string.isRequired,
+  availableLanguages: arrayOf(string).isRequired
 };
 
 const mapStateToProps = (state) => ({
+  availableLanguages: availableLanguagesSelector(state),
+  defaultLanguage: defaultLanguageSelector(state),
   minimap: minimapSelector(state),
   floorplanFeatures: floorplanFeaturesSelector(state)
 });
 
-export default connect(mapStateToProps, null)(ActionsMenu);
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ActionsMenu);
