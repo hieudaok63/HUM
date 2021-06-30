@@ -26,7 +26,7 @@ export default class PanoramaAction {
     return async (dispatch, getState) => {
       const { threeSixty, panorama, tour } = getState();
       const { container } = panorama;
-      const { floorplans, selectedFloorplan } = tour;
+      const { floorplans, selectedFloorplan, defaultLanguage } = tour;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         PanoramaAction.PANORAMA_INFO_REQUEST,
@@ -40,7 +40,8 @@ export default class PanoramaAction {
         threeSixty.currentRoomUse,
         threeSixty.selectedFinish,
         threeSixty.levelScenes,
-        floorplans[selectedFloorplan].styles
+        floorplans[selectedFloorplan].styles,
+        defaultLanguage
       );
       const isError = model instanceof PanoramaErrorModel;
       return { model, isError };
@@ -52,7 +53,7 @@ export default class PanoramaAction {
     return async (dispatch, getState) => {
       const { panorama, threeSixty } = getState();
       const { panoramaInfo, panorama: threeSixtyPano } = panorama;
-      const { menu } = threeSixty;
+      const { styles } = threeSixty;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         PanoramaAction.PANORAMA_REQUEST,
@@ -89,8 +90,6 @@ export default class PanoramaAction {
           if (use !== undefined) {
             await dispatch(ThreeSixtyAction.setSelectedUse(use));
           }
-
-          await dispatch(ThreeSixtyAction.getStyles());
         },
         async (expand) => {
           if (expand !== undefined) {
@@ -100,7 +99,7 @@ export default class PanoramaAction {
         },
         async (style) => {
           if (style !== undefined) {
-            const selectedStyle = menu.find((item) => item.type === style);
+            const selectedStyle = styles.find((item) => item.key === style);
             await dispatch(
               ThreeSixtyAction.setSelectedNameStyle(selectedStyle.style)
             );

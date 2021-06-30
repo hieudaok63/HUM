@@ -24,16 +24,14 @@ class Viewer extends Component {
   }
 
   render() {
-    const { error, selectedMenuOption } = this.props;
+    const { error } = this.props;
     return (
       <div
         id="viewer"
         ref={(ref) => {
           this.atHUMViewer = ref;
         }}
-        className={`${
-          error || selectedMenuOption === 'mini-map' ? 'blur' : ''
-        }`}
+        className={`${error ? 'blur' : ''}`}
       />
     );
   }
@@ -41,7 +39,6 @@ class Viewer extends Component {
 
 Viewer.propTypes = {
   error: string.isRequired,
-  selectedMenuOption: string.isRequired,
   dispatch: func.isRequired
 };
 

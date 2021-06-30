@@ -1,6 +1,6 @@
 import PanoramaModel from '../models';
 import PanoramaErrorModel from '../../../models/PanoramaErrorModel';
-import THREESIXTY from '../../../classes/ThreeSixty2.0';
+import THREESIXTY from '../../../classes/ThreeSixty';
 
 export default class SessionEffect {
   /* */
@@ -14,7 +14,8 @@ export default class SessionEffect {
     use,
     finish,
     scenes,
-    styles
+    styles,
+    language
   ) {
     const selectedLevel = levels[level];
     if (selectedLevel) {
@@ -38,7 +39,8 @@ export default class SessionEffect {
           use,
           finish,
           level,
-          style: selectedStyle.key
+          style: selectedStyle.key,
+          language
         });
 
         return model;

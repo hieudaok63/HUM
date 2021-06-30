@@ -14,6 +14,7 @@ export default class ThreePanoramaModel {
     this.finish = data.finish;
     this.level = data.level;
     this.style = data.style;
+    this.language = data.language;
   }
 
   container = null;
@@ -37,4 +38,6 @@ export default class ThreePanoramaModel {
   level = 1;
 
   style = '';
+
+  language = 'en';
 }

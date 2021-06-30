@@ -11,6 +11,8 @@ import LoadingAction from '../stores/loading/actions';
 import { floorplansSelector, levelsSelector } from '../selectors/Tour';
 import { loadingSelector } from '../selectors/loading';
 import ThreeSixtyAction from '../stores/threeSixty/actions';
+import SocketAction from '../stores/socket/actions';
+import { SOCKET } from '../config/endpoints';
 
 const ThreeSixtyPage = ({ floorplans, dispatch, loader, levels }) => {
   const { builderId, projectId } = useParams();
@@ -18,6 +20,7 @@ const ThreeSixtyPage = ({ floorplans, dispatch, loader, levels }) => {
   React.useEffect(() => {
     async function getData() {
       await dispatch(LoadingAction.setLoader(true));
+      await dispatch(SocketAction.initSocket(SOCKET));
       await dispatch(TourAction.getData(builderId, projectId));
       await dispatch(TourAction.selectFloorplan(0));
       await dispatch(ThreeSixtyAction.setThreeSixtyData());
@@ -26,23 +29,12 @@ const ThreeSixtyPage = ({ floorplans, dispatch, loader, levels }) => {
   }, []);
 
   return (
-    <div className="w-100 h-100">
-      {loader && <Loader loading={loader} />}
-      <div>Test Data</div>
-      {floorplans.map((floorplan, index) => (
-        <button
-          key={`button-${index.toString()}`}
-          type="button"
-          className="btn"
-          onClick={async () => {
-            await dispatch(TourAction.selectFloorplan(floorplan));
-          }}
-        >
-          {floorplan.displayName}
-        </button>
-      ))}
-      {levels.length > 0 && <Viewer />}
-    </div>
+    <>
+      <div className="w-100 h-100">
+        {loader && <Loader loading={loader} />}
+        {levels.length > 0 && <Viewer />}
+      </div>
+    </>
   );
 };
 

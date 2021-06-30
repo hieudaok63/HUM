@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import * as THREE from 'three';
 import TWEEN from '@tweenjs/tween.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -6,8 +5,59 @@ import { DeviceOrientationControls } from '../lib/three/DeviceOrientationControl
 import { TextureLoader } from '../lib/three/loaders/loaders';
 import Data from '../assets/Data';
 
-class ThreeSixty {
+class ThreeSixtySphere {
   constructor(
+    container,
+    image,
+    width,
+    height,
+    radius,
+    widthSegments,
+    heightSegments,
+    tooltip,
+    startScenePosition
+  ) {
+    this.container = container;
+    this.tooltip = tooltip;
+    this.image = image;
+    this.width = width;
+    this.height = height;
+    this.radius = radius;
+    this.widthSegments = widthSegments;
+    this.heightSegments = heightSegments;
+    this.camera = null;
+    this.scene = null;
+    this.renderer = null;
+    this.mesh = null;
+    this.geometry = null;
+    this.texture = null;
+    this.material = null;
+    this.autoRotate = false;
+    this.raycaster = null;
+    this.mouse = null;
+    this.mouseDown = null;
+    this.ctrl = false;
+    this.control = null;
+    this.hasGyro = false;
+    this.easingAnimationUp = [];
+    this.easingAnimationDown = [];
+    this.showAnimation = [];
+    this.hotspots = [];
+    this.createdHotspots = [];
+    this.scaled = null;
+    this.scaleUpAnimation = null;
+    this.INTERSECTED = '';
+    this.loaded = false;
+    this.firstLoad = true;
+    this.loadingCallBack = null;
+    this.updateCallBack = null;
+    this.currentStyle = 'default';
+    this.currentFinish = 'default';
+    this.selectedSceneLoadedImage = '';
+    this.startScenePosition = startScenePosition;
+  }
+
+  init = ({
     container,
     width,
     height,
@@ -24,8 +74,9 @@ class ThreeSixty {
     updateMenuCall,
     updateStyleCall,
     style,
-    loaderCall
-  ) {
+    loaderCall,
+    language
+  }) => {
     this.container = container;
     this.loader = loader;
     this.createBlur();
@@ -47,6 +98,7 @@ class ThreeSixty {
     this.loaderCall = loaderCall;
     this.level = level;
     this.currentStyle = style;
+    this.language = language;
     this.initializeManager();
     this.initializeCamera();
     this.initializeScene();
@@ -57,48 +109,6 @@ class ThreeSixty {
     this.bindEventListeners();
     this.loaded = true;
     this.container.appendChild(this.renderer.domElement);
-  }
-
-  /**
-   * Creates Div for the blur that is going to be used when changing
-   * between scenes.
-   */
-  createBlur = () => {
-    const el = document.querySelector('.three-sixty-blur');
-    if (el) {
-      el.classList.remove('none');
-    } else {
-      const blurContainer = document.createElement('div');
-      blurContainer.classList.add('three-sixty-blur');
-      this.container.appendChild(blurContainer);
-    }
-  };
-
-  /* */
-  createLoader = () => {
-    const loaderContainer = document.createElement('div');
-    loaderContainer.classList.add('loader');
-    if (this.firstLoad) {
-      loaderContainer.classList.add('white-background');
-    }
-    const loaderImageContainer = document.createElement('div');
-    loaderImageContainer.classList.add('loader-image-container');
-
-    const loaderImage = document.createElement('img');
-    loaderImage.alt = 'athum loader';
-    loaderImage.src = this.loader;
-    loaderImageContainer.appendChild(loaderImage);
-
-    loaderContainer.appendChild(loaderImageContainer);
-    return loaderContainer;
-  };
-
-  /* */
-  createTooltip = () => {
-    const tooltip = document.createElement('div');
-    tooltip.classList.add('tooltip');
-    this.container.appendChild(tooltip);
-    return tooltip;
   };
 
   /* */
@@ -133,6 +143,55 @@ class ThreeSixty {
   };
 
   /* */
+  createTooltip = () => {
+    const tooltip = document.createElement('div');
+    tooltip.classList.add('tooltip');
+    this.container.appendChild(tooltip);
+    return tooltip;
+  };
+
+  /* */
+  createLoader = () => {
+    const loaderContainer = document.createElement('div');
+    loaderContainer.classList.add('loader');
+    if (this.firstLoad) {
+      loaderContainer.classList.add('white-background');
+    }
+    const loaderImageContainer = document.createElement('div');
+    loaderImageContainer.classList.add('loader-image-container');
+
+    const loaderImage = document.createElement('img');
+    loaderImage.alt = 'athum loader';
+    loaderImage.src = this.loader;
+    loaderImageContainer.appendChild(loaderImage);
+
+    loaderContainer.appendChild(loaderImageContainer);
+    return loaderContainer;
+  };
+
+  /* */
+  createBlur = () => {
+    const el = document.querySelector('.three-sixty-blur');
+    if (el) {
+      el.classList.remove('none');
+    } else {
+      const blurContainer = document.createElement('div');
+      blurContainer.classList.add('three-sixty-blur');
+      this.container.appendChild(blurContainer);
+    }
+  };
+
+  /* */
+  onTransitionEnd = (event) => {
+    event.target.remove();
+
+    this.firstLoad = false;
+    this.loaderContainer.classList.remove('white-background');
+    this.loaderContainer.classList.remove('none');
+    this.loaderCall(false);
+  };
+
+  /* */
   initializeCamera = () => {
     this.camera = new THREE.PerspectiveCamera(
       75,
@@ -141,180 +200,7 @@ class ThreeSixty {
       1100
     );
     this.camera.position.z = 0.1;
-  };
-
-  /* */
-  initializeScene = () => {
-    this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x000000);
-  };
-
-  /* */
-  initializeSpheres = () => {
-    this.scenes.map((scene) => this.createSphere(scene));
-  };
-
-  /* */
-  createSphere = (scene) => this.createSceneMesh(scene);
-
-  /* */
-  createSceneMesh = (scene) => {
-    const buildedScene = this.createSceneInfo(scene);
-
-    if (buildedScene !== null) {
-      const geometry = new THREE.SphereGeometry(
-        this.radius,
-        this.widthSegments,
-        this.heightSegments
-      );
-      geometry.scale(-1, 1, 1);
-
-      const loader = new THREE.TextureLoader(this.manager);
-
-      loader.load(buildedScene.panorama.uri, (texture) => {
-        const mesh = this.updateMesh(scene, geometry, buildedScene, texture);
-
-        if (this.selectedScene !== mesh.name) {
-          mesh.visible = false;
-        }
-        this.scene.add(mesh);
-      });
-    }
-  };
-
-  /* */
-  createSceneInfo = (scene) => {
-    const useToRequest = this.getRoomToRequest(scene.uses, scene.defaultUse);
-    const selectedUse = this.getUse(scene.uses, useToRequest);
-    if (selectedUse) {
-      const hotspots = this.assignHotspotImage(scene.hotspots);
-      const finishToRequest =
-        this.finish === 'default' ? scene.defaultFinish : this.finish;
-      const buildedScene = this.buildScene(
-        selectedUse,
-        hotspots,
-        scene.startScenePosition,
-        finishToRequest,
-        useToRequest,
-        scene.key
-      );
-      return buildedScene;
-    }
-    return null;
-  };
-
-  /* */
-  getRoomToRequest = (uses, defaultUse) => {
-    let room = null;
-    if (this.use !== '' && this.use !== null && this.use !== undefined) {
-      room = this.use;
-    } else {
-      room = defaultUse;
-    }
-    const exist = uses.find((use) => use.key === room);
-
-    return exist ? room : defaultUse;
-  };
-
-  /* */
-  getUse = (uses, use) => {
-    const currentUse = uses.filter((item) =>
-      item.key.toLowerCase() === use.toLowerCase() ? item : null
-    );
-
-    if (currentUse.length > 0) {
-      return currentUse[0];
-    }
-
-    return null;
-  };
-
-  /* */
-  assignHotspotImage = (hotspots) =>
-    hotspots.map((hotspot) => {
-      const current = hotspot;
-      if (typeof current.level === 'undefined') {
-        current.img = Data.AvriaHotspotNew;
-      } else {
-        current.img = Data.AvriaHotspotStairs;
-      }
-      return current;
-    });
-
-  /* */
-  buildScene = (scene, hotspots = [], startScenePosition, finish, use, key) => {
-    const { name, furniture, finishScenes } = scene;
-    let current = null;
-    if (finish !== undefined && use !== undefined) {
-      if (
-        finish.toLowerCase() === use.toLowerCase() &&
-        finishScenes.length === 0
-      ) {
-        current = scene;
-      } else {
-        current = this.getSelectedFinish(finishScenes, finish);
-      }
-    } else if (use !== undefined) {
-      current = scene;
-    }
-
-    const time = new Date().getTime();
-    const uri = `${current.modes.day}?${time}`;
-    const panorama = {};
-    panorama.uri = uri;
-    panorama.name = key;
-    panorama.use = use;
-    panorama.finish = current.key;
-    return {
-      name,
-      key,
-      panorama,
-      hotspots,
-      startScenePosition,
-      furniture
-    };
-  };
-
-  /* */
-  initializeRaycaster = () => {
-    this.raycaster = new THREE.Raycaster();
-    this.mouse = new THREE.Vector2(1, 1);
-  };
-
-  /* */
-  initializeRenderer = () => {
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(this.width, this.height);
-  };
-
-  /* */
-  initializeControls = () => {
-    this.control = new OrbitControls(this.camera, this.renderer.domElement);
-    this.control.enablePan = false;
-    this.control.enableZoom = false;
-    this.control.enableDamping = true;
-    this.control.minPolarAngle = 0.8;
-    this.control.maxPolarAngle = 2.4;
-    this.control.dampingFactor = 0.2;
-    // negating makes invert this.control.
-    this.control.rotateSpeed = -0.2;
-
-    this.control.update();
-  };
-
-  /* */
-  bindEventListeners = () => {
-    this.container.addEventListener('pointerdown', this.onPointerStart);
-    this.container.addEventListener('pointerup', this.onPointerEnd);
-    this.container.addEventListener('mousemove', this.onPointerMove, {
-      passive: true
-    });
-    this.container.addEventListener('touchstart', this.onPointerStart);
-    this.container.addEventListener('touchend', this.onPointerEnd);
-    this.container.addEventListener('touchcancel', this.onPointerEnd);
-    document.addEventListener('keypress', this.handleKeyPress);
-    document.addEventListener('keyup', this.handleKeyUp);
+    // this.camera.target = new THREE.Vector3(0, 0, 0);
   };
 
   /* */
@@ -348,6 +234,23 @@ class ThreeSixty {
   };
 
   /* */
+  clearCurrentMesh = () => {
+    if (this.mesh !== null) {
+      this.mesh.material.dispose();
+      this.mesh.geometry.dispose();
+      this.mesh.children = [];
+      this.scene.remove(this.mesh);
+      this.mesh = null;
+    }
+  };
+
+  /* */
+  initializeScene = () => {
+    this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0x000000);
+  };
+
+  /* */
   updateSpheres = () => {
     this.scene.children.map((mesh) => this.updateMeshMaterial(mesh));
   };
@@ -366,6 +269,60 @@ class ThreeSixty {
         if (this.selectedScene === buildedScene.panorama.name) {
           this.selectedSceneLoadedImage = buildedScene.panorama.uri;
         }
+      });
+    }
+  };
+
+  /* */
+  initializeSpheres = () => {
+    this.scenes.map((scene) => this.createSphere(scene));
+  };
+
+  /* */
+  createSphere = (scene) => this.createSceneMesh(scene);
+
+  /* */
+  createSceneInfo = (scene) => {
+    const useToRequest = this.getRoomToRequest(scene.uses, scene.defaultUse);
+    const selectedUse = this.getUse(scene.uses, useToRequest);
+    if (selectedUse) {
+      const hotspots = this.assignHotspotImage(scene.hotspots);
+      const finishToRequest =
+        this.finish === 'default' ? scene.defaultFinish : this.finish;
+      const buildedScene = this.buildScene(
+        selectedUse,
+        hotspots,
+        scene.startScenePosition,
+        finishToRequest,
+        useToRequest,
+        scene.key
+      );
+      return buildedScene;
+    }
+    return null;
+  };
+
+  /* */
+  createSceneMesh = (scene) => {
+    const buildedScene = this.createSceneInfo(scene);
+
+    if (buildedScene !== null) {
+      const geometry = new THREE.SphereGeometry(
+        this.radius,
+        this.widthSegments,
+        this.heightSegments
+      );
+      geometry.scale(-1, 1, 1);
+
+      const loader = new THREE.TextureLoader(this.manager);
+
+      loader.load(buildedScene.panorama.uri, (texture) => {
+        const mesh = this.updateMesh(scene, geometry, buildedScene, texture);
+
+        if (this.selectedScene !== mesh.name) {
+          mesh.visible = false;
+        }
+        this.scene.add(mesh);
       });
     }
   };
@@ -414,6 +371,79 @@ class ThreeSixty {
     this.scene.children.find((mesh) => mesh.name === key);
 
   /* */
+  getRoomToRequest = (uses, defaultUse) => {
+    let room = null;
+    if (this.use !== '' && this.use !== null && this.use !== undefined) {
+      room = this.use;
+    } else {
+      room = defaultUse;
+    }
+    const exist = uses.find((use) => use.key === room);
+
+    return exist ? room : defaultUse;
+  };
+
+  /* */
+  getUse = (uses, use) => {
+    const currentUse = uses.filter((item) =>
+      item.key.toLowerCase() === use.toLowerCase() ? item : null
+    );
+
+    if (currentUse.length > 0) {
+      return currentUse[0];
+    }
+
+    return null;
+  };
+
+  /* */
+  assignHotspotImage = (hotspots) =>
+    hotspots.map((hotspot) => {
+      const current = hotspot;
+      if (typeof current.level === 'undefined') {
+        current.img = Data.AvriaHotspotNew;
+      } else {
+        current.img = Data.AvriaHotspotStairs;
+      }
+      return current;
+    });
+
+  /* */
+  buildScene = (scene, hotspots = [], startScenePosition, finish, use, key) => {
+    const { name, furniture, finishScenes } = scene;
+    const displayingName = name[this.language];
+    let current = null;
+    if (finish !== undefined && use !== undefined) {
+      if (
+        finish.toLowerCase() === use.toLowerCase() &&
+        finishScenes.length === 0
+      ) {
+        current = scene;
+      } else {
+        current = this.getSelectedFinish(finishScenes, finish);
+      }
+    } else if (use !== undefined) {
+      current = scene;
+    }
+    const time = new Date().getTime();
+    console.log(current[this.currentStyle].modes.day);
+    const uri = `${current[this.currentStyle].modes.day}?${time}`;
+    const panorama = {};
+    panorama.uri = uri;
+    panorama.name = key;
+    panorama.use = use;
+    panorama.finish = current.key;
+    return {
+      displayingName,
+      key,
+      panorama,
+      hotspots,
+      startScenePosition,
+      furniture
+    };
+  };
+
+  /* */
   getSelectedFinish = (scenes, key) => {
     if (key === 'default' || key === undefined || scenes.length === 0) {
       return 'default';
@@ -430,6 +460,12 @@ class ThreeSixty {
   };
 
   /* */
+  initializeRaycaster = () => {
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2(1, 1);
+  };
+
+  /* */
   addToScene = (objs) => {
     objs.forEach((obj) => {
       const mesh = obj;
@@ -440,12 +476,48 @@ class ThreeSixty {
   };
 
   /* */
+  initializeRenderer = () => {
+    this.renderer = new THREE.WebGLRenderer();
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setSize(this.width, this.height);
+  };
+
+  /* */
+  initializeControls = () => {
+    this.control = new OrbitControls(this.camera, this.renderer.domElement);
+    this.control.enablePan = false;
+    this.control.enableZoom = false;
+    this.control.enableDamping = true;
+    this.control.minPolarAngle = 0.8;
+    this.control.maxPolarAngle = 2.4;
+    this.control.dampingFactor = 0.2;
+    // negating makes invert this.control.
+    this.control.rotateSpeed = -0.2;
+
+    this.control.update();
+  };
+
+  /* */
   initializeMobileControls = () => {
     this.control = new DeviceOrientationControls(
       this.camera,
       this.renderer.domElement
     );
     this.control.enabled = true;
+  };
+
+  /* */
+  bindEventListeners = () => {
+    this.container.addEventListener('pointerdown', this.onPointerStart);
+    this.container.addEventListener('pointerup', this.onPointerEnd);
+    this.container.addEventListener('mousemove', this.onPointerMove, {
+      passive: true
+    });
+    this.container.addEventListener('touchstart', this.onPointerStart);
+    this.container.addEventListener('touchend', this.onPointerEnd);
+    this.container.addEventListener('touchcancel', this.onPointerEnd);
+    document.addEventListener('keypress', this.handleKeyPress);
+    document.addEventListener('keyup', this.handleKeyUp);
   };
 
   /* */
@@ -568,7 +640,8 @@ class ThreeSixty {
     });
     // spriteMaterial.alphaTest = 0.1;
     const sprite = new THREE.Sprite(spriteMaterial);
-    sprite.name = name;
+
+    sprite.name = name[this.language];
     sprite.isHotspot = true;
     sprite.key = key;
     sprite.startScenePosition = mesh.startScenePosition;
@@ -1015,4 +1088,4 @@ class ThreeSixty {
     this.renderer.renderLists.dispose();
   };
 }
-export default ThreeSixty;
+export default ThreeSixtySphere;
