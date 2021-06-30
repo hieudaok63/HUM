@@ -67,6 +67,11 @@ export default class ThreeSixtyAction {
   static UPDATE_SPHERE_USE_REQUEST_FINISHED =
     'UPDATE_SPHERE_USE_REQUEST_FINISHED';
 
+  static CHANGE_THREESIXTY_LANGUAGE = 'CHANGE_THREESIXTY_LANGUAGE';
+
+  static CHANGE_THREESIXTY_LANGUAGE_FINISHED =
+    'CHANGE_THREESIXTY_LANGUAGE_FINISHED';
+
   static CHANGE_LANGUAGE_REQUEST_FINISHED = 'CHANGE_LANGUAGE_REQUEST_FINISHED';
 
   static reset() {
@@ -210,6 +215,22 @@ export default class ThreeSixtyAction {
         builderId,
         projectId,
         floorplans[selectedFloorplan]
+      );
+    };
+  }
+
+  static changeLanguageOnThreeSixty() {
+    return async (dispatch, getState) => {
+      const { threeSixty, panorama: panoramaState } = getState();
+      const { language } = threeSixty;
+      const { panorama } = panoramaState;
+
+      await ActionUtility.createThunkEffect(
+        dispatch,
+        ThreeSixtyAction.CHANGE_THREESIXTY_LANGUAGE,
+        ThreeSixtyEffect.changeLanguageOnThreeSixty,
+        language,
+        panorama
       );
     };
   }

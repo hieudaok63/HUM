@@ -23,6 +23,10 @@ export default class ThreeSixtyEffect {
     threeSixty.changeSphereScene(key);
   }
 
+  static async changeLanguageOnThreeSixty(language, threeSixty) {
+    threeSixty.changeLanguage(language);
+  }
+
   // // get scenes for menu
   // static async getScenes(
   //   language,

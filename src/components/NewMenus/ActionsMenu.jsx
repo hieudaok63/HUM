@@ -15,6 +15,7 @@ import {
   availableLanguagesSelector,
   defaultLanguageSelector
 } from '../../selectors/Tour';
+import ThreeSixtyAction from '../../stores/threeSixty/actions';
 
 const ActionsMenu = ({
   styles,
@@ -22,12 +23,13 @@ const ActionsMenu = ({
   defaultLanguage,
   availableLanguages,
   minimap,
-  floorplanFeatures
+  floorplanFeatures,
+  dispatch
 }) => {
   const [showSubmenu, setShowSubmenu] = React.useState('');
   const [language, setLanguage] = React.useState('');
 
-  const changeLanguage = () => {
+  const changeLanguage = async () => {
     const totalLanguages = availableLanguages.length;
     const currentIndex = availableLanguages.findIndex(
       (item) => item === language
@@ -35,9 +37,15 @@ const ActionsMenu = ({
 
     if (totalLanguages - 1 === currentIndex) {
       setLanguage(availableLanguages[0]);
+      await dispatch(ThreeSixtyAction.setLanguage(availableLanguages[0]));
     } else {
       setLanguage(availableLanguages[currentIndex + 1]);
+      await dispatch(
+        ThreeSixtyAction.setLanguage(availableLanguages[currentIndex + 1])
+      );
     }
+
+    await dispatch(ThreeSixtyAction.changeLanguageOnThreeSixty());
   };
 
   React.useEffect(() => {
@@ -103,7 +111,8 @@ ActionsMenu.propTypes = {
   minimap: shape({}).isRequired,
   floorplanFeatures: shape({}).isRequired,
   defaultLanguage: string.isRequired,
-  availableLanguages: arrayOf(string).isRequired
+  availableLanguages: arrayOf(string).isRequired,
+  dispatch: func.isRequired
 };
 
 const mapStateToProps = (state) => ({
