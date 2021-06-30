@@ -9,6 +9,16 @@ export class TourSelector {
     const { levels } = threeSixty;
     return levels || [];
   }
+  static getLogo(state) {
+    const { tour } = state;
+    const { logo } = tour;
+    return logo || {};
+  }
+  static getSelectedFloorplan(state) {
+    const { tour } = state;
+    const { selectedFloorplan } = tour;
+    return selectedFloorplan || 0;
+  }
 }
 
 export const floorplansSelector = createSelector(
@@ -19,4 +29,14 @@ export const floorplansSelector = createSelector(
 export const levelsSelector = createSelector(
   [TourSelector.getLevels],
   (levels) => levels
+);
+
+export const logoSelector = createSelector(
+  [TourSelector.getLogo],
+  (logo) => logo
+);
+
+export const selectedFloorplanSelector = createSelector(
+  [TourSelector.getSelectedFloorplan],
+  (selectedFloorplan) => selectedFloorplan
 );

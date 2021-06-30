@@ -1,12 +1,19 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { arrayOf, shape, func, string } from 'prop-types';
 import { ReactComponent as LightIcon } from '../../assets/Icons/icon_light.svg';
 import { ReactComponent as SettingsIcon } from '../../assets/Icons/icon_settings.svg';
 import { ReactComponent as StylesIcon } from '../../assets/Icons/icon_styles.svg';
 import { ReactComponent as EyeIcon } from '../../assets/Icons/icon_eye.svg';
 import './ActionsMenu.scss';
+import { selectedStyleSelector } from '../../selectors/ThreeSixty';
 
-const ThreeSixtyMenu = ({ styles, showSubmenu, setShowSubmenu }) => (
+const ThreeSixtyMenu = ({
+  styles,
+  showSubmenu,
+  setShowSubmenu,
+  selectedStyle
+}) => (
   <>
     <div className="menu-action secondary-action light-action" disabled>
       <LightIcon className="light-icon" />
@@ -27,7 +34,8 @@ const ThreeSixtyMenu = ({ styles, showSubmenu, setShowSubmenu }) => (
           {styles.map(({ key, name }) => (
             <div
               key={key}
-              className="menu-action-submenu-option"
+              className={`menu-action-submenu-option ${selectedStyle === key &&
+                'menu-action-submenu-option-active'}`}
               onClick={(e) => {
                 e.stopPropagation();
                 console.log(key);
@@ -46,10 +54,15 @@ const ThreeSixtyMenu = ({ styles, showSubmenu, setShowSubmenu }) => (
   </>
 );
 
+const mapStateToProps = (state) => ({
+  selectedStyle: selectedStyleSelector(state)
+});
+
 ThreeSixtyMenu.propTypes = {
   styles: arrayOf(shape({})).isRequired,
   showSubmenu: string.isRequired,
-  setShowSubmenu: func.isRequired
+  setShowSubmenu: func.isRequired,
+  selectedStyle: string.isRequired
 };
 
-export default ThreeSixtyMenu;
+export default connect(mapStateToProps, null)(ThreeSixtyMenu);

@@ -105,13 +105,16 @@ LeftMenu.propTypes = {
   reduceLogo: string.isRequired,
   expandedLogo: string.isRequired,
   backgroundColor: string,
-  floorplans: arrayOf(shape({})).isRequired,
-  exterior: arrayOf(shape({})).isRequired,
-  amenities: arrayOf(shape({})).isRequired
+  floorplans: arrayOf(shape({})),
+  exterior: arrayOf(shape({})),
+  amenities: arrayOf(shape({}))
 };
 
 LeftMenu.defaultProps = {
-  backgroundColor: '#FFFFFF'
+  backgroundColor: '#FFFFFF',
+  floorplans: [],
+  exterior: [],
+  amenities: []
 };
 
 export default LeftMenu;

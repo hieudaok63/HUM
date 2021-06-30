@@ -49,6 +49,9 @@
       &:hover:not([disabled]) {
         background-color: #ed6b6a;
       }
+      &-active {
+        background-color: #ed6b6a;
+      }
     }
   }
 }
