@@ -1,6 +1,5 @@
 export default class ThreeSixtyModel {
   constructor(data) {
-    console.log(data);
     this.builderId = data.builderId;
     this.projectId = data.projectId;
     this.floorplan = data.floorplan;
@@ -20,6 +19,7 @@ export default class ThreeSixtyModel {
     this.level = this.getLevel();
     this.levelScenes = this.getLevelScenes();
     this.miniMap = this.getLevelMinimap();
+    this.selectedScene = this.getSelectedScene();
   }
 
   builderId = '';
@@ -98,5 +98,9 @@ export default class ThreeSixtyModel {
 
   getLevelMinimap() {
     return this.level.minimap;
+  }
+
+  getSelectedScene() {
+    return this.level.defaultScene;
   }
 }

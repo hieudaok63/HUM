@@ -51,7 +51,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
       parking: action.payload.parking,
       unit: action.payload.unit,
       level: action.payload.level,
-      levelScenes: action.payload.levelScenes
+      levelScenes: action.payload.levelScenes,
+      selectedScene: action.payload.selectedScene
     };
   }
 

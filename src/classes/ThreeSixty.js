@@ -77,6 +77,7 @@ class ThreeSixtySphere {
     loaderCall,
     language
   }) => {
+    console.log('selectedScene', selectedScene);
     this.container = container;
     this.loader = loader;
     this.createBlur();
@@ -283,6 +284,7 @@ class ThreeSixtySphere {
 
   /* */
   createSceneInfo = (scene) => {
+    console.log('scene', scene);
     const useToRequest = this.getRoomToRequest(scene.uses, scene.defaultUse);
     const selectedUse = this.getUse(scene.uses, useToRequest);
     if (selectedUse) {
@@ -971,7 +973,6 @@ class ThreeSixtySphere {
       );
       if (intersects.length > 0) {
         const { object } = intersects[0];
-
         if (this.INTERSECTED !== object) {
           if (this.INTERSECTED) {
             if (
@@ -990,6 +991,7 @@ class ThreeSixtySphere {
           }
 
           this.INTERSECTED = object;
+          console.log('HERE', object.parent.name, this.selectedScene);
           if (
             this.INTERSECTED.type === 'Sprite' &&
             object.parent.name === this.selectedScene
