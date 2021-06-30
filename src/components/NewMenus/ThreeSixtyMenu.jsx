@@ -19,7 +19,7 @@ const ThreeSixtyMenu = ({
 }) => {
   const setSelectedStyle = async (style) => {
     await dispatch(ThreeSixtyAction.setSelectedStyle(style));
-    // await dispatch(ThreeSixtyAction.updateSpheres(style));
+    await dispatch(ThreeSixtyAction.updateSpheres(style));
   };
   return (
     <>

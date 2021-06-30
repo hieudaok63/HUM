@@ -67,6 +67,8 @@ export default class ThreeSixtyAction {
   static UPDATE_SPHERE_USE_REQUEST_FINISHED =
     'UPDATE_SPHERE_USE_REQUEST_FINISHED';
 
+  static CHANGE_LANGUAGE_REQUEST_FINISHED = 'CHANGE_LANGUAGE_REQUEST_FINISHED';
+
   static reset() {
     return ActionUtility.createAction(
       ThreeSixtyAction.RESET_REQUEST_FINISHED,
@@ -128,23 +130,17 @@ export default class ThreeSixtyAction {
   static updateSpheres(selectedStyle) {
     return async (dispatch, getState) => {
       const { panorama: panoramaState, threeSixty } = getState();
-      const { panorama } = panoramaState;
-      const {
-        levels,
-        currentLevel,
-        selectedScene,
-        selectedFinish
-      } = threeSixty;
+      const { panorama, panoramaInfo } = panoramaState;
+      const { selectedScene, selectedFinish } = threeSixty;
       await ActionUtility.createThunkEffect(
         dispatch,
         ThreeSixtyAction.CHANGE_SCENE_SPHERE_REQUEST,
         ThreeSixtyEffect.updateSpheres,
         panorama,
-        levels,
-        currentLevel,
         selectedStyle,
         selectedScene,
-        selectedFinish
+        selectedFinish,
+        panoramaInfo.scenes
       );
     };
   }
@@ -308,6 +304,13 @@ export default class ThreeSixtyAction {
   static setCurrentLevel(option) {
     return ActionUtility.createAction(
       ThreeSixtyAction.CURRENT_LEVEL_REQUEST_FINISHED,
+      option
+    );
+  }
+
+  static setLanguage(option) {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.CHANGE_LANGUAGE_REQUEST_FINISHED,
       option
     );
   }

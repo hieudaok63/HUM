@@ -159,6 +159,13 @@ export default class ThreeSixtyReducer extends BaseReducer {
     };
   }
 
+  [ThreeSixtyAction.CHANGE_LANGUAGE_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      language: action.payload
+    };
+  }
+
   [ThreeSixtyAction.RESET_REQUEST_FINISHED]() {
     return {
       ...this.initialState

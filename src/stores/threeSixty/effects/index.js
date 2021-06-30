@@ -4,6 +4,20 @@ export default class ThreeSixtyEffect {
   static async setThreeSixtyData(language, builderId, projectId, floorplan) {
     return new ThreeSixtyModel({ language, builderId, projectId, floorplan });
   }
+  static async updateSpheres(
+    threeSixty,
+    selectedStyle,
+    selectedScene,
+    selectedFinish,
+    scenes
+  ) {
+    threeSixty.updateScenes(
+      scenes,
+      selectedScene,
+      selectedFinish,
+      selectedStyle
+    );
+  }
 
   // // get scenes for menu
   // static async getScenes(
@@ -201,23 +215,6 @@ export default class ThreeSixtyEffect {
 
   // static async updateSpheresFinishes(threeSixty, finish) {
   //   threeSixty.updateFinishes(finish);
-  // }
-
-  // static async updateSpheres(
-  //   threeSixty,
-  //   levels,
-  //   currentLevel,
-  //   selectedStyle,
-  //   selectedScene,
-  //   selectedFinish
-  // ) {
-  //   const scenes = getScenes(levels, selectedStyle);
-  //   threeSixty.updateScenes(
-  //     scenes,
-  //     selectedScene,
-  //     selectedFinish,
-  //     selectedStyle
-  //   );
   // }
 
   // static async updateLevel(threeSixty, levels, currentLevel) {
