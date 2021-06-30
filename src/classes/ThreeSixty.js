@@ -77,7 +77,6 @@ class ThreeSixtySphere {
     loaderCall,
     language
   }) => {
-    console.log('selectedScene', selectedScene);
     this.container = container;
     this.loader = loader;
     this.createBlur();
