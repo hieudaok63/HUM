@@ -35,7 +35,7 @@ const ThreeSixtyPage = ({
   React.useEffect(() => {
     async function getData() {
       await dispatch(LoadingAction.setLoader(true));
-      await dispatch(SocketAction.initSocket(SOCKET));
+      // await dispatch(SocketAction.initSocket(SOCKET));
       await dispatch(TourAction.getData(builderId, projectId));
       await dispatch(TourAction.selectFloorplan(0));
       await dispatch(ThreeSixtyAction.setThreeSixtyData());

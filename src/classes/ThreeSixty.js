@@ -136,7 +136,6 @@ class ThreeSixtySphere {
     };
     this.manager.onProgress = (url) => {
       if (url === this.selectedSceneLoadedImage) {
-        console.log('loaded');
         this.updateStyleCall(this.currentStyle);
       }
     };
@@ -258,6 +257,7 @@ class ThreeSixtySphere {
   /* */
   updateMeshMaterial = (mesh) => {
     const loader = new THREE.TextureLoader(this.manager);
+    loader.crossOrigin = '';
     const sceneToUpdate = this.scenes.find((scene) => scene.key === mesh.name);
     const buildedScene = this.createSceneInfo(sceneToUpdate);
     if (buildedScene !== null) {
@@ -305,7 +305,6 @@ class ThreeSixtySphere {
   /* */
   createSceneMesh = (scene) => {
     const buildedScene = this.createSceneInfo(scene);
-
     if (buildedScene !== null) {
       const geometry = new THREE.SphereGeometry(
         this.radius,
@@ -315,10 +314,9 @@ class ThreeSixtySphere {
       geometry.scale(-1, 1, 1);
 
       const loader = new THREE.TextureLoader(this.manager);
-
+      loader.crossOrigin = '';
       loader.load(buildedScene.panorama.uri, (texture) => {
         const mesh = this.updateMesh(scene, geometry, buildedScene, texture);
-
         if (this.selectedScene !== mesh.name) {
           mesh.visible = false;
         }
@@ -426,7 +424,6 @@ class ThreeSixtySphere {
       current = scene;
     }
     const time = new Date().getTime();
-    console.log(current[this.currentStyle].modes.day);
     const uri = `${current[this.currentStyle].modes.day}?${time}`;
     const panorama = {};
     panorama.uri = uri;
