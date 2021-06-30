@@ -72,5 +72,21 @@
     background-clip: content-box;
     padding: 8px;
     cursor: pointer;
+    &-active {
+      cursor: auto;
+      animation: activeHotspot 2s infinite;
+    }
+  }
+}
+
+@keyframes activeHotspot {
+  0% {
+    padding: 8px;
+  }
+  50% {
+    padding: 2px;
+  }
+  100% {
+    padding: 8px;
   }
 }

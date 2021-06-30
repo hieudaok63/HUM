@@ -17,6 +17,9 @@ export class ThreeSixtySelector {
     const { area, bathrooms, bedrooms, unit, parking } = state.threeSixty;
     return { area, bathrooms, bedrooms, unit, parking };
   }
+  static getSelectedScene(state) {
+    return state.threeSixty.selectedScene;
+  }
 }
 
 export const sceneSelector = createSelector(
@@ -42,4 +45,9 @@ export const minimapSelector = createSelector(
 export const floorplanFeaturesSelector = createSelector(
   [ThreeSixtySelector.getFloorplanFeatures],
   (floorplanFeatures) => floorplanFeatures
+);
+
+export const selectedSceneSelector = createSelector(
+  [ThreeSixtySelector.getSelectedScene],
+  (selectedScene) => selectedScene
 );

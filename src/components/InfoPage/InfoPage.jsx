@@ -1,4 +1,4 @@
-import { func, shape } from 'prop-types';
+import { func, shape, string } from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import './InfoPage.scss';
@@ -9,8 +9,9 @@ import { ReactComponent as BathroomIcon } from '../../assets/Icons/icon_bathroom
 import { ReactComponent as CarIcon } from '../../assets/Icons/icon_car.svg';
 import { ReactComponent as AreaIcon } from '../../assets/Icons/icon_area.svg';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
+import { selectedSceneSelector } from '../../selectors/ThreeSixty';
 
-const InfoPage = ({ infoPage, setInfoPage, dispatch }) => {
+const InfoPage = ({ infoPage, setInfoPage, dispatch, selectedScene }) => {
   const [imageIndex, setImageIndex] = React.useState(0);
   const { features, images, floorplanFeatures, minimap } = infoPage;
 
@@ -57,7 +58,8 @@ const InfoPage = ({ infoPage, setInfoPage, dispatch }) => {
                 changeScene(key);
               }}
               key={key}
-              className="minimap-container-hotspot"
+              className={`minimap-container-hotspot ${selectedScene === key &&
+                'minimap-container-hotspot-active'}`}
               style={{ top: y, left: x }}
             />
           ))}
@@ -113,11 +115,16 @@ const InfoPage = ({ infoPage, setInfoPage, dispatch }) => {
 InfoPage.propTypes = {
   infoPage: shape({}).isRequired,
   setInfoPage: func.isRequired,
-  dispatch: func.isRequired
+  dispatch: func.isRequired,
+  selectedScene: string.isRequired
 };
+
+const mapStateToProps = (state) => ({
+  selectedScene: selectedSceneSelector(state)
+});
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch
 });
 
-export default connect(null, mapDispatchToProps)(InfoPage);
+export default connect(mapStateToProps, mapDispatchToProps)(InfoPage);
