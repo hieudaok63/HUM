@@ -1,13 +1,22 @@
 import React from 'react';
-import { string, arrayOf, shape, func } from 'prop-types';
+import { connect } from 'react-redux';
+import { string, arrayOf, shape, func, number } from 'prop-types';
 import { ReactComponent as BedroomIcon } from '../../assets/Icons/icon_bedroom.svg';
 import { ReactComponent as BathroomIcon } from '../../assets/Icons/icon_bathroom.svg';
 import { ReactComponent as CarIcon } from '../../assets/Icons/icon_car.svg';
 import { ReactComponent as AreaIcon } from '../../assets/Icons/icon_area.svg';
 import { ReactComponent as DropdownIcon } from '../../assets/Icons/icon_dropdown.svg';
 import './LeftMenu.scss';
+import { selectedFloorplanSelector } from '../../selectors/Tour';
+import TourAction from '../../stores/tour/actions';
 
-const FloorplansSubmenu = ({ openedMenu, changeOpenedMenu, floorplans }) => {
+const FloorplansSubmenu = ({
+  openedMenu,
+  changeOpenedMenu,
+  floorplans,
+  selectedFloorplan,
+  dispatch
+}) => {
   const [isOpen, setIsOpen] = React.useState(openedMenu === 'floorplans');
   const amenitiesSize = {
     1: { show: 'show-submenu', hide: 'hide-submenu' },
@@ -42,6 +51,10 @@ const FloorplansSubmenu = ({ openedMenu, changeOpenedMenu, floorplans }) => {
     }
   }, [openedMenu]);
 
+  const setSelectedFloorplan = async (floorplan) => {
+    await dispatch(TourAction.selectFloorplan(floorplan));
+  };
+
   return (
     <>
       {floorplans.length > 0 && (
@@ -64,21 +77,36 @@ const FloorplansSubmenu = ({ openedMenu, changeOpenedMenu, floorplans }) => {
           </div>
           <div ref={submenu} className="hidden">
             {floorplans.map(
-              ({
-                displayName,
-                floorPlanId,
-                bedrooms,
-                bathrooms,
-                parking,
-                area,
-                unit,
-                thumbnail
-              }) => (
-                <div key={floorPlanId} className="floorplan">
+              (
+                {
+                  displayName,
+                  floorPlanId,
+                  bedrooms,
+                  bathrooms,
+                  parking,
+                  area,
+                  unit,
+                  thumbnail
+                },
+                i
+              ) => (
+                <div
+                  key={floorPlanId}
+                  className="floorplan"
+                  onClick={() => {
+                    setSelectedFloorplan(i);
+                  }}
+                >
                   {thumbnail && (
                     <img src={thumbnail} alt={displayName} className="w-100" />
                   )}
-                  <div className="floorplan-content">
+                  <div
+                    className={`floorplan-content ${selectedFloorplan === i &&
+                      'floorplan-content-active'}`}
+                  >
+                    {selectedFloorplan === i && (
+                      <div className="floorplan-content-active-indicator" />
+                    )}
                     <div className="floorplan-content-name">{displayName}</div>
                     <div className="floorplan-content-features">
                       {bedrooms && (
@@ -128,7 +156,17 @@ const FloorplansSubmenu = ({ openedMenu, changeOpenedMenu, floorplans }) => {
 FloorplansSubmenu.propTypes = {
   openedMenu: string.isRequired,
   changeOpenedMenu: func.isRequired,
-  floorplans: arrayOf(shape({})).isRequired
+  floorplans: arrayOf(shape({})).isRequired,
+  selectedFloorplan: number.isRequired,
+  dispatch: func.isRequired
 };
 
-export default FloorplansSubmenu;
+const mapStateToProps = (state) => ({
+  selectedFloorplan: selectedFloorplanSelector(state)
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FloorplansSubmenu);

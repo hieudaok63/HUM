@@ -10,7 +10,8 @@ export const WEBAPP_API_KEY =
   ENV === 'production' ? WEBAPP_API_KEY_PROD : WEBAPP_API_KEY_DEV;
 
 export const THREE_SIXTY_API_DEV =
-  ' https://us-central1-avria-production.cloudfunctions.net/three_sixty_api_dev/v1/';
+  'https://us-central1-avria-production.cloudfunctions.net/three_sixty_api_dev/v1/';
+// 'https://360-api.athum.com/three_sixty_api_dev/v1/';
 export const THREE_SIXTY_API_STAGING = 'https://staging-360-api.athum.com/';
 export const THREE_SIXTY_API_PROD = 'https://360-api.athum.com/v3/';
 export const THREE_SIXTY_GOOGLE_API_PROD =

@@ -16,8 +16,8 @@ import {
 } from '../selectors/Tour';
 import { loadingSelector } from '../selectors/loading';
 import ThreeSixtyAction from '../stores/threeSixty/actions';
-import SocketAction from '../stores/socket/actions';
-import { SOCKET } from '../config/endpoints';
+// import SocketAction from '../stores/socket/actions';
+// import { SOCKET } from '../config/endpoints';
 import LeftMenu from '../components/NewMenus/LeftMenu';
 import ActionsMenu from '../components/NewMenus/ActionsMenu';
 import { stylesSelector } from '../selectors/ThreeSixty';

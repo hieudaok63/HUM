@@ -140,6 +140,17 @@
     align-items: flex-start;
     background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
+    &-active {
+      background-color: rgba(0, 0, 0, 0.5);
+      &-indicator {
+        height: 100%;
+        width: 6px;
+        background-color: #f9b342;
+        position: absolute;
+        left: 5px;
+        top: 0;
+      }
+    }
     &:hover {
       background-color: rgba(0, 0, 0, 0.5);
     }
