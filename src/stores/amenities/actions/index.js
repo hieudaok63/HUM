@@ -21,6 +21,9 @@ export default class AmenitiesActions {
     return async (dispatch, getState) => {
       const { amenities } = getState();
       const { image, container } = amenities;
+      if (container.firstChild) {
+        container.removeChild(container.firstChild);
+      }
 
       const model = await ActionUtility.createThunkEffect(
         dispatch,
