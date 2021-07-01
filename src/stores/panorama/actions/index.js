@@ -2,7 +2,7 @@ import ActionUtility from '../../../utilities/ActionUtility';
 import PanoramaErrorModel from '../../../models/PanoramaErrorModel';
 import PanoramaEffect from '../effects';
 import ThreeSixtyAction from '../../threeSixty/actions';
-import SocketAction from '../../socket/actions';
+// import SocketAction from '../../socket/actions';
 import LoadingAction from '../../loading/actions';
 
 export default class PanoramaAction {

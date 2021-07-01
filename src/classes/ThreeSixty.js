@@ -444,7 +444,6 @@ class ThreeSixtySphere {
 
   /* */
   getSelectedFinish = (scenes, key) => {
-    console.log('scenes', scenes, key);
     if (key === 'default' || key === undefined || scenes.length === 0) {
       return 'default';
     }

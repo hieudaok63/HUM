@@ -1,9 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { string, arrayOf, shape, func } from 'prop-types';
 import { ReactComponent as DropdownIcon } from '../../assets/Icons/icon_dropdown.svg';
 import './LeftMenu.scss';
+import TourAction from '../../stores/tour/actions';
+import AmenitiesActions from '../../stores/amenities/actions';
 
-const AmmenitiesSubmenu = ({ openedMenu, changeOpenedMenu, ammenities }) => {
+const AmmenitiesSubmenu = ({
+  openedMenu,
+  changeOpenedMenu,
+  ammenities,
+  dispatch
+}) => {
   const [isOpen, setIsOpen] = React.useState(openedMenu === 'ammenities');
   const amenitiesSize = {
     1: { show: 'show-submenu', hide: 'hide-submenu' },
@@ -30,6 +38,15 @@ const AmmenitiesSubmenu = ({ openedMenu, changeOpenedMenu, ammenities }) => {
       submenu.current.className = 'hidden';
       setIsOpen(false);
     }, 450);
+  };
+
+  const loadAmenitie = async (type, images) => {
+    await dispatch(TourAction.selectType(type));
+    if (type === '2d') {
+      if (images.length > 0) {
+        await dispatch(AmenitiesActions.setAmenitieImage(images[0].image));
+      }
+    }
   };
 
   React.useEffect(() => {
@@ -59,8 +76,14 @@ const AmmenitiesSubmenu = ({ openedMenu, changeOpenedMenu, ammenities }) => {
             />
           </div>
           <div ref={submenu} className="hidden">
-            {ammenities.map(({ thumbnail, room, key }) => (
-              <div key={key} className="ammenity">
+            {ammenities.map(({ thumbnail, room, key, type, images }) => (
+              <div
+                key={key}
+                className="ammenity"
+                onClick={() => {
+                  loadAmenitie(type, images);
+                }}
+              >
                 {thumbnail && (
                   <img src={thumbnail} alt={key} className="w-100" />
                 )}
@@ -76,10 +99,15 @@ const AmmenitiesSubmenu = ({ openedMenu, changeOpenedMenu, ammenities }) => {
   );
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
 AmmenitiesSubmenu.propTypes = {
+  dispatch: func.isRequired,
   openedMenu: string.isRequired,
   changeOpenedMenu: func.isRequired,
   ammenities: arrayOf(shape({})).isRequired
 };
 
-export default AmmenitiesSubmenu;
+export default connect(null, mapDispatchToProps)(AmmenitiesSubmenu);

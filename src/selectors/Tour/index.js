@@ -27,6 +27,12 @@ export class TourSelector {
     const { tour } = state;
     return tour.defaultLanguage;
   }
+  static getAmenities(state) {
+    return state.tour.amenities || {};
+  }
+  static getType(state) {
+    return state.tour.type;
+  }
 }
 
 export const floorplansSelector = createSelector(
@@ -57,4 +63,14 @@ export const availableLanguagesSelector = createSelector(
 export const defaultLanguageSelector = createSelector(
   [TourSelector.getDefaultLanguage],
   (defaultLanguage) => defaultLanguage
+);
+
+export const amenitiesSelector = createSelector(
+  [TourSelector.getAmenities],
+  (amenities) => amenities
+);
+
+export const typeSelector = createSelector(
+  [TourSelector.getType],
+  (type) => type
 );

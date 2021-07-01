@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { arrayOf, func, shape, bool, number } from 'prop-types';
+import { arrayOf, func, shape, bool, number, string } from 'prop-types';
 import { connect } from 'react-redux';
 import Loader from '../components/Loader';
 import Viewer from '../components/Viewer';
@@ -12,8 +12,11 @@ import {
   floorplansSelector,
   levelsSelector,
   logoSelector,
-  selectedFloorplanSelector
+  selectedFloorplanSelector,
+  amenitiesSelector,
+  typeSelector
 } from '../selectors/Tour';
+import { imageSelector } from '../selectors/Amenities';
 import { loadingSelector } from '../selectors/loading';
 import ThreeSixtyAction from '../stores/threeSixty/actions';
 // import SocketAction from '../stores/socket/actions';
@@ -29,7 +32,10 @@ const ThreeSixtyPage = ({
   loader,
   levels,
   logo,
-  styles
+  styles,
+  amenities,
+  type,
+  image
 }) => {
   const { builderId, projectId } = useParams();
   const [infoPage, setInfoPage] = React.useState(null);
@@ -49,14 +55,16 @@ const ThreeSixtyPage = ({
     <>
       <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
         {loader && <Loader loading={loader} />}
-        {levels.length > 0 && <Viewer />}
+        {levels.length > 0 && type === 'three-sixty' && <Viewer />}
+        {type === '2d' && image && <img src={image} alt="Amenity" />}
+        {type === 'pano' && <div>HEY HEY Pano</div>}
         <LeftMenu
           {...logo}
           floorplans={floorplans}
-          // amenities={amenities.content}
+          amenities={amenities.content}
           // exterior={exterior.content}
         />
-        <ActionsMenu styles={styles} setInfoPage={setInfoPage} />
+        <ActionsMenu styles={styles} setInfoPage={setInfoPage} type={type} />
         {infoPage && <InfoPage infoPage={infoPage} setInfoPage={setInfoPage} />}
       </div>
     </>
@@ -69,7 +77,10 @@ const mapStateToProps = (state) => ({
   levels: levelsSelector(state),
   logo: logoSelector(state),
   selectedFloorplan: selectedFloorplanSelector(state),
-  styles: stylesSelector(state)
+  styles: stylesSelector(state),
+  amenities: amenitiesSelector(state),
+  type: typeSelector(state),
+  image: imageSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -83,7 +94,10 @@ ThreeSixtyPage.propTypes = {
   levels: arrayOf(shape({})).isRequired,
   logo: shape({}).isRequired,
   selectedFloorplan: number.isRequired,
-  styles: arrayOf(shape({})).isRequired
+  styles: arrayOf(shape({})).isRequired,
+  amenities: shape({}).isRequired,
+  type: string.isRequired,
+  image: string.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThreeSixtyPage);

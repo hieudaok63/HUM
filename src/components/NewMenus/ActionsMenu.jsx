@@ -24,7 +24,8 @@ const ActionsMenu = ({
   availableLanguages,
   minimap,
   floorplanFeatures,
-  dispatch
+  dispatch,
+  type
 }) => {
   const [showSubmenu, setShowSubmenu] = React.useState('');
   const [language, setLanguage] = React.useState('');
@@ -96,11 +97,13 @@ const ActionsMenu = ({
       <div className="menu-action full-screen-action" disabled>
         <FullScreenIcon className="full-screen-icon" />
       </div>
-      <ThreeSixtyMenu
-        styles={styles}
-        showSubmenu={showSubmenu}
-        setShowSubmenu={setShowSubmenu}
-      />
+      {type === 'three-sixty' && (
+        <ThreeSixtyMenu
+          styles={styles}
+          showSubmenu={showSubmenu}
+          setShowSubmenu={setShowSubmenu}
+        />
+      )}
     </>
   );
 };
@@ -112,7 +115,8 @@ ActionsMenu.propTypes = {
   floorplanFeatures: shape({}).isRequired,
   defaultLanguage: string.isRequired,
   availableLanguages: arrayOf(string).isRequired,
-  dispatch: func.isRequired
+  dispatch: func.isRequired,
+  type: string.isRequired
 };
 
 const mapStateToProps = (state) => ({

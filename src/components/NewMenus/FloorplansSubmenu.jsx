@@ -54,6 +54,7 @@ const FloorplansSubmenu = ({
   }, [openedMenu]);
 
   const setSelectedFloorplan = async (floorplan) => {
+    await dispatch(TourAction.selectType('three-sixty'));
     await dispatch(TourAction.selectFloorplan(floorplan));
     await dispatch(PanoramaAction.destroyPanorama());
     await dispatch(ThreeSixtyAction.setThreeSixtyData());

@@ -16,6 +16,8 @@ export default class TourAction {
   static TOUR_SELECTED_AMENTIE_FINISHED =
     'ToutAction.TOUR_SELECTED_AMENTIE_FINISHED';
 
+  static TOUR_SELECTED_TYPE_FINISHED = 'TOUR_SELECTED_TYPE_FINISHED';
+
   /* */
   static getData(builder, project) {
     return async (dispatch, getState) => {
@@ -51,6 +53,13 @@ export default class TourAction {
   static selectAmenitie(option) {
     return ActionUtility.createAction(
       TourAction.TOUR_SELECTED_AMENTIE_FINISHED,
+      option
+    );
+  }
+
+  static selectType(option) {
+    return ActionUtility.createAction(
+      TourAction.TOUR_SELECTED_TYPE_FINISHED,
       option
     );
   }
