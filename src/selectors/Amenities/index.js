@@ -8,6 +8,10 @@ export class AmenitiesSelector {
   static getPano(state) {
     return state.amenities.pano;
   }
+
+  static getSelectedAmenity(state) {
+    return state.amenities.selectedAmenity;
+  }
 }
 
 export const imageSelector = createSelector(
@@ -18,4 +22,9 @@ export const imageSelector = createSelector(
 export const panoSelector = createSelector(
   [AmenitiesSelector.getPano],
   (pano) => pano
+);
+
+export const selectedAmenitySelector = createSelector(
+  [AmenitiesSelector.getSelectedAmenity],
+  (selectedAmenity) => selectedAmenity
 );

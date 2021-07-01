@@ -3,17 +3,26 @@ import React from 'react';
 import { connect } from 'react-redux';
 import './InfoPage.scss';
 import { ReactComponent as CloseIcon } from '../../assets/Icons/close.svg';
-import { ReactComponent as DropdownIcon } from '../../assets/Icons/icon_dropdown.svg';
+// import { ReactComponent as DropdownIcon } from '../../assets/Icons/icon_dropdown.svg';
 import { ReactComponent as BedroomIcon } from '../../assets/Icons/icon_bedroom.svg';
 import { ReactComponent as BathroomIcon } from '../../assets/Icons/icon_bathroom.svg';
 import { ReactComponent as CarIcon } from '../../assets/Icons/icon_car.svg';
 import { ReactComponent as AreaIcon } from '../../assets/Icons/icon_area.svg';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
-import { selectedSceneSelector } from '../../selectors/ThreeSixty';
+import {
+  languageSelector,
+  selectedSceneSelector
+} from '../../selectors/ThreeSixty';
 
-const InfoPage = ({ infoPage, setInfoPage, dispatch, selectedScene }) => {
-  const [imageIndex, setImageIndex] = React.useState(0);
-  const { features, images, floorplanFeatures, minimap } = infoPage;
+const InfoPage = ({
+  infoPage,
+  setInfoPage,
+  dispatch,
+  selectedScene,
+  language
+}) => {
+  // const [imageIndex, setImageIndex] = React.useState(0);
+  const { features, floorplanFeatures, minimap } = infoPage;
 
   const changeScene = async (scene) => {
     await dispatch(ThreeSixtyAction.setSelectedScene(scene));
@@ -28,29 +37,40 @@ const InfoPage = ({ infoPage, setInfoPage, dispatch, selectedScene }) => {
     return (
       <>
         {floorplanFeatures && (
-          <div className="w-20 features-container">
+          <div className="w-40 features-container">
             <h3>Features</h3>
             <ul>
-              <li>
-                <BedroomIcon className="floorplan-content-features-icon mr-1" />
-                {floorplanFeatures.bedrooms}
-              </li>
-              <li>
-                <BathroomIcon className="floorplan-content-features-icon mr-1" />
-                {floorplanFeatures.bathrooms}
-              </li>
-              <li>
-                <CarIcon className="floorplan-content-features-icon mr-1" />
-                {floorplanFeatures.parking}
-              </li>
-              <li>
-                <AreaIcon className="floorplan-content-features-icon mr-1" />
-                {floorplanFeatures.area} {floorplanFeatures.unit}
-              </li>
+              {features[language].map(({ text }) => (
+                <li key={text}>{text}</li>
+              ))}
+              {floorplanFeatures.bedrooms && (
+                <li>
+                  <BedroomIcon className="floorplan-content-features-icon mr-1" />
+                  {floorplanFeatures.bedrooms}
+                </li>
+              )}
+              {floorplanFeatures.bathrooms && (
+                <li>
+                  <BathroomIcon className="floorplan-content-features-icon mr-1" />
+                  {floorplanFeatures.bathrooms}
+                </li>
+              )}
+              {floorplanFeatures.parking && (
+                <li>
+                  <CarIcon className="floorplan-content-features-icon mr-1" />
+                  {floorplanFeatures.parking}
+                </li>
+              )}
+              {floorplanFeatures.area && floorplanFeatures.unit && (
+                <li>
+                  <AreaIcon className="floorplan-content-features-icon mr-1" />
+                  {floorplanFeatures.area} {floorplanFeatures.unit}
+                </li>
+              )}
             </ul>
           </div>
         )}
-        <div className="w-80 features-container minimap-container">
+        <div className="w-60 features-container minimap-container">
           <img src={minimap.image} alt={minimap.image} />
           {minimap.hotspots.map(({ key, x, y }) => (
             <div
@@ -73,11 +93,11 @@ const InfoPage = ({ infoPage, setInfoPage, dispatch, selectedScene }) => {
       <CloseIcon onClick={() => setInfoPage(null)} className="close-icon" />
       <div className="w-100 info-container">
         {renderMinimap()}
-        {features && features?.en.length > 0 && (
+        {/* {features && features?.en.length > 0 && (
           <div className="w-50 features-container">
             <h1>Features</h1>
             <ul>
-              {features.en.map(({ text }) => (
+              {features[language].map(({ text }) => (
                 <li key={text}>{text}</li>
               ))}
             </ul>
@@ -106,7 +126,7 @@ const InfoPage = ({ infoPage, setInfoPage, dispatch, selectedScene }) => {
               />
             )}
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
@@ -116,11 +136,13 @@ InfoPage.propTypes = {
   infoPage: shape({}).isRequired,
   setInfoPage: func.isRequired,
   dispatch: func.isRequired,
-  selectedScene: string.isRequired
+  selectedScene: string.isRequired,
+  language: string.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  selectedScene: selectedSceneSelector(state)
+  selectedScene: selectedSceneSelector(state),
+  language: languageSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

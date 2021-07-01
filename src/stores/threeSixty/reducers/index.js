@@ -40,7 +40,6 @@ export default class ThreeSixtyReducer extends BaseReducer {
       displayName: action.payload.displayName,
       defaultStyle: action.payload.defaultStyle,
       selectedStyle: action.payload.defaultStyle,
-      language: action.payload.language,
       levels: action.payload.levels,
       styles: action.payload.styles,
       area: action.payload.area,

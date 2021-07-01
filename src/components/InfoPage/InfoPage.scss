@@ -30,6 +30,7 @@
     color: white;
   }
   & ul {
+    padding-left: 20px;
     & li {
       color: white;
     }
@@ -77,6 +78,14 @@
       animation: activeHotspot 2s infinite;
     }
   }
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.w-60 {
+  width: 60%;
 }
 
 @keyframes activeHotspot {

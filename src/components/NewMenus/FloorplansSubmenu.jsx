@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { string, arrayOf, shape, func, number } from 'prop-types';
+import { string, arrayOf, shape, func, number, bool } from 'prop-types';
 import { ReactComponent as BedroomIcon } from '../../assets/Icons/icon_bedroom.svg';
 import { ReactComponent as BathroomIcon } from '../../assets/Icons/icon_bathroom.svg';
 import { ReactComponent as CarIcon } from '../../assets/Icons/icon_car.svg';
@@ -18,6 +18,8 @@ const FloorplansSubmenu = ({
   changeOpenedMenu,
   floorplans,
   selectedFloorplan,
+  isActive,
+  setSelectedSubmenu,
   dispatch
 }) => {
   const [isOpen, setIsOpen] = React.useState(openedMenu === 'floorplans');
@@ -65,6 +67,8 @@ const FloorplansSubmenu = ({
     if (!panoramaInfo.isError) {
       await dispatch(PanoramaAction.setPanorama());
     }
+
+    setSelectedSubmenu('floorplans');
   };
 
   return (
@@ -110,10 +114,15 @@ const FloorplansSubmenu = ({
                   }}
                 >
                   {thumbnail && (
-                    <img src={thumbnail} alt={displayName} className="w-100" />
+                    <img
+                      src={thumbnail}
+                      alt={displayName}
+                      className="w-100 floorplan-thumbnail"
+                    />
                   )}
                   <div
                     className={`floorplan-content ${selectedFloorplan === i &&
+                      isActive &&
                       'floorplan-content-active'}`}
                   >
                     {selectedFloorplan === i && (
@@ -170,7 +179,9 @@ FloorplansSubmenu.propTypes = {
   changeOpenedMenu: func.isRequired,
   floorplans: arrayOf(shape({})).isRequired,
   selectedFloorplan: number.isRequired,
-  dispatch: func.isRequired
+  dispatch: func.isRequired,
+  isActive: bool.isRequired,
+  setSelectedSubmenu: func.isRequired
 };
 
 const mapStateToProps = (state) => ({

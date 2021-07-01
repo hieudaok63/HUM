@@ -2,7 +2,7 @@ import ThreeSixtyModel from '../models';
 
 export default class ThreeSixtyEffect {
   static async setThreeSixtyData(language, builderId, projectId, floorplan) {
-    return new ThreeSixtyModel({ language, builderId, projectId, floorplan });
+    return new ThreeSixtyModel({ builderId, projectId, floorplan });
   }
   static async updateSpheres(
     threeSixty,

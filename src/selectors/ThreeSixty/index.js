@@ -17,8 +17,14 @@ export class ThreeSixtySelector {
     const { area, bathrooms, bedrooms, unit, parking } = state.threeSixty;
     return { area, bathrooms, bedrooms, unit, parking };
   }
+  static getFeatures(state) {
+    return state.threeSixty.features;
+  }
   static getSelectedScene(state) {
     return state.threeSixty.selectedScene;
+  }
+  static getLanguage(state) {
+    return state.threeSixty.language;
   }
 }
 
@@ -47,7 +53,17 @@ export const floorplanFeaturesSelector = createSelector(
   (floorplanFeatures) => floorplanFeatures
 );
 
+export const featuresSelector = createSelector(
+  [ThreeSixtySelector.getFeatures],
+  (features) => features
+);
+
 export const selectedSceneSelector = createSelector(
   [ThreeSixtySelector.getSelectedScene],
   (selectedScene) => selectedScene
+);
+
+export const languageSelector = createSelector(
+  [ThreeSixtySelector.getLanguage],
+  (language) => language
 );

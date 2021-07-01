@@ -5,7 +5,7 @@ import { ReactComponent as AthumLogo } from '../../assets/athum-logo-minified.sv
 import './LeftMenu.scss';
 import FloorplansSubmenu from './FloorplansSubmenu';
 import ExteriorsSubmenu from './ExteriorsSubmenu';
-import AmmenitiesSubmenu from './AmmenitiesSubmenu';
+import AmenitiesSubmenu from './AmenitiesSubmenu';
 
 const LeftMenu = ({
   reduceLogo,
@@ -16,6 +16,7 @@ const LeftMenu = ({
   amenities
 }) => {
   const [openedMenu, setOpenedMenu] = React.useState('');
+  const [selectedSubmenu, setSelectedSubmenu] = React.useState('floorplans');
   const minifiedMenu = React.useRef(null);
   const menu = React.useRef(null);
 
@@ -65,7 +66,7 @@ const LeftMenu = ({
 
   return (
     <>
-      <div onMouseEnter={showMenu} className="minified-menu" ref={minifiedMenu}>
+      <div onClick={showMenu} className="minified-menu" ref={minifiedMenu}>
         <div className="minified-menu-title">
           <h1>Explore Property</h1>
         </div>
@@ -83,16 +84,22 @@ const LeftMenu = ({
             openedMenu={openedMenu}
             changeOpenedMenu={changeOpenedMenu}
             floorplans={floorplans}
+            isActive={selectedSubmenu === 'floorplans'}
+            setSelectedSubmenu={setSelectedSubmenu}
           />
           <ExteriorsSubmenu
             openedMenu={openedMenu}
             changeOpenedMenu={changeOpenedMenu}
             exterior={exterior}
+            isActive={selectedSubmenu === 'exterior'}
+            setSelectedSubmenu={setSelectedSubmenu}
           />
-          <AmmenitiesSubmenu
+          <AmenitiesSubmenu
             openedMenu={openedMenu}
             changeOpenedMenu={changeOpenedMenu}
-            ammenities={amenities}
+            amenities={amenities}
+            isActive={selectedSubmenu === 'amenities'}
+            setSelectedSubmenu={setSelectedSubmenu}
           />
         </div>
       </div>

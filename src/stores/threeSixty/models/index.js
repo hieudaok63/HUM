@@ -3,7 +3,6 @@ export default class ThreeSixtyModel {
     this.builderId = data.builderId;
     this.projectId = data.projectId;
     this.floorplan = data.floorplan;
-    this.language = data.language;
     this.layoutName = this.getLayoutName();
     this.displayName = this.getDisplayName();
     this.defaultStyle = this.getDefaultStyle();
@@ -28,7 +27,6 @@ export default class ThreeSixtyModel {
   layoutName = '';
   displayName = '';
   defaultStyle = '';
-  language = '';
   levels = [];
   styles = [];
   area = 0;

@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   &-title {
     width: 150px;
     height: 50px;
@@ -174,6 +175,9 @@
       }
     }
   }
+  &-thumbnail {
+    max-height: 100%;
+  }
 }
 
 .exterior {
@@ -192,6 +196,17 @@
     align-items: flex-start;
     background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
+    &-active {
+      background-color: rgba(0, 0, 0, 0.5);
+      &-indicator {
+        height: 100%;
+        width: 6px;
+        background-color: #f9b342;
+        position: absolute;
+        left: 5px;
+        top: 0;
+      }
+    }
     &:hover {
       background-color: rgba(0, 0, 0, 0.5);
     }
@@ -202,9 +217,12 @@
       margin-bottom: 16px;
     }
   }
+  &-thumbnail {
+    max-height: 100%;
+  }
 }
 
-.ammenity {
+.amenity {
   width: 100%;
   position: relative;
   height: 150px;
@@ -220,6 +238,17 @@
     align-items: flex-start;
     background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
+    &-active {
+      background-color: rgba(0, 0, 0, 0.5);
+      &-indicator {
+        height: 100%;
+        width: 6px;
+        background-color: #f9b342;
+        position: absolute;
+        left: 5px;
+        top: 0;
+      }
+    }
     &:hover {
       background-color: rgba(0, 0, 0, 0.5);
     }
@@ -229,6 +258,9 @@
       line-height: 16px;
       margin-bottom: 16px;
     }
+  }
+  &-thumbnail {
+    max-height: 100%;
   }
 }
 

@@ -7,8 +7,16 @@ export default class AmenitiesReducer extends BaseReducer {
   initialState = {
     image: '',
     pano: null,
-    container: null
+    container: null,
+    selectedAmenity: ''
   };
+
+  [AmenitiesActions.SET_SELECTED_AMENITY_FINISHED](state, action) {
+    return {
+      ...state,
+      selectedAmenity: action.payload
+    };
+  }
 
   [AmenitiesActions.SET_2D_IMAGE_FINISHED](state, action) {
     return {

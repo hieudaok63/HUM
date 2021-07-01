@@ -26,6 +26,7 @@ import ActionsMenu from '../components/NewMenus/ActionsMenu';
 import { stylesSelector } from '../selectors/ThreeSixty';
 import InfoPage from '../components/InfoPage/InfoPage';
 import PanoViewer from '../components/PanoViewer';
+import './Test.scss';
 
 const ThreeSixtyPage = ({
   floorplans,
@@ -57,7 +58,9 @@ const ThreeSixtyPage = ({
       <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
         {loader && <Loader loading={loader} />}
         {levels.length > 0 && <Viewer type={type} />}
-        {type === '2d' && image && <img src={image} alt="Amenity" />}
+        {type === '2d' && image && (
+          <img src={image} alt="Amenity" className="image-full" />
+        )}
         <PanoViewer type={type} />
         <LeftMenu
           {...logo}

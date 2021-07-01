@@ -1,18 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { string, arrayOf, shape, func } from 'prop-types';
+import { string, arrayOf, shape, func, bool } from 'prop-types';
 import { ReactComponent as DropdownIcon } from '../../assets/Icons/icon_dropdown.svg';
 import './LeftMenu.scss';
 import TourAction from '../../stores/tour/actions';
 import AmenitiesActions from '../../stores/amenities/actions';
+import { selectedAmenitySelector } from '../../selectors/Amenities';
 
-const AmmenitiesSubmenu = ({
+const AmenitiesSubmenu = ({
   openedMenu,
   changeOpenedMenu,
-  ammenities,
-  dispatch
+  amenities,
+  isActive,
+  setSelectedSubmenu,
+  dispatch,
+  selectedAmenity
 }) => {
-  const [isOpen, setIsOpen] = React.useState(openedMenu === 'ammenities');
+  const [isOpen, setIsOpen] = React.useState(openedMenu === 'amenities');
   const amenitiesSize = {
     1: { show: 'show-submenu', hide: 'hide-submenu' },
     2: { show: 'show-submenu-2', hide: 'hide-submenu-2' },
@@ -21,8 +25,8 @@ const AmmenitiesSubmenu = ({
   const submenu = React.useRef(null);
   const showSubmenu = () => {
     submenu.current.className = `submenu-container ${
-      amenitiesSize[ammenities.length]
-        ? amenitiesSize[ammenities.length].show
+      amenitiesSize[amenities.length]
+        ? amenitiesSize[amenities.length].show
         : amenitiesSize[3].show
     }`;
     setIsOpen(true);
@@ -30,8 +34,8 @@ const AmmenitiesSubmenu = ({
 
   const hideSubmenu = () => {
     submenu.current.className = `submenu-container ${
-      amenitiesSize[ammenities.length]
-        ? amenitiesSize[ammenities.length].hide
+      amenitiesSize[amenities.length]
+        ? amenitiesSize[amenities.length].hide
         : amenitiesSize[3].hide
     }`;
     setTimeout(() => {
@@ -40,7 +44,7 @@ const AmmenitiesSubmenu = ({
     }, 450);
   };
 
-  const loadAmenitie = async (type, images) => {
+  const loadAmenity = async (type, images, key) => {
     await dispatch(TourAction.selectType(type));
     if (type === '2d') {
       if (images.length > 0) {
@@ -54,22 +58,24 @@ const AmmenitiesSubmenu = ({
         await dispatch(AmenitiesActions.createPanorama());
       }
     }
+    await dispatch(AmenitiesActions.setSelectedAmenity(key));
+    setSelectedSubmenu('amenities');
   };
 
   React.useEffect(() => {
-    if (openedMenu !== 'ammenities' && isOpen) {
+    if (openedMenu !== 'amenities' && isOpen) {
       hideSubmenu();
     }
   }, [openedMenu]);
 
   return (
     <>
-      {ammenities.length > 0 && (
+      {amenities.length > 0 && (
         <div className="w-100">
           <div
             onClick={() => {
-              changeOpenedMenu('ammenities');
-              if (openedMenu === 'ammenities') {
+              changeOpenedMenu('amenities');
+              if (openedMenu === 'amenities') {
                 hideSubmenu();
               } else {
                 showSubmenu();
@@ -77,25 +83,36 @@ const AmmenitiesSubmenu = ({
             }}
             className="menu-item"
           >
-            Ammenities{' '}
+            Amenities{' '}
             <DropdownIcon
               className={`dropdown-icon ${!isOpen && 'dropdown-icon-inverted'}`}
             />
           </div>
           <div ref={submenu} className="hidden">
-            {ammenities.map(({ thumbnail, room, key, type, images }) => (
+            {amenities.map(({ thumbnail, room, key, type, images }) => (
               <div
                 key={key}
-                className="ammenity"
+                className="amenity"
                 onClick={() => {
-                  loadAmenitie(type, images);
+                  loadAmenity(type, images, key);
                 }}
               >
                 {thumbnail && (
-                  <img src={thumbnail} alt={key} className="w-100" />
+                  <img
+                    src={thumbnail}
+                    alt={key}
+                    className="w-100 amenity-thumbnail"
+                  />
                 )}
-                <div className="ammenity-content">
-                  <div className="ammenity-content-name">{room.en}</div>
+                <div
+                  className={`amenity-content ${selectedAmenity === key &&
+                    isActive &&
+                    'amenity-content-active'}`}
+                >
+                  {selectedAmenity === key && (
+                    <div className="amenity-content-active-indicator" />
+                  )}
+                  <div className="amenity-content-name">{room.en}</div>
                 </div>
               </div>
             ))}
@@ -106,15 +123,22 @@ const AmmenitiesSubmenu = ({
   );
 };
 
+AmenitiesSubmenu.propTypes = {
+  dispatch: func.isRequired,
+  openedMenu: string.isRequired,
+  changeOpenedMenu: func.isRequired,
+  amenities: arrayOf(shape({})).isRequired,
+  isActive: bool.isRequired,
+  setSelectedSubmenu: func.isRequired,
+  selectedAmenity: string.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  selectedAmenity: selectedAmenitySelector(state)
+});
+
 const mapDispatchToProps = (dispatch) => ({
   dispatch
 });
 
-AmmenitiesSubmenu.propTypes = {
-  dispatch: func.isRequired,
-  openedMenu: string.isRequired,
-  changeOpenedMenu: func.isRequired,
-  ammenities: arrayOf(shape({})).isRequired
-};
-
-export default connect(null, mapDispatchToProps)(AmmenitiesSubmenu);
+export default connect(mapStateToProps, mapDispatchToProps)(AmenitiesSubmenu);

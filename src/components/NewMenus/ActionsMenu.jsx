@@ -8,6 +8,7 @@ import { ReactComponent as FullScreenIcon } from '../../assets/Icons/icon_full_s
 import './ActionsMenu.scss';
 import ThreeSixtyMenu from './ThreeSixtyMenu';
 import {
+  featuresSelector,
   floorplanFeaturesSelector,
   minimapSelector
 } from '../../selectors/ThreeSixty';
@@ -24,6 +25,7 @@ const ActionsMenu = ({
   availableLanguages,
   minimap,
   floorplanFeatures,
+  features,
   dispatch,
   type
 }) => {
@@ -65,9 +67,10 @@ const ActionsMenu = ({
     };
   }, []);
 
-  React.useEffect(() => {
-    console.log(defaultLanguage);
+  React.useEffect(async () => {
     setLanguage(defaultLanguage);
+    console.log('defaultLanguage', defaultLanguage);
+    await dispatch(ThreeSixtyAction.setLanguage(defaultLanguage));
   }, [defaultLanguage]);
 
   return (
@@ -75,7 +78,7 @@ const ActionsMenu = ({
       <div
         className="menu-action info-action"
         onClick={() => {
-          setInfoPage({ minimap, floorplanFeatures });
+          setInfoPage({ minimap, floorplanFeatures, features });
         }}
       >
         <InfoIcon className="info-icon" />
@@ -113,6 +116,7 @@ ActionsMenu.propTypes = {
   setInfoPage: func.isRequired,
   minimap: shape({}).isRequired,
   floorplanFeatures: shape({}).isRequired,
+  features: arrayOf(shape({})).isRequired,
   defaultLanguage: string.isRequired,
   availableLanguages: arrayOf(string).isRequired,
   dispatch: func.isRequired,
@@ -123,7 +127,8 @@ const mapStateToProps = (state) => ({
   availableLanguages: availableLanguagesSelector(state),
   defaultLanguage: defaultLanguageSelector(state),
   minimap: minimapSelector(state),
-  floorplanFeatures: floorplanFeaturesSelector(state)
+  floorplanFeatures: floorplanFeaturesSelector(state),
+  features: featuresSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
