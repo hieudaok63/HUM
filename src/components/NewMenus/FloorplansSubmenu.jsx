@@ -11,6 +11,7 @@ import { selectedFloorplanSelector } from '../../selectors/Tour';
 import TourAction from '../../stores/tour/actions';
 import PanoramaAction from '../../stores/panorama/actions';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
+import AmenitiesActions from '../../stores/amenities/actions';
 
 const FloorplansSubmenu = ({
   openedMenu,
@@ -55,6 +56,7 @@ const FloorplansSubmenu = ({
 
   const setSelectedFloorplan = async (floorplan) => {
     await dispatch(TourAction.selectType('three-sixty'));
+    await dispatch(AmenitiesActions.reset());
     await dispatch(TourAction.selectFloorplan(floorplan));
     await dispatch(PanoramaAction.destroyPanorama());
     await dispatch(ThreeSixtyAction.setThreeSixtyData());

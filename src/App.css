@@ -574,6 +574,11 @@
   position: absolute;
   top: 0;
   background: #fafafa;
+  opacity: 1;
+}
+
+#viewer.hide {
+  opacity: 0;
 }
 
 .red {

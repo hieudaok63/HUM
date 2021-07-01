@@ -55,7 +55,7 @@ const ThreeSixtyPage = ({
     <>
       <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
         {loader && <Loader loading={loader} />}
-        {levels.length > 0 && type === 'three-sixty' && <Viewer />}
+        {levels.length > 0 && <Viewer type={type} />}
         {type === '2d' && image && <img src={image} alt="Amenity" />}
         {type === 'pano' && <div>HEY HEY Pano</div>}
         <LeftMenu

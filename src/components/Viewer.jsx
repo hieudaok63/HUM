@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { string, func, shape } from 'prop-types';
+import { string, func } from 'prop-types';
 import PanoramaAction from '../stores/panorama/actions';
 import { errorSelector } from '../selectors/error';
 import { menuOptionSelector } from '../selectors/menu';
@@ -29,14 +29,16 @@ class Viewer extends Component {
   };
 
   render() {
-    const { error } = this.props;
+    const { error, type } = this.props;
     return (
       <div
         id="viewer"
         ref={(ref) => {
           this.atHUMViewer = ref;
         }}
-        className={`${error ? 'blur' : ''}`}
+        className={`${error ? 'blur' : ''} ${
+          type !== 'three-sixty' ? 'hide' : ''
+        }`}
       />
     );
   }
@@ -45,7 +47,7 @@ class Viewer extends Component {
 Viewer.propTypes = {
   error: string.isRequired,
   dispatch: func.isRequired,
-  panorama: shape({}).isRequired
+  type: func.isRequired
 };
 
 const mapStateToProps = (state) => ({

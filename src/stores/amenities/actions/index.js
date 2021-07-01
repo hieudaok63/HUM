@@ -5,6 +5,8 @@ export default class AmenitiesActions {
 
   static SET_PANO_FINISHED = 'SET_PANO_FINISHED';
 
+  static RESET_AMENITIES_FINISHED = 'RESET_AMENITIES_FINISHED';
+
   /* */
   static setAmenitieImage(option) {
     return ActionUtility.createAction(
@@ -17,6 +19,12 @@ export default class AmenitiesActions {
     return ActionUtility.createAction(
       AmenitiesActions.SET_PANO_FINISHED,
       option
+    );
+  }
+
+  static reset() {
+    return ActionUtility.createAction(
+      AmenitiesActions.RESET_AMENITIES_FINISHED
     );
   }
 }

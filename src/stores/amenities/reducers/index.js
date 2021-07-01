@@ -24,4 +24,10 @@ export default class AmenitiesReducer extends BaseReducer {
       image: ''
     };
   }
+
+  [AmenitiesActions.RESET_AMENITIES_FINISHED]() {
+    return {
+      ...this.initialState
+    };
+  }
 }
