@@ -6,7 +6,8 @@ import AmenitiesActions from '../actions';
 export default class AmenitiesReducer extends BaseReducer {
   initialState = {
     image: '',
-    pano: null
+    pano: null,
+    container: null
   };
 
   [AmenitiesActions.SET_2D_IMAGE_FINISHED](state, action) {
@@ -22,6 +23,20 @@ export default class AmenitiesReducer extends BaseReducer {
       ...state,
       pano: action.payload,
       image: ''
+    };
+  }
+
+  [AmenitiesActions.CREATE_PANORAMA_FINISHED](state, action) {
+    return {
+      ...state,
+      pano: action.payload
+    };
+  }
+
+  [AmenitiesActions.SET_PANO_CONTAINER_FINISHED](state, action) {
+    return {
+      ...state,
+      container: action.payload
     };
   }
 

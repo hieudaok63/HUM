@@ -1,0 +1,55 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { string, func } from 'prop-types';
+import { errorSelector } from '../selectors/error';
+import { menuOptionSelector } from '../selectors/menu';
+import { panoramaSelector } from '../selectors/Panorama';
+import AmenitiesActions from '../stores/amenities/actions';
+
+class PanoViewer extends Component {
+  constructor() {
+    super();
+    this.panoViewer = null;
+  }
+
+  componentDidMount = () => {
+    this.reset();
+  };
+
+  reset = async () => {
+    const { dispatch } = this.props;
+
+    await dispatch(AmenitiesActions.setContainer(this.panoViewer));
+  };
+
+  render() {
+    const { error, type } = this.props;
+    return (
+      <div
+        id="viewer-pano"
+        ref={(ref) => {
+          this.panoViewer = ref;
+        }}
+        className={`${error ? 'blur' : ''} ${type !== 'pano' ? 'hide' : ''}`}
+      />
+    );
+  }
+}
+
+PanoViewer.propTypes = {
+  error: string.isRequired,
+  dispatch: func.isRequired,
+  type: func.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  error: errorSelector(state),
+  selectedMenuOption: menuOptionSelector(state),
+  panorama: panoramaSelector(state)
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PanoViewer);

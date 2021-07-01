@@ -44,7 +44,14 @@ const AmmenitiesSubmenu = ({
     await dispatch(TourAction.selectType(type));
     if (type === '2d') {
       if (images.length > 0) {
-        await dispatch(AmenitiesActions.setAmenitieImage(images[0].image));
+        await dispatch(AmenitiesActions.setAmenityImage(images[0].image));
+      }
+    }
+
+    if (type === 'pano') {
+      if (images.length > 0) {
+        await dispatch(AmenitiesActions.setAmenityImage(images[0].image));
+        await dispatch(AmenitiesActions.createPanorama());
       }
     }
   };

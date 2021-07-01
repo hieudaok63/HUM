@@ -1,17 +1,17 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { TextureLoader } from '../lib/three/loaders/loaders';
 
 class SimplePano {
-  init = (
+  init = ({
     container,
     image,
     width,
     height,
     radius,
     widthSegments,
-    heightSegments
-  ) => {
+    heightSegments,
+    loader
+  }) => {
     this.container = container;
     this.image = image;
     this.width = width;
@@ -19,15 +19,18 @@ class SimplePano {
     this.radius = radius;
     this.widthSegments = widthSegments;
     this.heightSegments = heightSegments;
+    this.loader = loader;
     this.loaderContainer = this.createLoader();
-    this.container.appendChild(this.loaderContainer);
     this.initializeManager();
     this.initializeCamera();
     this.initializeScene();
+    this.createSceneMesh();
     this.initializeRaycaster();
     this.initializeRenderer();
     this.initializeControls();
     this.bindEventListeners();
+    this.loaded = true;
+    this.container.appendChild(this.renderer.domElement);
   };
 
   /* */
@@ -115,6 +118,13 @@ class SimplePano {
   };
 
   /* */
+  createMaterial = (texture) =>
+    new THREE.MeshBasicMaterial({
+      map: texture,
+      side: THREE.DoubleSide
+    });
+
+  /* */
   initializeRaycaster = () => {
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2(1, 1);
@@ -140,6 +150,11 @@ class SimplePano {
     this.control.rotateSpeed = -0.2;
 
     this.control.update();
+  };
+
+  /* */
+  render = () => {
+    this.renderer.render(this.scene, this.camera);
   };
 
   /* */

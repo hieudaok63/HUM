@@ -581,6 +581,19 @@
   opacity: 0;
 }
 
+#viewer-pano {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background: #fafafa;
+  opacity: 1;
+}
+
+#viewer-pano.hide {
+  opacity: 0;
+}
+
 .red {
   color: red;
   font-weight: bold;
