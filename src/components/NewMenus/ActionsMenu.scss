@@ -14,6 +14,9 @@
     color: #ed6b6a;
     border-color: #ed6b6a;
   }
+  &-no-border {
+    border: none;
+  }
   &:hover:not([disabled]) {
     color: #ed6b6a;
     border-color: #ed6b6a;

@@ -5,6 +5,9 @@ import { ReactComponent as InfoIcon } from '../../assets/Icons/icon_info.svg';
 import { ReactComponent as SlowMoIcon } from '../../assets/Icons/icon_slow_motion.svg';
 import { ReactComponent as ShareIcon } from '../../assets/Icons/icon_share.svg';
 import { ReactComponent as FullScreenIcon } from '../../assets/Icons/icon_full_screen.svg';
+import { ReactComponent as ENIcon } from '../../assets/Icons/icon_en.svg';
+import { ReactComponent as ESIcon } from '../../assets/Icons/icon_es.svg';
+import { ReactComponent as FRIcon } from '../../assets/Icons/icon_fr.svg';
 import './ActionsMenu.scss';
 import ThreeSixtyMenu from './ThreeSixtyMenu';
 import {
@@ -74,7 +77,7 @@ const ActionsMenu = ({
     }
     setDefaultLanguage();
   }, [defaultLanguage]);
-
+  console.log(language);
   return (
     <>
       <div
@@ -89,12 +92,14 @@ const ActionsMenu = ({
         <SlowMoIcon className="slow-mo-icon" />
       </div>
       <div
-        className="menu-action language-action"
+        className="menu-action menu-action-no-border language-action"
         onClick={() => {
           changeLanguage();
         }}
       >
-        {language}
+        {language === 'en' && <ENIcon />}
+        {language === 'es' && <ESIcon />}
+        {language === 'fr' && <FRIcon />}
       </div>
       <div className="menu-action share-action" disabled>
         <ShareIcon className="share-icon" />
