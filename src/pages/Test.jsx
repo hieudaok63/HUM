@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { arrayOf, func, shape, bool, number, string } from 'prop-types';
+import { arrayOf, func, shape, bool, string } from 'prop-types';
 import { connect } from 'react-redux';
 import Loader from '../components/Loader';
 import Viewer from '../components/Viewer';
@@ -12,7 +12,6 @@ import {
   floorplansSelector,
   levelsSelector,
   logoSelector,
-  selectedFloorplanSelector,
   amenitiesSelector,
   typeSelector
 } from '../selectors/Tour';
@@ -80,7 +79,6 @@ const mapStateToProps = (state) => ({
   loader: loadingSelector(state),
   levels: levelsSelector(state),
   logo: logoSelector(state),
-  selectedFloorplan: selectedFloorplanSelector(state),
   styles: stylesSelector(state),
   amenities: amenitiesSelector(state),
   type: typeSelector(state),
@@ -97,7 +95,6 @@ ThreeSixtyPage.propTypes = {
   loader: bool.isRequired,
   levels: arrayOf(shape({})).isRequired,
   logo: shape({}).isRequired,
-  selectedFloorplan: number.isRequired,
   styles: arrayOf(shape({})).isRequired,
   amenities: shape({}).isRequired,
   type: string.isRequired,

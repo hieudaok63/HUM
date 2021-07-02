@@ -67,10 +67,12 @@ const ActionsMenu = ({
     };
   }, []);
 
-  React.useEffect(async () => {
+  React.useEffect(() => {
     setLanguage(defaultLanguage);
-    console.log('defaultLanguage', defaultLanguage);
-    await dispatch(ThreeSixtyAction.setLanguage(defaultLanguage));
+    async function setDefaultLanguage() {
+      await dispatch(ThreeSixtyAction.setLanguage(defaultLanguage));
+    }
+    setDefaultLanguage();
   }, [defaultLanguage]);
 
   return (
