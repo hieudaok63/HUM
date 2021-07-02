@@ -400,7 +400,7 @@ class ThreeSixtySphere {
     hotspots.map((hotspot) => {
       const current = hotspot;
       if (typeof current.level === 'undefined') {
-        current.img = Data.AvriaHotspotNew;
+        current.img = Data.AvriaHotspotNewArrow;
       } else {
         current.img = Data.AvriaHotspotStairs;
       }
@@ -650,7 +650,7 @@ class ThreeSixtySphere {
       point
         .clone()
         .normalize()
-        .multiplyScalar(10)
+        .multiplyScalar(18)
     );
     if (level) {
       sprite.level = level;
