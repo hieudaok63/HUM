@@ -650,7 +650,7 @@ class ThreeSixtySphere {
       point
         .clone()
         .normalize()
-        .multiplyScalar(18)
+        .multiplyScalar(15)
     );
     if (level) {
       sprite.level = level;
