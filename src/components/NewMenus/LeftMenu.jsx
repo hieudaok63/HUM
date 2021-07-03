@@ -38,24 +38,6 @@ const LeftMenu = ({
     }
   };
 
-  React.useEffect(() => {
-    const handleClickOutside = (e) => {
-      const { target } = e;
-      if (
-        !menu.current?.contains(target) &&
-        menu.current.className !== 'hidden'
-      ) {
-        hideMenu();
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside, { capture: true });
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
-
   const changeOpenedMenu = (newOpenedMenu) => {
     if (openedMenu === newOpenedMenu) {
       setOpenedMenu('');
