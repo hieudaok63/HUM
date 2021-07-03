@@ -24,6 +24,7 @@ import ThreeSixtyAction from '../../stores/threeSixty/actions';
 const ActionsMenu = ({
   styles,
   setInfoPage,
+  infoPage,
   defaultLanguage,
   availableLanguages,
   minimap,
@@ -54,6 +55,17 @@ const ActionsMenu = ({
     await dispatch(ThreeSixtyAction.changeLanguageOnThreeSixty());
   };
 
+  const handleyKeyUp = React.useCallback((e) => {
+    const { key, code } = e;
+    if (key === 'Escape' && code === 'Escape') {
+      if (infoPage === null) {
+        setInfoPage({ minimap, floorplanFeatures, features });
+      } else {
+        setInfoPage(null);
+      }
+    }
+  });
+
   React.useEffect(() => {
     const handleClickOutside = (e) => {
       const { target } = e;
@@ -76,8 +88,20 @@ const ActionsMenu = ({
       await dispatch(ThreeSixtyAction.setLanguage(defaultLanguage));
     }
     setDefaultLanguage();
+    document.addEventListener('keyup', handleyKeyUp);
+
+    return () => {
+      document.removeEventListener('keyup', handleyKeyUp);
+    };
   }, [defaultLanguage]);
-  console.log(language);
+
+  React.useEffect(() => {
+    document.addEventListener('keyup', handleyKeyUp);
+
+    return () => {
+      document.removeEventListener('keyup', handleyKeyUp);
+    };
+  }, [language, infoPage]);
   return (
     <>
       <div
@@ -127,7 +151,12 @@ ActionsMenu.propTypes = {
   defaultLanguage: string.isRequired,
   availableLanguages: arrayOf(string).isRequired,
   dispatch: func.isRequired,
-  type: string.isRequired
+  type: string.isRequired,
+  infoPage: shape({})
+};
+
+ActionsMenu.defaultProps = {
+  infoPage: null
 };
 
 const mapStateToProps = (state) => ({

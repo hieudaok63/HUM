@@ -67,7 +67,12 @@ const ThreeSixtyPage = ({
           amenities={amenities.content}
           // exterior={exterior.content}
         />
-        <ActionsMenu styles={styles} setInfoPage={setInfoPage} type={type} />
+        <ActionsMenu
+          styles={styles}
+          infoPage={infoPage}
+          setInfoPage={setInfoPage}
+          type={type}
+        />
         {infoPage && <InfoPage infoPage={infoPage} setInfoPage={setInfoPage} />}
       </div>
     </>
