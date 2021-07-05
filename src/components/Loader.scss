@@ -19,6 +19,7 @@
   }
   &.loader.none {
     opacity: 0;
+    z-index: -1;
     & .loader-image-container {
       opacity: 0;
     }

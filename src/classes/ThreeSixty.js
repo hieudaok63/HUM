@@ -68,7 +68,6 @@ class ThreeSixtySphere {
     selectedScene = 'default',
     use = 'default',
     finish = 'default',
-    loader,
     updateCallBack,
     level,
     updateMenuCall,
@@ -78,10 +77,6 @@ class ThreeSixtySphere {
     language
   }) => {
     this.container = container;
-    this.loader = loader;
-    this.createBlur();
-    this.loaderContainer = this.createLoader();
-    this.container.appendChild(this.loaderContainer);
     this.tooltip = this.createTooltip();
     this.width = width;
     this.height = height;
@@ -119,20 +114,22 @@ class ThreeSixtySphere {
       if (this.firstLoad) {
         this.updateStyleCall(this.currentStyle);
       }
-      this.loaderContainer.classList.add('none');
-      const el = document.querySelector('.three-sixty-blur');
-      if (el) {
-        el.classList.add('none');
-        el.addEventListener('transitionend', (event) => {
-          setTimeout(() => {
-            event.target.remove();
-          }, 800);
-        });
-      }
-      this.loaderContainer.addEventListener(
-        'transitionend',
-        this.onTransitionEnd
-      );
+      this.loaderCall(false);
+
+      // this.loaderContainer.classList.add('none');
+      // const el = document.querySelector('.three-sixty-blur');
+      // if (el) {
+      //   el.classList.add('none');
+      //   el.addEventListener('transitionend', (event) => {
+      //     setTimeout(() => {
+      //       event.target.remove();
+      //     }, 800);
+      //   });
+      // }
+      // this.loaderContainer.addEventListener(
+      //   'transitionend',
+      //   this.onTransitionEnd
+      // );
     };
     this.manager.onProgress = (url) => {
       if (url === this.selectedSceneLoadedImage) {
@@ -147,25 +144,6 @@ class ThreeSixtySphere {
     tooltip.classList.add('tooltip');
     this.container.appendChild(tooltip);
     return tooltip;
-  };
-
-  /* */
-  createLoader = () => {
-    const loaderContainer = document.createElement('div');
-    loaderContainer.classList.add('loader');
-    if (this.firstLoad) {
-      loaderContainer.classList.add('white-background');
-    }
-    const loaderImageContainer = document.createElement('div');
-    loaderImageContainer.classList.add('loader-image-container');
-
-    const loaderImage = document.createElement('img');
-    loaderImage.alt = 'athum loader';
-    loaderImage.src = this.loader;
-    loaderImageContainer.appendChild(loaderImage);
-
-    loaderContainer.appendChild(loaderImageContainer);
-    return loaderContainer;
   };
 
   /* */

@@ -39,6 +39,7 @@ export default class ThreeSixtyModel {
   level = {};
 
   getLayoutName() {
+    console.log(this.floorplan);
     return this.floorplan.layoutName;
   }
 
