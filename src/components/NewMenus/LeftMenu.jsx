@@ -15,7 +15,7 @@ const LeftMenu = ({
   exterior,
   amenities
 }) => {
-  const [openedMenu, setOpenedMenu] = React.useState('');
+  const [openedMenu, setOpenedMenu] = React.useState('floorplans');
   const [selectedSubmenu, setSelectedSubmenu] = React.useState('floorplans');
   const minifiedMenu = React.useRef(null);
   const menu = React.useRef(null);

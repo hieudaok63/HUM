@@ -30,31 +30,37 @@ const FloorplansSubmenu = ({
   };
   const submenu = React.useRef(null);
   const showSubmenu = () => {
-    submenu.current.className = `submenu-container ${
-      amenitiesSize[floorplans.length]
-        ? amenitiesSize[floorplans.length].show
-        : amenitiesSize[3].show
-    }`;
-    setIsOpen(true);
+    if (submenu.current !== null) {
+      submenu.current.className = `submenu-container ${
+        amenitiesSize[floorplans.length]
+          ? amenitiesSize[floorplans.length].show
+          : amenitiesSize[3].show
+      }`;
+      setIsOpen(true);
+    }
   };
 
   const hideSubmenu = () => {
-    submenu.current.className = `submenu-container ${
-      amenitiesSize[floorplans.length]
-        ? amenitiesSize[floorplans.length].hide
-        : amenitiesSize[3].hide
-    }`;
-    setTimeout(() => {
-      submenu.current.className = 'hidden';
-      setIsOpen(false);
-    }, 450);
+    if (submenu.current !== null) {
+      submenu.current.className = `submenu-container ${
+        amenitiesSize[floorplans.length]
+          ? amenitiesSize[floorplans.length].hide
+          : amenitiesSize[3].hide
+      }`;
+      setTimeout(() => {
+        submenu.current.className = 'hidden';
+        setIsOpen(false);
+      }, 450);
+    }
   };
 
   React.useEffect(() => {
     if (openedMenu !== 'floorplans' && isOpen) {
       hideSubmenu();
+    } else {
+      showSubmenu();
     }
-  }, [openedMenu]);
+  }, [openedMenu, submenu.current]);
 
   const setSelectedFloorplan = async (floorplan) => {
     await dispatch(TourAction.selectType('three-sixty'));
@@ -70,7 +76,6 @@ const FloorplansSubmenu = ({
 
     setSelectedSubmenu('floorplans');
   };
-
   return (
     <>
       {floorplans.length > 0 && (

@@ -33,7 +33,7 @@ const ExteriorsSubmenu = ({ openedMenu, changeOpenedMenu, exterior }) => {
   };
 
   React.useEffect(() => {
-    if (openedMenu !== 'exterior' && isOpen) {
+    if (openedMenu !== 'exterior' && isOpen && submenu.current) {
       hideSubmenu();
     }
   }, [openedMenu]);
