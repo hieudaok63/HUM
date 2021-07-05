@@ -44,21 +44,23 @@ const AmenitiesSubmenu = ({
     }, 450);
   };
 
-  const loadAmenity = async (type, media, key) => {
-    await dispatch(TourAction.selectType(type));
-    if (type === '2d') {
-      if (media.length > 0) {
+  const loadAmenity = async (media, key) => {
+    if (media.length > 0) {
+      await dispatch(TourAction.selectType(media[0].type));
+      if (media[0].type === '2d') {
+        console.log(media);
         await dispatch(AmenitiesActions.setAmenityImage(media[0].image));
       }
     }
 
-    if (type === 'pano') {
-      if (media.length > 0) {
+    if (media.length > 0) {
+      await dispatch(TourAction.selectType(media[0].type));
+      if (media[0].type === 'pano') {
         await dispatch(AmenitiesActions.setAmenityImage(media[0].image));
         await dispatch(AmenitiesActions.createPanorama());
       }
     }
-    await dispatch(AmenitiesActions.setSelectedAmenity(key));
+
     setSelectedSubmenu('amenities');
   };
 
@@ -89,12 +91,12 @@ const AmenitiesSubmenu = ({
             />
           </div>
           <div ref={submenu} className="hidden">
-            {amenities.map(({ thumbnail, room, key, type, media }) => (
+            {amenities.map(({ thumbnail, room, key, media }) => (
               <div
                 key={key}
                 className="amenity"
                 onClick={() => {
-                  loadAmenity(type, media, key);
+                  loadAmenity(media, key);
                 }}
               >
                 {thumbnail && (
