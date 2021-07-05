@@ -384,4 +384,24 @@
   bottom: 30px;
   width: 67px;
   height: 67px;
+  animation-name: logoFadeIn;
+  animation-duration: 1s;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
+  opacity: 0;
+}
+
+@keyframes logoFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.delay-menu {
+  animation-delay: 1.5s;
+  left: -125px;
+  animation-fill-mode: forwards;
 }

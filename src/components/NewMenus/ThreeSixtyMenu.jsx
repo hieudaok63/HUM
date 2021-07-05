@@ -26,7 +26,7 @@ const ThreeSixtyMenu = ({
       <div className="menu-action secondary-action light-action" disabled>
         <LightIcon className="light-icon" />
       </div>
-      <div className="menu-action secondary-action settings-action">
+      <div className="menu-action secondary-action settings-action" disabled>
         <SettingsIcon className="settings-icon" />
       </div>
       <div

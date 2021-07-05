@@ -48,7 +48,11 @@ const LeftMenu = ({
 
   return (
     <>
-      <div onClick={showMenu} className="minified-menu" ref={minifiedMenu}>
+      <div
+        onClick={showMenu}
+        className="minified-menu minified-left-fade-in delay-menu"
+        ref={minifiedMenu}
+      >
         <div className="minified-menu-title">
           <h1>Explore Property</h1>
         </div>

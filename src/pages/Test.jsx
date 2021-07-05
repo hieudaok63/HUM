@@ -61,18 +61,22 @@ const ThreeSixtyPage = ({
           <img src={image} alt="Amenity" className="image-full" />
         )}
         <PanoViewer type={type} />
-        <LeftMenu
-          {...logo}
-          floorplans={floorplans}
-          amenities={amenities.content}
-          // exterior={exterior.content}
-        />
-        <ActionsMenu
-          styles={styles}
-          infoPage={infoPage}
-          setInfoPage={setInfoPage}
-          type={type}
-        />
+        {!loader && (
+          <>
+            <LeftMenu
+              {...logo}
+              floorplans={floorplans}
+              amenities={amenities.content}
+              // exterior={exterior.content}
+            />
+            <ActionsMenu
+              styles={styles}
+              infoPage={infoPage}
+              setInfoPage={setInfoPage}
+              type={type}
+            />
+          </>
+        )}
         {infoPage && <InfoPage infoPage={infoPage} setInfoPage={setInfoPage} />}
       </div>
     </>

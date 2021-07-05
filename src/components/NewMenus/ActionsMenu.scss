@@ -66,6 +66,11 @@
 .info-action {
   bottom: 30px;
   right: 30px;
+  animation-name: infoActionFadeIn;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+  animation-delay: 1s;
 }
 
 .info-icon {
@@ -73,23 +78,35 @@
   width: 16px;
 }
 
+@keyframes infoActionFadeIn {
+  0% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+
 .slow-mo-action {
   bottom: 30px;
   right: 100px;
   animation-name: slowMoActionFadeIn;
   animation-duration: 1s;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+  animation-delay: 1s;
 }
 
 @keyframes slowMoActionFadeIn {
   0% {
     bottom: 30px;
     right: 30px;
-    opacity: 0;
+    visibility: hidden;
   }
   100% {
     bottom: 30px;
     right: 100px;
-    opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -103,19 +120,21 @@
   right: 170px;
   animation-name: languageActionFadeIn;
   animation-duration: 1s;
-  text-transform: uppercase;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+  animation-delay: 1s;
 }
 
 @keyframes languageActionFadeIn {
   0% {
     bottom: 30px;
     right: 30px;
-    opacity: 0;
+    visibility: hidden;
   }
   100% {
     bottom: 30px;
     right: 170px;
-    opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -124,18 +143,21 @@
   right: 240px;
   animation-name: shareActionFadeIn;
   animation-duration: 1s;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+  animation-delay: 1s;
 }
 
 @keyframes shareActionFadeIn {
   0% {
     bottom: 30px;
     right: 30px;
-    opacity: 0;
+    visibility: hidden;
   }
   100% {
     bottom: 30px;
     right: 240px;
-    opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -149,18 +171,21 @@
   right: 310px;
   animation-name: fullScreenActionFadeIn;
   animation-duration: 1s;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+  animation-delay: 1s;
 }
 
 @keyframes fullScreenActionFadeIn {
   0% {
     bottom: 30px;
     right: 30px;
-    opacity: 0;
+    visibility: hidden;
   }
   100% {
     bottom: 30px;
     right: 310px;
-    opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -174,18 +199,21 @@
   right: 30px;
   animation-name: lightActionFadeIn;
   animation-duration: 1s;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+  animation-delay: 1s;
 }
 
 @keyframes lightActionFadeIn {
   0% {
     bottom: 30px;
     right: 30px;
-    opacity: 0;
+    visibility: hidden;
   }
   100% {
     bottom: 100px;
     right: 30px;
-    opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -199,18 +227,21 @@
   right: 30px;
   animation-name: settingsActionFadeIn;
   animation-duration: 1s;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+  animation-delay: 1s;
 }
 
 @keyframes settingsActionFadeIn {
   0% {
     bottom: 30px;
     right: 30px;
-    opacity: 0;
+    visibility: hidden;
   }
   100% {
     bottom: 170px;
     right: 30px;
-    opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -224,18 +255,21 @@
   right: 30px;
   animation-name: stylesActionFadeIn;
   animation-duration: 1s;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+  animation-delay: 1s;
 }
 
 @keyframes stylesActionFadeIn {
   0% {
     bottom: 30px;
     right: 30px;
-    opacity: 0;
+    visibility: hidden;
   }
   100% {
     bottom: 240px;
     right: 30px;
-    opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -249,18 +283,21 @@
   right: 30px;
   animation-name: eyeActionFadeIn;
   animation-duration: 1s;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+  animation-delay: 1s;
 }
 
 @keyframes eyeActionFadeIn {
   0% {
     bottom: 30px;
     right: 30px;
-    opacity: 0;
+    visibility: hidden;
   }
   100% {
     bottom: 310px;
     right: 30px;
-    opacity: 1;
+    visibility: visible;
   }
 }
 
