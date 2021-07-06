@@ -93,6 +93,11 @@
 .submenu-container {
   max-height: 600px;
   overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .show-submenu {

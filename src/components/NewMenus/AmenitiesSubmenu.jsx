@@ -49,10 +49,10 @@ const AmenitiesSubmenu = ({
 
   const loadAmenity = async (media, key) => {
     if (media.length > 0) {
+      setGalleryIndex(0);
       await dispatch(TourAction.selectType(media[0].type));
       await dispatch(AmenitiesActions.setAmenity(media));
       await dispatch(AmenitiesActions.setSelectedAmenity(key));
-      setGalleryIndex(0);
     }
 
     setSelectedSubmenu('amenities');
