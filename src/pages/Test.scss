@@ -29,3 +29,12 @@
     cursor: pointer;
   }
 }
+
+.icon-type {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+}

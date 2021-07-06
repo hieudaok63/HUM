@@ -26,6 +26,8 @@ import { stylesSelector } from '../selectors/ThreeSixty';
 import InfoPage from '../components/InfoPage/InfoPage';
 import PanoViewer from '../components/PanoViewer';
 import { ReactComponent as DropdownIcon } from '../assets/Icons/icon_dropdown.svg';
+import { ReactComponent as PanoIcon } from '../assets/Icons/icon_360.svg';
+import { ReactComponent as ImageIcon } from '../assets/Icons/icon_image.svg';
 import './Test.scss';
 
 const ThreeSixtyPage = ({
@@ -91,16 +93,22 @@ const ThreeSixtyPage = ({
               </div>
             )}
             {amenity[galleryIndex].type === '2d' ? (
-              <img
-                src={amenity[galleryIndex].image}
-                alt="Amenity"
-                className="image-full"
-              />
+              <>
+                <ImageIcon className="icon-type" />
+                <img
+                  src={amenity[galleryIndex].image}
+                  alt="Amenity"
+                  className="image-full"
+                />
+              </>
             ) : (
-              <PanoViewer
-                type={amenity[galleryIndex].type}
-                image={amenity[galleryIndex].image}
-              />
+              <>
+                <PanoIcon className="icon-type" />
+                <PanoViewer
+                  type={amenity[galleryIndex].type}
+                  image={amenity[galleryIndex].image}
+                />
+              </>
             )}
           </>
         )}

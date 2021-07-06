@@ -87,7 +87,6 @@ const AmenitiesSubmenu = ({
           <div ref={submenu} className="hidden">
             {amenities.map(({ thumbnail, room, key, media }) => {
               const hasPano = media.some(({ type }) => type === 'pano');
-              console.log('hasPano', hasPano);
               return (
                 <div
                   key={key}
