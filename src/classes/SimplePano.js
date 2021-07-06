@@ -21,6 +21,7 @@ class SimplePano {
     this.heightSegments = heightSegments;
     this.loader = loader;
     this.loaderContainer = this.createLoader();
+    this.container.appendChild(this.loaderContainer);
     this.initializeManager();
     this.initializeCamera();
     this.initializeScene();
@@ -37,9 +38,7 @@ class SimplePano {
   createLoader = () => {
     const loaderContainer = document.createElement('div');
     loaderContainer.classList.add('loader');
-    if (this.firstLoad) {
-      loaderContainer.classList.add('white-background');
-    }
+    loaderContainer.classList.add('white-background');
     const loaderImageContainer = document.createElement('div');
     loaderImageContainer.classList.add('loader-image-container');
 
@@ -53,6 +52,13 @@ class SimplePano {
   };
 
   /* */
+  onTransitionEnd = (event) => {
+    event.target.remove();
+    this.loaderContainer.classList.remove('white-background');
+    this.loaderContainer.classList.remove('none');
+  };
+
+  /* */
   initializeManager = () => {
     this.manager = new THREE.LoadingManager();
     this.manager.onStart = () => {};
@@ -61,15 +67,7 @@ class SimplePano {
         this.updateStyleCall(this.currentStyle);
       }
       this.loaderContainer.classList.add('none');
-      const el = document.querySelector('.three-sixty-blur');
-      if (el) {
-        el.classList.add('none');
-        el.addEventListener('transitionend', (event) => {
-          setTimeout(() => {
-            event.target.remove();
-          }, 800);
-        });
-      }
+
       this.loaderContainer.addEventListener(
         'transitionend',
         this.onTransitionEnd
