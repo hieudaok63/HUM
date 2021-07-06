@@ -115,21 +115,6 @@ class ThreeSixtySphere {
         this.updateStyleCall(this.currentStyle);
       }
       this.loaderCall(false);
-
-      // this.loaderContainer.classList.add('none');
-      // const el = document.querySelector('.three-sixty-blur');
-      // if (el) {
-      //   el.classList.add('none');
-      //   el.addEventListener('transitionend', (event) => {
-      //     setTimeout(() => {
-      //       event.target.remove();
-      //     }, 800);
-      //   });
-      // }
-      // this.loaderContainer.addEventListener(
-      //   'transitionend',
-      //   this.onTransitionEnd
-      // );
     };
     this.manager.onProgress = (url) => {
       if (url === this.selectedSceneLoadedImage) {
@@ -144,18 +129,6 @@ class ThreeSixtySphere {
     tooltip.classList.add('tooltip');
     this.container.appendChild(tooltip);
     return tooltip;
-  };
-
-  /* */
-  createBlur = () => {
-    const el = document.querySelector('.three-sixty-blur');
-    if (el) {
-      el.classList.remove('none');
-    } else {
-      const blurContainer = document.createElement('div');
-      blurContainer.classList.add('three-sixty-blur');
-      this.container.appendChild(blurContainer);
-    }
   };
 
   /* */
@@ -182,14 +155,12 @@ class ThreeSixtySphere {
 
   /* */
   updateFinishes = (finish) => {
-    this.createBlur();
     this.finish = finish;
     this.updateSpheres();
   };
 
   /* */
   updateScenes = (scenes, selectedScene, selectedFinish, selectedStyle) => {
-    this.createBlur();
     this.scenes = scenes;
     this.selectedScene = selectedScene;
     this.selectedFinish = selectedFinish;
