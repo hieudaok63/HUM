@@ -16,6 +16,8 @@ export default class AmenitiesActions {
 
   static SET_SELECTED_AMENITY_FINISHED = 'SET_SELECTED_AMENITY_FINISHED';
 
+  static SET_AMENITY_FINISHED = 'SET_AMENITY_FINISHED';
+
   /* */
   static createPanorama() {
     return async (dispatch, getState) => {
@@ -55,6 +57,13 @@ export default class AmenitiesActions {
   static setPano(option) {
     return ActionUtility.createAction(
       AmenitiesActions.SET_PANO_FINISHED,
+      option
+    );
+  }
+
+  static setAmenity(option) {
+    return ActionUtility.createAction(
+      AmenitiesActions.SET_AMENITY_FINISHED,
       option
     );
   }

@@ -8,7 +8,8 @@ export default class AmenitiesReducer extends BaseReducer {
     image: '',
     pano: null,
     container: null,
-    selectedAmenity: ''
+    selectedAmenity: '',
+    amenity: []
   };
 
   [AmenitiesActions.SET_SELECTED_AMENITY_FINISHED](state, action) {
@@ -31,6 +32,13 @@ export default class AmenitiesReducer extends BaseReducer {
       ...state,
       pano: action.payload,
       image: ''
+    };
+  }
+
+  [AmenitiesActions.SET_AMENITY_FINISHED](state, action) {
+    return {
+      ...state,
+      amenity: action.payload
     };
   }
 

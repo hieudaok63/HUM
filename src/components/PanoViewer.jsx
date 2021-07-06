@@ -16,10 +16,20 @@ class PanoViewer extends Component {
     this.reset();
   };
 
+  async componentDidUpdate(prevProps) {
+    const { image, dispatch } = this.props;
+    if (prevProps.image !== image) {
+      await dispatch(AmenitiesActions.setContainer(null));
+      this.reset();
+    }
+  }
+
   reset = async () => {
-    const { dispatch } = this.props;
+    const { dispatch, image } = this.props;
 
     await dispatch(AmenitiesActions.setContainer(this.panoViewer));
+    await dispatch(AmenitiesActions.setAmenityImage(image));
+    await dispatch(AmenitiesActions.createPanorama());
   };
 
   render() {
@@ -39,7 +49,8 @@ class PanoViewer extends Component {
 PanoViewer.propTypes = {
   error: string.isRequired,
   dispatch: func.isRequired,
-  type: func.isRequired
+  type: func.isRequired,
+  image: string.isRequired
 };
 
 const mapStateToProps = (state) => ({

@@ -15,7 +15,7 @@ import {
   amenitiesSelector,
   typeSelector
 } from '../selectors/Tour';
-import { imageSelector } from '../selectors/Amenities';
+import { amenitySelector } from '../selectors/Amenities';
 import { loadingSelector } from '../selectors/loading';
 import ThreeSixtyAction from '../stores/threeSixty/actions';
 // import SocketAction from '../stores/socket/actions';
@@ -25,6 +25,7 @@ import ActionsMenu from '../components/NewMenus/ActionsMenu';
 import { stylesSelector } from '../selectors/ThreeSixty';
 import InfoPage from '../components/InfoPage/InfoPage';
 import PanoViewer from '../components/PanoViewer';
+import { ReactComponent as DropdownIcon } from '../assets/Icons/icon_dropdown.svg';
 import './Test.scss';
 
 const ThreeSixtyPage = ({
@@ -35,10 +36,11 @@ const ThreeSixtyPage = ({
   logo,
   styles,
   amenities,
-  type,
-  image
+  amenity,
+  type
 }) => {
   const { builderId, projectId } = useParams();
+  const [galleryIndex, setGalleryIndex] = React.useState(0);
   const [infoPage, setInfoPage] = React.useState(null);
 
   React.useEffect(() => {
@@ -51,16 +53,57 @@ const ThreeSixtyPage = ({
     }
     getData();
   }, []);
-  console.log('loader', loader);
+
+  const moveCarouselLeft = () => {
+    if (galleryIndex === 0) {
+      setGalleryIndex(amenity.length - 1);
+    } else {
+      setGalleryIndex(galleryIndex - 1);
+    }
+  };
+
+  const moveCarouselRight = () => {
+    if (galleryIndex === amenity.length - 1) {
+      setGalleryIndex(0);
+    } else {
+      setGalleryIndex(galleryIndex + 1);
+    }
+  };
+
   return (
     <>
       <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
         <Loader loading={loader} />
         {levels.length > 0 && <Viewer type={type} />}
-        {type === '2d' && image && (
-          <img src={image} alt="Amenity" className="image-full" />
+        {amenity.length > 0 && (
+          <>
+            {amenity.length > 1 && (
+              <div className="gallery-carousel-controls">
+                <DropdownIcon
+                  className="left-arrow"
+                  onClick={moveCarouselLeft}
+                />
+                {`${galleryIndex + 1} / ${amenity.length}`}
+                <DropdownIcon
+                  className="right-arrow"
+                  onClick={moveCarouselRight}
+                />
+              </div>
+            )}
+            {amenity[galleryIndex].type === '2d' ? (
+              <img
+                src={amenity[galleryIndex].image}
+                alt="Amenity"
+                className="image-full"
+              />
+            ) : (
+              <PanoViewer
+                type={amenity[galleryIndex].type}
+                image={amenity[galleryIndex].image}
+              />
+            )}
+          </>
         )}
-        <PanoViewer type={type} />
         {!loader && (
           <>
             <LeftMenu
@@ -68,6 +111,7 @@ const ThreeSixtyPage = ({
               floorplans={floorplans}
               amenities={amenities.content}
               // exterior={exterior.content}
+              setGalleryIndex={setGalleryIndex}
             />
             <ActionsMenu
               styles={styles}
@@ -91,7 +135,7 @@ const mapStateToProps = (state) => ({
   styles: stylesSelector(state),
   amenities: amenitiesSelector(state),
   type: typeSelector(state),
-  image: imageSelector(state)
+  amenity: amenitySelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -106,8 +150,8 @@ ThreeSixtyPage.propTypes = {
   logo: shape({}).isRequired,
   styles: arrayOf(shape({})).isRequired,
   amenities: shape({}).isRequired,
-  type: string.isRequired,
-  image: string.isRequired
+  amenity: arrayOf(shape({})).isRequired,
+  type: string.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThreeSixtyPage);

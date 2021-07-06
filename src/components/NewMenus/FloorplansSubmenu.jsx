@@ -130,7 +130,7 @@ const FloorplansSubmenu = ({
                       isActive &&
                       'floorplan-content-active'}`}
                   >
-                    {selectedFloorplan === i && (
+                    {selectedFloorplan === i && isActive && (
                       <div className="floorplan-content-active-indicator" />
                     )}
                     <div className="floorplan-content-name">{displayName}</div>

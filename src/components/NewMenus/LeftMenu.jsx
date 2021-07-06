@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, arrayOf, shape } from 'prop-types';
+import { string, arrayOf, shape, func } from 'prop-types';
 import { ReactComponent as CloseIcon } from '../../assets/Icons/close.svg';
 import { ReactComponent as AthumLogo } from '../../assets/athum-logo-minified.svg';
 import './LeftMenu.scss';
@@ -13,7 +13,8 @@ const LeftMenu = ({
   backgroundColor,
   floorplans,
   exterior,
-  amenities
+  amenities,
+  setGalleryIndex
 }) => {
   const [openedMenu, setOpenedMenu] = React.useState('floorplans');
   const [selectedSubmenu, setSelectedSubmenu] = React.useState('floorplans');
@@ -86,6 +87,7 @@ const LeftMenu = ({
             amenities={amenities}
             isActive={selectedSubmenu === 'amenities'}
             setSelectedSubmenu={setSelectedSubmenu}
+            setGalleryIndex={setGalleryIndex}
           />
         </div>
       </div>
@@ -100,7 +102,8 @@ LeftMenu.propTypes = {
   backgroundColor: string,
   floorplans: arrayOf(shape({})),
   exterior: arrayOf(shape({})),
-  amenities: arrayOf(shape({}))
+  amenities: arrayOf(shape({})),
+  setGalleryIndex: func.isRequired
 };
 
 LeftMenu.defaultProps = {
