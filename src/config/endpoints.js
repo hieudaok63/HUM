@@ -1,4 +1,4 @@
-const ENV = localStorage.getItem('ENV') || 'development';
+const ENV = localStorage.getItem('ENV') || process.env.REACT_APP_ENV;
 export const WEBAPP_API_DEV = 'https://test-webapp-api.athum.co';
 export const WEBAPP_API_PROD = 'https://webapp-api.athum.co';
 export const WEBAPP_API =
@@ -13,9 +13,10 @@ export const THREE_SIXTY_API_DEV =
   'https://us-central1-avria-production.cloudfunctions.net/three_sixty_api_dev/v1/';
 // 'https://360-api.athum.com/three_sixty_api_dev/v1/';
 export const THREE_SIXTY_API_STAGING = 'https://staging-360-api.athum.com/';
-export const THREE_SIXTY_API_PROD = 'https://360-api.athum.com/v3/';
+export const THREE_SIXTY_API_PROD =
+  'https://tours-api.athum.com/three_sixty_api_prod/v1';
 export const THREE_SIXTY_GOOGLE_API_PROD =
-  'https://us-west2-avria-production.cloudfunctions.net/three_sixty_api/prod/v1/';
+  'https://us-central1-avria-production.cloudfunctions.net/three_sixty_api_prod/v1/';
 
 const threeSixtyApi = {
   production: THREE_SIXTY_GOOGLE_API_PROD,
