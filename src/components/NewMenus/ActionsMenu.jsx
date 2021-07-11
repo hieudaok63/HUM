@@ -56,8 +56,9 @@ const ActionsMenu = ({
   };
 
   const handleyKeyUp = React.useCallback((e) => {
-    const { key, code } = e;
-    if (key === 'Escape' && code === 'Escape') {
+    const { code } = e;
+
+    if (code === 'Space') {
       if (infoPage === null) {
         setInfoPage({ minimap, floorplanFeatures, features });
       } else {
@@ -88,11 +89,6 @@ const ActionsMenu = ({
       await dispatch(ThreeSixtyAction.setLanguage(defaultLanguage));
     }
     setDefaultLanguage();
-    document.addEventListener('keyup', handleyKeyUp);
-
-    return () => {
-      document.removeEventListener('keyup', handleyKeyUp);
-    };
   }, [defaultLanguage]);
 
   React.useEffect(() => {

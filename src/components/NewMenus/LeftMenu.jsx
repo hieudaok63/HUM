@@ -47,6 +47,25 @@ const LeftMenu = ({
     }
   };
 
+  const handleyKeyUp = React.useCallback((e) => {
+    const { key, code } = e;
+    if (key === 'Escape' && code === 'Escape') {
+      if (menu.current.className === 'menu left-fade-in') {
+        hideMenu();
+      } else {
+        showMenu();
+      }
+    }
+  });
+
+  React.useEffect(() => {
+    document.addEventListener('keyup', handleyKeyUp);
+
+    return () => {
+      document.removeEventListener('keyup', handleyKeyUp);
+    };
+  }, []);
+
   return (
     <>
       <div
