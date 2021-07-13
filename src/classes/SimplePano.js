@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { TextureLoader } from '../lib/three/loaders/loaders';
+import Data from '../assets/Data';
 
 class SimplePano {
   init = ({
@@ -10,18 +12,26 @@ class SimplePano {
     radius,
     widthSegments,
     heightSegments,
-    loader
+    loader,
+    spots,
+    language,
+    changeBetweenPanos
   }) => {
     this.container = container;
+    this.language = language;
+    this.tooltip = this.createTooltip();
     this.image = image;
+    this.spots = spots;
     this.width = width;
     this.height = height;
     this.radius = radius;
     this.widthSegments = widthSegments;
     this.heightSegments = heightSegments;
     this.loader = loader;
+    this.changeBetweenPanos = changeBetweenPanos;
     this.loaderContainer = this.createLoader();
     this.container.appendChild(this.loaderContainer);
+    this.mesh = null;
     this.initializeManager();
     this.initializeCamera();
     this.initializeScene();
@@ -32,6 +42,14 @@ class SimplePano {
     this.bindEventListeners();
     this.loaded = true;
     this.container.appendChild(this.renderer.domElement);
+  };
+
+  /* */
+  createTooltip = () => {
+    const tooltip = document.createElement('div');
+    tooltip.classList.add('tooltip');
+    this.container.appendChild(tooltip);
+    return tooltip;
   };
 
   /* */
@@ -112,7 +130,9 @@ class SimplePano {
     loader.load(`${this.image}?${time}`, (texture) => {
       const material = this.createMaterial(texture);
       const mesh = new THREE.Mesh(geometry, material);
+      this.mesh = mesh;
       this.scene.add(mesh);
+      this.createHotspots();
     });
   };
 
@@ -152,12 +172,166 @@ class SimplePano {
   };
 
   /* */
+  createHotspots = () => {
+    this.spots.forEach((spot) => {
+      this.createHotspot(spot);
+    });
+  };
+
+  /* */
+  createHotspot = ({ x, y, z, name, key, thumbnail, in: whereItExists }) => {
+    const point = new THREE.Vector3(x, y, z);
+    const texture = new TextureLoader.Load(Data.AvriaHotpotArrow);
+    const spriteMaterial = new THREE.SpriteMaterial({
+      map: texture
+    });
+    const sprite = new THREE.Sprite(spriteMaterial);
+
+    sprite.name = name;
+    sprite.isHotspot = true;
+    sprite.key = key;
+    sprite.in = whereItExists;
+    sprite.thumbnail = thumbnail;
+
+    sprite.position.copy(
+      point
+        .clone()
+        .normalize()
+        .multiplyScalar(15)
+    );
+    this.mesh.add(sprite);
+  };
+
+  /* */
   render = () => {
     this.renderer.render(this.scene, this.camera);
   };
 
   /* */
-  bindEventListeners = () => {};
+  getMouse = (event) => {
+    let deltaX = 0;
+    let deltaY = 0;
+    if (event.touches) {
+      if (event.touches.length > 0) {
+        deltaX = event.touches[0].clientX;
+        deltaY = event.touches[0].clientY;
+      }
+    } else {
+      deltaX = event.clientX;
+      deltaY = event.clientY;
+    }
+
+    this.mouse = new THREE.Vector2(
+      (deltaX / this.width) * 2 - 1,
+      -(deltaY / this.height) * 2 + 1
+    );
+  };
+
+  /* */
+  onPointerStart = (event) => {
+    this.mouseDown = true;
+    this.getMouse(event);
+    // this.displayPosition();
+  };
+
+  /* */
+  onPointerEnd = () => {
+    this.mouseDown = false;
+    this.tooltip.classList.remove('is-active');
+    this.handleSpriteClick();
+  };
+
+  /* */
+  onPointerMove = (event) => {
+    this.getMouse(event);
+
+    if (this.loaded) {
+      this.intersects();
+    }
+  };
+
+  /* */
+  intersects = () => {
+    if (!this.mouseDown) {
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+      const intersects = this.raycaster.intersectObjects(
+        this.scene.children,
+        true
+      );
+      if (intersects.length > 0) {
+        const { object } = intersects[0];
+        if (this.INTERSECTED !== object) {
+          if (this.INTERSECTED) {
+            if (this.INTERSECTED.type === 'Sprite') {
+              this.tooltip.classList.remove('is-active');
+              this.hover = false;
+              this.container.style.cursor = 'default';
+            }
+          }
+          this.INTERSECTED = object;
+
+          if (this.INTERSECTED.type === 'Sprite') {
+            if (!this.mouseDown) {
+              const position = this.INTERSECTED.position
+                .clone()
+                .project(this.camera);
+
+              this.tooltip.style.top = `${((-1 * position.y + 1) *
+                this.height) /
+                2}px`;
+              this.tooltip.style.left = `${((position.x + 1) * this.width) /
+                2}px`;
+              this.tooltip.classList.add('is-active');
+              this.tooltip.innerHTML = this.INTERSECTED.name[this.language];
+              this.container.style.cursor = 'pointer';
+            }
+            this.hover = true;
+          }
+        }
+      } else {
+        this.INTERSECTED = null;
+        this.hover = false;
+      }
+    }
+  };
+
+  /* */
+  handleSpriteClick = () => {
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    const intersects = this.raycaster.intersectObjects(
+      this.scene.children,
+      true
+    );
+    if (intersects.length > 0) {
+      this.CLICKEDSPRITE = intersects[0].object;
+      if (
+        this.CLICKEDSPRITE.type === 'Sprite' &&
+        this.CLICKEDSPRITE.isHotspot
+      ) {
+        // Todo: make function to change between Panos
+        if (this.changeBetweenPanos) {
+          this.changeBetweenPanos(
+            this.CLICKEDSPRITE.in,
+            this.CLICKEDSPRITE.key
+          );
+        }
+      }
+    }
+  };
+
+  /* */
+  bindEventListeners = () => {
+    this.container.addEventListener('pointerdown', this.onPointerStart);
+    this.container.addEventListener('pointerup', this.onPointerEnd);
+    this.container.addEventListener('mousemove', this.onPointerMove, {
+      passive: true
+    });
+    // this.container.addEventListener('touchstart', this.onPointerStart);
+    // this.container.addEventListener('touchend', this.onPointerEnd);
+    // this.container.addEventListener('touchcancel', this.onPointerEnd);
+    // document.addEventListener('keypress', this.handleKeyPress);
+    // document.addEventListener('keyup', this.handleKeyUp);
+  };
 
   /* */
   update = () => {

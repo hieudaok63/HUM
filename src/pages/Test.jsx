@@ -29,6 +29,7 @@ import { ReactComponent as DropdownIcon } from '../assets/Icons/icon_dropdown.sv
 import { ReactComponent as PanoIcon } from '../assets/Icons/icon_360.svg';
 import { ReactComponent as ImageIcon } from '../assets/Icons/icon_image.svg';
 import './Test.scss';
+import LanguageAction from '../stores/language/actions';
 
 const ThreeSixtyPage = ({
   floorplans,
@@ -48,8 +49,8 @@ const ThreeSixtyPage = ({
   React.useEffect(() => {
     async function getData() {
       await dispatch(LoadingAction.setLoader(true));
-      // await dispatch(SocketAction.initSocket(SOCKET));
       await dispatch(TourAction.getData(builderId, projectId));
+      await dispatch(LanguageAction.setLanguageFromTour());
       await dispatch(TourAction.selectFloorplan(0));
       await dispatch(ThreeSixtyAction.setThreeSixtyData());
     }
@@ -71,8 +72,6 @@ const ThreeSixtyPage = ({
       setGalleryIndex(galleryIndex + 1);
     }
   };
-
-  console.log('amenity', amenity);
 
   return (
     <>
@@ -109,6 +108,7 @@ const ThreeSixtyPage = ({
                 <PanoViewer
                   type={amenity[galleryIndex].type}
                   image={amenity[galleryIndex].image}
+                  spots={amenity[galleryIndex].spots}
                 />
               </>
             )}

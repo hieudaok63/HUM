@@ -9,7 +9,9 @@ export default class AmenitiesReducer extends BaseReducer {
     pano: null,
     container: null,
     selectedAmenity: '',
-    amenity: []
+    amenity: [],
+    spots: [],
+    language: ''
   };
 
   [AmenitiesActions.SET_SELECTED_AMENITY_FINISHED](state, action) {
@@ -32,6 +34,13 @@ export default class AmenitiesReducer extends BaseReducer {
       ...state,
       pano: action.payload,
       image: ''
+    };
+  }
+
+  [AmenitiesActions.SET_PANO_SPOTS_FINISHED](state, action) {
+    return {
+      ...state,
+      spots: action.payload
     };
   }
 
@@ -59,6 +68,13 @@ export default class AmenitiesReducer extends BaseReducer {
   [AmenitiesActions.RESET_AMENITIES_FINISHED]() {
     return {
       ...this.initialState
+    };
+  }
+
+  [AmenitiesActions.CHANGE_LANGUAGE_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      language: action.payload
     };
   }
 }

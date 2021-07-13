@@ -3,7 +3,7 @@ import SIMPLEPANO from '../../../classes/SimplePano';
 
 export default class AmenitiesEffect {
   /* */
-  static createPanorama(container, image) {
+  static createPanorama(container, image, spots, language, changeBetweenPanos) {
     const model = new PanoramaModel({
       container,
       width: window.innerWidth,
@@ -11,7 +11,10 @@ export default class AmenitiesEffect {
       radius: 100,
       widthSegments: 100,
       heightSegments: 100,
-      image
+      image,
+      spots,
+      language,
+      changeBetweenPanos
     });
 
     const pano = new SIMPLEPANO();

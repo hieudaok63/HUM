@@ -64,6 +64,10 @@ const AmenitiesSubmenu = ({
     }
   }, [openedMenu]);
 
+  React.useEffect(() => {
+    setGalleryIndex(0);
+  }, [selectedAmenity]);
+
   return (
     <>
       {amenities.length > 0 && (

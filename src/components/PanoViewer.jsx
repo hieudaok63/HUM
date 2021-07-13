@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { string, func } from 'prop-types';
+import { string, func, arrayOf, shape } from 'prop-types';
 import { errorSelector } from '../selectors/error';
 import { menuOptionSelector } from '../selectors/menu';
 import { panoramaSelector } from '../selectors/Panorama';
@@ -25,10 +25,11 @@ class PanoViewer extends Component {
   }
 
   reset = async () => {
-    const { dispatch, image } = this.props;
+    const { dispatch, image, spots } = this.props;
 
     await dispatch(AmenitiesActions.setContainer(this.panoViewer));
     await dispatch(AmenitiesActions.setAmenityImage(image));
+    await dispatch(AmenitiesActions.setSpots(spots));
     await dispatch(AmenitiesActions.createPanorama());
   };
 
@@ -50,7 +51,8 @@ PanoViewer.propTypes = {
   error: string.isRequired,
   dispatch: func.isRequired,
   type: func.isRequired,
-  image: string.isRequired
+  image: string.isRequired,
+  spots: arrayOf(shape({})).isRequired
 };
 
 const mapStateToProps = (state) => ({

@@ -7,7 +7,7 @@ export default class LanguageReducer extends BaseReducer {
     language: ''
   };
 
-  [LanguageAction.SET_LANGUAGE](state, action) {
+  [LanguageAction.SET_LANGUAGE_FINISHED](state, action) {
     return {
       ...state,
       language: action.payload

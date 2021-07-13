@@ -20,6 +20,8 @@ import {
   defaultLanguageSelector
 } from '../../selectors/Tour';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
+import AmenitiesActions from '../../stores/amenities/actions';
+import LanguageActions from '../../stores/language/actions';
 
 const ActionsMenu = ({
   styles,
@@ -49,6 +51,12 @@ const ActionsMenu = ({
       setLanguage(availableLanguages[currentIndex + 1]);
       await dispatch(
         ThreeSixtyAction.setLanguage(availableLanguages[currentIndex + 1])
+      );
+      await dispatch(
+        AmenitiesActions.setLanguage(availableLanguages[currentIndex + 1])
+      );
+      await dispatch(
+        LanguageActions.setLanguage(availableLanguages[currentIndex + 1])
       );
     }
 

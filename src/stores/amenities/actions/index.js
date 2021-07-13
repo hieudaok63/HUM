@@ -1,4 +1,5 @@
 import ActionUtility from '../../../utilities/ActionUtility';
+import TourAction from '../../tour/actions';
 import AmenitiesEffect from '../effects';
 
 export default class AmenitiesActions {
@@ -18,11 +19,16 @@ export default class AmenitiesActions {
 
   static SET_AMENITY_FINISHED = 'SET_AMENITY_FINISHED';
 
+  static SET_PANO_SPOTS_FINISHED = 'SET_PANO_SPOTS_FINISHED';
+
+  static CHANGE_LANGUAGE_REQUEST_FINISHED = 'CHANGE_LANGUAGE_REQUEST_FINISHED';
+
   /* */
   static createPanorama() {
     return async (dispatch, getState) => {
-      const { amenities } = getState();
-      const { image, container } = amenities;
+      const { amenities, language: stateLanguage, tour } = getState();
+      const { image, container, spots } = amenities;
+      const { language } = stateLanguage;
       if (container.firstChild) {
         container.removeChild(container.firstChild);
       }
@@ -32,7 +38,17 @@ export default class AmenitiesActions {
         AmenitiesActions.CREATE_PANORAMA,
         AmenitiesEffect.createPanorama,
         container,
-        image
+        image,
+        spots,
+        language,
+        async (type, key) => {
+          const amenity = tour[type].content.find((item) => item.key === key);
+          if (amenity) {
+            await dispatch(TourAction.selectType(amenity.media[0].type));
+            await dispatch(AmenitiesActions.setAmenity(amenity.media));
+            await dispatch(AmenitiesActions.setSelectedAmenity(key));
+          }
+        }
       );
 
       return { model };
@@ -61,6 +77,13 @@ export default class AmenitiesActions {
     );
   }
 
+  static setSpots(option) {
+    return ActionUtility.createAction(
+      AmenitiesActions.SET_PANO_SPOTS_FINISHED,
+      option
+    );
+  }
+
   static setAmenity(option) {
     return ActionUtility.createAction(
       AmenitiesActions.SET_AMENITY_FINISHED,
@@ -71,6 +94,13 @@ export default class AmenitiesActions {
   static setContainer(option) {
     return ActionUtility.createAction(
       AmenitiesActions.SET_PANO_CONTAINER_FINISHED,
+      option
+    );
+  }
+
+  static setLanguage(option) {
+    return ActionUtility.createAction(
+      AmenitiesActions.CHANGE_LANGUAGE_REQUEST_FINISHED,
       option
     );
   }

@@ -232,7 +232,6 @@ class ThreeSixtySphere {
 
   /* */
   createSceneInfo = (scene) => {
-    console.log('scene', scene);
     const useToRequest = this.getRoomToRequest(scene.uses, scene.defaultUse);
     const selectedUse = this.getUse(scene.uses, useToRequest);
     if (selectedUse) {
@@ -361,7 +360,6 @@ class ThreeSixtySphere {
     const { name, furniture, finishScenes } = scene;
     const displayingName = name[this.language];
     let current = null;
-    console.log('hey', finish, use, finishScenes);
     if (finish !== undefined && use !== undefined) {
       if (
         finish.toLowerCase() === use.toLowerCase() &&
@@ -940,7 +938,6 @@ class ThreeSixtySphere {
           }
 
           this.INTERSECTED = object;
-          console.log('HERE', object.parent.name, this.selectedScene);
           if (
             this.INTERSECTED.type === 'Sprite' &&
             object.parent.name === this.selectedScene

@@ -105,7 +105,6 @@ export default class PanoramaAction {
             const selectedStyle = currentStyles.find(
               (item) => item.key === style
             );
-            console.log('style', selectedStyle, style, styles);
             await dispatch(
               ThreeSixtyAction.setSelectedNameStyle(selectedStyle.style)
             );

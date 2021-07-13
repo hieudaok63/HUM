@@ -2,6 +2,7 @@ import loader from '../../../assets/home-white.gif';
 
 export default class SimplePanoramaModel {
   constructor(data) {
+    console.log('-->', data);
     this.container = data.container;
     this.width = data.width;
     this.height = data.height;
@@ -9,6 +10,9 @@ export default class SimplePanoramaModel {
     this.widthSegments = data.widthSegments;
     this.heightSegments = data.heightSegments;
     this.image = data.image;
+    this.spots = data.spots;
+    this.language = data.language;
+    this.changeBetweenPanos = data.changeBetweenPanos;
   }
 
   container = null;
@@ -26,4 +30,8 @@ export default class SimplePanoramaModel {
   image = '';
 
   loader = loader;
+
+  spots = [];
+
+  changeBetweenPanos = () => {};
 }
