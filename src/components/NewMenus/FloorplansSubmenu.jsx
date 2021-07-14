@@ -55,10 +55,12 @@ const FloorplansSubmenu = ({
   };
 
   React.useEffect(() => {
+    showSubmenu();
+  }, []);
+
+  React.useEffect(() => {
     if (openedMenu !== 'floorplans' && isOpen) {
       hideSubmenu();
-    } else {
-      showSubmenu();
     }
   }, [openedMenu, submenu.current]);
 

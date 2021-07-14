@@ -7,7 +7,7 @@ export default class Tour {
       defaultLanguage: 'en',
       availableLanguages: [],
       floorplans: [],
-      amenities: [],
+      amenities: {},
       exterior: [],
       urls: {},
       location: {}

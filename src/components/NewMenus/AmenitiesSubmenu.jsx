@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { string, arrayOf, shape, func, bool } from 'prop-types';
+import { string, shape, func, bool } from 'prop-types';
 import { ReactComponent as DropdownIcon } from '../../assets/Icons/icon_dropdown.svg';
 import { ReactComponent as PanoIcon } from '../../assets/Icons/icon_360.svg';
 import { ReactComponent as ImageIcon } from '../../assets/Icons/icon_image.svg';
@@ -8,6 +8,7 @@ import './LeftMenu.scss';
 import TourAction from '../../stores/tour/actions';
 import AmenitiesActions from '../../stores/amenities/actions';
 import { selectedAmenitySelector } from '../../selectors/Amenities';
+import { languageSelector } from '../../selectors/ThreeSixty';
 
 const AmenitiesSubmenu = ({
   openedMenu,
@@ -17,9 +18,11 @@ const AmenitiesSubmenu = ({
   setSelectedSubmenu,
   dispatch,
   selectedAmenity,
-  setGalleryIndex
+  setGalleryIndex,
+  language,
+  identifier
 }) => {
-  const [isOpen, setIsOpen] = React.useState(openedMenu === 'amenities');
+  const [isOpen, setIsOpen] = React.useState(openedMenu === 'identifier');
   const amenitiesSize = {
     1: { show: 'show-submenu', hide: 'hide-submenu' },
     2: { show: 'show-submenu-2', hide: 'hide-submenu-2' },
@@ -55,11 +58,11 @@ const AmenitiesSubmenu = ({
       await dispatch(AmenitiesActions.setSelectedAmenity(key));
     }
 
-    setSelectedSubmenu('amenities');
+    setSelectedSubmenu(identifier);
   };
 
   React.useEffect(() => {
-    if (openedMenu !== 'amenities' && isOpen) {
+    if (openedMenu !== identifier && isOpen) {
       hideSubmenu();
     }
   }, [openedMenu]);
@@ -68,14 +71,16 @@ const AmenitiesSubmenu = ({
     setGalleryIndex(0);
   }, [selectedAmenity]);
 
+  const { content = [], name = {} } = amenities;
+
   return (
     <>
-      {amenities.length > 0 && (
+      {content.length > 0 && (
         <div className="w-100">
           <div
             onClick={() => {
-              changeOpenedMenu('amenities');
-              if (openedMenu === 'amenities') {
+              changeOpenedMenu(identifier);
+              if (openedMenu === identifier) {
                 hideSubmenu();
               } else {
                 showSubmenu();
@@ -83,13 +88,13 @@ const AmenitiesSubmenu = ({
             }}
             className="menu-item"
           >
-            Amenities{' '}
+            {name[language]}{' '}
             <DropdownIcon
               className={`dropdown-icon ${!isOpen && 'dropdown-icon-inverted'}`}
             />
           </div>
           <div ref={submenu} className="hidden">
-            {amenities.map(({ thumbnail, room, key, media }) => {
+            {content.map(({ thumbnail, room, key, media }) => {
               const hasPano = media.some(({ type }) => type === 'pano');
               return (
                 <div
@@ -135,15 +140,18 @@ AmenitiesSubmenu.propTypes = {
   dispatch: func.isRequired,
   openedMenu: string.isRequired,
   changeOpenedMenu: func.isRequired,
-  amenities: arrayOf(shape({})).isRequired,
+  amenities: shape({}).isRequired,
   isActive: bool.isRequired,
   setSelectedSubmenu: func.isRequired,
   selectedAmenity: string.isRequired,
-  setGalleryIndex: func.isRequired
+  setGalleryIndex: func.isRequired,
+  language: string.isRequired,
+  identifier: string.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  selectedAmenity: selectedAmenitySelector(state)
+  selectedAmenity: selectedAmenitySelector(state),
+  language: languageSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

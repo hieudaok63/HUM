@@ -91,43 +91,7 @@ const InfoPage = ({
   return (
     <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center semi-black-bg z10">
       <CloseIcon onClick={() => setInfoPage(null)} className="close-icon" />
-      <div className="w-100 info-container">
-        {renderMinimap()}
-        {/* {features && features?.en.length > 0 && (
-          <div className="w-50 features-container">
-            <h1>Features</h1>
-            <ul>
-              {features[language].map(({ text }) => (
-                <li key={text}>{text}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {images && images.length > 0 && (
-          <div className="w-50 images-container">
-            {imageIndex > 0 && (
-              <DropdownIcon
-                className="arrow arrow-left"
-                onClick={() => {
-                  setImageIndex(imageIndex - 1);
-                }}
-              />
-            )}
-            <img
-              src={images[imageIndex].image}
-              alt={images[imageIndex].image}
-            />
-            {imageIndex < images.length - 1 && (
-              <DropdownIcon
-                className="arrow arrow-right"
-                onClick={() => {
-                  setImageIndex(imageIndex + 1);
-                }}
-              />
-            )}
-          </div>
-        )} */}
-      </div>
+      <div className="w-100 info-container">{renderMinimap()}</div>
     </div>
   );
 };

@@ -13,7 +13,8 @@ import {
   levelsSelector,
   logoSelector,
   amenitiesSelector,
-  typeSelector
+  typeSelector,
+  exteriorSelector
 } from '../selectors/Tour';
 import { amenitySelector } from '../selectors/Amenities';
 import { loadingSelector } from '../selectors/loading';
@@ -39,6 +40,7 @@ const ThreeSixtyPage = ({
   logo,
   styles,
   amenities,
+  exterior,
   amenity,
   type
 }) => {
@@ -93,7 +95,7 @@ const ThreeSixtyPage = ({
                 />
               </div>
             )}
-            {amenity[galleryIndex].type === '2d' ? (
+            {amenity[galleryIndex].type === '2d' && (
               <>
                 <ImageIcon className="icon-type" />
                 <img
@@ -102,7 +104,17 @@ const ThreeSixtyPage = ({
                   className="image-full"
                 />
               </>
-            ) : (
+            )}
+            {amenity[galleryIndex].type === 'video' && (
+              // eslint-disable-next-line jsx-a11y/media-has-caption
+              <video
+                src={amenity[galleryIndex].url}
+                autoPlay
+                muted
+                className="image-full"
+              />
+            )}
+            {amenity[galleryIndex].type === 'pano' && (
               <>
                 <PanoIcon className="icon-type" />
                 <PanoViewer
@@ -119,8 +131,8 @@ const ThreeSixtyPage = ({
             <LeftMenu
               {...logo}
               floorplans={floorplans}
-              amenities={amenities.content}
-              // exterior={exterior.content}
+              amenities={amenities}
+              exterior={exterior}
               setGalleryIndex={setGalleryIndex}
             />
             <ActionsMenu
@@ -128,6 +140,8 @@ const ThreeSixtyPage = ({
               infoPage={infoPage}
               setInfoPage={setInfoPage}
               type={type}
+              amenity={amenity}
+              galleryIndex={galleryIndex}
             />
           </>
         )}
@@ -144,6 +158,7 @@ const mapStateToProps = (state) => ({
   logo: logoSelector(state),
   styles: stylesSelector(state),
   amenities: amenitiesSelector(state),
+  exterior: exteriorSelector(state),
   type: typeSelector(state),
   amenity: amenitySelector(state)
 });
@@ -160,6 +175,7 @@ ThreeSixtyPage.propTypes = {
   logo: shape({}).isRequired,
   styles: arrayOf(shape({})).isRequired,
   amenities: shape({}).isRequired,
+  exterior: shape({}).isRequired,
   amenity: arrayOf(shape({})).isRequired,
   type: string.isRequired
 };

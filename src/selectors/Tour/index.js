@@ -30,6 +30,9 @@ export class TourSelector {
   static getAmenities(state) {
     return state.tour.amenities || {};
   }
+  static getExterior(state) {
+    return state.tour.exterior || {};
+  }
   static getType(state) {
     return state.tour.type;
   }
@@ -68,6 +71,11 @@ export const defaultLanguageSelector = createSelector(
 export const amenitiesSelector = createSelector(
   [TourSelector.getAmenities],
   (amenities) => amenities
+);
+
+export const exteriorSelector = createSelector(
+  [TourSelector.getExterior],
+  (exterior) => exterior
 );
 
 export const typeSelector = createSelector(

@@ -4,13 +4,13 @@ import { ReactComponent as CloseIcon } from '../../assets/Icons/close.svg';
 import { ReactComponent as AthumLogo } from '../../assets/athum-logo-minified.svg';
 import './LeftMenu.scss';
 import FloorplansSubmenu from './FloorplansSubmenu';
-import ExteriorsSubmenu from './ExteriorsSubmenu';
 import AmenitiesSubmenu from './AmenitiesSubmenu';
 
 const LeftMenu = ({
   reduceLogo,
   expandedLogo,
   backgroundColor,
+  closeButtonColor: color,
   floorplans,
   exterior,
   amenities,
@@ -83,7 +83,11 @@ const LeftMenu = ({
       <div ref={menu} className="hidden">
         <div className="menu-header" style={{ backgroundColor }}>
           <img src={expandedLogo} alt="Logo" />
-          <CloseIcon onClick={hideMenu} className="close-icon" />
+          <CloseIcon
+            onClick={hideMenu}
+            className="close-icon"
+            style={{ color }}
+          />
         </div>
         <div className="w-100">
           <FloorplansSubmenu
@@ -93,13 +97,6 @@ const LeftMenu = ({
             isActive={selectedSubmenu === 'floorplans'}
             setSelectedSubmenu={setSelectedSubmenu}
           />
-          <ExteriorsSubmenu
-            openedMenu={openedMenu}
-            changeOpenedMenu={changeOpenedMenu}
-            exterior={exterior}
-            isActive={selectedSubmenu === 'exterior'}
-            setSelectedSubmenu={setSelectedSubmenu}
-          />
           <AmenitiesSubmenu
             openedMenu={openedMenu}
             changeOpenedMenu={changeOpenedMenu}
@@ -107,6 +104,16 @@ const LeftMenu = ({
             isActive={selectedSubmenu === 'amenities'}
             setSelectedSubmenu={setSelectedSubmenu}
             setGalleryIndex={setGalleryIndex}
+            identifier="amenities"
+          />
+          <AmenitiesSubmenu
+            openedMenu={openedMenu}
+            changeOpenedMenu={changeOpenedMenu}
+            amenities={exterior}
+            isActive={selectedSubmenu === 'exterior'}
+            setSelectedSubmenu={setSelectedSubmenu}
+            setGalleryIndex={setGalleryIndex}
+            identifier="exterior"
           />
         </div>
       </div>
@@ -119,17 +126,19 @@ LeftMenu.propTypes = {
   reduceLogo: string.isRequired,
   expandedLogo: string.isRequired,
   backgroundColor: string,
+  closeButtonColor: string,
   floorplans: arrayOf(shape({})),
   exterior: arrayOf(shape({})),
-  amenities: arrayOf(shape({})),
+  amenities: shape({}),
   setGalleryIndex: func.isRequired
 };
 
 LeftMenu.defaultProps = {
   backgroundColor: '#FFFFFF',
+  closeButtonColor: '#000000',
   floorplans: [],
   exterior: [],
-  amenities: []
+  amenities: {}
 };
 
 export default LeftMenu;

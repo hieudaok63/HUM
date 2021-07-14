@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { arrayOf, shape, func, string } from 'prop-types';
+import { arrayOf, shape, func, string, number } from 'prop-types';
 import { ReactComponent as InfoIcon } from '../../assets/Icons/icon_info.svg';
 import { ReactComponent as SlowMoIcon } from '../../assets/Icons/icon_slow_motion.svg';
 import { ReactComponent as ShareIcon } from '../../assets/Icons/icon_share.svg';
@@ -33,7 +33,9 @@ const ActionsMenu = ({
   floorplanFeatures,
   features,
   dispatch,
-  type
+  type,
+  amenity,
+  galleryIndex
 }) => {
   const [showSubmenu, setShowSubmenu] = React.useState('');
   const [language, setLanguage] = React.useState('');
@@ -106,13 +108,28 @@ const ActionsMenu = ({
       document.removeEventListener('keyup', handleyKeyUp);
     };
   }, [language, infoPage]);
+
   return (
     <>
       <div
         className="menu-action info-action"
         onClick={() => {
+          if (
+            type !== 'three-sixty' &&
+            amenity.length > 0 &&
+            amenity[galleryIndex].features &&
+            JSON.stringify(amenity[galleryIndex].features) === '{}'
+          ) {
+            return;
+          }
           setInfoPage({ minimap, floorplanFeatures, features });
         }}
+        disabled={
+          type !== 'three-sixty' &&
+          amenity.length > 0 &&
+          amenity[galleryIndex].features &&
+          JSON.stringify(amenity[galleryIndex].features) === '{}'
+        }
       >
         <InfoIcon className="info-icon" />
       </div>
@@ -156,11 +173,14 @@ ActionsMenu.propTypes = {
   availableLanguages: arrayOf(string).isRequired,
   dispatch: func.isRequired,
   type: string.isRequired,
-  infoPage: shape({})
+  infoPage: shape({}),
+  amenity: shape({}),
+  galleryIndex: number.isRequired
 };
 
 ActionsMenu.defaultProps = {
-  infoPage: null
+  infoPage: null,
+  amenity: {}
 };
 
 const mapStateToProps = (state) => ({
