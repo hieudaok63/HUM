@@ -279,12 +279,16 @@
       line-height: 16px;
       margin-bottom: 16px;
     }
-    &-icon-type {
+    &-icons {
       width: 24px;
-      height: 24px;
       position: absolute;
       top: 10px;
       right: 10px;
+    }
+    &-icon-type {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 15px;
     }
   }
   &-thumbnail {

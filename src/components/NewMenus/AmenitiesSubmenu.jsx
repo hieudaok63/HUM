@@ -4,6 +4,7 @@ import { string, shape, func, bool } from 'prop-types';
 import { ReactComponent as DropdownIcon } from '../../assets/Icons/icon_dropdown.svg';
 import { ReactComponent as PanoIcon } from '../../assets/Icons/icon_360.svg';
 import { ReactComponent as ImageIcon } from '../../assets/Icons/icon_image.svg';
+import { ReactComponent as VideoIcon } from '../../assets/Icons/icon-play.svg';
 import './LeftMenu.scss';
 import TourAction from '../../stores/tour/actions';
 import AmenitiesActions from '../../stores/amenities/actions';
@@ -96,6 +97,8 @@ const AmenitiesSubmenu = ({
           <div ref={submenu} className="hidden">
             {content.map(({ thumbnail, room, key, media }) => {
               const hasPano = media.some(({ type }) => type === 'pano');
+              const hasImage = media.some(({ type }) => type === '2d');
+              const hasVideo = media.some(({ type }) => type === 'video');
               return (
                 <div
                   key={key}
@@ -119,11 +122,17 @@ const AmenitiesSubmenu = ({
                     {selectedAmenity === key && (
                       <div className="amenity-content-active-indicator" />
                     )}
-                    {hasPano ? (
-                      <PanoIcon className="amenity-content-icon-type" />
-                    ) : (
-                      <ImageIcon className="amenity-content-icon-type" />
-                    )}
+                    <div className="amenity-content-icons">
+                      {hasVideo && (
+                        <VideoIcon className="amenity-content-icon-type" />
+                      )}
+                      {hasPano && (
+                        <PanoIcon className="amenity-content-icon-type" />
+                      )}
+                      {hasImage && (
+                        <ImageIcon className="amenity-content-icon-type" />
+                      )}
+                    </div>
                     <div className="amenity-content-name">{room.en}</div>
                   </div>
                 </div>

@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { arrayOf, shape, func, string, number } from 'prop-types';
+import { arrayOf, shape, func, string, number, node } from 'prop-types';
 import { ReactComponent as InfoIcon } from '../../assets/Icons/icon_info.svg';
 import { ReactComponent as SlowMoIcon } from '../../assets/Icons/icon_slow_motion.svg';
+import { ReactComponent as SlowMoPauseIcon } from '../../assets/Icons/icon_slow_motion_pause.svg';
 import { ReactComponent as ShareIcon } from '../../assets/Icons/icon_share.svg';
 import { ReactComponent as FullScreenIcon } from '../../assets/Icons/icon_full_screen.svg';
 import { ReactComponent as ENIcon } from '../../assets/Icons/icon_en.svg';
@@ -35,10 +36,12 @@ const ActionsMenu = ({
   dispatch,
   type,
   amenity,
-  galleryIndex
+  galleryIndex,
+  video
 }) => {
   const [showSubmenu, setShowSubmenu] = React.useState('');
   const [language, setLanguage] = React.useState('');
+  const [isPaused, setIsPaused] = React.useState(false);
 
   const changeLanguage = async () => {
     const totalLanguages = availableLanguages.length;
@@ -93,6 +96,18 @@ const ActionsMenu = ({
     };
   }, []);
 
+  const togglePlay = () => {
+    if (video.current) {
+      if (video.current.paused) {
+        video.current.play();
+        setIsPaused(false);
+      } else {
+        video.current.pause();
+        setIsPaused(true);
+      }
+    }
+  };
+
   React.useEffect(() => {
     setLanguage(defaultLanguage);
     async function setDefaultLanguage() {
@@ -109,6 +124,8 @@ const ActionsMenu = ({
     };
   }, [language, infoPage]);
 
+  console.log('video.current', video?.current);
+
   return (
     <>
       <div
@@ -118,11 +135,12 @@ const ActionsMenu = ({
             type !== 'three-sixty' &&
             amenity.length > 0 &&
             amenity[galleryIndex].features &&
-            JSON.stringify(amenity[galleryIndex].features) === '{}'
+            JSON.stringify(amenity[galleryIndex].features) !== '{}'
           ) {
-            return;
+            setInfoPage({ features: amenity[galleryIndex].features });
+          } else {
+            setInfoPage({ minimap, floorplanFeatures, features });
           }
-          setInfoPage({ minimap, floorplanFeatures, features });
         }}
         disabled={
           type !== 'three-sixty' &&
@@ -133,8 +151,19 @@ const ActionsMenu = ({
       >
         <InfoIcon className="info-icon" />
       </div>
-      <div className="menu-action slow-mo-action" disabled>
-        <SlowMoIcon className="slow-mo-icon" />
+      <div
+        className="menu-action menu-action-active slow-mo-action"
+        disabled={
+          type === 'three-sixty' ||
+          (amenity.length > 0 && amenity[galleryIndex].type !== 'video')
+        }
+        onClick={togglePlay}
+      >
+        {isPaused ? (
+          <SlowMoIcon className="slow-mo-icon" />
+        ) : (
+          <SlowMoPauseIcon className="slow-mo-icon" />
+        )}
       </div>
       <div
         className="menu-action menu-action-no-border language-action"
@@ -175,12 +204,14 @@ ActionsMenu.propTypes = {
   type: string.isRequired,
   infoPage: shape({}),
   amenity: shape({}),
-  galleryIndex: number.isRequired
+  galleryIndex: number.isRequired,
+  video: node
 };
 
 ActionsMenu.defaultProps = {
   infoPage: null,
-  amenity: {}
+  amenity: {},
+  video: null
 };
 
 const mapStateToProps = (state) => ({

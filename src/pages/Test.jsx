@@ -44,6 +44,7 @@ const ThreeSixtyPage = ({
   amenity,
   type
 }) => {
+  const videoRef = React.useRef(null);
   const { builderId, projectId } = useParams();
   const [galleryIndex, setGalleryIndex] = React.useState(0);
   const [infoPage, setInfoPage] = React.useState(null);
@@ -108,10 +109,11 @@ const ThreeSixtyPage = ({
             {amenity[galleryIndex].type === 'video' && (
               // eslint-disable-next-line jsx-a11y/media-has-caption
               <video
+                ref={videoRef}
                 src={amenity[galleryIndex].url}
-                autoPlay
                 muted
                 className="image-full"
+                autoPlay
               />
             )}
             {amenity[galleryIndex].type === 'pano' && (
@@ -142,6 +144,7 @@ const ThreeSixtyPage = ({
               type={type}
               amenity={amenity}
               galleryIndex={galleryIndex}
+              video={videoRef}
             />
           </>
         )}

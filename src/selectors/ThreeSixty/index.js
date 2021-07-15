@@ -14,8 +14,15 @@ export class ThreeSixtySelector {
     return state.threeSixty.level.minimap;
   }
   static getFloorplanFeatures(state) {
-    const { area, bathrooms, bedrooms, unit, parking } = state.threeSixty;
-    return { area, bathrooms, bedrooms, unit, parking };
+    const {
+      area,
+      bathrooms,
+      bedrooms,
+      unit,
+      parking,
+      displayName
+    } = state.threeSixty;
+    return { area, bathrooms, bedrooms, unit, parking, displayName };
   }
   static getFeatures(state) {
     return state.threeSixty.features;

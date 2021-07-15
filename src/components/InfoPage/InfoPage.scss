@@ -23,16 +23,36 @@
 }
 
 .features-container {
+  color: white;
   & h1 {
     color: white;
   }
   & h3 {
-    color: white;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+  }
+  & h4 {
+    font-style: normal;
+    font-weight: 900;
+    font-size: 16px;
+    line-height: 19px;
   }
   & ul {
     padding-left: 20px;
     & li {
-      color: white;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 21px;
+    }
+  }
+  &-floorplan {
+    display: flex;
+    margin-bottom: 20px;
+    &-feature {
+      margin-right: 15%;
     }
   }
 }
