@@ -201,48 +201,6 @@
   }
 }
 
-.exterior {
-  width: 100%;
-  position: relative;
-  height: 150px;
-  &-content {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    background-color: rgba(0, 0, 0, 0.8);
-    cursor: pointer;
-    &-active {
-      background-color: rgba(0, 0, 0, 0.5);
-      &-indicator {
-        height: 100%;
-        width: 6px;
-        background-color: #f9b342;
-        position: absolute;
-        left: 5px;
-        top: 0;
-      }
-    }
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-    &-name {
-      font-weight: 900;
-      font-size: 14px;
-      line-height: 16px;
-      margin-bottom: 16px;
-    }
-  }
-  &-thumbnail {
-    max-height: 100%;
-  }
-}
-
 .amenity {
   width: 100%;
   position: relative;

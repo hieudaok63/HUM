@@ -10,12 +10,6 @@ export default class TourAction {
   static TOUR_SELECTED_FLOORPLAN_FINISHED =
     'TourAction.TOUR_SELECTED_FLOORPLAN_FINISHED';
 
-  static TOUR_SELECTED_EXTERIOR_FINISHED =
-    'TourAction.TOUR_SELECTED_EXTERIOR_FINISHED';
-
-  static TOUR_SELECTED_AMENTIE_FINISHED =
-    'ToutAction.TOUR_SELECTED_AMENTIE_FINISHED';
-
   static TOUR_SELECTED_TYPE_FINISHED = 'TOUR_SELECTED_TYPE_FINISHED';
 
   /* */
@@ -39,20 +33,6 @@ export default class TourAction {
   static selectFloorplan(option) {
     return ActionUtility.createAction(
       TourAction.TOUR_SELECTED_FLOORPLAN_FINISHED,
-      option
-    );
-  }
-
-  static selectExterior(option) {
-    return ActionUtility.createAction(
-      TourAction.TOUR_SELECTED_EXTERIOR_FINISHED,
-      option
-    );
-  }
-
-  static selectAmenitie(option) {
-    return ActionUtility.createAction(
-      TourAction.TOUR_SELECTED_AMENTIE_FINISHED,
       option
     );
   }

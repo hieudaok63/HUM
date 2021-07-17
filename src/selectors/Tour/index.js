@@ -27,11 +27,9 @@ export class TourSelector {
     const { tour } = state;
     return tour.defaultLanguage;
   }
-  static getAmenities(state) {
-    return state.tour.amenities || {};
-  }
-  static getExterior(state) {
-    return state.tour.exterior || {};
+  static getSections(state) {
+    const { tour } = state;
+    return tour.sections;
   }
   static getType(state) {
     return state.tour.type;
@@ -68,14 +66,9 @@ export const defaultLanguageSelector = createSelector(
   (defaultLanguage) => defaultLanguage
 );
 
-export const amenitiesSelector = createSelector(
-  [TourSelector.getAmenities],
-  (amenities) => amenities
-);
-
-export const exteriorSelector = createSelector(
-  [TourSelector.getExterior],
-  (exterior) => exterior
+export const sectionsSelector = createSelector(
+  [TourSelector.getSections],
+  (sections) => sections
 );
 
 export const typeSelector = createSelector(

@@ -7,8 +7,8 @@ export default class Tour {
       defaultLanguage: 'en',
       availableLanguages: [],
       floorplans: [],
-      amenities: {},
-      exterior: [],
+      floorplansSectionName: {},
+      sections: [],
       urls: {},
       location: {}
     }
@@ -19,8 +19,8 @@ export default class Tour {
     this.defaultLanguage = data.defaultLanguage;
     this.availableLanguages = data.availableLanguages;
     this.floorplans = data.floorplans;
-    this.amenities = data.amenities;
-    this.exterior = data.exterior;
+    this.floorplansSectionName = data.floorplansSectionName;
+    this.sections = data.sections;
     this.urls = data.urls;
     this.location = data.location;
   }
@@ -31,8 +31,8 @@ export default class Tour {
   defaultLanguage = 'en';
   availableLanguages = [];
   floorplans = [];
-  amenities = [];
-  exterior = [];
+  floorplansSectionName = {};
+  sections = [];
   urls = {};
   location = {};
 }

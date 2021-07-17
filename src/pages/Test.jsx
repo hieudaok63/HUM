@@ -12,9 +12,8 @@ import {
   floorplansSelector,
   levelsSelector,
   logoSelector,
-  amenitiesSelector,
   typeSelector,
-  exteriorSelector
+  sectionsSelector
 } from '../selectors/Tour';
 import { amenitySelector } from '../selectors/Amenities';
 import { loadingSelector } from '../selectors/loading';
@@ -39,10 +38,9 @@ const ThreeSixtyPage = ({
   levels,
   logo,
   styles,
-  amenities,
-  exterior,
   amenity,
-  type
+  type,
+  sections
 }) => {
   const videoRef = React.useRef(null);
   const { builderId, projectId } = useParams();
@@ -133,9 +131,8 @@ const ThreeSixtyPage = ({
             <LeftMenu
               {...logo}
               floorplans={floorplans}
-              amenities={amenities}
-              exterior={exterior}
               setGalleryIndex={setGalleryIndex}
+              sections={sections}
             />
             <ActionsMenu
               styles={styles}
@@ -160,10 +157,9 @@ const mapStateToProps = (state) => ({
   levels: levelsSelector(state),
   logo: logoSelector(state),
   styles: stylesSelector(state),
-  amenities: amenitiesSelector(state),
-  exterior: exteriorSelector(state),
   type: typeSelector(state),
-  amenity: amenitySelector(state)
+  amenity: amenitySelector(state),
+  sections: sectionsSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -177,10 +173,9 @@ ThreeSixtyPage.propTypes = {
   levels: arrayOf(shape({})).isRequired,
   logo: shape({}).isRequired,
   styles: arrayOf(shape({})).isRequired,
-  amenities: shape({}).isRequired,
-  exterior: shape({}).isRequired,
   amenity: arrayOf(shape({})).isRequired,
-  type: string.isRequired
+  type: string.isRequired,
+  sections: arrayOf(shape({})).isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThreeSixtyPage);

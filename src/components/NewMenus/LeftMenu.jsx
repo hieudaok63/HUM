@@ -12,9 +12,8 @@ const LeftMenu = ({
   backgroundColor,
   closeButtonColor: color,
   floorplans,
-  exterior,
-  amenities,
-  setGalleryIndex
+  setGalleryIndex,
+  sections
 }) => {
   const [openedMenu, setOpenedMenu] = React.useState('floorplans');
   const [selectedSubmenu, setSelectedSubmenu] = React.useState('floorplans');
@@ -97,24 +96,18 @@ const LeftMenu = ({
             isActive={selectedSubmenu === 'floorplans'}
             setSelectedSubmenu={setSelectedSubmenu}
           />
-          <AmenitiesSubmenu
-            openedMenu={openedMenu}
-            changeOpenedMenu={changeOpenedMenu}
-            amenities={amenities}
-            isActive={selectedSubmenu === 'amenities'}
-            setSelectedSubmenu={setSelectedSubmenu}
-            setGalleryIndex={setGalleryIndex}
-            identifier="amenities"
-          />
-          <AmenitiesSubmenu
-            openedMenu={openedMenu}
-            changeOpenedMenu={changeOpenedMenu}
-            amenities={exterior}
-            isActive={selectedSubmenu === 'exterior'}
-            setSelectedSubmenu={setSelectedSubmenu}
-            setGalleryIndex={setGalleryIndex}
-            identifier="exterior"
-          />
+          {sections.map((section) => (
+            <AmenitiesSubmenu
+              key={section.key}
+              openedMenu={openedMenu}
+              changeOpenedMenu={changeOpenedMenu}
+              amenities={section}
+              isActive={selectedSubmenu === section.key}
+              setSelectedSubmenu={setSelectedSubmenu}
+              setGalleryIndex={setGalleryIndex}
+              identifier={section.key}
+            />
+          ))}
         </div>
       </div>
       <AthumLogo className="athum-logo" />
@@ -128,8 +121,7 @@ LeftMenu.propTypes = {
   backgroundColor: string,
   closeButtonColor: string,
   floorplans: arrayOf(shape({})),
-  exterior: arrayOf(shape({})),
-  amenities: shape({}),
+  sections: arrayOf(shape({})),
   setGalleryIndex: func.isRequired
 };
 
@@ -137,8 +129,7 @@ LeftMenu.defaultProps = {
   backgroundColor: '#FFFFFF',
   closeButtonColor: '#000000',
   floorplans: [],
-  exterior: [],
-  amenities: {}
+  sections: []
 };
 
 export default LeftMenu;
