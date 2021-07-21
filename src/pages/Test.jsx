@@ -75,79 +75,74 @@ const ThreeSixtyPage = ({
   };
 
   return (
-    <>
-      <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
-        <Loader loading={loader} />
-        {levels.length > 0 && <Viewer type={type} />}
-        {amenity.length > 0 && (
-          <>
-            {amenity.length > 1 && (
-              <div className="gallery-carousel-controls">
-                <DropdownIcon
-                  className="left-arrow"
-                  onClick={moveCarouselLeft}
-                />
-                {`${galleryIndex + 1} / ${amenity.length}`}
-                <DropdownIcon
-                  className="right-arrow"
-                  onClick={moveCarouselRight}
-                />
-              </div>
-            )}
-            {amenity[galleryIndex].type === '2d' && (
-              <>
-                <ImageIcon className="icon-type" />
-                <img
-                  src={amenity[galleryIndex].image}
-                  alt="Amenity"
-                  className="image-full"
-                />
-              </>
-            )}
-            {amenity[galleryIndex].type === 'video' && (
-              // eslint-disable-next-line jsx-a11y/media-has-caption
-              <video
-                ref={videoRef}
-                src={amenity[galleryIndex].url}
-                muted
-                className="image-full"
-                autoPlay
+    <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
+      <Loader loading={loader} />
+      {levels.length > 0 && <Viewer type={type} />}
+      {amenity.length > 0 && (
+        <>
+          {amenity.length > 1 && (
+            <div className="gallery-carousel-controls">
+              <DropdownIcon className="left-arrow" onClick={moveCarouselLeft} />
+              {`${galleryIndex + 1} / ${amenity.length}`}
+              <DropdownIcon
+                className="right-arrow"
+                onClick={moveCarouselRight}
               />
-            )}
-            {amenity[galleryIndex].type === 'pano' && (
-              <>
-                <PanoIcon className="icon-type" />
-                <PanoViewer
-                  type={amenity[galleryIndex].type}
-                  image={amenity[galleryIndex].image}
-                  spots={amenity[galleryIndex].spots}
-                />
-              </>
-            )}
-          </>
-        )}
-        {!loader && (
-          <>
-            <LeftMenu
-              {...logo}
-              floorplans={floorplans}
-              setGalleryIndex={setGalleryIndex}
-              sections={sections}
+            </div>
+          )}
+          {amenity[galleryIndex].type === '2d' && (
+            <>
+              <ImageIcon className="icon-type" />
+              <img
+                src={amenity[galleryIndex].image}
+                alt="Amenity"
+                className="image-full"
+              />
+            </>
+          )}
+          {amenity[galleryIndex].type === 'video' && (
+            // eslint-disable-next-line jsx-a11y/media-has-caption
+            <video
+              ref={videoRef}
+              src={amenity[galleryIndex].url}
+              muted
+              className="image-full"
+              autoPlay
             />
-            <ActionsMenu
-              styles={styles}
-              infoPage={infoPage}
-              setInfoPage={setInfoPage}
-              type={type}
-              amenity={amenity}
-              galleryIndex={galleryIndex}
-              video={videoRef}
-            />
-          </>
-        )}
-        {infoPage && <InfoPage infoPage={infoPage} setInfoPage={setInfoPage} />}
-      </div>
-    </>
+          )}
+          {amenity[galleryIndex].type === 'pano' && (
+            <>
+              <PanoIcon className="icon-type" />
+              <PanoViewer
+                type={amenity[galleryIndex].type}
+                image={amenity[galleryIndex].image}
+                spots={amenity[galleryIndex].spots}
+              />
+            </>
+          )}
+        </>
+      )}
+      {!loader && (
+        <>
+          <LeftMenu
+            {...logo}
+            floorplans={floorplans}
+            setGalleryIndex={setGalleryIndex}
+            sections={sections}
+          />
+          <ActionsMenu
+            styles={styles}
+            infoPage={infoPage}
+            setInfoPage={setInfoPage}
+            type={type}
+            amenity={amenity}
+            galleryIndex={galleryIndex}
+            video={videoRef}
+          />
+        </>
+      )}
+      {infoPage && <InfoPage infoPage={infoPage} setInfoPage={setInfoPage} />}
+    </div>
   );
 };
 

@@ -178,7 +178,16 @@ const ActionsMenu = ({
       <div className="menu-action share-action" disabled>
         <ShareIcon className="share-icon" />
       </div>
-      <div className="menu-action full-screen-action" disabled>
+      <div
+        className="menu-action full-screen-action"
+        onClick={() => {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+          } else {
+            document.exitFullscreen();
+          }
+        }}
+      >
         <FullScreenIcon className="full-screen-icon" />
       </div>
       {type === 'three-sixty' && (
@@ -205,13 +214,15 @@ ActionsMenu.propTypes = {
   infoPage: shape({}),
   amenity: shape({}),
   galleryIndex: number.isRequired,
-  video: node
+  video: node,
+  container: node
 };
 
 ActionsMenu.defaultProps = {
   infoPage: null,
   amenity: {},
-  video: null
+  video: null,
+  container: null
 };
 
 const mapStateToProps = (state) => ({
