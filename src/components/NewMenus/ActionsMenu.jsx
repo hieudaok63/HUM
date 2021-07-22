@@ -155,7 +155,7 @@ const ActionsMenu = ({
             JSON.stringify(amenity[galleryIndex].features) !== '{}'
           ) {
             setInfoPage({ features: amenity[galleryIndex].features });
-          } else {
+          } else if (type === 'three-sixty') {
             setInfoPage({ minimap, floorplanFeatures, features });
           }
         }}
