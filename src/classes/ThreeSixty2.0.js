@@ -333,11 +333,6 @@ class ThreeSixtySphere {
     mesh.use = buildedScene.panorama.use;
     mesh.startScenePosition = buildedScene.startScenePosition;
 
-    this.setCameraStartScenePosition(
-      mesh.startScenePosition.x,
-      mesh.startScenePosition.y,
-      mesh.startScenePosition.z
-    );
     if (this.selectedScene !== mesh.name) {
       mesh.visible = false;
     } else {
