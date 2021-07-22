@@ -30,6 +30,7 @@ import { ReactComponent as PanoIcon } from '../assets/Icons/icon_360.svg';
 import { ReactComponent as ImageIcon } from '../assets/Icons/icon_image.svg';
 import './Test.scss';
 import LanguageAction from '../stores/language/actions';
+import ImageWithHotspots from '../components/ImageWithHotspots';
 
 const ThreeSixtyPage = ({
   floorplans,
@@ -91,14 +92,12 @@ const ThreeSixtyPage = ({
             </div>
           )}
           {amenity[galleryIndex].type === '2d' && (
-            <>
-              <ImageIcon className="icon-type" />
-              <img
-                src={amenity[galleryIndex].image}
-                alt="Amenity"
-                className="image-full"
-              />
-            </>
+            <ImageWithHotspots
+              src={amenity[galleryIndex].image}
+              spots={amenity[galleryIndex].spots}
+              alt="Amenity"
+              className="image-full"
+            />
           )}
           {amenity[galleryIndex].type === 'video' && (
             // eslint-disable-next-line jsx-a11y/media-has-caption
