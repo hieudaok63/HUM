@@ -139,6 +139,11 @@ class ThreeSixtySphere {
     this.loaderContainer.classList.remove('white-background');
     this.loaderContainer.classList.remove('none');
     this.loaderCall(false);
+    this.setCameraStartScenePosition(
+      this.activeMesh.startScenePosition.x,
+      this.activeMesh.startScenePosition.y,
+      this.activeMesh.startScenePosition.z
+    );
   };
 
   /* */
@@ -268,6 +273,8 @@ class ThreeSixtySphere {
         const mesh = this.updateMesh(scene, geometry, buildedScene, texture);
         if (this.selectedScene !== mesh.name) {
           mesh.visible = false;
+        } else {
+          this.activeMesh = mesh;
         }
         this.scene.add(mesh);
       });
