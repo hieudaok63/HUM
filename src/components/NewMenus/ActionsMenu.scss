@@ -204,6 +204,16 @@
   animation-delay: 1s;
 }
 
+.mute-action {
+  bottom: 100px;
+  right: 30px;
+}
+
+.mute-icon {
+  height: 20px;
+  width: 20px;
+}
+
 @keyframes lightActionFadeIn {
   0% {
     bottom: 30px;
@@ -304,4 +314,14 @@
 .eye-icon {
   height: 20px;
   width: 20px;
+}
+
+.copied {
+  position: absolute;
+  bottom: 75px;
+  right: 226px;
+  background-color: #ed6b6a;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 4px;
 }

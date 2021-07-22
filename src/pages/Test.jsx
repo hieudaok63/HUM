@@ -28,6 +28,8 @@ import PanoViewer from '../components/PanoViewer';
 import { ReactComponent as DropdownIcon } from '../assets/Icons/icon_dropdown.svg';
 import { ReactComponent as PanoIcon } from '../assets/Icons/icon_360.svg';
 import { ReactComponent as ImageIcon } from '../assets/Icons/icon_image.svg';
+import { ReactComponent as VideoIcon } from '../assets/Icons/icon-play.svg';
+import { ReactComponent as EllipseIcon } from '../assets/Icons/icon_ellipse.svg';
 import './Test.scss';
 import LanguageAction from '../stores/language/actions';
 
@@ -74,6 +76,12 @@ const ThreeSixtyPage = ({
     }
   };
 
+  const galleryIcon = {
+    '2d': <ImageIcon className="icon-type" />,
+    video: <VideoIcon className="icon-type-md" />,
+    pano: <PanoIcon className="icon-type-md" />
+  };
+
   return (
     <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
       <Loader loading={loader} />
@@ -82,43 +90,68 @@ const ThreeSixtyPage = ({
         <>
           {amenity.length > 1 && (
             <div className="gallery-carousel-controls">
-              <DropdownIcon className="left-arrow" onClick={moveCarouselLeft} />
-              {`${galleryIndex + 1} / ${amenity.length}`}
-              <DropdownIcon
-                className="right-arrow"
-                onClick={moveCarouselRight}
-              />
+              {amenity[galleryIndex - 1] ? (
+                <DropdownIcon
+                  className="left-arrow"
+                  onClick={moveCarouselLeft}
+                />
+              ) : (
+                <div className="placeholder placeholder-left" />
+              )}
+              {amenity[galleryIndex - 1] && (
+                <EllipseIcon
+                  className="ellipsis-icon"
+                  onClick={moveCarouselLeft}
+                />
+              )}
+              {amenity[galleryIndex] && galleryIcon[amenity[galleryIndex].type]}
+              {amenity[galleryIndex + 1] && (
+                <EllipseIcon
+                  className="ellipsis-icon"
+                  onClick={moveCarouselRight}
+                />
+              )}
+              {!amenity[galleryIndex - 1] && amenity[galleryIndex + 2] && (
+                <EllipseIcon
+                  className="ellipsis-icon"
+                  onClick={moveCarouselRight}
+                />
+              )}
+              {amenity[galleryIndex + 1] ? (
+                <DropdownIcon
+                  className="right-arrow"
+                  onClick={moveCarouselRight}
+                />
+              ) : (
+                <div className="placeholder placeholder-right" />
+              )}
             </div>
           )}
           {amenity[galleryIndex].type === '2d' && (
-            <>
-              <ImageIcon className="icon-type" />
-              <img
-                src={amenity[galleryIndex].image}
-                alt="Amenity"
-                className="image-full"
-              />
-            </>
+            <img
+              src={amenity[galleryIndex].image}
+              alt="Amenity"
+              className="image-full"
+            />
           )}
           {amenity[galleryIndex].type === 'video' && (
             // eslint-disable-next-line jsx-a11y/media-has-caption
-            <video
-              ref={videoRef}
-              src={amenity[galleryIndex].url}
-              muted
-              className="image-full"
-              autoPlay
-            />
+            <div className="video-full-container">
+              <video
+                ref={videoRef}
+                src={amenity[galleryIndex].url}
+                muted
+                className="video-full"
+                autoPlay
+              />
+            </div>
           )}
           {amenity[galleryIndex].type === 'pano' && (
-            <>
-              <PanoIcon className="icon-type" />
-              <PanoViewer
-                type={amenity[galleryIndex].type}
-                image={amenity[galleryIndex].image}
-                spots={amenity[galleryIndex].spots}
-              />
-            </>
+            <PanoViewer
+              type={amenity[galleryIndex].type}
+              image={amenity[galleryIndex].image}
+              spots={amenity[galleryIndex].spots}
+            />
           )}
         </>
       )}
@@ -138,6 +171,9 @@ const ThreeSixtyPage = ({
             amenity={amenity}
             galleryIndex={galleryIndex}
             video={videoRef}
+            isVideo={
+              amenity.length > 0 && amenity[galleryIndex].type === 'video'
+            }
           />
         </>
       )}

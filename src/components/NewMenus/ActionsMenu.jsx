@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { arrayOf, shape, func, string, number, node } from 'prop-types';
+import { arrayOf, shape, func, string, number, node, bool } from 'prop-types';
+import copy from 'copy-to-clipboard';
 import { ReactComponent as InfoIcon } from '../../assets/Icons/icon_info.svg';
 import { ReactComponent as SlowMoIcon } from '../../assets/Icons/icon_slow_motion.svg';
 import { ReactComponent as SlowMoPauseIcon } from '../../assets/Icons/icon_slow_motion_pause.svg';
@@ -23,6 +24,7 @@ import {
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
 import AmenitiesActions from '../../stores/amenities/actions';
 import LanguageActions from '../../stores/language/actions';
+import VideoMenu from './VideoMenu';
 
 const ActionsMenu = ({
   styles,
@@ -37,11 +39,13 @@ const ActionsMenu = ({
   type,
   amenity,
   galleryIndex,
-  video
+  video,
+  isVideo
 }) => {
   const [showSubmenu, setShowSubmenu] = React.useState('');
   const [language, setLanguage] = React.useState('');
   const [isPaused, setIsPaused] = React.useState(false);
+  const [showShare, setShowShare] = React.useState(false);
 
   const changeLanguage = async () => {
     const totalLanguages = availableLanguages.length;
@@ -108,6 +112,13 @@ const ActionsMenu = ({
     }
   };
 
+  const toggleMute = () => {
+    if (video.current) {
+      // eslint-disable-next-line no-param-reassign
+      video.current.muted = !video.current.muted;
+    }
+  };
+
   React.useEffect(() => {
     setLanguage(defaultLanguage);
     async function setDefaultLanguage() {
@@ -124,7 +135,13 @@ const ActionsMenu = ({
     };
   }, [language, infoPage]);
 
-  console.log('video.current', video?.current);
+  const toggleShare = () => {
+    setShowShare(true);
+    copy(window.location.href);
+    setTimeout(() => {
+      setShowShare(false);
+    }, 500);
+  };
 
   return (
     <>
@@ -175,7 +192,8 @@ const ActionsMenu = ({
         {language === 'es' && <ESIcon />}
         {language === 'fr' && <FRIcon />}
       </div>
-      <div className="menu-action share-action" disabled>
+      {showShare && <div className="copied">Copied!</div>}
+      <div className="menu-action share-action" onClick={toggleShare}>
         <ShareIcon className="share-icon" />
       </div>
       <div
@@ -190,6 +208,7 @@ const ActionsMenu = ({
       >
         <FullScreenIcon className="full-screen-icon" />
       </div>
+      {isVideo && <VideoMenu toggleMute={toggleMute} />}
       {type === 'three-sixty' && (
         <ThreeSixtyMenu
           styles={styles}
@@ -215,14 +234,16 @@ ActionsMenu.propTypes = {
   amenity: shape({}),
   galleryIndex: number.isRequired,
   video: node,
-  container: node
+  container: node,
+  isVideo: bool
 };
 
 ActionsMenu.defaultProps = {
   infoPage: null,
   amenity: {},
   video: null,
-  container: null
+  container: null,
+  isVideo: false
 };
 
 const mapStateToProps = (state) => ({
