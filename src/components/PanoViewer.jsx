@@ -19,6 +19,7 @@ class PanoViewer extends Component {
   async componentDidUpdate(prevProps) {
     const { image, dispatch } = this.props;
     if (prevProps.image !== image) {
+      this.panoViewer.removeChild(this.panoViewer.firstChild);
       await dispatch(AmenitiesActions.setContainer(null));
       this.reset();
     }

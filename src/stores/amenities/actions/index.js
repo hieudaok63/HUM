@@ -47,6 +47,7 @@ export default class AmenitiesActions {
             console.log(amenity);
             const room = amenity.content.find((item) => item.key === key);
             if (room) {
+              await dispatch(AmenitiesActions.setContainer(null));
               await dispatch(TourAction.selectType(room.media[0].type));
               await dispatch(AmenitiesActions.setAmenity(room.media));
               await dispatch(AmenitiesActions.setSelectedAmenity(key));
