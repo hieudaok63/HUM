@@ -162,6 +162,7 @@ const ThreeSixtyPage = ({
             floorplans={floorplans}
             setGalleryIndex={setGalleryIndex}
             sections={sections}
+            infoPage={infoPage}
           />
           <ActionsMenu
             styles={styles}
