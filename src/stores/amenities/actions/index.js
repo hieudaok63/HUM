@@ -42,11 +42,15 @@ export default class AmenitiesActions {
         spots,
         language,
         async (type, key) => {
-          const amenity = tour[type].content.find((item) => item.key === key);
+          const amenity = tour.sections.find((section) => section.key === type);
           if (amenity) {
-            await dispatch(TourAction.selectType(amenity.media[0].type));
-            await dispatch(AmenitiesActions.setAmenity(amenity.media));
-            await dispatch(AmenitiesActions.setSelectedAmenity(key));
+            console.log(amenity);
+            const room = amenity.content.find((item) => item.key === key);
+            if (room) {
+              await dispatch(TourAction.selectType(room.media[0].type));
+              await dispatch(AmenitiesActions.setAmenity(room.media));
+              await dispatch(AmenitiesActions.setSelectedAmenity(key));
+            }
           }
         }
       );
