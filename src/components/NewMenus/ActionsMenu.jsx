@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { arrayOf, shape, func, string, number, node, bool } from 'prop-types';
+import { arrayOf, shape, func, string, number } from 'prop-types';
 import copy from 'copy-to-clipboard';
 import { ReactComponent as InfoIcon } from '../../assets/Icons/icon_info.svg';
 import { ReactComponent as SlowMoIcon } from '../../assets/Icons/icon_slow_motion.svg';
-import { ReactComponent as SlowMoPauseIcon } from '../../assets/Icons/icon_slow_motion_pause.svg';
 import { ReactComponent as ShareIcon } from '../../assets/Icons/icon_share.svg';
 import { ReactComponent as FullScreenIcon } from '../../assets/Icons/icon_full_screen.svg';
 import { ReactComponent as ENIcon } from '../../assets/Icons/icon_en.svg';
@@ -24,7 +23,6 @@ import {
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
 import AmenitiesActions from '../../stores/amenities/actions';
 import LanguageActions from '../../stores/language/actions';
-import VideoMenu from './VideoMenu';
 
 const ActionsMenu = ({
   styles,
@@ -38,13 +36,10 @@ const ActionsMenu = ({
   dispatch,
   type,
   amenity,
-  galleryIndex,
-  video,
-  isVideo
+  galleryIndex
 }) => {
   const [showSubmenu, setShowSubmenu] = React.useState('');
   const [language, setLanguage] = React.useState('');
-  const [isPaused, setIsPaused] = React.useState(false);
   const [showShare, setShowShare] = React.useState(false);
 
   const changeLanguage = async () => {
@@ -100,25 +95,6 @@ const ActionsMenu = ({
     };
   }, []);
 
-  const togglePlay = () => {
-    if (video.current) {
-      if (video.current.paused) {
-        video.current.play();
-        setIsPaused(false);
-      } else {
-        video.current.pause();
-        setIsPaused(true);
-      }
-    }
-  };
-
-  const toggleMute = () => {
-    if (video.current) {
-      // eslint-disable-next-line no-param-reassign
-      video.current.muted = !video.current.muted;
-    }
-  };
-
   React.useEffect(() => {
     setLanguage(defaultLanguage);
     async function setDefaultLanguage() {
@@ -168,19 +144,8 @@ const ActionsMenu = ({
       >
         <InfoIcon className="info-icon" />
       </div>
-      <div
-        className="menu-action menu-action-active slow-mo-action"
-        disabled={
-          type === 'three-sixty' ||
-          (amenity.length > 0 && amenity[galleryIndex].type !== 'video')
-        }
-        onClick={togglePlay}
-      >
-        {isPaused ? (
-          <SlowMoIcon className="slow-mo-icon" />
-        ) : (
-          <SlowMoPauseIcon className="slow-mo-icon" />
-        )}
+      <div className="menu-action menu-action slow-mo-action" disabled>
+        <SlowMoIcon className="slow-mo-icon" />
       </div>
       <div
         className="menu-action menu-action-no-border language-action"
@@ -208,7 +173,6 @@ const ActionsMenu = ({
       >
         <FullScreenIcon className="full-screen-icon" />
       </div>
-      {isVideo && <VideoMenu toggleMute={toggleMute} />}
       {type === 'three-sixty' && (
         <ThreeSixtyMenu
           styles={styles}
@@ -232,18 +196,12 @@ ActionsMenu.propTypes = {
   type: string.isRequired,
   infoPage: shape({}),
   amenity: shape({}),
-  galleryIndex: number.isRequired,
-  video: node,
-  container: node,
-  isVideo: bool
+  galleryIndex: number.isRequired
 };
 
 ActionsMenu.defaultProps = {
   infoPage: null,
-  amenity: {},
-  video: null,
-  container: null,
-  isVideo: false
+  amenity: {}
 };
 
 const mapStateToProps = (state) => ({
