@@ -5,6 +5,7 @@ import { arrayOf, func, shape, bool, string } from 'prop-types';
 import { connect } from 'react-redux';
 import Loader from '../components/Loader';
 import Viewer from '../components/Viewer';
+import VideoPlayer from '../components/VideoPlayer';
 import TourAction from '../stores/tour/actions';
 // import ThreeSixtyAction from '../stores/threeSixty/actions';
 import LoadingAction from '../stores/loading/actions';
@@ -45,7 +46,6 @@ const ThreeSixtyPage = ({
   type,
   sections
 }) => {
-  const videoRef = React.useRef(null);
   const { builderId, projectId } = useParams();
   const [galleryIndex, setGalleryIndex] = React.useState(0);
   const [infoPage, setInfoPage] = React.useState(null);
@@ -137,15 +137,8 @@ const ThreeSixtyPage = ({
             />
           )}
           {amenity[galleryIndex].type === 'video' && (
-            // eslint-disable-next-line jsx-a11y/media-has-caption
             <div className="video-full-container">
-              <video
-                ref={videoRef}
-                src={amenity[galleryIndex].url}
-                muted
-                className="video-full"
-                autoPlay
-              />
+              <VideoPlayer src={amenity[galleryIndex].url} />
             </div>
           )}
           {amenity[galleryIndex].type === 'pano' && (
@@ -164,6 +157,7 @@ const ThreeSixtyPage = ({
             floorplans={floorplans}
             setGalleryIndex={setGalleryIndex}
             sections={sections}
+            infoPage={infoPage}
           />
           <ActionsMenu
             styles={styles}
@@ -172,10 +166,6 @@ const ThreeSixtyPage = ({
             type={type}
             amenity={amenity}
             galleryIndex={galleryIndex}
-            video={videoRef}
-            isVideo={
-              amenity.length > 0 && amenity[galleryIndex].type === 'video'
-            }
           />
         </>
       )}

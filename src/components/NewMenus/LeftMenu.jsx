@@ -13,8 +13,10 @@ const LeftMenu = ({
   closeButtonColor: color,
   floorplans,
   setGalleryIndex,
-  sections
+  sections,
+  infoPage
 }) => {
+  const [menuWasOpened, setMenuWasOpened] = React.useState(false);
   const [openedMenu, setOpenedMenu] = React.useState('floorplans');
   const [selectedSubmenu, setSelectedSubmenu] = React.useState('floorplans');
   const minifiedMenu = React.useRef(null);
@@ -64,6 +66,16 @@ const LeftMenu = ({
       document.removeEventListener('keyup', handleyKeyUp);
     };
   }, []);
+
+  React.useEffect(() => {
+    if (infoPage && minifiedMenu.current.className === 'hidden') {
+      hideMenu();
+      setMenuWasOpened(true);
+    } else if (menuWasOpened) {
+      showMenu();
+      setMenuWasOpened(false);
+    }
+  }, [infoPage]);
 
   return (
     <>
@@ -122,14 +134,16 @@ LeftMenu.propTypes = {
   closeButtonColor: string,
   floorplans: arrayOf(shape({})),
   sections: arrayOf(shape({})),
-  setGalleryIndex: func.isRequired
+  setGalleryIndex: func.isRequired,
+  infoPage: shape({})
 };
 
 LeftMenu.defaultProps = {
   backgroundColor: '#FFFFFF',
   closeButtonColor: '#000000',
   floorplans: [],
-  sections: []
+  sections: [],
+  infoPage: null
 };
 
 export default LeftMenu;
