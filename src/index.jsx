@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.css';
-import './index.css';
+import './index.scss';
 import AppRouter from './routers/AppRouter';
 import rootStore from './stores/rootStore';
 import * as serviceWorker from './serviceWorker';

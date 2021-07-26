@@ -275,7 +275,7 @@
   width: 70%;
 }
 
-.modal .modal-body,
+/* .modal .modal-body,
 .modal .modal-content,
 .modal .modal-dialog {
   width: 323px;
@@ -292,7 +292,7 @@
 
 .modal-dialog-centered:before {
   height: 275px;
-}
+} */
 
 .scroll-items {
   width: 160%;

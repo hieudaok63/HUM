@@ -11,6 +11,9 @@ html {
   color: rgba(0, 0, 0, 0.77);
   font-family: 'Roboto', sans-serif;
   background: #fafafa;
+  &.modal-active {
+    overflow: hidden;
+  }
 }
 
 code {

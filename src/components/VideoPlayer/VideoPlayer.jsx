@@ -1,4 +1,4 @@
-import { string } from 'prop-types';
+import { string, bool } from 'prop-types';
 import React from 'react';
 import './VideoPlayer.scss';
 
@@ -44,7 +44,7 @@ class VideoPlayer extends React.Component {
   }
 
   duration() {
-    let dur = document.getElementById('v').duration;
+    let dur = document.getElementById('v')?.duration || 0;
     dur = dur.toFixed();
 
     this.setState({
@@ -71,7 +71,7 @@ class VideoPlayer extends React.Component {
       return `${minutes}:${seconds}`;
     };
 
-    let cur = document.getElementById('v').currentTime;
+    let cur = document.getElementById('v')?.currentTime || 0;
     cur = cur.toFixed();
 
     this.setState({
@@ -132,10 +132,10 @@ class VideoPlayer extends React.Component {
   }
 
   render() {
-    const { src } = this.props;
+    const { src, fullWidth } = this.props;
     const { paused, currentTime, length, muted, volume } = this.state;
     return (
-      <div className="VideoPlayer">
+      <div className={`VideoPlayer ${fullWidth ? 'full-width' : ''}`}>
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video src={src} id="v" width="100%" height="100%" autoPlay muted />
 
@@ -241,7 +241,12 @@ class VideoPlayer extends React.Component {
 }
 
 VideoPlayer.propTypes = {
-  src: string.isRequired
+  src: string.isRequired,
+  fullWidth: bool
+};
+
+VideoPlayer.defaultProps = {
+  fullWidth: false
 };
 
 export default VideoPlayer;

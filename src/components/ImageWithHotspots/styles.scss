@@ -10,12 +10,9 @@
 
   & .hotspot {
     position: absolute;
-    width: 34px;
-    height: 34px;
-    padding-top: 23px;
-    border: 3px solid rgba(255, 255, 255, 0.8);
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    animation: fader 2s ease infinite;
     transition: all 0.2s;
     text-align: center;
     text-decoration: none;
@@ -23,37 +20,57 @@
     font-family: sans-serif;
     color: #555;
     z-index: 100;
-    &::after {
-      content: '';
-      width: 24px;
-      height: 24px;
-      background-color: #fff;
-      border-radius: 50%;
-      display: block;
-      margin: -21px auto 0 2px;
-      transition: all 0.2s;
+    background-size: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    &.image {
+      background: url(../../assets/Icons/Image_hotspot.svg);
+      background-size: 100%;
     }
-    &:hover {
-      border-color: #ed6b6a !important;
-      animation-play-state: paused;
-      color: #fff;
+    &.video {
+      background: url(../../assets/Icons/Video_hotspot.svg);
+      background-size: 100%;
     }
-    &:hover::after {
-      background-color: #ed6b6a;
+    &.infospots {
+      background: url(../../assets/Icons/Info_Hotspot.svg);
+      background-size: 100%;
     }
   }
 }
 .tooltip-image {
   position: absolute;
   width: 300px;
-  height: 300px;
-  background-color: white;
+  height: 200px;
+  background-color: #4a4a4a;
+  color: white;
   opacity: 0;
-  transform: translate(-35%, -100%);
+  transform: translate(-34%, -28%);
   transition: opacity 0.3s, transform 0.3s;
+  padding: 8px;
+  & * {
+    pointer-events: none;
+  }
   &.active {
-    opacity: 0.75;
-    transform: translate(-35%, -100%);
+    opacity: 1;
+    transform: translate(-34%, -28%);
+    z-index: 101;
+    cursor: pointer;
+    border-radius: 8px;
+    &.no-thumbnail {
+      opacity: 0.75;
+      cursor: auto;
+    }
+  }
+}
+
+.body-container {
+  width: 60%;
+  height: 70%;
+  margin: auto;
+  outline: none;
+  & img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
   }
 }
 
