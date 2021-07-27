@@ -39,66 +39,66 @@ export default class ThreeSixtyModel {
   level = {};
 
   getLayoutName() {
-    return this.floorplan.layoutName;
+    return this.floorplan?.layoutName;
   }
 
   getDisplayName() {
-    return this.floorplan.displayName;
+    return this.floorplan?.displayName;
   }
 
   getDefaultStyle() {
-    return this.floorplan.defaultStyle;
+    return this.floorplan?.defaultStyle;
   }
 
   getLevels() {
-    return this.floorplan.levels;
+    return this.floorplan?.levels;
   }
 
   getStyles() {
-    return this.floorplan.styles;
+    return this.floorplan?.styles;
   }
 
   getArea() {
-    return this.floorplan.area;
+    return this.floorplan?.area;
   }
 
   getBathrooms() {
-    return this.floorplan.bathrooms;
+    return this.floorplan?.bathrooms;
   }
 
   getBedrooms() {
-    return this.floorplan.bedrooms;
+    return this.floorplan?.bedrooms;
   }
 
   getFeatures() {
-    return this.floorplan.features;
+    return this.floorplan?.features;
   }
 
   getFloorplanId() {
-    return this.floorplan.floorPlanId;
+    return this.floorplan?.floorPlanId;
   }
 
   getParking() {
-    return this.floorplan.parking;
+    return this.floorplan?.parking;
   }
 
   getUnit() {
-    return this.floorplan.unit;
+    return this.floorplan?.unit;
   }
 
   getLevel() {
-    return this.floorplan.levels[0];
+    return this.floorplan?.levels[0];
   }
 
   getLevelScenes() {
-    return this.level.scenes;
+    return this.level?.scenes;
   }
 
   getLevelMinimap() {
-    return this.level.minimap;
+    return this.level?.minimap;
   }
 
   getSelectedScene() {
-    return this.level.defaultScene;
+    return this.level?.defaultScene;
   }
 }

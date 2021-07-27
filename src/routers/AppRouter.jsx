@@ -14,13 +14,9 @@ class AppRouter extends Component {
   async componentDidMount() {
     const language = strings.getLanguage();
     const { dispatch } = this.props;
-    if (language !== 'es' && language !== 'en') {
-      strings.setLanguage('es');
-      await dispatch(LanguageActions.setLanguage('es'));
-    } else {
-      strings.setLanguage(language);
-      await dispatch(LanguageActions.setLanguage(language));
-    }
+
+    strings.setLanguage('en');
+    await dispatch(LanguageActions.setLanguage('en'));
   }
 
   render() {

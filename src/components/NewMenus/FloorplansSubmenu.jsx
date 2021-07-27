@@ -7,7 +7,10 @@ import { ReactComponent as CarIcon } from '../../assets/Icons/icon_car.svg';
 import { ReactComponent as AreaIcon } from '../../assets/Icons/icon_area.svg';
 import { ReactComponent as DropdownIcon } from '../../assets/Icons/icon_dropdown.svg';
 import './LeftMenu.scss';
-import { selectedFloorplanSelector } from '../../selectors/Tour';
+import {
+  floorplansSectionNameSelector,
+  selectedFloorplanSelector
+} from '../../selectors/Tour';
 import TourAction from '../../stores/tour/actions';
 import PanoramaAction from '../../stores/panorama/actions';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
@@ -20,7 +23,8 @@ const FloorplansSubmenu = ({
   selectedFloorplan,
   isActive,
   setSelectedSubmenu,
-  dispatch
+  dispatch,
+  floorplansSectionName
 }) => {
   const [isOpen, setIsOpen] = React.useState(openedMenu === 'floorplans');
   const amenitiesSize = {
@@ -93,7 +97,7 @@ const FloorplansSubmenu = ({
             }}
             className="menu-item"
           >
-            Floorplans{' '}
+            {floorplansSectionName}{' '}
             <DropdownIcon
               className={`dropdown-icon ${!isOpen && 'dropdown-icon-inverted'}`}
             />
@@ -188,11 +192,13 @@ FloorplansSubmenu.propTypes = {
   selectedFloorplan: number.isRequired,
   dispatch: func.isRequired,
   isActive: bool.isRequired,
-  setSelectedSubmenu: func.isRequired
+  setSelectedSubmenu: func.isRequired,
+  floorplansSectionName: string.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  selectedFloorplan: selectedFloorplanSelector(state)
+  selectedFloorplan: selectedFloorplanSelector(state),
+  floorplansSectionName: floorplansSectionNameSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

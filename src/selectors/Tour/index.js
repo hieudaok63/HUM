@@ -37,6 +37,12 @@ export class TourSelector {
   static getTour(state) {
     return state.tour;
   }
+
+  static getFloorplanSectionName(state) {
+    if (!state.language.language || !state.tour.floorplansSectionName) return '';
+
+    return state.tour?.floorplansSectionName[state.language.language];
+  }
 }
 
 export const floorplansSelector = createSelector(
@@ -82,4 +88,9 @@ export const typeSelector = createSelector(
 export const tourSelector = createSelector(
   [TourSelector.getTour],
   (tour) => tour
+);
+
+export const floorplansSectionNameSelector = createSelector(
+  [TourSelector.getFloorplanSectionName],
+  (sectionName) => sectionName
 );
