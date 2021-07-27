@@ -7,7 +7,10 @@ import { ReactComponent as StylesIcon } from '../../assets/Icons/icon_styles.svg
 import { ReactComponent as EyeIcon } from '../../assets/Icons/icon_eye.svg';
 import { ReactComponent as EyeDisabledIcon } from '../../assets/Icons/icon_eye_disabled.svg';
 import './ActionsMenu.scss';
-import { selectedStyleSelector } from '../../selectors/ThreeSixty';
+import {
+  languageSelector,
+  selectedStyleSelector
+} from '../../selectors/ThreeSixty';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
 
 const ThreeSixtyMenu = ({
@@ -15,7 +18,8 @@ const ThreeSixtyMenu = ({
   showSubmenu,
   setShowSubmenu,
   selectedStyle,
-  dispatch
+  dispatch,
+  language
 }) => {
   const setSelectedStyle = async (style) => {
     await dispatch(ThreeSixtyAction.setSelectedStyle(style));
@@ -50,7 +54,7 @@ const ThreeSixtyMenu = ({
                   setShowSubmenu('');
                 }}
               >
-                {name.en}
+                {name[language]}
               </div>
             ))}
           </div>
@@ -83,11 +87,13 @@ ThreeSixtyMenu.propTypes = {
   showSubmenu: string.isRequired,
   setShowSubmenu: func.isRequired,
   selectedStyle: string.isRequired,
-  dispatch: func.isRequired
+  dispatch: func.isRequired,
+  language: string.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  selectedStyle: selectedStyleSelector(state)
+  selectedStyle: selectedStyleSelector(state),
+  language: languageSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
