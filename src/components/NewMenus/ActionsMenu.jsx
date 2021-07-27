@@ -122,7 +122,7 @@ const ActionsMenu = ({
   return (
     <>
       <div
-        className="menu-action info-action"
+        className="menu-action secondary-action info-action"
         onClick={() => {
           if (
             type !== 'three-sixty' &&
@@ -144,11 +144,14 @@ const ActionsMenu = ({
       >
         <InfoIcon className="info-icon" />
       </div>
-      <div className="menu-action menu-action slow-mo-action" disabled>
+      <div
+        className="menu-action secondary-action menu-action slow-mo-action"
+        disabled
+      >
         <SlowMoIcon className="slow-mo-icon" />
       </div>
       <div
-        className="menu-action menu-action-no-border language-action"
+        className="menu-action secondary-action menu-action-no-border language-action"
         onClick={() => {
           changeLanguage();
         }}
@@ -158,11 +161,14 @@ const ActionsMenu = ({
         {language === 'fr' && <FRIcon />}
       </div>
       {showShare && <div className="copied">Copied!</div>}
-      <div className="menu-action share-action" onClick={toggleShare}>
+      <div
+        className="menu-action secondary-action share-action"
+        onClick={toggleShare}
+      >
         <ShareIcon className="share-icon" />
       </div>
       <div
-        className="menu-action full-screen-action"
+        className="menu-action secondary-action full-screen-action"
         onClick={() => {
           if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen();

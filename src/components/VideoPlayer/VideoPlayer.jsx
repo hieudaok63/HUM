@@ -15,10 +15,12 @@ class VideoPlayer extends React.Component {
   }
 
   componentDidMount() {
-    this.customVolume();
+    // this.customVolume();
     setInterval(() => this.setState({ currentTime: this.currentTime() }), 10);
 
     setInterval(() => this.setState({ length: this.duration() }), 10);
+
+    this.mute();
   }
 
   play() {
@@ -111,24 +113,11 @@ class VideoPlayer extends React.Component {
 
   mute() {
     const { muted } = this.state;
-    document.getElementById('v').muted = true;
+    document.getElementById('v').muted = !muted;
 
     this.setState({
-      muted: true
+      muted: !muted
     });
-
-    if (muted === true) {
-      document.getElementById('v').muted = false;
-
-      this.setState({
-        muted: false
-      });
-    } else {
-      document.getElementById('v').muted = true;
-      this.setState({
-        muted: true
-      });
-    }
   }
 
   render() {
@@ -137,7 +126,7 @@ class VideoPlayer extends React.Component {
     return (
       <div className={`VideoPlayer ${fullWidth ? 'full-width' : ''}`}>
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        <video src={src} id="v" width="100%" height="100%" autoPlay muted />
+        <video src={src} id="v" width="100%" height="100%" autoPlay />
 
         <div className="controls">
           <button
