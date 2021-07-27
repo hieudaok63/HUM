@@ -133,7 +133,7 @@ const AmenitiesSubmenu = ({
                         <ImageIcon className="amenity-content-icon-type" />
                       )}
                     </div>
-                    <div className="amenity-content-name">{room.en}</div>
+                    <div className="amenity-content-name">{room[language]}</div>
                   </div>
                 </div>
               );
