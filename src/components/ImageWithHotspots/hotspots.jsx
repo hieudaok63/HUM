@@ -1,17 +1,20 @@
 import React from 'react';
-import { shape, string } from 'prop-types';
+import { shape, string, func } from 'prop-types';
 import { Modal } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { languageSelector } from '../../selectors/Language';
 import VideoPlayer from '../VideoPlayer';
+import { tourSelector } from '../../selectors/Tour';
+import AmenitiesActions from '../../stores/amenities/actions';
+import TourAction from '../../stores/tour/actions';
 
-const ImageHotspot = ({ spot, language }) => {
+const ImageHotspot = ({ spot, language, dispatch, tour }) => {
   const hotspotRef = React.useRef(null);
   const tooltip = React.useRef(null);
 
   const [showModal, setShowModal] = React.useState(false);
 
-  const activateTooltip = (e) => {
+  const activateTooltip = () => {
     tooltip.current.classList.add('active');
   };
 
@@ -27,7 +30,7 @@ const ImageHotspot = ({ spot, language }) => {
       tooltip.current.removeEventListener('mouseout', deactivateTooltip);
     };
   }, []);
-  console.log(spot);
+
   return (
     <>
       <div
@@ -51,8 +54,26 @@ const ImageHotspot = ({ spot, language }) => {
           backgroundImage: `url(${spot.thumbnail})`,
           backgroundSize: '100%'
         }}
-        onClick={() => {
-          setShowModal(true);
+        onClick={async () => {
+          if (spot.type === 'image' || spot.type === 'video') {
+            setShowModal(true);
+          } else if (spot.type === 'hotspots') {
+            const amenity = tour.sections.find(
+              (section) => section.key === spot.in
+            );
+            if (amenity) {
+              console.log(amenity);
+              const room = amenity.content.find(
+                (item) => item.key === spot.key
+              );
+              if (room) {
+                await dispatch(AmenitiesActions.setContainer(null));
+                await dispatch(TourAction.selectType(room.media[0].type));
+                await dispatch(AmenitiesActions.setAmenity(room.media));
+                await dispatch(AmenitiesActions.setSelectedAmenity(spot.key));
+              }
+            }
+          }
         }}
       >
         <h3>{spot.name[language]}</h3>
@@ -88,11 +109,18 @@ const ImageHotspot = ({ spot, language }) => {
 
 ImageHotspot.propTypes = {
   spot: shape({}).isRequired,
-  language: string.isRequired
+  language: string.isRequired,
+  tour: shape({}).isRequired,
+  dispatch: func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  language: languageSelector(state)
+  language: languageSelector(state),
+  tour: tourSelector(state)
 });
 
-export default connect(mapStateToProps, null)(ImageHotspot);
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ImageHotspot);

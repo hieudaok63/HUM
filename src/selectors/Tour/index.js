@@ -34,6 +34,9 @@ export class TourSelector {
   static getType(state) {
     return state.tour.type;
   }
+  static getTour(state) {
+    return state.tour;
+  }
 }
 
 export const floorplansSelector = createSelector(
@@ -74,4 +77,9 @@ export const sectionsSelector = createSelector(
 export const typeSelector = createSelector(
   [TourSelector.getType],
   (type) => type
+);
+
+export const tourSelector = createSelector(
+  [TourSelector.getTour],
+  (tour) => tour
 );
