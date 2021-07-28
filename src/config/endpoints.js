@@ -39,7 +39,7 @@ const threeSixtyApiKey = {
 export const THREE_SIXTY_API_KEY = threeSixtyApiKey[ENV];
 
 export const SOCKET_TEST_API = 'https://virtualsalesapp.azurewebsites.net';
-export const SOCKET_PROD_API = 'https://prod-athum-rso-ws.azurewebsites.net/';
+export const SOCKET_PROD_API = 'https://prod-rso-websocket.azurewebsites.net';
 export const SOCKET_STAGING_API =
   'https://staging-athum-rso-ws.azurewebsites.net';
 const socket = {
