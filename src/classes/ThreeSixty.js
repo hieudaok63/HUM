@@ -76,6 +76,9 @@ class ThreeSixtySphere {
     loaderCall,
     language
   }) => {
+    while (container.firstChild) {
+      container.removeChild(container.lastChild);
+    }
     this.container = container;
     this.tooltip = this.createTooltip();
     this.width = width;
