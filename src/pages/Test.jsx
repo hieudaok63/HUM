@@ -41,7 +41,6 @@ const ThreeSixtyPage = ({
   loader,
   levels,
   logo,
-  styles,
   amenity,
   type,
   sections
@@ -160,7 +159,6 @@ const ThreeSixtyPage = ({
             infoPage={infoPage}
           />
           <ActionsMenu
-            styles={styles}
             infoPage={infoPage}
             setInfoPage={setInfoPage}
             type={type}
@@ -179,7 +177,6 @@ const mapStateToProps = (state) => ({
   loader: loadingSelector(state),
   levels: levelsSelector(state),
   logo: logoSelector(state),
-  styles: stylesSelector(state),
   type: typeSelector(state),
   amenity: amenitySelector(state),
   sections: sectionsSelector(state)
@@ -195,7 +192,6 @@ ThreeSixtyPage.propTypes = {
   loader: bool.isRequired,
   levels: arrayOf(shape({})).isRequired,
   logo: shape({}).isRequired,
-  styles: arrayOf(shape({})).isRequired,
   amenity: arrayOf(shape({})).isRequired,
   type: string.isRequired,
   sections: arrayOf(shape({})).isRequired

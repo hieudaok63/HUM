@@ -9,7 +9,10 @@ import { ReactComponent as EyeDisabledIcon } from '../../assets/Icons/icon_eye_d
 import './ActionsMenu.scss';
 import {
   languageSelector,
-  selectedStyleSelector
+  selectedStyleSelector,
+  stylesSelector,
+  finishesSelector,
+  selectedFinishSelector
 } from '../../selectors/ThreeSixty';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
 
@@ -19,19 +22,52 @@ const ThreeSixtyMenu = ({
   setShowSubmenu,
   selectedStyle,
   dispatch,
-  language
+  language,
+  finishes,
+  selectedFinish
 }) => {
   const setSelectedStyle = async (style) => {
     await dispatch(ThreeSixtyAction.setSelectedStyle(style));
     await dispatch(ThreeSixtyAction.updateSpheres(style));
   };
+  const setSelectedFinish = async (finish) => {
+    await dispatch(ThreeSixtyAction.setSelectedFinish(finish));
+    await dispatch(ThreeSixtyAction.updateFinishes());
+  };
+
+  console.log(selectedFinish);
   return (
     <>
       <div className="menu-action secondary-action light-action" disabled>
         <LightIcon className="light-icon" />
       </div>
-      <div className="menu-action secondary-action settings-action" disabled>
+      <div
+        className={`${showSubmenu === 'finishes' &&
+          'menu-action-active'} menu-action secondary-action settings-action`}
+        onClick={() => {
+          setShowSubmenu('finishes');
+        }}
+        disabled={finishes.length === 0}
+      >
         <SettingsIcon className="settings-icon" />
+        {showSubmenu === 'finishes' && (
+          <div className="menu-action-submenu">
+            {finishes.map(({ key, name }) => (
+              <div
+                key={key}
+                className={`menu-action-submenu-option ${selectedFinish ===
+                  key && 'menu-action-submenu-option-active'}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedFinish(key);
+                  setShowSubmenu('');
+                }}
+              >
+                {name[language]}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <div
         className={`${showSubmenu === 'styles' &&
@@ -84,16 +120,21 @@ const ThreeSixtyMenu = ({
 
 ThreeSixtyMenu.propTypes = {
   styles: arrayOf(shape({})).isRequired,
+  finishes: arrayOf(shape({})).isRequired,
   showSubmenu: string.isRequired,
   setShowSubmenu: func.isRequired,
   selectedStyle: string.isRequired,
+  selectedFinish: string.isRequired,
   dispatch: func.isRequired,
   language: string.isRequired
 };
 
 const mapStateToProps = (state) => ({
   selectedStyle: selectedStyleSelector(state),
-  language: languageSelector(state)
+  selectedFinish: selectedFinishSelector(state),
+  language: languageSelector(state),
+  styles: stylesSelector(state),
+  finishes: finishesSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

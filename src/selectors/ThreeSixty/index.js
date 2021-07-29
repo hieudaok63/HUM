@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { getFinishes, getSelectedFinish } from './utils';
 
 export class ThreeSixtySelector {
   static getScenes(state) {
@@ -32,6 +33,22 @@ export class ThreeSixtySelector {
   }
   static getLanguage(state) {
     return state.threeSixty.language;
+  }
+  static getFinishes(state) {
+    return getFinishes(
+      state.threeSixty.currentRoomUse,
+      state.threeSixty.selectedFinish,
+      state.threeSixty.selectedScene,
+      state.threeSixty.levelScenes
+    );
+  }
+  static getSelectedFinish(state) {
+    return getSelectedFinish(
+      state.threeSixty.currentRoomUse,
+      state.threeSixty.selectedFinish,
+      state.threeSixty.selectedScene,
+      state.threeSixty.levelScenes
+    );
   }
 }
 
@@ -73,4 +90,14 @@ export const selectedSceneSelector = createSelector(
 export const languageSelector = createSelector(
   [ThreeSixtySelector.getLanguage],
   (language) => language
+);
+
+export const finishesSelector = createSelector(
+  [ThreeSixtySelector.getFinishes],
+  (finishes) => finishes
+);
+
+export const selectedFinishSelector = createSelector(
+  [ThreeSixtySelector.getSelectedFinish],
+  (finish) => finish
 );

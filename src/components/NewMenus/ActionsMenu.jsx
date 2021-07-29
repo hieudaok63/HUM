@@ -25,7 +25,6 @@ import AmenitiesActions from '../../stores/amenities/actions';
 import LanguageActions from '../../stores/language/actions';
 
 const ActionsMenu = ({
-  styles,
   setInfoPage,
   infoPage,
   defaultLanguage,
@@ -181,7 +180,6 @@ const ActionsMenu = ({
       </div>
       {type === 'three-sixty' && (
         <ThreeSixtyMenu
-          styles={styles}
           showSubmenu={showSubmenu}
           setShowSubmenu={setShowSubmenu}
         />
@@ -191,7 +189,6 @@ const ActionsMenu = ({
 };
 
 ActionsMenu.propTypes = {
-  styles: arrayOf(shape({})).isRequired,
   setInfoPage: func.isRequired,
   minimap: shape({}).isRequired,
   floorplanFeatures: shape({}).isRequired,

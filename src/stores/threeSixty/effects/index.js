@@ -217,9 +217,9 @@ export default class ThreeSixtyEffect {
   //   return model;
   // }
 
-  // static async updateSpheresFinishes(threeSixty, finish) {
-  //   threeSixty.updateFinishes(finish);
-  // }
+  static async updateSpheresFinishes(threeSixty, finish) {
+    threeSixty.updateFinishes(finish);
+  }
 
   // static async updateLevel(threeSixty, levels, currentLevel) {
   //   const level = levels[currentLevel - 1];
