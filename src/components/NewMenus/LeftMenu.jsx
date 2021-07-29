@@ -91,7 +91,7 @@ const LeftMenu = ({
           <img src={reduceLogo} alt="Logo" />
         </div>
       </div>
-      <div ref={menu} className="hidden">
+      <div ref={menu} className="menu left-fade-in">
         <div className="menu-header" style={{ backgroundColor }}>
           <img src={expandedLogo} alt="Logo" />
           <CloseIcon
