@@ -55,6 +55,7 @@ class ThreeSixtySphere {
     this.currentFinish = 'default';
     this.selectedSceneLoadedImage = '';
     this.startScenePosition = startScenePosition;
+    this.setCameraPosition = false;
   }
 
   init = ({
@@ -97,6 +98,7 @@ class ThreeSixtySphere {
     this.level = level;
     this.currentStyle = style;
     this.language = language;
+    this.setCameraPosition = true;
     this.initializeManager();
     this.initializeCamera();
     this.initializeScene();
@@ -118,11 +120,13 @@ class ThreeSixtySphere {
         this.updateStyleCall(this.currentStyle);
       }
       this.loaderCall(false);
-      this.setCameraStartScenePosition(
-        this.activeMesh.startScenePosition.x,
-        this.activeMesh.startScenePosition.y,
-        this.activeMesh.startScenePosition.z
-      );
+      if (this.setCameraPosition) {
+        this.setCameraStartScenePosition(
+          this.activeMesh.startScenePosition.x,
+          this.activeMesh.startScenePosition.y,
+          this.activeMesh.startScenePosition.z
+        );
+      }
     };
     this.manager.onProgress = (url) => {
       if (url === this.selectedSceneLoadedImage) {
@@ -741,6 +745,7 @@ class ThreeSixtySphere {
         this.CLICKEDSPRITE.isHotspot &&
         this.CLICKEDSPRITE.parent.name === this.selectedScene
       ) {
+        this.setCameraPosition = true;
         this.changeSphereScene(
           this.CLICKEDSPRITE.key,
           this.CLICKEDSPRITE.startScenePosition,
@@ -825,6 +830,7 @@ class ThreeSixtySphere {
       .normalize()
       .multiplyScalar(camDistance)
       .negate();
+    this.setCameraPosition = false;
   };
 
   /* */
