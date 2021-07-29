@@ -118,6 +118,11 @@ class ThreeSixtySphere {
         this.updateStyleCall(this.currentStyle);
       }
       this.loaderCall(false);
+      this.setCameraStartScenePosition(
+        this.activeMesh.startScenePosition.x,
+        this.activeMesh.startScenePosition.y,
+        this.activeMesh.startScenePosition.z
+      );
     };
     this.manager.onProgress = (url) => {
       if (url === this.selectedSceneLoadedImage) {
@@ -142,11 +147,6 @@ class ThreeSixtySphere {
     this.loaderContainer.classList.remove('white-background');
     this.loaderContainer.classList.remove('none');
     this.loaderCall(false);
-    this.setCameraStartScenePosition(
-      this.activeMesh.startScenePosition.x,
-      this.activeMesh.startScenePosition.y,
-      this.activeMesh.startScenePosition.z
-    );
   };
 
   /* */

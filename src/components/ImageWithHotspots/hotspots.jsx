@@ -37,8 +37,8 @@ const ImageHotspot = ({ spot, language, dispatch, tour }) => {
         ref={hotspotRef}
         className={`hotspot ${spot.type}`}
         style={{
-          top: `${(spot.y / document.body.clientHeight) * 100}%`,
-          left: `${(spot.x / document.body.clientWidth) * 100}%`
+          top: `${spot.y / document.body.clientHeight}%`,
+          left: `${spot.x / document.body.clientWidth}%`
         }}
       />
       <div
@@ -49,8 +49,8 @@ const ImageHotspot = ({ spot, language, dispatch, tour }) => {
             : 'no-thumbnail justify-content-start'
         }`}
         style={{
-          top: `${(spot.y / document.body.clientHeight) * 100}%`,
-          left: `${(spot.x / document.body.clientWidth) * 100}%`,
+          top: `${spot.y / document.body.clientHeight}%`,
+          left: `${spot.x / document.body.clientWidth}%`,
           backgroundImage: `url(${spot.thumbnail})`,
           backgroundSize: '100%'
         }}
