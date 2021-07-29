@@ -26,6 +26,7 @@ const ThreeSixtyMenu = ({
   finishes,
   selectedFinish
 }) => {
+  const [lastStyle, setlastStyle] = React.useState('');
   const setSelectedStyle = async (style) => {
     await dispatch(ThreeSixtyAction.setSelectedStyle(style));
     await dispatch(ThreeSixtyAction.updateSpheres(style));
@@ -101,8 +102,9 @@ const ThreeSixtyMenu = ({
           'Empty' && 'menu-action-active'}`}
         onClick={() => {
           if (selectedStyle === 'Empty') {
-            setSelectedStyle('StyleOne');
+            setSelectedStyle(lastStyle);
           } else {
+            setlastStyle(selectedStyle);
             setSelectedStyle('Empty');
           }
           setShowSubmenu('');
