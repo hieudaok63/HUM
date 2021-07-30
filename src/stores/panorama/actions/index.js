@@ -54,7 +54,7 @@ export default class PanoramaAction {
     return async (dispatch, getState) => {
       const { panorama, threeSixty } = getState();
       const { panoramaInfo, panorama: threeSixtyPano } = panorama;
-      const { styles } = threeSixty;
+      const { styles, showLoader } = threeSixty;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         PanoramaAction.PANORAMA_REQUEST,
@@ -114,7 +114,11 @@ export default class PanoramaAction {
           if (loading !== undefined) {
             await dispatch(LoadingAction.setLoader(loading));
           }
-        }
+        },
+        async () => {
+          await dispatch(ThreeSixtyAction.changingFloorplanFromMenu(false));
+        },
+        showLoader
       );
 
       const isError = model instanceof PanoramaErrorModel;

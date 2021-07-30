@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { string, func, number } from 'prop-types';
 import PanoramaAction from '../stores/panorama/actions';
-import LoadingAction from '../stores/loading/actions';
 import { errorSelector } from '../selectors/error';
 import { menuOptionSelector } from '../selectors/menu';
 import { panoramaSelector } from '../selectors/Panorama';
@@ -12,10 +11,6 @@ const Viewer = ({ selectedFloorplan, error, type, dispatch }) => {
   const atHUMViewer = React.useRef(null);
   React.useEffect(() => {
     async function buildViewer() {
-      if (atHUMViewer.current.children.length > 0) {
-        await dispatch(LoadingAction.setLoader(true));
-      }
-
       await dispatch(PanoramaAction.setContainer(atHUMViewer.current));
       const panoramaInfo = await dispatch(PanoramaAction.createPanoramaInfo());
       if (!panoramaInfo.isError) {

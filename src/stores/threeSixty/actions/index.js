@@ -74,6 +74,9 @@ export default class ThreeSixtyAction {
 
   static CHANGE_LANGUAGE_REQUEST_FINISHED = 'CHANGE_LANGUAGE_REQUEST_FINISHED';
 
+  static CHANGE_FLOORPLAN_MENU_REQUEST_FINISHED =
+    'CHANGE_FLOORPLAN_MENU_REQUEST_FINISHED';
+
   static reset() {
     return ActionUtility.createAction(
       ThreeSixtyAction.RESET_REQUEST_FINISHED,
@@ -331,6 +334,13 @@ export default class ThreeSixtyAction {
   static setLanguage(option) {
     return ActionUtility.createAction(
       ThreeSixtyAction.CHANGE_LANGUAGE_REQUEST_FINISHED,
+      option
+    );
+  }
+
+  static changingFloorplanFromMenu(option) {
+    return ActionUtility.createAction(
+      ThreeSixtyAction.CHANGE_FLOORPLAN_MENU_REQUEST_FINISHED,
       option
     );
   }

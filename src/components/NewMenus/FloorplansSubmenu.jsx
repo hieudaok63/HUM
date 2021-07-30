@@ -15,6 +15,7 @@ import TourAction from '../../stores/tour/actions';
 import PanoramaAction from '../../stores/panorama/actions';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
 import AmenitiesActions from '../../stores/amenities/actions';
+import { ThreeSixty } from '@material-ui/icons';
 
 const FloorplansSubmenu = ({
   openedMenu,
@@ -69,6 +70,7 @@ const FloorplansSubmenu = ({
   }, [openedMenu, submenu.current]);
 
   const setSelectedFloorplan = async (floorplan) => {
+    await dispatch(ThreeSixtyAction.changingFloorplanFromMenu(true));
     await dispatch(TourAction.selectType('three-sixty'));
     await dispatch(AmenitiesActions.reset());
     await dispatch(TourAction.selectFloorplan(floorplan));

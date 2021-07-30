@@ -84,7 +84,9 @@ export default class SessionEffect {
     updateCall,
     updateMenuCall,
     updateStyleCall,
-    loaderCall
+    loaderCall,
+    changingFromFloorplanCall,
+    showLoader
   ) {
     const threeSixty = new THREESIXTY();
 
@@ -102,7 +104,11 @@ export default class SessionEffect {
       },
       loaderCall: async (loading) => {
         loaderCall(loading);
-      }
+      },
+      changingFromFloorplanCall: async () => {
+        changingFromFloorplanCall();
+      },
+      showLoader
     };
     threeSixty.init(params);
     threeSixty.animate();

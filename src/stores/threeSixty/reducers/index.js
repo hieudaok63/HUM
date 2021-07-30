@@ -28,7 +28,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
     currentLevel: 0,
     mode: 'day',
     selectedMenuOption: '',
-    levelScenes: []
+    levelScenes: [],
+    showLoader: false
   };
 
   [ThreeSixtyAction.SET_THREESIXTY_DATA_FINISHED](state, action) {
@@ -169,6 +170,13 @@ export default class ThreeSixtyReducer extends BaseReducer {
   [ThreeSixtyAction.RESET_REQUEST_FINISHED]() {
     return {
       ...this.initialState
+    };
+  }
+
+  [ThreeSixtyAction.CHANGE_FLOORPLAN_MENU_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      showLoader: action.payload
     };
   }
 }

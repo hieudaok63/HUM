@@ -2,7 +2,6 @@ import loader from '../../../assets/home-white.gif';
 
 export default class SimplePanoramaModel {
   constructor(data) {
-    console.log('-->', data);
     this.container = data.container;
     this.width = data.width;
     this.height = data.height;

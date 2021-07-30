@@ -36,7 +36,6 @@ const ThreeSixtyMenu = ({
     await dispatch(ThreeSixtyAction.updateFinishes());
   };
 
-  console.log(selectedFinish);
   return (
     <>
       <div className="menu-action secondary-action light-action" disabled>

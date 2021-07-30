@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { DeviceOrientationControls } from '../lib/three/DeviceOrientationControls';
 import { TextureLoader } from '../lib/three/loaders/loaders';
 import Data from '../assets/Data';
+import loader from '../assets/home-white.gif';
 
 class ThreeSixtySphere {
   constructor(
@@ -75,7 +76,9 @@ class ThreeSixtySphere {
     updateStyleCall,
     style,
     loaderCall,
-    language
+    language,
+    changingFromFloorplanCall,
+    showLoader
   }) => {
     while (container.firstChild) {
       container.removeChild(container.lastChild);
@@ -95,10 +98,16 @@ class ThreeSixtySphere {
     this.updateMenuCall = updateMenuCall;
     this.updateStyleCall = updateStyleCall;
     this.loaderCall = loaderCall;
+    this.showLoader = showLoader;
+    if (this.showLoader) {
+      this.loaderContainer = this.createLoader();
+      this.container.appendChild(this.loaderContainer);
+    }
     this.level = level;
     this.currentStyle = style;
     this.language = language;
     this.setCameraPosition = true;
+    this.changingFromFloorplanCall = changingFromFloorplanCall;
     this.initializeManager();
     this.initializeCamera();
     this.initializeScene();
@@ -112,6 +121,23 @@ class ThreeSixtySphere {
   };
 
   /* */
+  createLoader = () => {
+    const loaderContainer = document.createElement('div');
+    loaderContainer.classList.add('loader');
+    loaderContainer.classList.add('white-background');
+    const loaderImageContainer = document.createElement('div');
+    loaderImageContainer.classList.add('loader-image-container');
+
+    const loaderImage = document.createElement('img');
+    loaderImage.alt = 'athum loader';
+    loaderImage.src = loader;
+    loaderImageContainer.appendChild(loaderImage);
+
+    loaderContainer.appendChild(loaderImageContainer);
+    return loaderContainer;
+  };
+
+  /* */
   initializeManager = () => {
     this.manager = new THREE.LoadingManager();
     this.manager.onStart = () => {};
@@ -120,6 +146,7 @@ class ThreeSixtySphere {
         this.updateStyleCall(this.currentStyle);
       }
       this.loaderCall(false);
+      this.changingFromFloorplanCall();
       if (this.setCameraPosition) {
         this.setCameraStartScenePosition(
           this.activeMesh.startScenePosition.x,
@@ -127,7 +154,16 @@ class ThreeSixtySphere {
           this.activeMesh.startScenePosition.z
         );
       }
+      if (this.showLoader) {
+        this.loaderContainer.classList.add('none');
+
+        this.loaderContainer.addEventListener(
+          'transitionend',
+          this.onTransitionEnd
+        );
+      }
     };
+
     this.manager.onProgress = (url) => {
       if (url === this.selectedSceneLoadedImage) {
         this.updateStyleCall(this.currentStyle);
@@ -151,6 +187,7 @@ class ThreeSixtySphere {
     this.loaderContainer.classList.remove('white-background');
     this.loaderContainer.classList.remove('none');
     this.loaderCall(false);
+    this.changingFromFloorplanCall();
   };
 
   /* */
