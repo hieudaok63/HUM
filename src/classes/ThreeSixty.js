@@ -242,6 +242,16 @@ class ThreeSixtySphere {
   };
 
   /* */
+  clearScene = () => {
+    this.scene.children.forEach((mesh) => {
+      mesh.material.dispose();
+      mesh.geometry.dispose();
+      mesh.children = [];
+      this.scene.remove(mesh);
+    });
+  };
+
+  /* */
   initializeScene = () => {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x000000);

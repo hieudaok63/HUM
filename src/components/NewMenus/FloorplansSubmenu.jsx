@@ -74,14 +74,7 @@ const FloorplansSubmenu = ({
     await dispatch(TourAction.selectType('three-sixty'));
     await dispatch(AmenitiesActions.reset());
     await dispatch(TourAction.selectFloorplan(floorplan));
-    await dispatch(PanoramaAction.destroyPanorama());
     await dispatch(ThreeSixtyAction.setThreeSixtyData());
-    const panoramaInfo = await dispatch(PanoramaAction.createPanoramaInfo());
-
-    if (!panoramaInfo.isError) {
-      await dispatch(PanoramaAction.setPanorama());
-    }
-
     setSelectedSubmenu('floorplans');
   };
   return (

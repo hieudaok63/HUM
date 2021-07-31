@@ -15,8 +15,13 @@ export default class SessionEffect {
     finish,
     scenes,
     styles,
-    language
+    language,
+    panorama
   ) {
+    console.log('-> panorama', panorama);
+    if (panorama) {
+      panorama.clearScene();
+    }
     const selectedLevel = levels[level];
     if (selectedLevel) {
       const styleToRequest = style === 'default' ? defaultStyle : style;
