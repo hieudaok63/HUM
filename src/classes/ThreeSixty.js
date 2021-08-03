@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { DeviceOrientationControls } from '../lib/three/DeviceOrientationControls';
 import { TextureLoader } from '../lib/three/loaders/loaders';
 import Data from '../assets/Data';
-import loader from '../assets/home-white.gif';
+import loaderGIF from '../assets/home-white.gif';
 
 class ThreeSixtySphere {
   constructor(
@@ -130,7 +130,7 @@ class ThreeSixtySphere {
 
     const loaderImage = document.createElement('img');
     loaderImage.alt = 'athum loader';
-    loaderImage.src = loader;
+    loaderImage.src = loaderGIF;
     loaderImageContainer.appendChild(loaderImage);
 
     loaderContainer.appendChild(loaderImageContainer);
@@ -265,7 +265,7 @@ class ThreeSixtySphere {
   /* */
   updateMeshMaterial = (mesh) => {
     const loader = new THREE.TextureLoader(this.manager);
-    loader.crossOrigin = '';
+    loader.setCrossOrigin('anonymous');
     const sceneToUpdate = this.scenes.find((scene) => scene.key === mesh.name);
     const buildedScene = this.createSceneInfo(sceneToUpdate);
     if (buildedScene !== null) {
@@ -322,7 +322,7 @@ class ThreeSixtySphere {
       geometry.scale(-1, 1, 1);
 
       const loader = new THREE.TextureLoader(this.manager);
-      loader.crossOrigin = 'anonymous';
+      loader.setCrossOrigin('anonymous');
       loader.load(buildedScene.panorama.uri, (texture) => {
         const mesh = this.updateMesh(scene, geometry, buildedScene, texture);
         if (this.selectedScene !== mesh.name) {
@@ -429,7 +429,7 @@ class ThreeSixtySphere {
       current = scene;
     }
     const time = new Date().getTime();
-    const uri = `${current[this.currentStyle].modes.day}?${time}`;
+    const uri = `${current[this.currentStyle].modes.day}`;
     const panorama = {};
     panorama.uri = uri;
     panorama.name = key;
