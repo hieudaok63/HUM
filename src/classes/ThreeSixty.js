@@ -322,7 +322,7 @@ class ThreeSixtySphere {
       geometry.scale(-1, 1, 1);
 
       const loader = new THREE.TextureLoader(this.manager);
-      loader.crossOrigin = '';
+      loader.crossOrigin = 'anonymous';
       loader.load(buildedScene.panorama.uri, (texture) => {
         const mesh = this.updateMesh(scene, geometry, buildedScene, texture);
         if (this.selectedScene !== mesh.name) {
