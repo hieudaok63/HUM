@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { debounce } from 'lodash';
 import { string, arrayOf, shape, func, number, bool } from 'prop-types';
 import { ReactComponent as BedroomIcon } from '../../assets/Icons/icon_bedroom.svg';
 import { ReactComponent as BathroomIcon } from '../../assets/Icons/icon_bathroom.svg';
@@ -12,11 +13,8 @@ import {
   selectedFloorplanSelector
 } from '../../selectors/Tour';
 import TourAction from '../../stores/tour/actions';
-import PanoramaAction from '../../stores/panorama/actions';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
 import AmenitiesActions from '../../stores/amenities/actions';
-import { ThreeSixty } from '@material-ui/icons';
-import { debounce } from 'lodash';
 
 const INTERVAL = 1000;
 
