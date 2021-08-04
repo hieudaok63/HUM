@@ -126,8 +126,7 @@ class SimplePano {
     geometry.scale(-1, 1, 1);
     const loader = new THREE.TextureLoader(this.manager);
     loader.setCrossOrigin('anonymous');
-    const time = new Date().getTime();
-    loader.load(`${this.image}`, (texture) => {
+    loader.load(`${this.image}?not-from-cache-please`, (texture) => {
       const material = this.createMaterial(texture);
       const mesh = new THREE.Mesh(geometry, material);
       this.mesh = mesh;

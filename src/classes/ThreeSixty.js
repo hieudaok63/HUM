@@ -429,8 +429,7 @@ class ThreeSixtySphere {
     } else if (use !== undefined) {
       current = scene;
     }
-    const time = new Date().getTime();
-    const uri = `${current[this.currentStyle].modes.day}`;
+    const uri = `${current[this.currentStyle].modes.day}?not-from-cache-please`;
     const panorama = {};
     panorama.uri = uri;
     panorama.name = key;
