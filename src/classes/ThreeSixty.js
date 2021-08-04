@@ -249,6 +249,8 @@ class ThreeSixtySphere {
       mesh.children = [];
       this.scene.remove(mesh);
     });
+    this.control.dispose();
+    this.dispose();
   };
 
   /* */
