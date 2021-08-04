@@ -38,12 +38,12 @@ const ThreeSixtyMenu = ({
 
   return (
     <>
-      <div className="menu-action secondary-action light-action" disabled>
+      {/* <div className="menu-action secondary-action light-action" disabled>
         <LightIcon className="light-icon" />
-      </div>
+      </div> */}
       <div
         className={`${showSubmenu === 'finishes' &&
-          'menu-action-active'} menu-action secondary-action settings-action`}
+          'menu-action-active'} menu-action secondary-action  light-action`}
         onClick={() => {
           setShowSubmenu('finishes');
         }}
@@ -71,7 +71,7 @@ const ThreeSixtyMenu = ({
       </div>
       <div
         className={`${showSubmenu === 'styles' &&
-          'menu-action-active'} menu-action secondary-action styles-action`}
+          'menu-action-active'} menu-action secondary-action settings-action`}
         onClick={() => {
           setShowSubmenu('styles');
         }}
@@ -97,7 +97,7 @@ const ThreeSixtyMenu = ({
         )}
       </div>
       <div
-        className={`menu-action secondary-action eye-action ${selectedStyle ===
+        className={`menu-action secondary-action styles-action ${selectedStyle ===
           'Empty' && 'menu-action-active'}`}
         onClick={() => {
           if (selectedStyle === 'Empty') {

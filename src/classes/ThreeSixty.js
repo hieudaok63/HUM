@@ -147,7 +147,7 @@ class ThreeSixtySphere {
       }
       this.loaderCall(false);
       this.changingFromFloorplanCall();
-      if (this.setCameraPosition) {
+      if (this.setCameraPosition && this.activeMesh) {
         this.setCameraStartScenePosition(
           this.activeMesh.startScenePosition.x,
           this.activeMesh.startScenePosition.y,
@@ -249,6 +249,7 @@ class ThreeSixtySphere {
       mesh.children = [];
       this.scene.remove(mesh);
     });
+    this.control.dispose();
   };
 
   /* */
@@ -799,11 +800,13 @@ class ThreeSixtySphere {
           this.CLICKEDSPRITE.startSceneKey
         );
         const use = this.getSceneUse(this.CLICKEDSPRITE.key);
-        this.updateCallBack(
-          this.CLICKEDSPRITE.key,
-          this.CLICKEDSPRITE.level,
-          use
-        );
+        if (use) {
+          this.updateCallBack(
+            this.CLICKEDSPRITE.key,
+            this.CLICKEDSPRITE.level,
+            use
+          );
+        }
       }
     }
   };
@@ -815,8 +818,10 @@ class ThreeSixtySphere {
     );
     if (this.oldMesh) {
       this.activeMesh = this.getActiveMesh(key);
-      this.currentScaleDown = this.scaleDown(this.oldMesh, startSceneKey);
-      this.currentScaleDown.start();
+      if (this.activeMesh) {
+        this.currentScaleDown = this.scaleDown(this.oldMesh, startSceneKey);
+        this.currentScaleDown.start();
+      }
     }
   };
 
@@ -1061,8 +1066,10 @@ class ThreeSixtySphere {
 
   /* */
   getSceneUse = (scene) => {
+    console.log('scene:', scene, this.scene.children);
     const sphere = this.scene.children.find((mesh) => mesh.name === scene);
-    return sphere.use;
+    console.log('sphere:', sphere);
+    return sphere?.use;
   };
 
   /* */

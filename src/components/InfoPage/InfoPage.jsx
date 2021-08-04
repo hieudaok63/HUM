@@ -86,7 +86,9 @@ const InfoPage = ({
           {minimap.hotspots.map(({ key, x, y }) => (
             <div
               onClick={() => {
-                changeScene(key);
+                if (selectedScene !== key) {
+                  changeScene(key);
+                }
               }}
               key={key}
               className={`minimap-container-hotspot ${selectedScene === key &&

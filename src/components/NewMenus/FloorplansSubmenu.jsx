@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { debounce } from 'lodash';
 import { string, arrayOf, shape, func, number, bool } from 'prop-types';
 import { ReactComponent as BedroomIcon } from '../../assets/Icons/icon_bedroom.svg';
 import { ReactComponent as BathroomIcon } from '../../assets/Icons/icon_bathroom.svg';
@@ -12,10 +13,10 @@ import {
   selectedFloorplanSelector
 } from '../../selectors/Tour';
 import TourAction from '../../stores/tour/actions';
-import PanoramaAction from '../../stores/panorama/actions';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
 import AmenitiesActions from '../../stores/amenities/actions';
-import { ThreeSixty } from '@material-ui/icons';
+
+const INTERVAL = 1000;
 
 const FloorplansSubmenu = ({
   openedMenu,
@@ -69,14 +70,22 @@ const FloorplansSubmenu = ({
     }
   }, [openedMenu, submenu.current]);
 
-  const setSelectedFloorplan = async (floorplan) => {
-    await dispatch(ThreeSixtyAction.changingFloorplanFromMenu(true));
-    await dispatch(TourAction.selectType('three-sixty'));
-    await dispatch(AmenitiesActions.reset());
-    await dispatch(TourAction.selectFloorplan(floorplan));
-    await dispatch(ThreeSixtyAction.setThreeSixtyData());
-    setSelectedSubmenu('floorplans');
-  };
+  const setSelectedFloorplan = React.useCallback(
+    debounce(
+      async (floorplan) => {
+        await dispatch(ThreeSixtyAction.changingFloorplanFromMenu(true));
+        await dispatch(TourAction.selectType('three-sixty'));
+        await dispatch(AmenitiesActions.reset());
+        await dispatch(TourAction.selectFloorplan(floorplan));
+        await dispatch(ThreeSixtyAction.setThreeSixtyData());
+        setSelectedSubmenu('floorplans');
+      },
+      INTERVAL,
+      { leading: true, trailing: false, maxWait: INTERVAL }
+    ),
+    []
+  );
+
   return (
     <>
       {floorplans.length > 0 && (

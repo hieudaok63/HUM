@@ -143,14 +143,14 @@ const ActionsMenu = ({
       >
         <InfoIcon className="info-icon" />
       </div>
-      <div
+      {/* <div
         className="menu-action secondary-action menu-action slow-mo-action"
         disabled
       >
         <SlowMoIcon className="slow-mo-icon" />
-      </div>
+      </div> */}
       <div
-        className="menu-action secondary-action menu-action-no-border language-action"
+        className="menu-action secondary-action menu-action-no-border slow-mo-action"
         onClick={() => {
           changeLanguage();
         }}
@@ -161,13 +161,13 @@ const ActionsMenu = ({
       </div>
       {showShare && <div className="copied">Copied!</div>}
       <div
-        className="menu-action secondary-action share-action"
+        className="menu-action secondary-action language-action"
         onClick={toggleShare}
       >
         <ShareIcon className="share-icon" />
       </div>
       <div
-        className="menu-action secondary-action full-screen-action"
+        className="menu-action secondary-action  share-action"
         onClick={() => {
           if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen();
