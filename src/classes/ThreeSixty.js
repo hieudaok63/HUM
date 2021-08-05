@@ -103,6 +103,7 @@ class ThreeSixtySphere {
       this.loaderContainer = this.createLoader();
       this.container.appendChild(this.loaderContainer);
     }
+    this.createBlur();
     this.level = level;
     this.currentStyle = style;
     this.language = language;
@@ -118,6 +119,18 @@ class ThreeSixtySphere {
     this.bindEventListeners();
     this.loaded = true;
     this.container.appendChild(this.renderer.domElement);
+  };
+
+  /* */
+  createBlur = () => {
+    const el = document.querySelector('.three-sixty-blur');
+    if (el) {
+      el.classList.remove('none');
+    } else {
+      const blurContainer = document.createElement('div');
+      blurContainer.classList.add('three-sixty-blur');
+      this.container.appendChild(blurContainer);
+    }
   };
 
   /* */
@@ -162,6 +175,13 @@ class ThreeSixtySphere {
           this.onTransitionEnd
         );
       }
+      const el = document.querySelector('.three-sixty-blur');
+      if (el) {
+        el.classList.add('none');
+        el.addEventListener('transitionend', (event) => {
+          event.target.remove();
+        });
+      }
     };
 
     this.manager.onProgress = (url) => {
@@ -204,12 +224,14 @@ class ThreeSixtySphere {
 
   /* */
   updateFinishes = (finish) => {
+    this.createBlur();
     this.finish = finish;
     this.updateSpheres();
   };
 
   /* */
   updateScenes = (scenes, selectedScene, selectedFinish, selectedStyle) => {
+    this.createBlur();
     this.scenes = scenes;
     this.selectedScene = selectedScene;
     this.selectedFinish = selectedFinish;
