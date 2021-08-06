@@ -83,7 +83,7 @@ class ThreeSixtySphere {
     while (container.firstChild) {
       container.removeChild(container.lastChild);
     }
-    this.buildMode = localStorage.getItem('three-sixty-builder');
+    this.buildMode = localStorage.getItem('three-sixty-builder') === 'true';
     this.container = container;
     this.tooltip = this.createTooltip();
     this.width = width;
