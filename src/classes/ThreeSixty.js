@@ -83,6 +83,7 @@ class ThreeSixtySphere {
     while (container.firstChild) {
       container.removeChild(container.lastChild);
     }
+    this.buildMode = localStorage.getItem('three-sixty-builder');
     this.container = container;
     this.tooltip = this.createTooltip();
     this.width = width;
@@ -368,7 +369,7 @@ class ThreeSixtySphere {
 
     if (this.selectedScene !== mesh.name) {
       mesh.visible = false;
-    } else {
+    } else if (!this.buildMode) {
       scene.hotspots.forEach((hotspot) => {
         this.createHotspot(hotspot, mesh, scene.hotspots);
       });
@@ -788,7 +789,9 @@ class ThreeSixtySphere {
     this.mouseDown = true;
     this.getMouse(event);
     this.updateMenuCall(false);
-    // this.displayPosition();
+    if (this.buildMode) {
+      this.displayPosition();
+    }
   };
 
   /* */
@@ -880,7 +883,10 @@ class ThreeSixtySphere {
         this.oldMesh.material.transparent = false;
         this.oldMesh.scale.set(1, 1, 1);
         this.selectedScene = this.activeMesh.name;
-        this.addHotspots(this.selectedScene);
+        if (!this.buildMode) {
+          this.addHotspots(this.selectedScene);
+        }
+
         this.currentScaleDown.stop();
       });
   getStartScenePosition = (scene, key) => {
@@ -941,9 +947,14 @@ class ThreeSixtySphere {
   displayPosition = () => {
     const visibleMesh = this.getVisbleMesh();
     if (visibleMesh) {
+      this.raycaster.setFromCamera(this.mouse, this.camera);
       const intersection = this.raycaster.intersectObject(visibleMesh);
       if (intersection.length > 0) {
         const { point } = intersection[0];
+        this.createHotspot(
+          { ...point, img: Data.AvriaHotpotArrow },
+          visibleMesh
+        );
         console.log(point);
       }
     }
@@ -996,7 +1007,7 @@ class ThreeSixtySphere {
 
   /* */
   intersects = () => {
-    if (!this.mouseDown) {
+    if (!this.mouseDown && !this.buildMode) {
       this.raycaster.setFromCamera(this.mouse, this.camera);
       const intersects = this.raycaster.intersectObjects(
         this.scene.children,
@@ -1087,9 +1098,7 @@ class ThreeSixtySphere {
 
   /* */
   getSceneUse = (scene) => {
-    console.log('scene:', scene, this.scene.children);
     const sphere = this.scene.children.find((mesh) => mesh.name === scene);
-    console.log('sphere:', sphere);
     return sphere?.use;
   };
 
