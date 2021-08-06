@@ -21,9 +21,13 @@ import TourAction from '../stores/tour/actions';
 import LanguageAction from '../stores/language/actions';
 import { levelsSelector } from '../selectors/Tour';
 import { loadingSelector } from '../selectors/loading';
+import ActionsMenu from '../components/NewMenus/ActionsMenu';
+import InfoPage from '../components/InfoPage/InfoPage';
+import { amenitySelector } from '../selectors/Amenities';
 
-const ThreeSixtyPage = ({ levels, loader, dispatch }) => {
+const ThreeSixtyPage = ({ levels, loader, dispatch, amenity }) => {
   const { builderId, projectId, layoutName } = useParams();
+  const [infoPage, setInfoPage] = React.useState(null);
   React.useEffect(() => {
     const loadContent = async () => {
       await dispatch(LoadingAction.setLoader(true));
@@ -46,27 +50,32 @@ const ThreeSixtyPage = ({ levels, loader, dispatch }) => {
   return (
     <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
       <Loader loading={loader} />
-      {/* <DesktopAthumLogo />
-        <Menu />
-        <MiniMap /> */}
+      <DesktopAthumLogo />
       {levels.length > 0 && <Viewer type="three-sixty" />}
-      {/* <CurrentViewStyle />
-        <Cardboard />
-        <Autoplay />
-        <ErrorModal /> */}
+      <CurrentViewStyle />
+      <ActionsMenu
+        infoPage={infoPage}
+        setInfoPage={setInfoPage}
+        type="three-sixty"
+        amenity={amenity}
+        galleryIndex={0}
+      />
+      {infoPage && <InfoPage infoPage={infoPage} setInfoPage={setInfoPage} />}
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
   loader: loadingSelector(state),
-  levels: levelsSelector(state)
+  levels: levelsSelector(state),
+  amenity: amenitySelector(state)
 });
 
 ThreeSixtyPage.propTypes = {
   levels: arrayOf(shape({})).isRequired,
   dispatch: func.isRequired,
-  loader: bool.isRequired
+  loader: bool.isRequired,
+  amenity: arrayOf(shape({})).isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({

@@ -55,7 +55,7 @@ export default class PanoramaAction {
     return async (dispatch, getState) => {
       const { panorama, threeSixty } = getState();
       const { panoramaInfo, panorama: threeSixtyPano } = panorama;
-      const { styles, showLoader } = threeSixty;
+      const { styles, showLoader, language } = threeSixty;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         PanoramaAction.PANORAMA_REQUEST,
@@ -106,8 +106,11 @@ export default class PanoramaAction {
             const selectedStyle = currentStyles.find(
               (item) => item.key === style
             );
+            console.log(selectedStyle);
             await dispatch(
-              ThreeSixtyAction.setSelectedNameStyle(selectedStyle.style)
+              ThreeSixtyAction.setSelectedNameStyle(
+                selectedStyle.name[language]
+              )
             );
           }
         },

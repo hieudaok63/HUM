@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 export class LogoSelector {
   static getBuilderLogo(state) {
-    return state.threeSixty.builderLogo;
+    return state.tour.logo.reduceLogo;
   }
 }
 
