@@ -76,6 +76,8 @@ class ThreeSixtySphere {
     style,
     loaderCall
   }) => {
+    this.buildMode = localStorage.getItem('three-sixty-builder') === 'true';
+    this.container = container;
     this.container = container;
     this.loader = loader;
     this.createBlur();
@@ -343,7 +345,7 @@ class ThreeSixtySphere {
 
     if (this.selectedScene !== mesh.name) {
       mesh.visible = false;
-    } else {
+    } else if (!this.buildMode) {
       scene.hotspots.forEach((hotspot) => {
         this.createHotspot(hotspot, mesh, scene.hotspots);
       });
@@ -763,7 +765,9 @@ class ThreeSixtySphere {
     this.mouseDown = true;
     this.getMouse(event);
     this.updateMenuCall(false);
-    // this.displayPosition();
+    if (this.buildMode) {
+      this.displayPosition();
+    }
   };
 
   /* */
@@ -782,7 +786,7 @@ class ThreeSixtySphere {
       this.scene.children,
       true
     );
-    if (intersects.length > 0) {
+    if (intersects.length > 0 && !this.buildMode) {
       this.CLICKEDSPRITE = intersects[0].object;
       if (
         this.CLICKEDSPRITE.type === 'Sprite' &&
@@ -851,7 +855,9 @@ class ThreeSixtySphere {
         this.oldMesh.material.transparent = false;
         this.oldMesh.scale.set(1, 1, 1);
         this.selectedScene = this.activeMesh.name;
-        this.addHotspots(this.selectedScene);
+        if (!this.buildMode) {
+          this.addHotspots(this.selectedScene);
+        }
         this.currentScaleDown.stop();
       });
   getStartScenePosition = (scene, key) => {
@@ -911,9 +917,14 @@ class ThreeSixtySphere {
   displayPosition = () => {
     const visibleMesh = this.getVisbleMesh();
     if (visibleMesh) {
+      this.raycaster.setFromCamera(this.mouse, this.camera);
       const intersection = this.raycaster.intersectObject(visibleMesh);
       if (intersection.length > 0) {
         const { point } = intersection[0];
+        this.createHotspot(
+          { ...point, img: Data.AvriaHotspotNew },
+          visibleMesh
+        );
         console.log(point);
       }
     }
@@ -966,7 +977,7 @@ class ThreeSixtySphere {
 
   /* */
   intersects = () => {
-    if (!this.mouseDown) {
+    if (!this.mouseDown && !this.buildMode) {
       this.raycaster.setFromCamera(this.mouse, this.camera);
       const intersects = this.raycaster.intersectObjects(
         this.scene.children,
