@@ -6,9 +6,8 @@ import App from '../App';
 import strings from '../language';
 import LanguageActions from '../stores/language/actions';
 import NotFoundPage from '../pages/NotFoundPage';
-import UIPage from '../pages/UIPage';
 // import NotFoundPage from '../pages/NotFoundPage';
-import Test from '../pages/Test';
+import TourPage from '../pages/TourPage';
 
 class AppRouter extends Component {
   async componentDidMount() {
@@ -31,9 +30,8 @@ class AppRouter extends Component {
               component={App}
             />
           )}
-          <Route path="/ui" component={UIPage} />
           {language && (
-            <Route path="/:builderId/:projectId" exact component={Test} />
+            <Route path="/:builderId/:projectId" exact component={TourPage} />
           )}
           <Route component={NotFoundPage} />
         </Switch>

@@ -23,7 +23,6 @@ import ThreeSixtyAction from '../stores/threeSixty/actions';
 // import { SOCKET } from '../config/endpoints';
 import LeftMenu from '../components/NewMenus/LeftMenu';
 import ActionsMenu from '../components/NewMenus/ActionsMenu';
-import { stylesSelector } from '../selectors/ThreeSixty';
 import InfoPage from '../components/InfoPage/InfoPage';
 import PanoViewer from '../components/PanoViewer';
 import { ReactComponent as DropdownIcon } from '../assets/Icons/icon_dropdown.svg';
@@ -35,7 +34,7 @@ import './Test.scss';
 import LanguageAction from '../stores/language/actions';
 import ImageWithHotspots from '../components/ImageWithHotspots';
 
-const ThreeSixtyPage = ({
+const TourPage = ({
   floorplans,
   dispatch,
   loader,
@@ -186,7 +185,7 @@ const mapDispatchToProps = (dispatch) => ({
   dispatch
 });
 
-ThreeSixtyPage.propTypes = {
+TourPage.propTypes = {
   dispatch: func.isRequired,
   floorplans: arrayOf(shape({})).isRequired,
   loader: bool.isRequired,
@@ -197,4 +196,4 @@ ThreeSixtyPage.propTypes = {
   sections: arrayOf(shape({})).isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ThreeSixtyPage);
+export default connect(mapStateToProps, mapDispatchToProps)(TourPage);

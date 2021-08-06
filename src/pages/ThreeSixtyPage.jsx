@@ -17,57 +17,49 @@ import SocketAction from '../stores/socket/actions';
 import LoadingAction from '../stores/loading/actions';
 import { SOCKET } from '../config/endpoints';
 
-class ThreeSixtyPage extends Component {
-  componentDidMount() {
-    this.loadContent();
-  }
+const ThreeSixtyPage = ({ levels, loader, builderInfo, dispatch }) => {
+  React.useEffect(() => {
+    const loadContent = async () => {
+      const url = new URL(window.location.href);
+      const selectedStyleParam = url.searchParams.get('selectedStyle');
+      if (selectedStyleParam) {
+        await dispatch(ThreeSixtyAction.setSelectedStyle(selectedStyleParam));
+      }
+      await dispatch(LoadingAction.setLoader(true));
 
-  componentWillUnmount() {
-    const { dispatch } = this.props;
-    dispatch(SocketAction.disconnect());
-  }
+      await dispatch(SocketAction.initSocket(SOCKET));
 
-  async loadContent() {
-    const { builderInfo, dispatch } = this.props;
-    const url = new URL(window.location.href);
-    const selectedStyleParam = url.searchParams.get('selectedStyle');
-    if (selectedStyleParam) {
-      await dispatch(ThreeSixtyAction.setSelectedStyle(selectedStyleParam));
-    }
-    await dispatch(LoadingAction.setLoader(true));
+      await dispatch(ThreeSixtyAction.setBuilder({ ...builderInfo.params }));
 
-    await dispatch(SocketAction.initSocket(SOCKET));
+      await dispatch(ThreeSixtyAction.getScenes());
 
-    await dispatch(ThreeSixtyAction.setBuilder({ ...builderInfo.params }));
+      await dispatch(ThreeSixtyAction.getStyles());
 
-    await dispatch(ThreeSixtyAction.getScenes());
+      await dispatch(ThreeSixtyAction.getScenesByStyles());
 
-    await dispatch(ThreeSixtyAction.getStyles());
-
-    await dispatch(ThreeSixtyAction.getScenesByStyles());
-
-    await dispatch(SessionAction.log([]));
-  }
-
-  render() {
-    const { levels, loader } = this.props;
-    return (
-      <>
-        <div className="w-100 h-100">
-          {loader && <Loader loading={loader} />}
-          <DesktopAthumLogo />
-          <Menu />
-          <MiniMap />
-          {levels.length > 0 && <Viewer />}
-          <CurrentViewStyle />
-          <Cardboard />
-          <Autoplay />
-          <ErrorModal />
-        </div>
-      </>
-    );
-  }
-}
+      await dispatch(SessionAction.log([]));
+    };
+    loadContent();
+    return () => {
+      dispatch(SocketAction.disconnect());
+    };
+  }, []);
+  return (
+    <>
+      <div className="w-100 h-100">
+        {loader && <Loader loading={loader} />}
+        <DesktopAthumLogo />
+        <Menu />
+        <MiniMap />
+        {levels.length > 0 && <Viewer />}
+        <CurrentViewStyle />
+        <Cardboard />
+        <Autoplay />
+        <ErrorModal />
+      </div>
+    </>
+  );
+};
 
 const mapStateToProps = (state) => {
   const {
