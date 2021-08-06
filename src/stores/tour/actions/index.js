@@ -30,6 +30,21 @@ export default class TourAction {
     };
   }
 
+  static getFloorplanIndex(name) {
+    return async (dispatch, getState) => {
+      const { tour } = getState();
+      const { floorplans } = tour;
+
+      if (floorplans.length === 0) return null;
+
+      const floorplanIndex = floorplans.findIndex(
+        (item) => item.layoutName?.toLowerCase() === name?.toLowerCase()
+      );
+
+      return floorplanIndex;
+    };
+  }
+
   static selectFloorplan(option) {
     return ActionUtility.createAction(
       TourAction.TOUR_SELECTED_FLOORPLAN_FINISHED,

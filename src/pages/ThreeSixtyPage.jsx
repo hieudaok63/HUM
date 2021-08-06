@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { Component } from 'react';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import { arrayOf, bool, func, shape } from 'prop-types';
 import { connect } from 'react-redux';
 import ThreeSixtyAction from '../stores/threeSixty/actions';
@@ -16,28 +17,26 @@ import SessionAction from '../stores/session/actions';
 import SocketAction from '../stores/socket/actions';
 import LoadingAction from '../stores/loading/actions';
 import { SOCKET } from '../config/endpoints';
+import TourAction from '../stores/tour/actions';
+import LanguageAction from '../stores/language/actions';
+import { levelsSelector } from '../selectors/Tour';
+import { loadingSelector } from '../selectors/loading';
 
-const ThreeSixtyPage = ({ levels, loader, builderInfo, dispatch }) => {
+const ThreeSixtyPage = ({ levels, loader, dispatch }) => {
+  const { builderId, projectId, layoutName } = useParams();
   React.useEffect(() => {
     const loadContent = async () => {
-      const url = new URL(window.location.href);
-      const selectedStyleParam = url.searchParams.get('selectedStyle');
-      if (selectedStyleParam) {
-        await dispatch(ThreeSixtyAction.setSelectedStyle(selectedStyleParam));
-      }
       await dispatch(LoadingAction.setLoader(true));
+      await dispatch(TourAction.getData(builderId, projectId));
+      await dispatch(LanguageAction.setLanguageFromTour());
+      const floorplanIndex = await dispatch(
+        TourAction.getFloorplanIndex(layoutName)
+      );
 
-      await dispatch(SocketAction.initSocket(SOCKET));
-
-      await dispatch(ThreeSixtyAction.setBuilder({ ...builderInfo.params }));
-
-      await dispatch(ThreeSixtyAction.getScenes());
-
-      await dispatch(ThreeSixtyAction.getStyles());
-
-      await dispatch(ThreeSixtyAction.getScenesByStyles());
-
-      await dispatch(SessionAction.log([]));
+      if (floorplanIndex !== -1) {
+        await dispatch(TourAction.selectFloorplan(floorplanIndex));
+        await dispatch(ThreeSixtyAction.setThreeSixtyData());
+      }
     };
     loadContent();
     return () => {
@@ -45,45 +44,26 @@ const ThreeSixtyPage = ({ levels, loader, builderInfo, dispatch }) => {
     };
   }, []);
   return (
-    <>
-      <div className="w-100 h-100">
-        {loader && <Loader loading={loader} />}
-        <DesktopAthumLogo />
+    <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
+      <Loader loading={loader} />
+      {/* <DesktopAthumLogo />
         <Menu />
-        <MiniMap />
-        {levels.length > 0 && <Viewer />}
-        <CurrentViewStyle />
+        <MiniMap /> */}
+      {levels.length > 0 && <Viewer type="three-sixty" />}
+      {/* <CurrentViewStyle />
         <Cardboard />
         <Autoplay />
-        <ErrorModal />
-      </div>
-    </>
+        <ErrorModal /> */}
+    </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  const {
-    currentLevel,
-    selectedStyleName,
-    selectedScene,
-    selectedFinish,
-    mode,
-    levels
-  } = state.threeSixty;
-  const { loader } = state.loading;
-  return {
-    currentLevel,
-    selectedStyleName,
-    selectedScene,
-    selectedFinish,
-    mode,
-    loader,
-    levels
-  };
-};
+const mapStateToProps = (state) => ({
+  loader: loadingSelector(state),
+  levels: levelsSelector(state)
+});
 
 ThreeSixtyPage.propTypes = {
-  builderInfo: shape({}).isRequired,
   levels: arrayOf(shape({})).isRequired,
   dispatch: func.isRequired,
   loader: bool.isRequired
