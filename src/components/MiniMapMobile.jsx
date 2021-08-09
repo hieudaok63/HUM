@@ -37,20 +37,22 @@ class MiniMap extends Component {
   }
 
   changeScene = async (e, targetName) => {
-    const { dispatch } = this.props;
+    const { dispatch, selectedScene } = this.props;
     const name = targetName || e.target.name || e.target.getAttribute('name');
-    dispatch(ThreeSixtyAction.setSelectedScene(name));
-    dispatch(ThreeSixtyAction.getStyles());
-    await dispatch(ThreeSixtyAction.changeSceneSphere());
-    dispatch(
-      SocketAction.socketMessage({
-        event: 'CHANGE-SCENE',
-        data: {
-          type: 'CHANGE-SCENE',
-          name
-        }
-      })
-    );
+    if (selectedScene !== name) {
+      dispatch(ThreeSixtyAction.setSelectedScene(name));
+      dispatch(ThreeSixtyAction.getStyles());
+      await dispatch(ThreeSixtyAction.changeSceneSphere());
+      dispatch(
+        SocketAction.socketMessage({
+          event: 'CHANGE-SCENE',
+          data: {
+            type: 'CHANGE-SCENE',
+            name
+          }
+        })
+      );
+    }
   };
 
   upOneFloor = () => {
