@@ -92,6 +92,11 @@ export default class PanoramaAction {
           if (use !== undefined) {
             await dispatch(ThreeSixtyAction.setSelectedUse(use));
           }
+
+          await dispatch(ThreeSixtyAction.autoPlay(true));
+          setTimeout(async () => {
+            await dispatch(ThreeSixtyAction.autoPlay(false));
+          }, 2000);
         },
         async (expand) => {
           if (expand !== undefined) {

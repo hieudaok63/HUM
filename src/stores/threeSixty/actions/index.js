@@ -237,6 +237,15 @@ export default class ThreeSixtyAction {
     };
   }
 
+  static autoPlay(autoRotate) {
+    return async (dispatch, getState) => {
+      const { panorama: panoramaState } = getState();
+      const { panorama } = panoramaState;
+
+      panorama.activateAutoRotate(autoRotate);
+    };
+  }
+
   // maybe this ones can be selectors instead of actions
 
   /* */

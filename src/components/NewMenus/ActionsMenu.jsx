@@ -40,6 +40,7 @@ const ActionsMenu = ({
   const [showSubmenu, setShowSubmenu] = React.useState('');
   const [language, setLanguage] = React.useState('');
   const [showShare, setShowShare] = React.useState(false);
+  const [autoRotate, setAutoRotate] = React.useState(false);
 
   const changeLanguage = async () => {
     const totalLanguages = availableLanguages.length;
@@ -64,6 +65,11 @@ const ActionsMenu = ({
     }
 
     await dispatch(ThreeSixtyAction.changeLanguageOnThreeSixty());
+  };
+
+  const autoPlay = async () => {
+    setAutoRotate(!autoRotate);
+    await dispatch(ThreeSixtyAction.autoPlay(!autoRotate));
   };
 
   const handleyKeyUp = React.useCallback((e) => {
@@ -143,14 +149,14 @@ const ActionsMenu = ({
       >
         <InfoIcon className="info-icon" />
       </div>
-      {/* <div
+      <div
         className="menu-action secondary-action menu-action slow-mo-action"
-        disabled
+        onClick={autoPlay}
       >
         <SlowMoIcon className="slow-mo-icon" />
-      </div> */}
+      </div>
       <div
-        className="menu-action secondary-action menu-action-no-border slow-mo-action"
+        className="menu-action secondary-action menu-action-no-border language-action"
         onClick={() => {
           changeLanguage();
         }}
@@ -161,13 +167,13 @@ const ActionsMenu = ({
       </div>
       {showShare && <div className="copied">Copied!</div>}
       <div
-        className="menu-action secondary-action language-action"
+        className="menu-action secondary-action share-action"
         onClick={toggleShare}
       >
         <ShareIcon className="share-icon" />
       </div>
       <div
-        className="menu-action secondary-action  share-action"
+        className="menu-action secondary-action  full-screen-action"
         onClick={() => {
           if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen();
