@@ -428,8 +428,7 @@ class ThreeSixtySphere {
       current = scene;
     }
 
-    const time = new Date().getTime();
-    const uri = `${current.modes.day}?${time}`;
+    const uri = `${current.modes.day}`;
     const panorama = {};
     panorama.uri = uri;
     panorama.name = key;
