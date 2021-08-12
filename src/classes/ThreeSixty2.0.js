@@ -266,15 +266,18 @@ class ThreeSixtySphere {
     const sceneToUpdate = this.scenes.find((scene) => scene.key === mesh.name);
     const buildedScene = this.createSceneInfo(sceneToUpdate);
     if (buildedScene !== null) {
-      loader.load(buildedScene.panorama.uri, (texture) => {
-        const material = this.createMaterial(texture);
-        mesh.material = material;
-        mesh.use = buildedScene.panorama.use;
-        material.needsUpdate = true;
-        if (this.selectedScene === buildedScene.panorama.name) {
-          this.selectedSceneLoadedImage = buildedScene.panorama.uri;
+      loader.load(
+        `${buildedScene.panorama.uri}?not-from-cache-please`,
+        (texture) => {
+          const material = this.createMaterial(texture);
+          mesh.material = material;
+          mesh.use = buildedScene.panorama.use;
+          material.needsUpdate = true;
+          if (this.selectedScene === buildedScene.panorama.name) {
+            this.selectedSceneLoadedImage = buildedScene.panorama.uri;
+          }
         }
-      });
+      );
     }
   };
 
@@ -321,17 +324,20 @@ class ThreeSixtySphere {
 
       const loader = new THREE.TextureLoader(this.manager);
 
-      loader.load(buildedScene.panorama.uri, (texture) => {
-        const mesh = this.updateMesh(scene, geometry, buildedScene, texture);
+      loader.load(
+        `${buildedScene.panorama.uri}?not-from-cache-please`,
+        (texture) => {
+          const mesh = this.updateMesh(scene, geometry, buildedScene, texture);
 
-        if (this.selectedScene !== mesh.name) {
-          mesh.visible = false;
-        } else {
-          this.activeMesh = mesh;
+          if (this.selectedScene !== mesh.name) {
+            mesh.visible = false;
+          } else {
+            this.activeMesh = mesh;
+          }
+
+          this.scene.add(mesh);
         }
-
-        this.scene.add(mesh);
-      });
+      );
     }
   };
 
