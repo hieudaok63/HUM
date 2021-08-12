@@ -116,9 +116,7 @@ class ThreeSixtySphere {
     this.manager = new THREE.LoadingManager();
     this.manager.onStart = () => {};
     this.manager.onLoad = () => {
-      if (this.firstLoad) {
-        this.updateStyleCall(this.currentStyle);
-      }
+      this.updateStyleCall(this.currentStyle);
       this.loaderContainer.classList.add('none');
       const el = document.querySelector('.three-sixty-blur');
       if (el) {
@@ -136,7 +134,6 @@ class ThreeSixtySphere {
     };
     this.manager.onProgress = (url) => {
       if (url === this.selectedSceneLoadedImage) {
-        console.log('loaded');
         this.updateStyleCall(this.currentStyle);
       }
     };
