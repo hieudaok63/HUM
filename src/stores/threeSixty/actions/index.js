@@ -77,6 +77,8 @@ export default class ThreeSixtyAction {
   static CHANGE_FLOORPLAN_MENU_REQUEST_FINISHED =
     'CHANGE_FLOORPLAN_MENU_REQUEST_FINISHED';
 
+  static SET_AUTO_TOUR_FINISHED = 'SET_AUTO_TOUR_FINISHED';
+
   static reset() {
     return ActionUtility.createAction(
       ThreeSixtyAction.RESET_REQUEST_FINISHED,
@@ -297,6 +299,15 @@ export default class ThreeSixtyAction {
     return ActionUtility.createAction(
       ThreeSixtyAction.SET_SELECTED_SCENE_REQUEST_FINISHED,
       scene
+    );
+  }
+
+  /* */
+  static setAutoTourScene(autoTourScene) {
+    console.log(autoTourScene);
+    return ActionUtility.createAction(
+      ThreeSixtyAction.SET_AUTO_TOUR_FINISHED,
+      autoTourScene
     );
   }
 

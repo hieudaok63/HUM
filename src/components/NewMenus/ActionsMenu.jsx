@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { arrayOf, shape, func, string, number } from 'prop-types';
 import copy from 'copy-to-clipboard';
 import { ReactComponent as InfoIcon } from '../../assets/Icons/icon_info.svg';
-import { ReactComponent as SlowMoIcon } from '../../assets/Icons/icon_slow_motion.svg';
 import { ReactComponent as ShareIcon } from '../../assets/Icons/icon_share.svg';
 import { ReactComponent as FullScreenIcon } from '../../assets/Icons/icon_full_screen.svg';
 import { ReactComponent as ENIcon } from '../../assets/Icons/icon_en.svg';
@@ -14,7 +13,8 @@ import ThreeSixtyMenu from './ThreeSixtyMenu';
 import {
   featuresSelector,
   floorplanFeaturesSelector,
-  minimapSelector
+  minimapSelector,
+  sceneSelector
 } from '../../selectors/ThreeSixty';
 import {
   availableLanguagesSelector,
@@ -23,6 +23,8 @@ import {
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
 import AmenitiesActions from '../../stores/amenities/actions';
 import LanguageActions from '../../stores/language/actions';
+import { getSelectedScene } from '../../selectors/menu';
+import Autoplay from '../Autoplay';
 
 const ActionsMenu = ({
   setInfoPage,
@@ -40,7 +42,6 @@ const ActionsMenu = ({
   const [showSubmenu, setShowSubmenu] = React.useState('');
   const [language, setLanguage] = React.useState('');
   const [showShare, setShowShare] = React.useState(false);
-  const [autoRotate, setAutoRotate] = React.useState(false);
 
   const changeLanguage = async () => {
     const totalLanguages = availableLanguages.length;
@@ -65,11 +66,6 @@ const ActionsMenu = ({
     }
 
     await dispatch(ThreeSixtyAction.changeLanguageOnThreeSixty());
-  };
-
-  const autoPlay = async () => {
-    setAutoRotate(!autoRotate);
-    await dispatch(ThreeSixtyAction.autoPlay(!autoRotate));
   };
 
   const handleyKeyUp = React.useCallback((e) => {
@@ -149,12 +145,7 @@ const ActionsMenu = ({
       >
         <InfoIcon className="info-icon" />
       </div>
-      <div
-        className="menu-action secondary-action menu-action slow-mo-action"
-        onClick={autoPlay}
-      >
-        <SlowMoIcon className="slow-mo-icon" />
-      </div>
+      <Autoplay />
       <div
         className="menu-action secondary-action menu-action-no-border language-action"
         onClick={() => {

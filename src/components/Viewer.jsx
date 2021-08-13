@@ -6,7 +6,6 @@ import { errorSelector } from '../selectors/error';
 import { menuOptionSelector } from '../selectors/menu';
 import { panoramaSelector } from '../selectors/Panorama';
 import { selectedFloorplanSelector } from '../selectors/Tour';
-import ThreeSixtyAction from '../stores/threeSixty/actions';
 
 const Viewer = ({ selectedFloorplan, error, type, dispatch }) => {
   const atHUMViewer = React.useRef(null);
@@ -16,10 +15,6 @@ const Viewer = ({ selectedFloorplan, error, type, dispatch }) => {
       const panoramaInfo = await dispatch(PanoramaAction.createPanoramaInfo());
       if (!panoramaInfo.isError) {
         await dispatch(PanoramaAction.setPanorama());
-        await dispatch(ThreeSixtyAction.autoPlay(true));
-        setTimeout(async () => {
-          await dispatch(ThreeSixtyAction.autoPlay(false));
-        }, 2000);
       }
     }
 

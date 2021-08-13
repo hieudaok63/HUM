@@ -3,7 +3,7 @@ import { getFinishes, getSelectedFinish } from './utils';
 
 export class ThreeSixtySelector {
   static getScenes(state) {
-    return state.threeSixty.scenes;
+    return state.threeSixty.levelScenes;
   }
   static getStyles(state) {
     return state.threeSixty.styles;

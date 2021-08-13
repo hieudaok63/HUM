@@ -29,7 +29,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
     mode: 'day',
     selectedMenuOption: '',
     levelScenes: [],
-    showLoader: false
+    showLoader: false,
+    autoTour: 0
   };
 
   [ThreeSixtyAction.SET_THREESIXTY_DATA_FINISHED](state, action) {
@@ -177,6 +178,13 @@ export default class ThreeSixtyReducer extends BaseReducer {
     return {
       ...state,
       showLoader: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.SET_AUTO_TOUR_FINISHED](state, action) {
+    return {
+      ...state,
+      autoTour: action.payload
     };
   }
 }
