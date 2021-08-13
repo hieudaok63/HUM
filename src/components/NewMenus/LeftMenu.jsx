@@ -68,7 +68,11 @@ const LeftMenu = ({
   }, []);
 
   React.useEffect(() => {
-    if (infoPage && minifiedMenu.current.className === 'hidden') {
+    if (
+      infoPage &&
+      (minifiedMenu.current.className === 'hidden' ||
+        menu.current.className !== 'hidden')
+    ) {
       hideMenu();
       setMenuWasOpened(true);
     } else if (menuWasOpened) {
@@ -87,7 +91,7 @@ const LeftMenu = ({
         <div className="minified-menu-title">
           <h1>Explore Property</h1>
         </div>
-        <div className="minified-menu-logo">
+        <div className="minified-menu-logo" style={{ backgroundColor }}>
           <img src={reduceLogo} alt="Logo" />
         </div>
       </div>

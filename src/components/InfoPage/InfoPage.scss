@@ -18,8 +18,9 @@
 .info-container {
   display: flex;
   justify-content: center;
-  align-items: center;
   padding: 15%;
+  padding-top: 5%;
+  height: 100%;
 }
 
 .features-container {
@@ -53,6 +54,7 @@
     margin-bottom: 20px;
     &-feature {
       margin-right: 15%;
+      color: white;
     }
   }
 }
@@ -106,6 +108,58 @@
 
 .w-60 {
   width: 60%;
+}
+
+.t-0 {
+  top: 0;
+}
+
+.r-0 {
+  right: 0;
+}
+
+.w-540 {
+  width: 540px;
+}
+
+.m-10 {
+  margin: 10px;
+}
+
+.info-minimized-icons {
+  color: white;
+  width: 16px;
+}
+
+.info-minimized-action-icons {
+  color: white;
+  width: 20px;
+  cursor: pointer;
+}
+
+.minimized {
+  &-title {
+    color: white;
+    border-left: 0.5px solid white;
+    padding-left: 50px;
+  }
+  &-features {
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 54px;
+    background-color: black;
+    align-items: center;
+    & .features-container-floorplan-feature {
+      margin-right: 0;
+    }
+    &-logo {
+      width: calc(100% - 540px);
+      height: 100%;
+      & img {
+        height: 100%;
+      }
+    }
+  }
 }
 
 @keyframes activeHotspot {

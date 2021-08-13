@@ -166,7 +166,9 @@ const TourPage = ({
           />
         </>
       )}
-      {infoPage && <InfoPage infoPage={infoPage} setInfoPage={setInfoPage} />}
+      {infoPage && (
+        <InfoPage infoPage={infoPage} setInfoPage={setInfoPage} {...logo} />
+      )}
     </div>
   );
 };
