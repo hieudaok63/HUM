@@ -13,8 +13,7 @@ import ThreeSixtyMenu from './ThreeSixtyMenu';
 import {
   featuresSelector,
   floorplanFeaturesSelector,
-  minimapSelector,
-  sceneSelector
+  minimapSelector
 } from '../../selectors/ThreeSixty';
 import {
   availableLanguagesSelector,
@@ -23,7 +22,6 @@ import {
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
 import AmenitiesActions from '../../stores/amenities/actions';
 import LanguageActions from '../../stores/language/actions';
-import { getSelectedScene } from '../../selectors/menu';
 import Autoplay from '../Autoplay';
 
 const ActionsMenu = ({
