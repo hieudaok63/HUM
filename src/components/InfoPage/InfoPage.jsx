@@ -90,7 +90,7 @@ const InfoPage = ({
                 className={`hotspot-list-item ${selectedScene === key &&
                   'hotspot-list-item-active'}`}
               >
-                {name[language]}
+                {name[language] || key}
               </div>
             ))}
           </div>
