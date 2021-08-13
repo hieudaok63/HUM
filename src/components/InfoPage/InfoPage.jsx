@@ -78,6 +78,22 @@ const InfoPage = ({
               style={{ top: y, left: x }}
             />
           ))}
+          <div className="hotspot-list">
+            {minimap.hotspots.map(({ key, name }) => (
+              <div
+                onClick={() => {
+                  if (selectedScene !== key) {
+                    changeScene(key);
+                  }
+                }}
+                key={key}
+                className={`hotspot-list-item ${selectedScene === key &&
+                  'hotspot-list-item-active'}`}
+              >
+                {name[language]}
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </>
@@ -131,7 +147,7 @@ const InfoPage = ({
 
   if (isMinimized) {
     return (
-      <div className="semi-black-bg z10 t-0 r-0 w-540">
+      <div className="semi-black-bg z10 t-0 r-0 w-607">
         {renderHeader()}
         {minimap && (
           <div className="w-100 features-container minimap-container">
