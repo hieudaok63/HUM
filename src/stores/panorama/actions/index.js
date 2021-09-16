@@ -4,6 +4,7 @@ import PanoramaEffect from '../effects';
 import ThreeSixtyAction from '../../threeSixty/actions';
 // import SocketAction from '../../socket/actions';
 import LoadingAction from '../../loading/actions';
+import TourAction from '../../tour/actions';
 
 export default class PanoramaAction {
   static PANORAMA_INFO_REQUEST = 'PANORAMA_INFO_REQUEST';
@@ -127,7 +128,19 @@ export default class PanoramaAction {
         async () => {
           await dispatch(ThreeSixtyAction.changingFloorplanFromMenu(false));
         },
-        showLoader
+        showLoader,
+        async (activate) => {
+          await dispatch(TourAction.setImageGallery(activate));
+        },
+        async (activate) => {
+          await dispatch(TourAction.setVideoGallery(activate));
+        },
+        async (gallery) => {
+          await dispatch(TourAction.setGalleryImages(gallery));
+        },
+        async (gallery) => {
+          await dispatch(TourAction.setGalleryVideos(gallery));
+        }
       );
 
       const isError = model instanceof PanoramaErrorModel;

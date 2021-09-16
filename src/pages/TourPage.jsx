@@ -14,7 +14,9 @@ import {
   levelsSelector,
   logoSelector,
   typeSelector,
-  sectionsSelector
+  sectionsSelector,
+  imageGallerySelector,
+  videoGallerySelector
 } from '../selectors/Tour';
 import { amenitySelector } from '../selectors/Amenities';
 import { loadingSelector } from '../selectors/loading';
@@ -33,6 +35,8 @@ import { ReactComponent as EllipseIcon } from '../assets/Icons/icon_ellipse.svg'
 import './Test.scss';
 import LanguageAction from '../stores/language/actions';
 import ImageWithHotspots from '../components/ImageWithHotspots';
+import ImageGallery from '../components/ImageGallery/ImageGallery';
+import VideoGallery from '../components/VideoGallery/VideoGallery';
 
 const TourPage = ({
   floorplans,
@@ -42,7 +46,9 @@ const TourPage = ({
   logo,
   amenity,
   type,
-  sections
+  sections,
+  imageGallery,
+  videoGallery
 }) => {
   const { builderId, projectId } = useParams();
   const [galleryIndex, setGalleryIndex] = React.useState(0);
@@ -135,7 +141,7 @@ const TourPage = ({
             />
           )}
           {amenity[galleryIndex].type === 'video' && (
-            <div className="video-full-container">
+            <div className="video-full-container video-full-container-with-background">
               <VideoPlayer src={amenity[galleryIndex].url} />
             </div>
           )}
@@ -169,6 +175,8 @@ const TourPage = ({
       {infoPage && (
         <InfoPage infoPage={infoPage} setInfoPage={setInfoPage} {...logo} />
       )}
+      {imageGallery && <ImageGallery />}
+      {videoGallery && <VideoGallery />}
     </div>
   );
 };
@@ -180,7 +188,9 @@ const mapStateToProps = (state) => ({
   logo: logoSelector(state),
   type: typeSelector(state),
   amenity: amenitySelector(state),
-  sections: sectionsSelector(state)
+  sections: sectionsSelector(state),
+  imageGallery: imageGallerySelector(state),
+  videoGallery: videoGallerySelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -195,7 +205,9 @@ TourPage.propTypes = {
   logo: shape({}).isRequired,
   amenity: arrayOf(shape({})).isRequired,
   type: string.isRequired,
-  sections: arrayOf(shape({})).isRequired
+  sections: arrayOf(shape({})).isRequired,
+  imageGallery: bool.isRequired,
+  videoGallery: bool.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TourPage);

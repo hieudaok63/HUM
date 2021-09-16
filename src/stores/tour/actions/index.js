@@ -12,6 +12,14 @@ export default class TourAction {
 
   static TOUR_SELECTED_TYPE_FINISHED = 'TOUR_SELECTED_TYPE_FINISHED';
 
+  static TOUR_IMAGE_GALLEY_FINISHED = 'TOUR_IMAGE_GALLEY_FINISHED';
+
+  static TOUR_VIDEO_GALLERY_FINISHED = 'TOUR_VIDEO_GALLERY_FINISHED';
+
+  static TOUR_GALLEY_IMAGES_FINISHED = 'TOUR_GALLEY_IMAGES_FINISHED';
+
+  static TOUR_GALLEY_VIDEOS_FINISHED = 'TOUR_GALLEY_VIDEOS_FINISHED';
+
   /* */
   static getData(builder, project) {
     return async (dispatch, getState) => {
@@ -56,6 +64,34 @@ export default class TourAction {
     return ActionUtility.createAction(
       TourAction.TOUR_SELECTED_TYPE_FINISHED,
       option
+    );
+  }
+
+  static setImageGallery(option) {
+    return ActionUtility.createAction(
+      TourAction.TOUR_IMAGE_GALLEY_FINISHED,
+      option
+    );
+  }
+
+  static setVideoGallery(option) {
+    return ActionUtility.createAction(
+      TourAction.TOUR_VIDEO_GALLERY_FINISHED,
+      option
+    );
+  }
+
+  static setGalleryImages(gallery) {
+    return ActionUtility.createAction(
+      TourAction.TOUR_GALLEY_IMAGES_FINISHED,
+      gallery
+    );
+  }
+
+  static setGalleryVideos(gallery) {
+    return ActionUtility.createAction(
+      TourAction.TOUR_GALLEY_VIDEOS_FINISHED,
+      gallery
     );
   }
 }

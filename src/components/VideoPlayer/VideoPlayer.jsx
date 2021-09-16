@@ -121,10 +121,14 @@ class VideoPlayer extends React.Component {
   }
 
   render() {
-    const { src, fullWidth } = this.props;
+    const { src, fullWidth, gallery } = this.props;
     const { paused, currentTime, length, muted, volume } = this.state;
     return (
-      <div className={`VideoPlayer ${fullWidth ? 'full-width' : ''}`}>
+      <div
+        className={`VideoPlayer ${fullWidth ? 'full-width' : ''} ${
+          gallery ? 'gallery' : ''
+        }`}
+      >
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video src={src} id="v" width="100%" height="100%" autoPlay />
 
@@ -231,11 +235,13 @@ class VideoPlayer extends React.Component {
 
 VideoPlayer.propTypes = {
   src: string.isRequired,
-  fullWidth: bool
+  fullWidth: bool,
+  gallery: bool
 };
 
 VideoPlayer.defaultProps = {
-  fullWidth: false
+  fullWidth: false,
+  gallery: false
 };
 
 export default VideoPlayer;

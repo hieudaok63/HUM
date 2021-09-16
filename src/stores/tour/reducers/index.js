@@ -8,7 +8,11 @@ export default class TourReducer extends BaseReducer {
   initialState = {
     ...new Tour(),
     selectedFloorplan: {},
-    type: 'three-sixty'
+    type: 'three-sixty',
+    imageGallery: false,
+    videoGallery: false,
+    galleryImages: [],
+    galleryVideos: []
   };
 
   [TourAction.TOUR_DATA_REQUEST_FINISHED](state, action) {
@@ -36,6 +40,34 @@ export default class TourReducer extends BaseReducer {
     return {
       ...state,
       type: action.payload
+    };
+  }
+
+  [TourAction.TOUR_IMAGE_GALLEY_FINISHED](state, action) {
+    return {
+      ...state,
+      imageGallery: action.payload
+    };
+  }
+
+  [TourAction.TOUR_VIDEO_GALLERY_FINISHED](state, action) {
+    return {
+      ...state,
+      videoGallery: action.payload
+    };
+  }
+
+  [TourAction.TOUR_GALLEY_IMAGES_FINISHED](state, action) {
+    return {
+      ...state,
+      galleryImages: action.payload
+    };
+  }
+
+  [TourAction.TOUR_GALLEY_VIDEOS_FINISHED](state, action) {
+    return {
+      ...state,
+      galleryVideos: action.payload
     };
   }
 }

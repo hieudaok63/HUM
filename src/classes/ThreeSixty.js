@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import * as THREE from 'three';
 import TWEEN from '@tweenjs/tween.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -44,6 +45,7 @@ class ThreeSixtySphere {
     this.easingAnimationDown = [];
     this.showAnimation = [];
     this.hotspots = [];
+    this.spots = [];
     this.createdHotspots = [];
     this.scaled = null;
     this.scaleUpAnimation = null;
@@ -78,7 +80,11 @@ class ThreeSixtySphere {
     loaderCall,
     language,
     changingFromFloorplanCall,
-    showLoader
+    showLoader,
+    activateImageGallery,
+    activateVideoGallery,
+    setCurrentGalleryImages,
+    setCurrentGalleryVideos
   }) => {
     while (container.firstChild) {
       container.removeChild(container.lastChild);
@@ -86,6 +92,7 @@ class ThreeSixtySphere {
     this.buildMode = localStorage.getItem('three-sixty-builder') === 'true';
     this.container = container;
     this.tooltip = this.createTooltip();
+    this.thumbnail = this.createThumbNail();
     this.width = width;
     this.height = height;
     this.radius = radius;
@@ -100,6 +107,10 @@ class ThreeSixtySphere {
     this.updateStyleCall = updateStyleCall;
     this.loaderCall = loaderCall;
     this.showLoader = showLoader;
+    this.activateImageGallery = activateImageGallery;
+    this.activateVideoGallery = activateVideoGallery;
+    this.setCurrentGalleryImages = setCurrentGalleryImages;
+    this.setCurrentGalleryVideos = setCurrentGalleryVideos;
     if (this.showLoader) {
       this.loaderContainer = this.createLoader();
       this.container.appendChild(this.loaderContainer);
@@ -198,6 +209,29 @@ class ThreeSixtySphere {
     tooltip.classList.add('tooltip');
     this.container.appendChild(tooltip);
     return tooltip;
+  };
+
+  /* */
+  createThumbNail = () => {
+    const thumbnail = document.createElement('div');
+    thumbnail.classList.add('thumbnail');
+    const title = document.createElement('div');
+    title.classList.add('title-container');
+    thumbnail.appendChild(title);
+    thumbnail.addEventListener('pointerdown', (e) => {
+      if (e?.target?.hotspotType === 'image') {
+        this.activateImageGallery(true);
+        this.setCurrentGalleryImages(e?.target?.gallery);
+      }
+
+      if (e?.target?.hotspotType === 'video') {
+        this.activateVideoGallery(true);
+        this.setCurrentGalleryVideos(e?.target?.gallery);
+      }
+      this.handleTooltipUnactive();
+    });
+    this.container.appendChild(thumbnail);
+    return thumbnail;
   };
 
   /* */
@@ -373,6 +407,7 @@ class ThreeSixtySphere {
       scene.hotspots.forEach((hotspot) => {
         this.createHotspot(hotspot, mesh, scene.hotspots);
       });
+      console.log('hey', scene.spots);
     }
 
     return mesh;
@@ -428,9 +463,15 @@ class ThreeSixtySphere {
     hotspots.map((hotspot) => {
       const current = hotspot;
       if (typeof current.level === 'undefined') {
-        current.img = Data.AvriaHotpotArrow;
+        current.image = Data.AvriaHotpotArrow;
       } else {
-        current.img = Data.AvriaHotspotStairs;
+        current.image = Data.AvriaHotspotStairs;
+      }
+
+      if (current.type === 'image') {
+        current.image = Data.AvriaGallery;
+      } else if (current.type === 'video') {
+        current.image = Data.AvriaVideo;
       }
       return current;
     });
@@ -657,9 +698,22 @@ class ThreeSixtySphere {
   };
 
   /* */
-  createHotspot = ({ x, y, z, name, key, img, level, startSceneKey }, mesh) => {
+  createHotspot = (hotspot, mesh) => {
+    const {
+      x,
+      y,
+      z,
+      name,
+      key,
+      image,
+      level,
+      startSceneKey,
+      type,
+      thumbnail,
+      gallery
+    } = hotspot;
     const point = new THREE.Vector3(x, y, z);
-    const texture = new TextureLoader.Load(img);
+    const texture = new TextureLoader.Load(image);
     const spriteMaterial = new THREE.SpriteMaterial({
       map: texture
     });
@@ -667,10 +721,16 @@ class ThreeSixtySphere {
     const sprite = new THREE.Sprite(spriteMaterial);
 
     sprite.name = name;
-    sprite.isHotspot = true;
+    sprite.isHotspot = type !== 'video' && type !== 'gallery';
+    sprite.hotspotType = type;
     sprite.key = key;
     sprite.startScenePosition = mesh.startScenePosition;
     sprite.startSceneKey = startSceneKey || '';
+    sprite.gallery = gallery;
+
+    if (thumbnail) {
+      sprite.thumbnail = thumbnail;
+    }
 
     sprite.position.copy(
       point
@@ -781,7 +841,7 @@ class ThreeSixtySphere {
   onPointerEnd = () => {
     this.mouseDown = false;
     this.tooltip.classList.remove('is-active');
-    this.handleSpriteClick();
+    this.thumbnail.classList.remove('is-active');
   };
 
   /* */
@@ -789,6 +849,8 @@ class ThreeSixtySphere {
     this.mouseDown = true;
     this.getMouse(event);
     this.updateMenuCall(false);
+    this.handleSpriteClick();
+    this.thumbnail.classList.remove('is-active');
     if (this.buildMode) {
       this.displayPosition();
     }
@@ -831,6 +893,8 @@ class ThreeSixtySphere {
             use
           );
         }
+      } else {
+        this.thumbnail.classList.remove('is-active');
       }
     }
   };
@@ -1022,13 +1086,14 @@ class ThreeSixtySphere {
               this.INTERSECTED.scaleUp !== undefined &&
               this.INTERSECTED.scaleDown !== undefined
             ) {
-              this.INTERSECTED.scaleUp.stop();
-              this.INTERSECTED.scaleDown.start();
-              delete this.INTERSECTED.scaleUp;
-              delete this.INTERSECTED.scaleDown;
-              this.tooltip.classList.remove('is-active');
-              this.hover = false;
-              this.container.style.cursor = 'default';
+              this.handleTooltipUnactive();
+
+              if (
+                this.INTERSECTED.hotspotType !== 'video' &&
+                this.INTERSECTED.hotspotType !== 'image'
+              ) {
+                this.tooltip.classList.remove('is-active');
+              }
             }
           }
 
@@ -1041,17 +1106,15 @@ class ThreeSixtySphere {
             this.INTERSECTED.scaleDown = this.scaleDownSprite(this.INTERSECTED);
             this.INTERSECTED.scaleUp.start();
             if (!this.mouseDown) {
-              const position = this.INTERSECTED.position
-                .clone()
-                .project(this.camera);
+              if (
+                this.INTERSECTED.hotspotType !== 'video' &&
+                this.INTERSECTED.hotspotType !== 'image'
+              ) {
+                this.handleTooltipActive();
+              } else {
+                this.handleThumnailActive();
+              }
 
-              this.tooltip.style.top = `${((-1 * position.y + 1) *
-                this.height) /
-                2}px`;
-              this.tooltip.style.left = `${((position.x + 1) * this.width) /
-                2}px`;
-              this.tooltip.classList.add('is-active');
-              this.tooltip.innerHTML = this.INTERSECTED.name[this.language];
               this.container.style.cursor = 'pointer';
             }
             this.hover = true;
@@ -1062,6 +1125,36 @@ class ThreeSixtySphere {
         this.hover = false;
       }
     }
+  };
+
+  handleThumnailActive = () => {
+    const position = this.INTERSECTED.position.clone().project(this.camera);
+
+    this.thumbnail.style.top = `${((-1 * position.y + 1) * this.height) / 2}px`;
+    this.thumbnail.style.left = `${((position.x + 1) * this.width) / 2}px`;
+    this.thumbnail.style.backgroundImage = `url(${this.INTERSECTED.thumbnail})`;
+    this.thumbnail.children[0].innerHTML = this.INTERSECTED.name[this.language];
+    this.thumbnail.classList.add('is-active');
+    this.thumbnail.hotspotType = this.INTERSECTED.hotspotType;
+    this.thumbnail.gallery = this.INTERSECTED.gallery;
+  };
+
+  handleTooltipActive = () => {
+    const position = this.INTERSECTED.position.clone().project(this.camera);
+
+    this.tooltip.style.top = `${((-1 * position.y + 1) * this.height) / 2}px`;
+    this.tooltip.style.left = `${((position.x + 1) * this.width) / 2}px`;
+    this.tooltip.classList.add('is-active');
+    this.tooltip.innerHTML = this.INTERSECTED.name[this.language];
+  };
+
+  handleTooltipUnactive = () => {
+    this.INTERSECTED.scaleUp?.stop();
+    this.INTERSECTED.scaleDown?.start();
+    delete this.INTERSECTED.scaleUp;
+    delete this.INTERSECTED.scaleDown;
+    this.hover = false;
+    this.container.style.cursor = 'default';
   };
 
   /* */

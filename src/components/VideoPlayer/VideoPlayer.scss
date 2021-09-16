@@ -31,6 +31,10 @@ body {
   & video {
     object-fit: cover;
   }
+  &.gallery {
+    width: 50%;
+    height: 50%;
+  }
 }
 
 .controls {

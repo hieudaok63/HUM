@@ -91,7 +91,11 @@ export default class SessionEffect {
     updateStyleCall,
     loaderCall,
     changingFromFloorplanCall,
-    showLoader
+    showLoader,
+    setImageGallery,
+    setVideoGallery,
+    setGalleryImages,
+    setGalleryVideos
   ) {
     const threeSixty = new THREESIXTY();
 
@@ -113,7 +117,19 @@ export default class SessionEffect {
       changingFromFloorplanCall: async () => {
         changingFromFloorplanCall();
       },
-      showLoader
+      showLoader,
+      activateImageGallery: async (activate) => {
+        setImageGallery(activate);
+      },
+      activateVideoGallery: async (activate) => {
+        setVideoGallery(activate);
+      },
+      setCurrentGalleryImages: async (gallery) => {
+        setGalleryImages(gallery);
+      },
+      setCurrentGalleryVideos: async (gallery) => {
+        setGalleryVideos(gallery);
+      }
     };
     threeSixty.init(params);
     threeSixty.animate();

@@ -37,11 +37,23 @@ export class TourSelector {
   static getTour(state) {
     return state.tour;
   }
-
   static getFloorplanSectionName(state) {
-    if (!state.language.language || !state.tour.floorplansSectionName) return '';
+    if (!state.language.language || !state.tour.floorplansSectionName)
+      return '';
 
     return state.tour?.floorplansSectionName[state.language.language];
+  }
+  static getImageGallery(state) {
+    return state.tour?.imageGallery;
+  }
+  static getVideoGallery(state) {
+    return state.tour?.videoGallery;
+  }
+  static getGalleryImages(state) {
+    return state.tour?.galleryImages;
+  }
+  static getGalleryVideos(state) {
+    return state.tour?.galleryVideos;
   }
 }
 
@@ -93,4 +105,24 @@ export const tourSelector = createSelector(
 export const floorplansSectionNameSelector = createSelector(
   [TourSelector.getFloorplanSectionName],
   (sectionName) => sectionName
+);
+
+export const imageGallerySelector = createSelector(
+  [TourSelector.getImageGallery],
+  (imageGallery) => imageGallery
+);
+
+export const videoGallerySelector = createSelector(
+  [TourSelector.getVideoGallery],
+  (videoGallery) => videoGallery
+);
+
+export const galleryImagesSelector = createSelector(
+  [TourSelector.getGalleryImages],
+  (gallery) => gallery
+);
+
+export const galleryVideosSelector = createSelector(
+  [TourSelector.getGalleryVideos],
+  (gallery) => gallery
 );
