@@ -16,7 +16,9 @@ import {
   typeSelector,
   sectionsSelector,
   imageGallerySelector,
-  videoGallerySelector
+  videoGallerySelector,
+  builderIdSelector,
+  scheduleAMeetingSelector
 } from '../selectors/Tour';
 import { amenitySelector } from '../selectors/Amenities';
 import { loadingSelector } from '../selectors/loading';
@@ -37,6 +39,7 @@ import LanguageAction from '../stores/language/actions';
 import ImageWithHotspots from '../components/ImageWithHotspots';
 import ImageGallery from '../components/ImageGallery/ImageGallery';
 import VideoGallery from '../components/VideoGallery/VideoGallery';
+import ScehduleAMeeting from '../components/ScheduleAMeeting';
 
 const TourPage = ({
   floorplans,
@@ -48,7 +51,9 @@ const TourPage = ({
   type,
   sections,
   imageGallery,
-  videoGallery
+  videoGallery,
+  builderId: stateBuilderId,
+  scheduleActive
 }) => {
   const { builderId, projectId } = useParams();
   const [galleryIndex, setGalleryIndex] = React.useState(0);
@@ -156,20 +161,25 @@ const TourPage = ({
       )}
       {!loader && (
         <>
-          <LeftMenu
-            {...logo}
-            floorplans={floorplans}
-            setGalleryIndex={setGalleryIndex}
-            sections={sections}
-            infoPage={infoPage}
-          />
-          <ActionsMenu
-            infoPage={infoPage}
-            setInfoPage={setInfoPage}
-            type={type}
-            amenity={amenity}
-            galleryIndex={galleryIndex}
-          />
+          {stateBuilderId && <ScehduleAMeeting />}
+          {!scheduleActive && (
+            <LeftMenu
+              {...logo}
+              floorplans={floorplans}
+              setGalleryIndex={setGalleryIndex}
+              sections={sections}
+              infoPage={infoPage}
+            />
+          )}
+          {!scheduleActive && (
+            <ActionsMenu
+              infoPage={infoPage}
+              setInfoPage={setInfoPage}
+              type={type}
+              amenity={amenity}
+              galleryIndex={galleryIndex}
+            />
+          )}
         </>
       )}
       {infoPage && (
@@ -190,7 +200,9 @@ const mapStateToProps = (state) => ({
   amenity: amenitySelector(state),
   sections: sectionsSelector(state),
   imageGallery: imageGallerySelector(state),
-  videoGallery: videoGallerySelector(state)
+  videoGallery: videoGallerySelector(state),
+  builderId: builderIdSelector(state),
+  scheduleActive: scheduleAMeetingSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -207,7 +219,9 @@ TourPage.propTypes = {
   type: string.isRequired,
   sections: arrayOf(shape({})).isRequired,
   imageGallery: bool.isRequired,
-  videoGallery: bool.isRequired
+  videoGallery: bool.isRequired,
+  builderId: string.isRequired,
+  scheduleActive: bool.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TourPage);

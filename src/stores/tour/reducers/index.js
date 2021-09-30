@@ -12,7 +12,11 @@ export default class TourReducer extends BaseReducer {
     imageGallery: false,
     videoGallery: false,
     galleryImages: [],
-    galleryVideos: []
+    galleryVideos: [],
+    customPage: {},
+    availableTimes: [],
+    sheduleActive: false,
+    savedSchedule: null
   };
 
   [TourAction.TOUR_DATA_REQUEST_FINISHED](state, action) {
@@ -68,6 +72,34 @@ export default class TourReducer extends BaseReducer {
     return {
       ...state,
       galleryVideos: action.payload
+    };
+  }
+
+  [TourAction.GET_CUSTOM_PAGE_FINISHED](state, action) {
+    return {
+      ...state,
+      customPage: action.payload
+    };
+  }
+
+  [TourAction.GET_AVAILABLE_TIMES_FINISHED](state, action) {
+    return {
+      ...state,
+      availableTimes: action.payload
+    };
+  }
+
+  [TourAction.SHEDULE_ACTIVATED_FINISHED](state, action) {
+    return {
+      ...state,
+      sheduleActive: action.payload
+    };
+  }
+
+  [TourAction.SCHEDULE_MEETING_FINISHED](state, action) {
+    return {
+      ...state,
+      savedSchedule: action.payload
     };
   }
 }

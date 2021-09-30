@@ -55,6 +55,30 @@ export class TourSelector {
   static getGalleryVideos(state) {
     return state.tour?.galleryVideos;
   }
+  static getBuilderId(state) {
+    return state.tour.builderId;
+  }
+  static getMainPageSelector(state) {
+    return state.tour.customPage.mainPage;
+  }
+  static getPresentialVisit(state) {
+    return state.tour.customPage.presentialVisit;
+  }
+  static getVirtualVisit(state) {
+    return state.tour.customPage.virtualVisit;
+  }
+  static getTimezone(state) {
+    return state.tour.customPage.timeZone;
+  }
+  static getAvailableTimes(state) {
+    return state.tour.availableTimes;
+  }
+  static getScheduleAMeetingStatus(state) {
+    return state.tour.sheduleActive;
+  }
+  static getSavedSchedule(state) {
+    return state.tour.savedSchedule;
+  }
 }
 
 export const floorplansSelector = createSelector(
@@ -125,4 +149,44 @@ export const galleryImagesSelector = createSelector(
 export const galleryVideosSelector = createSelector(
   [TourSelector.getGalleryVideos],
   (gallery) => gallery
+);
+
+export const builderIdSelector = createSelector(
+  [TourSelector.getBuilderId],
+  (builderId) => builderId
+);
+
+export const mainPageSelector = createSelector(
+  [TourSelector.getMainPageSelector],
+  (mainPage) => mainPage
+);
+
+export const presentialVisitSelector = createSelector(
+  [TourSelector.getPresentialVisit],
+  (presentialVisit) => presentialVisit
+);
+
+export const virtualVisitSelector = createSelector(
+  [TourSelector.getVirtualVisit],
+  (virtualVisit) => virtualVisit
+);
+
+export const timezoneSelector = createSelector(
+  [TourSelector.getTimezone],
+  (timezone) => timezone
+);
+
+export const availableTimesSelector = createSelector(
+  [TourSelector.getAvailableTimes],
+  (availableTimes) => availableTimes
+);
+
+export const scheduleAMeetingSelector = createSelector(
+  [TourSelector.getScheduleAMeetingStatus],
+  (scheduleMeeting) => scheduleMeeting
+);
+
+export const savedScheduleSelector = createSelector(
+  [TourSelector.getSavedSchedule],
+  (savedSchedule) => savedSchedule
 );

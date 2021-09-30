@@ -20,6 +20,20 @@ export default class TourAction {
 
   static TOUR_GALLEY_VIDEOS_FINISHED = 'TOUR_GALLEY_VIDEOS_FINISHED';
 
+  static GET_CUSTOM_PAGE = 'GET_CUSTOM_PAGE';
+
+  static GET_CUSTOM_PAGE_FINISHED = 'GET_CUSTOM_PAGE_FINISHED';
+
+  static GET_AVAILABLE_TIMES = 'GET_AVAILABLE_TIMES';
+
+  static GET_AVAILABLE_TIMES_FINISHED = 'GET_AVAILABLE_TIMES_FINISHED';
+
+  static SHEDULE_ACTIVATED_FINISHED = 'SHEDULE_ACTIVATED_FINISHED';
+
+  static SCHEDULE_MEETING = 'SCHEDULE_MEETING';
+
+  static SCHEDULE_MEETING_FINISHED = 'SCHEDULE_MEETING_FINISHED';
+
   /* */
   static getData(builder, project) {
     return async (dispatch, getState) => {
@@ -38,6 +52,45 @@ export default class TourAction {
     };
   }
 
+  /* */
+  static getCustomPage() {
+    return async (dispatch, getState) => {
+      const { language: stateLanguage, tour: stateTour } = getState();
+      const { language } = stateLanguage;
+      const { builderId, projectId } = stateTour;
+      const model = await ActionUtility.createThunkEffect(
+        dispatch,
+        TourAction.GET_CUSTOM_PAGE,
+        TourEffect.getCustomPage,
+        language,
+        builderId,
+        projectId
+      );
+      const isError = model instanceof HttpErrorResponseModel;
+      return { model, isError };
+    };
+  }
+
+  /* */
+  static getAvailableTimes(date) {
+    return async (dispatch, getState) => {
+      const { language: stateLanguage, tour: stateTour } = getState();
+      const { language } = stateLanguage;
+      const { builderId, projectId } = stateTour;
+      const model = await ActionUtility.createThunkEffect(
+        dispatch,
+        TourAction.GET_AVAILABLE_TIMES,
+        TourEffect.getAvailableTimes,
+        language,
+        builderId,
+        projectId,
+        date
+      );
+      const isError = model instanceof HttpErrorResponseModel;
+      return { model, isError };
+    };
+  }
+
   static getFloorplanIndex(name) {
     return async (dispatch, getState) => {
       const { tour } = getState();
@@ -50,6 +103,25 @@ export default class TourAction {
       );
 
       return floorplanIndex;
+    };
+  }
+
+  static scheduleMeeting(schedule) {
+    return async (dispatch, getState) => {
+      const { language: stateLanguage, tour: stateTour } = getState();
+      const { language } = stateLanguage;
+      const { builderId, projectId } = stateTour;
+      const model = await ActionUtility.createThunkEffect(
+        dispatch,
+        TourAction.SCHEDULE_MEETING,
+        TourEffect.postScheduleMeeting,
+        language,
+        builderId,
+        projectId,
+        schedule
+      );
+      const isError = model instanceof HttpErrorResponseModel;
+      return { model, isError };
     };
   }
 
@@ -92,6 +164,20 @@ export default class TourAction {
     return ActionUtility.createAction(
       TourAction.TOUR_GALLEY_VIDEOS_FINISHED,
       gallery
+    );
+  }
+
+  static setScheduleActive(active) {
+    return ActionUtility.createAction(
+      TourAction.SHEDULE_ACTIVATED_FINISHED,
+      active
+    );
+  }
+
+  static setSavedSchedule(active) {
+    return ActionUtility.createAction(
+      TourAction.SCHEDULE_MEETING_FINISHED,
+      active
     );
   }
 }
