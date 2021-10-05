@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { DeviceOrientationControls } from '../lib/three/DeviceOrientationControls';
 import { TextureLoader } from '../lib/three/loaders/loaders';
 import Data from '../assets/Data';
+import { getLocalStorage } from '../utils';
 
 class ThreeSixtySphere {
   constructor(
@@ -76,7 +77,7 @@ class ThreeSixtySphere {
     style,
     loaderCall
   }) => {
-    this.buildMode = localStorage.getItem('three-sixty-builder') === 'true';
+    this.buildMode = getLocalStorage('three-sixty-builder') === 'true';
     this.container = container;
     this.container = container;
     this.loader = loader;
