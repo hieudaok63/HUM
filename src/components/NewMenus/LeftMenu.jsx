@@ -1,10 +1,12 @@
 import React from 'react';
 import { string, arrayOf, shape, func } from 'prop-types';
+import { connect } from 'react-redux';
 import { ReactComponent as CloseIcon } from '../../assets/Icons/close.svg';
 import { ReactComponent as AthumLogo } from '../../assets/athum-logo-minified.svg';
 import './LeftMenu.scss';
 import FloorplansSubmenu from './FloorplansSubmenu';
 import AmenitiesSubmenu from './AmenitiesSubmenu';
+import TourAction from '../../stores/tour/actions';
 
 const LeftMenu = ({
   reduceLogo,
@@ -14,7 +16,8 @@ const LeftMenu = ({
   floorplans,
   setGalleryIndex,
   sections,
-  infoPage
+  infoPage,
+  dispatch
 }) => {
   const [menuWasOpened, setMenuWasOpened] = React.useState(false);
   const [openedMenu, setOpenedMenu] = React.useState('floorplans');
@@ -25,6 +28,7 @@ const LeftMenu = ({
   const showMenu = () => {
     minifiedMenu.current.className = 'minified-menu minified-left-fade-out';
     menu.current.className = 'menu left-fade-in';
+    dispatch(TourAction.leftMenuOpen(true));
     setTimeout(() => {
       minifiedMenu.current.className = 'hidden';
     }, 450);
@@ -33,6 +37,7 @@ const LeftMenu = ({
   const hideMenu = () => {
     if (menu.current) {
       menu.current.className = 'menu left-fade-out';
+      dispatch(TourAction.leftMenuOpen(false));
       setTimeout(() => {
         menu.current.className = 'hidden';
         minifiedMenu.current.className = 'minified-menu minified-left-fade-in';
@@ -75,6 +80,7 @@ const LeftMenu = ({
     ) {
       hideMenu();
       setMenuWasOpened(true);
+      dispatch(TourAction.leftMenuOpen(true));
     } else if (menuWasOpened) {
       showMenu();
       setMenuWasOpened(false);
@@ -135,7 +141,8 @@ LeftMenu.propTypes = {
   floorplans: arrayOf(shape({})),
   sections: arrayOf(shape({})),
   setGalleryIndex: func.isRequired,
-  infoPage: shape({})
+  infoPage: shape({}),
+  dispatch: func.isRequired
 };
 
 LeftMenu.defaultProps = {
@@ -146,4 +153,8 @@ LeftMenu.defaultProps = {
   infoPage: null
 };
 
-export default LeftMenu;
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
+
+export default connect(null, mapDispatchToProps)(LeftMenu);

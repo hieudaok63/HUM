@@ -1,6 +1,8 @@
-export const ENV = localStorage.getItem('ENV') || process.env.REACT_APP_ENV;
+import { getLocalStorage } from '../utils';
 
-export const logger = localStorage.getItem('logger') || false;
+export const ENV = getLocalStorage('ENV') || process.env.REACT_APP_ENV;
+
+export const logger = getLocalStorage('logger') || false;
 
 export const threeSixtyBuilder =
-  localStorage.getItem('three-sixty-builder') || false;
+  getLocalStorage('three-sixty-builder') || false;

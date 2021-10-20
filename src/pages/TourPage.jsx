@@ -18,7 +18,8 @@ import {
   imageGallerySelector,
   videoGallerySelector,
   builderIdSelector,
-  scheduleAMeetingSelector
+  scheduleAMeetingSelector,
+  canScheduleSelector
 } from '../selectors/Tour';
 import { amenitySelector } from '../selectors/Amenities';
 import { loadingSelector } from '../selectors/loading';
@@ -53,7 +54,8 @@ const TourPage = ({
   imageGallery,
   videoGallery,
   builderId: stateBuilderId,
-  scheduleActive
+  scheduleActive,
+  canSchedule
 }) => {
   const { builderId, projectId } = useParams();
   const [galleryIndex, setGalleryIndex] = React.useState(0);
@@ -66,6 +68,7 @@ const TourPage = ({
       await dispatch(LanguageAction.setLanguageFromTour());
       await dispatch(TourAction.selectFloorplan(0));
       await dispatch(ThreeSixtyAction.setThreeSixtyData());
+      await dispatch(TourAction.getCustomPage());
     }
     getData();
   }, []);
@@ -161,7 +164,7 @@ const TourPage = ({
       )}
       {!loader && (
         <>
-          {stateBuilderId && <ScehduleAMeeting />}
+          {stateBuilderId && canSchedule && <ScehduleAMeeting />}
           {!scheduleActive && (
             <LeftMenu
               {...logo}
@@ -202,7 +205,8 @@ const mapStateToProps = (state) => ({
   imageGallery: imageGallerySelector(state),
   videoGallery: videoGallerySelector(state),
   builderId: builderIdSelector(state),
-  scheduleActive: scheduleAMeetingSelector(state)
+  scheduleActive: scheduleAMeetingSelector(state),
+  canSchedule: canScheduleSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -221,7 +225,8 @@ TourPage.propTypes = {
   imageGallery: bool.isRequired,
   videoGallery: bool.isRequired,
   builderId: string.isRequired,
-  scheduleActive: bool.isRequired
+  scheduleActive: bool.isRequired,
+  canSchedule: bool.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TourPage);

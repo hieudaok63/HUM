@@ -154,6 +154,25 @@ const getScenes = (levels, selectedStyle) => {
   return scenes;
 };
 
+const setLocalStorage = (property, value) => {
+  try {
+    localStorage.setItem(property, value);
+    return value;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
+
+const getLocalStorage = (property) => {
+  try {
+    return localStorage.getItem(property);
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
+
 export {
   deleteWhiteSpaces,
   bindEvent,
@@ -175,5 +194,7 @@ export {
   getSelectedFinish,
   assignHotspotImage,
   getScene,
-  getScenes
+  getScenes,
+  setLocalStorage,
+  getLocalStorage
 };

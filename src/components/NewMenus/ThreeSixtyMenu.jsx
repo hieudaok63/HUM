@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { arrayOf, shape, func, string } from 'prop-types';
-import { ReactComponent as LightIcon } from '../../assets/Icons/icon_light.svg';
 import { ReactComponent as SettingsIcon } from '../../assets/Icons/icon_settings.svg';
 import { ReactComponent as StylesIcon } from '../../assets/Icons/icon_styles.svg';
 import { ReactComponent as EyeIcon } from '../../assets/Icons/icon_eye.svg';
@@ -108,6 +107,7 @@ const ThreeSixtyMenu = ({
           }
           setShowSubmenu('');
         }}
+        disabled={showSubmenu === 'styles'}
       >
         {selectedStyle === 'Empty' ? (
           <EyeDisabledIcon className="eye-icon" />

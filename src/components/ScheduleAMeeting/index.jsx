@@ -10,13 +10,6 @@ import { logoSelector } from '../../selectors/Tour';
 
 const ScehduleAMeeting = ({ dispatch }) => {
   const [showSteps, setShowSteps] = React.useState(false);
-  React.useState(() => {
-    const getCustomPage = async () => {
-      await dispatch(TourAction.getCustomPage());
-    };
-
-    getCustomPage();
-  }, []);
   return (
     <>
       {!showSteps && (

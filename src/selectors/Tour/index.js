@@ -79,6 +79,16 @@ export class TourSelector {
   static getSavedSchedule(state) {
     return state.tour.savedSchedule;
   }
+  static getCanSchedule(state) {
+    return state.tour.canSchedule;
+  }
+  static getLeftMenuOpen(state) {
+    return state.tour.leftMenuOpened;
+  }
+
+  static getDisabledActions(state) {
+    return state.tour.disableActions;
+  }
 }
 
 export const floorplansSelector = createSelector(
@@ -189,4 +199,19 @@ export const scheduleAMeetingSelector = createSelector(
 export const savedScheduleSelector = createSelector(
   [TourSelector.getSavedSchedule],
   (savedSchedule) => savedSchedule
+);
+
+export const canScheduleSelector = createSelector(
+  [TourSelector.getCanSchedule],
+  (canSchedule) => canSchedule
+);
+
+export const leftMenuOpenSelector = createSelector(
+  [TourSelector.getLeftMenuOpen],
+  (leftMenuOpen) => leftMenuOpen
+);
+
+export const disableActionsSelector = createSelector(
+  [TourSelector.getDisabledActions],
+  (disabledActions) => disabledActions
 );

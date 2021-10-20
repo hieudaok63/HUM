@@ -9,6 +9,7 @@ import ThreeSixtyAction from '../stores/threeSixty/actions';
 import { getAutoTourSelector, getSelectedScene } from '../selectors/menu';
 import { sceneSelector } from '../selectors/ThreeSixty';
 import { ReactComponent as SlowMoIcon } from '../assets/Icons/icon_slow_motion.svg';
+import { disableActionsSelector } from '../selectors/Tour';
 
 class Autoplay extends Component {
   constructor() {
@@ -115,6 +116,7 @@ class Autoplay extends Component {
 
   render() {
     const { status } = this.state;
+    const { disableAction } = this.props;
     return (
       <div
         className={`menu-action secondary-action menu-action slow-mo-action ${
@@ -124,6 +126,7 @@ class Autoplay extends Component {
           await this.handleInterval();
           await this.setStatus();
         }}
+        disabled={disableAction}
       >
         <SlowMoIcon className="slow-mo-icon" />
       </div>
@@ -134,14 +137,16 @@ class Autoplay extends Component {
 Autoplay.propTypes = {
   dispatch: func.isRequired,
   scenes: arrayOf(shape({})).isRequired,
-  selectedScene: string.isRequired
+  selectedScene: string.isRequired,
+  disableAction: bool.isRequired
 };
 
 const stateMapToProps = (state) => ({
   loading: loadingSelector(state),
   blur: blurSelector(state),
   scenes: sceneSelector(state),
-  selectedScene: getSelectedScene(state)
+  selectedScene: getSelectedScene(state),
+  disableAction: disableActionsSelector(state)
 });
 
 export default connect(stateMapToProps)(Autoplay);

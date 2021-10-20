@@ -4,17 +4,20 @@ export default class Visit {
       mainPage: {},
       virtualVisit: [],
       presentialVisit: [],
-      timeZone: ''
+      timeZone: '',
+      hasScheduleMeeting: false
     }
   ) {
     this.mainPage = data.mainPage;
     this.virtualVisit = data.virtualVisit;
     this.presentialVisit = data.presentialVisit;
     this.timeZone = data.timeZone;
+    this.canSchedule = data.hasScheduleMeeting;
   }
 
   mainPage = {};
   virtualVisit = [];
   presentialVisit = [];
   timeZone = '';
+  canSchedule = false;
 }

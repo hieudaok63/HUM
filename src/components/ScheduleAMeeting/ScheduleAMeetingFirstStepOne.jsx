@@ -9,7 +9,12 @@ import { ReactComponent as LaptopIcon } from '../../assets/Icons/icon_laptops.sv
 import './styles.scss';
 import { mainPageSelector } from '../../selectors/Tour';
 
-const ScheduleAMeetingStepOne = ({ onStep, setMeetingType, mainPage }) => (
+const ScheduleAMeetingStepOne = ({
+  onStep,
+  setMeetingType,
+  mainPage,
+  openCalendly
+}) => (
   <div className="step-one-container">
     <ScheduleIcon />
     <div>
@@ -24,7 +29,7 @@ const ScheduleAMeetingStepOne = ({ onStep, setMeetingType, mainPage }) => (
         endIcon={<MarkerIcon />}
         onClick={() => {
           onStep(1);
-          setMeetingType('presential');
+          setMeetingType(mainPage?.leftButton?.type);
         }}
       >
         {mainPage?.leftButton?.text}
@@ -33,8 +38,12 @@ const ScheduleAMeetingStepOne = ({ onStep, setMeetingType, mainPage }) => (
         variant="contained"
         endIcon={<LaptopIcon />}
         onClick={() => {
-          onStep(1);
-          setMeetingType('virtual');
+          if (mainPage?.rightButton?.type !== 'calendly') {
+            onStep(1);
+          } else {
+            openCalendly();
+          }
+          setMeetingType(mainPage?.rightButton?.type);
         }}
       >
         {mainPage?.rightButton?.text}
@@ -46,6 +55,7 @@ const ScheduleAMeetingStepOne = ({ onStep, setMeetingType, mainPage }) => (
 ScheduleAMeetingStepOne.propTypes = {
   onStep: func.isRequired,
   setMeetingType: func.isRequired,
+  openCalendly: func.isRequired,
   mainPage: shape({}).isRequired
 };
 

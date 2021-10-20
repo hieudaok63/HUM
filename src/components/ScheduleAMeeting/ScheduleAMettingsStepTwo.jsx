@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Divider } from '@material-ui/core';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import CalendarPicker from '@mui/lab/CalendarPicker';
+import { StaticDatePicker } from '@mui/lab';
 import './styles.scss';
 import moment from 'moment';
 import momentTZ from 'moment-timezone';
@@ -40,6 +40,10 @@ const ScheduleAMeetingStepTwo = ({
   const [lastName, setLastName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [phone, setPhone] = React.useState('');
+  const [phoneError, setPhoneError] = React.useState(false);
+  const minDate = new Date();
+  const maxDate = new Date();
+  maxDate.setDate(minDate.getDate() + 14);
 
   React.useEffect(() => {
     moment.locale(language);
@@ -55,189 +59,207 @@ const ScheduleAMeetingStepTwo = ({
     };
     getAvailable();
   }, [date]);
-
   return (
-    <div className="step-two-container">
-      {!savedSchedule && (
-        <>
-          <div>
-            <h3>
-              {meetingType === 'presential'
-                ? presentialVisit[step].title
-                : virtualVisit[step].title}{' '}
-            </h3>
-          </div>
-          <p>
-            {meetingType === 'presential'
-              ? presentialVisit[step].description
-              : virtualVisit[step].description}
-          </p>
-          <Divider className="separator top-margin" component="div" />
-        </>
-      )}
-      {step === 0 && !savedSchedule && (
-        <>
-          <h6>
-            {meetingType === 'presential'
-              ? presentialVisit[step].subtitle
-              : virtualVisit[step].subtitle}
-          </h6>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <CalendarPicker
-              date={date}
-              onChange={(newDate) => {
-                setDate(newDate);
-                setStep(1);
-              }}
-            />
-          </LocalizationProvider>
-        </>
-      )}
-      {step === 1 && !savedSchedule && (
-        <div className="step-two-second-container">
-          <div className="header">
-            <ChevronLeft
-              onClick={() => {
-                setStep(0);
-              }}
-            />
-            <div className="header-current-date">
-              <h4>{momentTZ.tz(date, timezone).format('dddd')}</h4>
-              <h6>{momentTZ.tz(date, timezone).format('MMM Do,YYYY')}</h6>
+    <div className="content-container">
+      <div className="step-two-container">
+        {!savedSchedule && (
+          <>
+            <div>
+              <h3>
+                {meetingType === 'presential'
+                  ? presentialVisit[step].title
+                  : virtualVisit[step].title}{' '}
+              </h3>
             </div>
-          </div>
-          <Divider className="separator top-margin" component="div" />
-          <div>
-            <h4>
+            <p>
+              {meetingType === 'presential'
+                ? presentialVisit[step].description
+                : virtualVisit[step].description}
+            </p>
+            <Divider className="separator top-margin" component="div" />
+          </>
+        )}
+        {step === 0 && !savedSchedule && (
+          <>
+            <h6>
               {meetingType === 'presential'
                 ? presentialVisit[step].subtitle
                 : virtualVisit[step].subtitle}
-            </h4>
-          </div>
-          <div>
-            <h6>Duración 30 min</h6>
-          </div>
-          <div className="list-container">
-            {availableTimes.map((currentTime) => (
-              <div
-                className="item"
-                onClick={() => {
-                  setStep(2);
-                  setTime(currentTime);
+            </h6>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <StaticDatePicker
+                displayStaticWrapperAs="desktop"
+                minDate={minDate}
+                maxDate={maxDate}
+                value={date}
+                disablePast
+                onChange={(newValue) => {
+                  setDate(newValue);
+                  setStep(1);
                 }}
-              >
-                {momentTZ.tz(currentTime, timezone).format('hh:mm A')}
+                renderInput={(params) => <TextField {...params} />}
+                inputFormat="'Week of' MMM d"
+                views={['day', 'month']}
+              />
+            </LocalizationProvider>
+          </>
+        )}
+        {step === 1 && !savedSchedule && (
+          <div className="step-two-second-container">
+            <div className="header">
+              <ChevronLeft
+                onClick={() => {
+                  setStep(0);
+                }}
+              />
+              <div className="header-current-date">
+                <h4>{momentTZ.tz(date, timezone).format('dddd')}</h4>
+                <h6>{momentTZ.tz(date, timezone).format('MMM Do,YYYY')}</h6>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
-      {step === 2 && !savedSchedule && (
-        <div className="step-three-second-container">
-          <div className="header">
-            <ChevronLeft
-              onClick={() => {
-                setStep(1);
-              }}
-            />
-            <div className="header-current-date">
+            </div>
+            <Divider className="separator top-margin" component="div" />
+            <div>
               <h4>
-                {' '}
                 {meetingType === 'presential'
                   ? presentialVisit[step].subtitle
-                  : virtualVisit[step].subtitle}{' '}
+                  : virtualVisit[step].subtitle}
               </h4>
             </div>
-          </div>
-          <Divider className="separator top-margin" component="div" />
-          <div className="subheader-title">
-            <h4>
-              {meetingType === 'presential'
-                ? presentialVisit[step].contactForm.title
-                : virtualVisit[step].contactForm.title}{' '}
-            </h4>
-          </div>
-          <div className="form-container">
-            <div className="first-line">
-              <TextField
-                style={{ width: '48%' }}
-                label="Nombre"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <TextField
-                style={{ width: '48%' }}
-                label="Apellido"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
             <div>
-              <TextField
-                style={{ width: '100%' }}
-                label="Correo"
-                value={email}
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <h6>Duración 30 min</h6>
             </div>
-            <div>
-              <TextField
-                style={{ width: '100%' }}
-                label="Telefono"
-                value={phone}
-                type="tel"
-                onChange={(e) => setPhone(e.target.value)}
-              />
+            <div className="list-container">
+              {availableTimes.map((currentTime) => (
+                <div
+                  className="item"
+                  onClick={() => {
+                    setStep(2);
+                    setTime(currentTime);
+                  }}
+                >
+                  {moment.parseZone(currentTime).format('hh:mm A')}
+                </div>
+              ))}
             </div>
-            <div className="button-container">
+          </div>
+        )}
+        {step === 2 && !savedSchedule && (
+          <div className="step-three-second-container">
+            <div className="header">
+              <ChevronLeft
+                onClick={() => {
+                  setStep(1);
+                }}
+              />
+              <div className="header-current-date">
+                <h4>
+                  {' '}
+                  {meetingType === 'presential'
+                    ? presentialVisit[step].subtitle
+                    : virtualVisit[step].subtitle}{' '}
+                </h4>
+              </div>
+            </div>
+            <Divider className="separator top-margin" component="div" />
+            <div className="subheader-title">
+              <h4>
+                {meetingType === 'presential'
+                  ? presentialVisit[step].contactForm.title
+                  : virtualVisit[step].contactForm.title}{' '}
+              </h4>
+            </div>
+            <div className="form-container">
+              <div className="first-line">
+                <TextField
+                  style={{ width: '48%' }}
+                  label="Nombre"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <TextField
+                  style={{ width: '48%' }}
+                  label="Apellido"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+              </div>
+              <div>
+                <TextField
+                  style={{ width: '100%' }}
+                  label="Correo"
+                  value={email}
+                  type="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div>
+                <TextField
+                  style={{ width: '100%' }}
+                  label="Teléfono"
+                  placeholder="+523315295674"
+                  value={phone}
+                  type="tel"
+                  onChange={(e) => {
+                    setPhoneError(false);
+                    setPhone(e.target.value);
+                  }}
+                  error={phoneError}
+                />
+              </div>
+              <div className="button-container">
+                <Button
+                  variant="contained"
+                  size="medium"
+                  className="button"
+                  onClick={() => {
+                    const regex = /^\+(?:[0-9] ?){6,14}[0-9]$/;
+                    if (phone.match(regex)) {
+                      dispatch(
+                        TourAction.scheduleMeeting({
+                          firstName: name,
+                          lastName,
+                          email,
+                          phone,
+                          startAt: moment(date).toISOString(),
+                          type: meetingType
+                        })
+                      );
+                    } else {
+                      setPhoneError(true);
+                    }
+                  }}
+                >
+                  Agendar
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+        {savedSchedule && (
+          <div className="step-confirmation-container">
+            <h2 className="confirmation-title">{savedSchedule.title}</h2>
+            <h3>{savedSchedule.subTitle}</h3>
+            <p>{savedSchedule.paragraph1}</p>
+            <p>{savedSchedule.paragraph2}</p>
+            <p>{savedSchedule.paragraph3}</p>
+            <p>{savedSchedule.paragraph4}</p>
+            <div className="footer">
               <Button
                 variant="contained"
                 size="medium"
                 className="button"
                 onClick={() => {
-                  dispatch(
-                    TourAction.scheduleMeeting({
-                      firstName: name,
-                      lastName,
-                      email,
-                      phone,
-                      startAt: moment(date).toISOString(),
-                      type: meetingType
-                    })
-                  );
+                  dispatch(TourAction.setScheduleActive(false));
+                  dispatch(TourAction.setSavedSchedule(null));
+                  setShowSteps(false);
                 }}
               >
-                Agendar
+                {savedSchedule.button.text}
               </Button>
             </div>
           </div>
-        </div>
-      )}
-      {savedSchedule && (
-        <div className="step-confirmation-container">
-          <h2 className="confirmation-title">{savedSchedule.title}</h2>
-          <h3>{savedSchedule.subTitle}</h3>
-          <p>{savedSchedule.paragraph1}</p>
-          <p>{savedSchedule.paragraph2}</p>
-          <p>{savedSchedule.paragraph3}</p>
-          <p>{savedSchedule.paragraph4}</p>
-          <div className="footer">
-            <Button
-              variant="contained"
-              size="medium"
-              className="button"
-              onClick={() => {
-                dispatch(TourAction.setScheduleActive(false));
-                dispatch(TourAction.setSavedSchedule(null));
-                setShowSteps(false);
-              }}
-            >
-              {savedSchedule.button.text}
-            </Button>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

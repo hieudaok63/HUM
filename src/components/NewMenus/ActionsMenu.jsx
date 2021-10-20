@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { arrayOf, shape, func, string, number } from 'prop-types';
+import { arrayOf, shape, func, string, number, bool } from 'prop-types';
 import copy from 'copy-to-clipboard';
 import { ReactComponent as InfoIcon } from '../../assets/Icons/icon_info.svg';
 import { ReactComponent as ShareIcon } from '../../assets/Icons/icon_share.svg';
 import { ReactComponent as FullScreenIcon } from '../../assets/Icons/icon_full_screen.svg';
+import { ReactComponent as FullScreenIconClose } from '../../assets/Icons/icon_full_screen_close.svg';
 import { ReactComponent as ENIcon } from '../../assets/Icons/icon_en.svg';
 import { ReactComponent as ESIcon } from '../../assets/Icons/icon_es.svg';
 import { ReactComponent as FRIcon } from '../../assets/Icons/icon_fr.svg';
@@ -17,12 +18,15 @@ import {
 } from '../../selectors/ThreeSixty';
 import {
   availableLanguagesSelector,
-  defaultLanguageSelector
+  defaultLanguageSelector,
+  disableActionsSelector,
+  leftMenuOpenSelector
 } from '../../selectors/Tour';
 import ThreeSixtyAction from '../../stores/threeSixty/actions';
 import AmenitiesActions from '../../stores/amenities/actions';
 import LanguageActions from '../../stores/language/actions';
 import Autoplay from '../Autoplay';
+import TourAction from '../../stores/tour/actions';
 
 const ActionsMenu = ({
   setInfoPage,
@@ -35,11 +39,14 @@ const ActionsMenu = ({
   dispatch,
   type,
   amenity,
-  galleryIndex
+  galleryIndex,
+  leftMenuOpen,
+  disableActions
 }) => {
   const [showSubmenu, setShowSubmenu] = React.useState('');
   const [language, setLanguage] = React.useState('');
   const [showShare, setShowShare] = React.useState(false);
+  const [fullScreen, setFullScreen] = React.useState(false);
 
   const changeLanguage = async () => {
     const totalLanguages = availableLanguages.length;
@@ -84,6 +91,7 @@ const ActionsMenu = ({
       const { className } = target;
       if (typeof className !== 'object' && !className.includes('menu-action')) {
         setShowSubmenu('');
+        dispatch(TourAction.disableActions(false));
       }
     };
 
@@ -118,6 +126,10 @@ const ActionsMenu = ({
     }, 500);
   };
 
+  if (leftMenuOpen) {
+    return null;
+  }
+
   return (
     <>
       <div
@@ -135,10 +147,11 @@ const ActionsMenu = ({
           }
         }}
         disabled={
-          type !== 'three-sixty' &&
-          amenity.length > 0 &&
-          amenity[galleryIndex].features &&
-          JSON.stringify(amenity[galleryIndex].features) === '{}'
+          (type !== 'three-sixty' &&
+            amenity.length > 0 &&
+            amenity[galleryIndex].features &&
+            JSON.stringify(amenity[galleryIndex].features) === '{}') ||
+          disableActions
         }
       >
         <InfoIcon className="info-icon" />
@@ -149,6 +162,7 @@ const ActionsMenu = ({
         onClick={() => {
           changeLanguage();
         }}
+        disabled={disableActions}
       >
         {language === 'en' && <ENIcon />}
         {language === 'es' && <ESIcon />}
@@ -158,6 +172,7 @@ const ActionsMenu = ({
       <div
         className="menu-action secondary-action share-action"
         onClick={toggleShare}
+        disabled={disableActions}
       >
         <ShareIcon className="share-icon" />
       </div>
@@ -166,17 +181,31 @@ const ActionsMenu = ({
         onClick={() => {
           if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen();
+            setFullScreen(true);
           } else {
             document.exitFullscreen();
+            setFullScreen(false);
           }
         }}
+        disabled={disableActions}
       >
-        <FullScreenIcon className="full-screen-icon" />
+        {fullScreen ? (
+          <FullScreenIconClose className="full-screen-icon" />
+        ) : (
+          <FullScreenIcon className="full-screen-icon" />
+        )}
       </div>
       {type === 'three-sixty' && (
         <ThreeSixtyMenu
           showSubmenu={showSubmenu}
-          setShowSubmenu={setShowSubmenu}
+          setShowSubmenu={(subMenu) => {
+            setShowSubmenu(subMenu);
+            if (subMenu === 'styles') {
+              dispatch(TourAction.disableActions(true));
+            } else {
+              dispatch(TourAction.disableActions(false));
+            }
+          }}
         />
       )}
     </>
@@ -194,7 +223,9 @@ ActionsMenu.propTypes = {
   type: string.isRequired,
   infoPage: shape({}),
   amenity: shape({}),
-  galleryIndex: number.isRequired
+  galleryIndex: number.isRequired,
+  leftMenuOpen: bool.isRequired,
+  disableActions: bool.isRequired
 };
 
 ActionsMenu.defaultProps = {
@@ -207,7 +238,9 @@ const mapStateToProps = (state) => ({
   defaultLanguage: defaultLanguageSelector(state),
   minimap: minimapSelector(state),
   floorplanFeatures: floorplanFeaturesSelector(state),
-  features: featuresSelector(state)
+  features: featuresSelector(state),
+  leftMenuOpen: leftMenuOpenSelector(state),
+  disableActions: disableActionsSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

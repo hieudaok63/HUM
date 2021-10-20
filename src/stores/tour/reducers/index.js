@@ -16,7 +16,10 @@ export default class TourReducer extends BaseReducer {
     customPage: {},
     availableTimes: [],
     sheduleActive: false,
-    savedSchedule: null
+    savedSchedule: null,
+    canSchedule: false,
+    leftMenuOpened: true,
+    disableActions: false
   };
 
   [TourAction.TOUR_DATA_REQUEST_FINISHED](state, action) {
@@ -78,7 +81,8 @@ export default class TourReducer extends BaseReducer {
   [TourAction.GET_CUSTOM_PAGE_FINISHED](state, action) {
     return {
       ...state,
-      customPage: action.payload
+      customPage: action.payload,
+      canSchedule: action.payload.canSchedule
     };
   }
 
@@ -100,6 +104,20 @@ export default class TourReducer extends BaseReducer {
     return {
       ...state,
       savedSchedule: action.payload
+    };
+  }
+
+  [TourAction.MENU_OPENED_FINISHED](state, action) {
+    return {
+      ...state,
+      leftMenuOpened: action.payload
+    };
+  }
+
+  [TourAction.DISABLE_ACTIONS_FINISHED](state, action) {
+    return {
+      ...state,
+      disableActions: action.payload
     };
   }
 }

@@ -6,6 +6,7 @@ import { DeviceOrientationControls } from '../lib/three/DeviceOrientationControl
 import { TextureLoader } from '../lib/three/loaders/loaders';
 import Data from '../assets/Data';
 import loaderGIF from '../assets/home-white.gif';
+import { getLocalStorage } from '../utils';
 
 class ThreeSixtySphere {
   constructor(
@@ -89,7 +90,7 @@ class ThreeSixtySphere {
     while (container.firstChild) {
       container.removeChild(container.lastChild);
     }
-    this.buildMode = localStorage.getItem('three-sixty-builder') === 'true';
+    this.buildMode = getLocalStorage('three-sixty-builder') === 'true';
     this.container = container;
     this.tooltip = this.createTooltip();
     this.thumbnail = this.createThumbNail();

@@ -108,7 +108,13 @@ export default class PanoramaAction {
         async (style) => {
           if (style !== undefined) {
             const currentStyles = [...styles];
-            currentStyles.push({ key: 'Empty' });
+            currentStyles.push({
+              key: 'Empty',
+              name: {
+                en: 'Empty',
+                es: 'Vacio'
+              }
+            });
             const selectedStyle = currentStyles.find(
               (item) => item.key === style
             );

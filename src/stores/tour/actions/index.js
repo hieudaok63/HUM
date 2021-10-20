@@ -34,6 +34,10 @@ export default class TourAction {
 
   static SCHEDULE_MEETING_FINISHED = 'SCHEDULE_MEETING_FINISHED';
 
+  static MENU_OPENED_FINISHED = 'MENU_OPENED_FINISHED';
+
+  static DISABLE_ACTIONS_FINISHED = 'DISABLE_ACTIONS_FINISHED';
+
   /* */
   static getData(builder, project) {
     return async (dispatch, getState) => {
@@ -177,6 +181,17 @@ export default class TourAction {
   static setSavedSchedule(active) {
     return ActionUtility.createAction(
       TourAction.SCHEDULE_MEETING_FINISHED,
+      active
+    );
+  }
+
+  static leftMenuOpen(active) {
+    return ActionUtility.createAction(TourAction.MENU_OPENED_FINISHED, active);
+  }
+
+  static disableActions(active) {
+    return ActionUtility.createAction(
+      TourAction.DISABLE_ACTIONS_FINISHED,
       active
     );
   }

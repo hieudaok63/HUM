@@ -4,10 +4,11 @@ import ThreeSixtyPage from './pages/ThreeSixtyPage';
 import { ENV, logger, threeSixtyBuilder } from './config/main';
 import './components/Loader.scss';
 import './App.css';
+import { setLocalStorage } from './utils';
 
-localStorage.setItem('ENV', ENV);
-localStorage.setItem('logger', logger);
-localStorage.setItem('three-sixty-builder', threeSixtyBuilder);
+setLocalStorage('ENV', ENV);
+setLocalStorage('logger', logger);
+setLocalStorage('three-sixty-builder', threeSixtyBuilder);
 
 const App = ({ match }) => <ThreeSixtyPage builderInfo={match} />;
 
