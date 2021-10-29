@@ -18,7 +18,6 @@ export default class SessionEffect {
     language,
     panorama
   ) {
-    console.log('-> panorama', panorama);
     if (panorama) {
       panorama.clearScene();
     }

@@ -62,7 +62,6 @@ const ImageHotspot = ({ spot, language, dispatch, tour }) => {
               (section) => section.key === spot.in
             );
             if (amenity) {
-              console.log(amenity);
               const room = amenity.content.find(
                 (item) => item.key === spot.key
               );

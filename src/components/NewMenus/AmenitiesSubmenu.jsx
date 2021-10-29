@@ -10,6 +10,7 @@ import TourAction from '../../stores/tour/actions';
 import AmenitiesActions from '../../stores/amenities/actions';
 import { selectedAmenitySelector } from '../../selectors/Amenities';
 import { languageSelector } from '../../selectors/ThreeSixty';
+import ThreeSixtyAction from '../../stores/threeSixty/actions';
 
 const AmenitiesSubmenu = ({
   openedMenu,
@@ -57,6 +58,7 @@ const AmenitiesSubmenu = ({
       await dispatch(TourAction.selectType(media[0].type));
       await dispatch(AmenitiesActions.setAmenity(media));
       await dispatch(AmenitiesActions.setSelectedAmenity(key));
+      await dispatch(ThreeSixtyAction.reset());
     }
 
     setSelectedSubmenu(identifier);

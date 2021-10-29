@@ -304,7 +304,6 @@ export default class ThreeSixtyAction {
 
   /* */
   static setAutoTourScene(autoTourScene) {
-    console.log(autoTourScene);
     return ActionUtility.createAction(
       ThreeSixtyAction.SET_AUTO_TOUR_FINISHED,
       autoTourScene

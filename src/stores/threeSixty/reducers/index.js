@@ -168,9 +168,35 @@ export default class ThreeSixtyReducer extends BaseReducer {
     };
   }
 
-  [ThreeSixtyAction.RESET_REQUEST_FINISHED]() {
+  [ThreeSixtyAction.RESET_REQUEST_FINISHED](state) {
     return {
-      ...this.initialState
+      ...state,
+      builderId: '',
+      projectId: '',
+      layoutName: '',
+      displayName: '',
+      defaultStyle: '',
+      levels: [],
+      styles: [],
+      area: 0,
+      bathrooms: 0,
+      bedrooms: 0,
+      features: [],
+      floorPlanId: null,
+      parking: 0,
+      unit: '',
+      level: {},
+      selectedScene: 'default',
+      selectedFinish: 'default',
+      selectedStyle: 'default',
+      selectedStyleName: 'default',
+      currentRoomUse: 'default',
+      currentLevel: 0,
+      mode: 'day',
+      selectedMenuOption: '',
+      levelScenes: [],
+      showLoader: false,
+      autoTour: 0
     };
   }
 

@@ -1,6 +1,5 @@
 export default class ThreeSixtyModel {
   constructor(data) {
-    console.log(data.floorplan);
     this.builderId = data.builderId;
     this.projectId = data.projectId;
     this.floorplan = data.floorplan;

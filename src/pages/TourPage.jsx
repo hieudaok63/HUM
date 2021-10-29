@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { arrayOf, func, shape, bool, string } from 'prop-types';
+import { arrayOf, func, shape, bool, string, number } from 'prop-types';
 import { connect } from 'react-redux';
 import Loader from '../components/Loader';
 import Viewer from '../components/Viewer';
@@ -19,7 +19,8 @@ import {
   videoGallerySelector,
   builderIdSelector,
   scheduleAMeetingSelector,
-  canScheduleSelector
+  canScheduleSelector,
+  selectedFloorplanSelector
 } from '../selectors/Tour';
 import { amenitySelector } from '../selectors/Amenities';
 import { loadingSelector } from '../selectors/loading';
@@ -30,17 +31,15 @@ import LeftMenu from '../components/NewMenus/LeftMenu';
 import ActionsMenu from '../components/NewMenus/ActionsMenu';
 import InfoPage from '../components/InfoPage/InfoPage';
 import PanoViewer from '../components/PanoViewer';
-import { ReactComponent as DropdownIcon } from '../assets/Icons/icon_dropdown.svg';
-import { ReactComponent as PanoIcon } from '../assets/Icons/icon_360.svg';
-import { ReactComponent as ImageIcon } from '../assets/Icons/icon_image.svg';
-import { ReactComponent as VideoIcon } from '../assets/Icons/icon-play.svg';
-import { ReactComponent as EllipseIcon } from '../assets/Icons/icon_ellipse.svg';
 import './Test.scss';
 import LanguageAction from '../stores/language/actions';
 import ImageWithHotspots from '../components/ImageWithHotspots';
 import ImageGallery from '../components/ImageGallery/ImageGallery';
 import VideoGallery from '../components/VideoGallery/VideoGallery';
 import ScehduleAMeeting from '../components/ScheduleAMeeting';
+import AmenityNav from '../components/AmenityNav';
+import ThreeSixtyAmenityNav from '../components/ThreeSixtyAmenityNav';
+import AmenitiesActions from '../stores/amenities/actions';
 
 const TourPage = ({
   floorplans,
@@ -55,7 +54,8 @@ const TourPage = ({
   videoGallery,
   builderId: stateBuilderId,
   scheduleActive,
-  canSchedule
+  canSchedule,
+  selectedFloorplan
 }) => {
   const { builderId, projectId } = useParams();
   const [galleryIndex, setGalleryIndex] = React.useState(0);
@@ -89,11 +89,47 @@ const TourPage = ({
     }
   };
 
-  const galleryIcon = {
-    '2d': <ImageIcon className="icon-type" />,
-    video: <VideoIcon className="icon-type-md" />,
-    pano: <PanoIcon className="icon-type-md" />
+  const getAmenityType = () => {
+    if (amenity.length > 1 && levels.length > 0 && galleryIndex > 0)
+      return amenity[galleryIndex - 1].type;
+
+    return amenity[galleryIndex].type;
   };
+
+  const getAmenityImage = () => {
+    if (amenity.length > 1 && levels.length > 0 && galleryIndex > 0)
+      return amenity[galleryIndex - 1].image;
+
+    return amenity[galleryIndex].image;
+  };
+
+  const getSpots = () => {
+    if (amenity.length > 1 && levels.length > 0 && galleryIndex > 0)
+      return amenity[galleryIndex - 1].spots;
+
+    return amenity[galleryIndex].spots;
+  };
+
+  const getUrl = () => {
+    if (amenity.length > 1 && levels.length > 0 && galleryIndex > 0)
+      return amenity[galleryIndex - 1].url;
+
+    return amenity[galleryIndex].url;
+  };
+
+  React.useEffect(() => {
+    setGalleryIndex(0);
+  }, [amenity]);
+
+  React.useEffect(() => {
+    const setAmenity = async () => {
+      await dispatch(
+        AmenitiesActions.setAmenity(floorplans[selectedFloorplan].media)
+      );
+    };
+
+    if (selectedFloorplan === 0 && floorplans.length > 0) setAmenity();
+  }, [floorplans]);
 
   return (
     <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
@@ -101,59 +137,55 @@ const TourPage = ({
       {levels.length > 0 && <Viewer type={type} />}
       {amenity.length > 0 && (
         <>
-          {amenity.length > 1 && (
-            <div className="gallery-carousel-controls">
-              {amenity[galleryIndex - 1] ? (
-                <DropdownIcon
-                  className="left-arrow"
-                  onClick={moveCarouselLeft}
-                />
-              ) : (
-                <div className="placeholder placeholder-left" />
-              )}
-              {amenity[galleryIndex - 1] && (
-                <EllipseIcon
-                  className="ellipsis-icon"
-                  onClick={moveCarouselLeft}
-                />
-              )}
-              {amenity[galleryIndex] && galleryIcon[amenity[galleryIndex].type]}
-              {amenity[galleryIndex + 1] && (
-                <EllipseIcon
-                  className="ellipsis-icon"
-                  onClick={moveCarouselRight}
-                />
-              )}
-              {!amenity[galleryIndex - 1] && amenity[galleryIndex + 2] && (
-                <EllipseIcon
-                  className="ellipsis-icon"
-                  onClick={moveCarouselRight}
-                />
-              )}
-              {amenity[galleryIndex + 1] ? (
-                <DropdownIcon
-                  className="right-arrow"
-                  onClick={moveCarouselRight}
-                />
-              ) : (
-                <div className="placeholder placeholder-right" />
-              )}
-            </div>
+          {amenity.length > 1 && levels.length === 0 && (
+            <AmenityNav
+              amenity={amenity}
+              galleryIndex={galleryIndex}
+              moveCarouselLeft={moveCarouselLeft}
+              moveCarouselRight={moveCarouselRight}
+            />
           )}
-          {amenity[galleryIndex].type === '2d' && (
+          {amenity.length > 1 && levels.length > 0 && (
+            <ThreeSixtyAmenityNav
+              amenity={amenity}
+              galleryIndex={galleryIndex}
+              moveCarouselLeft={async () => {
+                if (galleryIndex === 0) {
+                  setGalleryIndex(amenity.length + 1 - 1);
+                } else {
+                  setGalleryIndex(galleryIndex - 1);
+                }
+
+                if (galleryIndex - 1 === 0)
+                  await dispatch(TourAction.selectType('three-sixty'));
+              }}
+              moveCarouselRight={async () => {
+                if (galleryIndex + 1 === amenity.length + 1) {
+                  setGalleryIndex(0);
+                  await dispatch(TourAction.selectType('three-sixty'));
+                } else {
+                  setGalleryIndex(galleryIndex + 1);
+                  await dispatch(
+                    TourAction.selectType(amenity[galleryIndex].type)
+                  );
+                }
+              }}
+            />
+          )}
+          {getAmenityType() === '2d' && type !== 'three-sixty' && (
             <ImageWithHotspots
-              src={amenity[galleryIndex].image}
-              spots={amenity[galleryIndex].spots}
+              src={getAmenityImage()}
+              spots={getSpots()}
               alt="Amenity"
               className="image-full"
             />
           )}
-          {amenity[galleryIndex].type === 'video' && (
+          {getAmenityType() === 'video' && type !== 'three-sixty' && (
             <div className="video-full-container video-full-container-with-background">
-              <VideoPlayer src={amenity[galleryIndex].url} />
+              <VideoPlayer src={getUrl()} />
             </div>
           )}
-          {amenity[galleryIndex].type === 'pano' && (
+          {getAmenityType() === 'pano' && type !== 'three-sixty' && (
             <PanoViewer
               type={amenity[galleryIndex].type}
               image={amenity[galleryIndex].image}
@@ -206,7 +238,8 @@ const mapStateToProps = (state) => ({
   videoGallery: videoGallerySelector(state),
   builderId: builderIdSelector(state),
   scheduleActive: scheduleAMeetingSelector(state),
-  canSchedule: canScheduleSelector(state)
+  canSchedule: canScheduleSelector(state),
+  selectedFloorplan: selectedFloorplanSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -226,7 +259,8 @@ TourPage.propTypes = {
   videoGallery: bool.isRequired,
   builderId: string.isRequired,
   scheduleActive: bool.isRequired,
-  canSchedule: bool.isRequired
+  canSchedule: bool.isRequired,
+  selectedFloorplan: number.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TourPage);

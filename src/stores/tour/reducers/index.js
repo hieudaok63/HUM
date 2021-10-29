@@ -7,7 +7,7 @@ import Tour from '../models';
 export default class TourReducer extends BaseReducer {
   initialState = {
     ...new Tour(),
-    selectedFloorplan: {},
+    selectedFloorplan: 0,
     type: 'three-sixty',
     imageGallery: false,
     videoGallery: false,

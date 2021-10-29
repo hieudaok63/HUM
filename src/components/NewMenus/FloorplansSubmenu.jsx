@@ -7,6 +7,9 @@ import { ReactComponent as BathroomIcon } from '../../assets/Icons/icon_bathroom
 import { ReactComponent as CarIcon } from '../../assets/Icons/icon_car.svg';
 import { ReactComponent as AreaIcon } from '../../assets/Icons/icon_area.svg';
 import { ReactComponent as DropdownIcon } from '../../assets/Icons/icon_dropdown.svg';
+import { ReactComponent as PanoIcon } from '../../assets/Icons/icon_360.svg';
+import { ReactComponent as ImageIcon } from '../../assets/Icons/icon_image.svg';
+import { ReactComponent as VideoIcon } from '../../assets/Icons/icon-play.svg';
 import './LeftMenu.scss';
 import {
   floorplansSectionNameSelector,
@@ -74,10 +77,21 @@ const FloorplansSubmenu = ({
     debounce(
       async (floorplan) => {
         await dispatch(ThreeSixtyAction.changingFloorplanFromMenu(true));
-        await dispatch(TourAction.selectType('three-sixty'));
+        await dispatch(ThreeSixtyAction.reset());
         await dispatch(AmenitiesActions.reset());
         await dispatch(TourAction.selectFloorplan(floorplan));
-        await dispatch(ThreeSixtyAction.setThreeSixtyData());
+        if (floorplans[floorplan].levels?.length > 0) {
+          await dispatch(TourAction.selectType('three-sixty'));
+          await dispatch(ThreeSixtyAction.setThreeSixtyData());
+        } else {
+          await dispatch(
+            TourAction.selectType(floorplans[floorplan].media[0].type)
+          );
+        }
+        await dispatch(
+          AmenitiesActions.setAmenity(floorplans[floorplan].media)
+        );
+
         setSelectedSubmenu('floorplans');
       },
       INTERVAL,
@@ -117,70 +131,90 @@ const FloorplansSubmenu = ({
                   parking,
                   area,
                   unit,
-                  thumbnail
+                  thumbnail,
+                  media,
+                  levels
                 },
                 i
-              ) => (
-                <div
-                  key={floorPlanId}
-                  className="floorplan"
-                  onClick={() => {
-                    setSelectedFloorplan(i);
-                  }}
-                >
-                  {thumbnail && (
-                    <img
-                      src={thumbnail}
-                      alt={displayName}
-                      className="w-100 floorplan-thumbnail"
-                    />
-                  )}
+              ) => {
+                const hasPano = levels?.length > 0;
+                const hasImage = media.some(({ type }) => type === '2d');
+                const hasVideo = media.some(({ type }) => type === 'video');
+                return (
                   <div
-                    className={`floorplan-content ${selectedFloorplan === i &&
-                      isActive &&
-                      'floorplan-content-active'}`}
+                    key={floorPlanId}
+                    className="floorplan"
+                    onClick={() => {
+                      setSelectedFloorplan(i);
+                    }}
                   >
-                    {selectedFloorplan === i && isActive && (
-                      <div className="floorplan-content-active-indicator" />
+                    {thumbnail && (
+                      <img
+                        src={thumbnail}
+                        alt={displayName}
+                        className="w-100 floorplan-thumbnail"
+                      />
                     )}
-                    <div className="floorplan-content-name">{displayName}</div>
-                    <div className="floorplan-content-features">
-                      {bedrooms && (
-                        <>
-                          <BedroomIcon className="floorplan-content-features-icon" />
-                          <div className="floorplan-content-features-value">
-                            {bedrooms}
-                          </div>
-                        </>
+                    <div
+                      className={`floorplan-content ${selectedFloorplan === i &&
+                        isActive &&
+                        'floorplan-content-active'}`}
+                    >
+                      {selectedFloorplan === i && isActive && (
+                        <div className="floorplan-content-active-indicator" />
                       )}
-                      {bathrooms && (
-                        <>
-                          <BathroomIcon className="floorplan-content-features-icon" />
-                          <div className="floorplan-content-features-value">
-                            {bathrooms}
-                          </div>
-                        </>
-                      )}
-                      {parking && (
-                        <>
-                          <CarIcon className="floorplan-content-features-icon" />
-                          <div className="floorplan-content-features-value">
-                            {parking}
-                          </div>
-                        </>
-                      )}
-                      {area && unit && (
-                        <>
-                          <AreaIcon className="floorplan-content-features-icon" />
-                          <div className="floorplan-content-features-value">
-                            {`${area} ${unit}`}
-                          </div>
-                        </>
-                      )}
+                      <div className="amenity-content-icons">
+                        {hasVideo && (
+                          <VideoIcon className="amenity-content-icon-type" />
+                        )}
+                        {hasPano && (
+                          <PanoIcon className="amenity-content-icon-type" />
+                        )}
+                        {hasImage && (
+                          <ImageIcon className="amenity-content-icon-type" />
+                        )}
+                      </div>
+                      <div className="floorplan-content-name">
+                        {displayName}
+                      </div>
+                      <div className="floorplan-content-features">
+                        {bedrooms && (
+                          <>
+                            <BedroomIcon className="floorplan-content-features-icon" />
+                            <div className="floorplan-content-features-value">
+                              {bedrooms}
+                            </div>
+                          </>
+                        )}
+                        {bathrooms && (
+                          <>
+                            <BathroomIcon className="floorplan-content-features-icon" />
+                            <div className="floorplan-content-features-value">
+                              {bathrooms}
+                            </div>
+                          </>
+                        )}
+                        {parking && (
+                          <>
+                            <CarIcon className="floorplan-content-features-icon" />
+                            <div className="floorplan-content-features-value">
+                              {parking}
+                            </div>
+                          </>
+                        )}
+                        {area && unit && (
+                          <>
+                            <AreaIcon className="floorplan-content-features-icon" />
+                            <div className="floorplan-content-features-value">
+                              {`${area} ${unit}`}
+                            </div>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
+                );
+              }
             )}
           </div>
         </div>

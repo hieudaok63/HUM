@@ -408,7 +408,6 @@ class ThreeSixtySphere {
       scene.hotspots.forEach((hotspot) => {
         this.createHotspot(hotspot, mesh, scene.hotspots);
       });
-      console.log('hey', scene.spots);
     }
 
     return mesh;
