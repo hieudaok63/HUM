@@ -54,9 +54,10 @@ export default class PanoramaAction {
   /* */
   static setPanorama() {
     return async (dispatch, getState) => {
-      const { panorama, threeSixty } = getState();
+      const { panorama, threeSixty, tour } = getState();
       const { panoramaInfo, panorama: threeSixtyPano } = panorama;
       const { styles, showLoader, language } = threeSixty;
+      const { autoRotate } = tour;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         PanoramaAction.PANORAMA_REQUEST,
@@ -94,10 +95,12 @@ export default class PanoramaAction {
             await dispatch(ThreeSixtyAction.setSelectedUse(use));
           }
 
-          await dispatch(ThreeSixtyAction.autoPlay(true));
-          setTimeout(async () => {
-            await dispatch(ThreeSixtyAction.autoPlay(false));
-          }, 28000);
+          if (autoRotate) {
+            await dispatch(ThreeSixtyAction.autoPlay(true));
+            setTimeout(async () => {
+              await dispatch(ThreeSixtyAction.autoPlay(false));
+            }, 28000);
+          }
         },
         async (expand) => {
           if (expand !== undefined) {

@@ -30,7 +30,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
     selectedMenuOption: '',
     levelScenes: [],
     showLoader: false,
-    autoTour: 0
+    autoTour: 0,
+    autoRotate: false
   };
 
   [ThreeSixtyAction.SET_THREESIXTY_DATA_FINISHED](state, action) {
@@ -53,7 +54,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
       unit: action.payload.unit,
       level: action.payload.level,
       levelScenes: action.payload.levelScenes,
-      selectedScene: action.payload.selectedScene
+      selectedScene: action.payload.selectedScene,
+      autoRotate: action.payload.autoRotate
     };
   }
 
@@ -196,7 +198,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
       selectedMenuOption: '',
       levelScenes: [],
       showLoader: false,
-      autoTour: 0
+      autoTour: 0,
+      autoRotate: false
     };
   }
 

@@ -10,7 +10,8 @@ export default class Tour {
       floorplansSectionName: {},
       sections: [],
       urls: {},
-      location: {}
+      location: {},
+      autoRotate: false
     }
   ) {
     this.builderId = data.builderId;
@@ -23,6 +24,7 @@ export default class Tour {
     this.sections = data.sections;
     this.urls = data.urls;
     this.location = data.location;
+    this.autoRotate = data.autoRotate;
   }
 
   builderId = '';
@@ -35,4 +37,5 @@ export default class Tour {
   sections = [];
   urls = {};
   location = {};
+  autoRotate = false;
 }
