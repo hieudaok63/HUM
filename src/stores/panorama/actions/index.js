@@ -77,9 +77,9 @@ export default class PanoramaAction {
             //   })
             // );
           }
+          console.log(level);
           if (level !== undefined) {
             await dispatch(ThreeSixtyAction.setCurrentLevel(level));
-            await dispatch(ThreeSixtyAction.getScenes());
             await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
             //   dispatch(
             //     SocketAction.socketMessage({

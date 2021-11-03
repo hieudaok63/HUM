@@ -91,7 +91,16 @@ export default class ThreeSixtyModel {
   }
 
   getLevelScenes() {
-    return this.level?.scenes;
+    const scenes = [];
+    if (this.floorplan?.levels.length > 0) {
+      for (let index = 0; index < this.floorplan.levels.length; index += 1) {
+        const element = this.floorplan.levels[index];
+        scenes.push(...element.scenes);
+      }
+    }
+
+    console.log(scenes);
+    return scenes;
   }
 
   getLevelMinimap() {

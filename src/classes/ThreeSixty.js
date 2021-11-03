@@ -462,6 +462,7 @@ class ThreeSixtySphere {
   assignHotspotImage = (hotspots) =>
     hotspots.map((hotspot) => {
       const current = hotspot;
+
       if (typeof current.level === 'undefined') {
         current.image = Data.AvriaHotpotArrow;
       } else {
@@ -886,6 +887,7 @@ class ThreeSixtySphere {
           this.CLICKEDSPRITE.startSceneKey
         );
         const use = this.getSceneUse(this.CLICKEDSPRITE.key);
+        console.log(use);
         if (use) {
           this.updateCallBack(
             this.CLICKEDSPRITE.key,
@@ -1191,6 +1193,7 @@ class ThreeSixtySphere {
 
   /* */
   getSceneUse = (scene) => {
+    console.log(this.scene.children);
     const sphere = this.scene.children.find((mesh) => mesh.name === scene);
     return sphere?.use;
   };
