@@ -21,11 +21,10 @@ export default class TourEffect {
   static async getCustomPage(language, builder, project) {
     const endpoint = `${THREE_SIXTY_API}${language}/builders/${builder}/projects/${project}/visits/custom-pages`;
     const response = await HttpUtility.get(endpoint);
-    if (response instanceof HttpErrorResponseModel) {
-      return response;
-    }
 
-    const model = new Visit(response.data['custom-pages']);
+    const data = response.data ? response.data['custom-pages'] : {};
+
+    const model = new Visit(data);
 
     return model;
   }
