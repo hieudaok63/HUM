@@ -25,8 +25,8 @@ import {
 import { amenitySelector } from '../selectors/Amenities';
 import { loadingSelector } from '../selectors/loading';
 import ThreeSixtyAction from '../stores/threeSixty/actions';
-// import SocketAction from '../stores/socket/actions';
-// import { SOCKET } from '../config/endpoints';
+import SocketAction from '../stores/socket/actions';
+import { SOCKET } from '../config/endpoints';
 import LeftMenu from '../components/NewMenus/LeftMenu';
 import ActionsMenu from '../components/NewMenus/ActionsMenu';
 import InfoPage from '../components/InfoPage/InfoPage';
@@ -40,6 +40,7 @@ import ScehduleAMeeting from '../components/ScheduleAMeeting';
 import AmenityNav from '../components/AmenityNav';
 import ThreeSixtyAmenityNav from '../components/ThreeSixtyAmenityNav';
 import AmenitiesActions from '../stores/amenities/actions';
+import { getSelectedScene } from '../selectors/menu';
 
 const TourPage = ({
   floorplans,
@@ -55,14 +56,17 @@ const TourPage = ({
   builderId: stateBuilderId,
   scheduleActive,
   canSchedule,
-  selectedFloorplan
+  selectedFloorplan,
+  selectedScene
 }) => {
   const { builderId, projectId } = useParams();
   const [galleryIndex, setGalleryIndex] = React.useState(0);
   const [infoPage, setInfoPage] = React.useState(null);
+  const [firstLoad, setFirsLoad] = React.useState(true);
 
   React.useEffect(() => {
     async function getData() {
+      await dispatch(SocketAction.initSocket(SOCKET));
       await dispatch(LoadingAction.setLoader(true));
       await dispatch(TourAction.getData(builderId, projectId));
       await dispatch(LanguageAction.setLanguageFromTour());
@@ -72,6 +76,24 @@ const TourPage = ({
     }
     getData();
   }, []);
+
+  // React.useEffect(() => {
+  //   if (selectedScene !== 'default') {
+  //     dispatch(
+  //       SocketAction.socketMessage(
+  //         {
+  //           action: 'START-TOUR',
+  //           data: {
+  //             type: firstLoad ? 'START-TOUR' : 'CHANGE-SCENE',
+  //             name: selectedScene
+  //           }
+  //         },
+  //         'community-tours-logs'
+  //       )
+  //     );
+  //     setFirsLoad(false);
+  //   }
+  // }, [selectedScene]);
 
   const moveCarouselLeft = () => {
     if (galleryIndex === 0) {
@@ -239,7 +261,8 @@ const mapStateToProps = (state) => ({
   builderId: builderIdSelector(state),
   scheduleActive: scheduleAMeetingSelector(state),
   canSchedule: canScheduleSelector(state),
-  selectedFloorplan: selectedFloorplanSelector(state)
+  selectedFloorplan: selectedFloorplanSelector(state),
+  selectedScene: getSelectedScene(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -260,7 +283,8 @@ TourPage.propTypes = {
   builderId: string.isRequired,
   scheduleActive: bool.isRequired,
   canSchedule: bool.isRequired,
-  selectedFloorplan: number.isRequired
+  selectedFloorplan: number.isRequired,
+  selectedScene: string.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TourPage);
