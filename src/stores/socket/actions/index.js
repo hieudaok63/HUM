@@ -14,6 +14,7 @@ export default class SocketAction {
   /* */
   static initSocket(url) {
     const io = socketIOClient(url, {
+      withCredentials: false,
       reconnectionDelayMax: 10000
     });
     io.connect();
