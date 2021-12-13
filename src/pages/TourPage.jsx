@@ -77,23 +77,23 @@ const TourPage = ({
     getData();
   }, []);
 
-  // React.useEffect(() => {
-  //   if (selectedScene !== 'default') {
-  //     dispatch(
-  //       SocketAction.socketMessage(
-  //         {
-  //           action: 'START-TOUR',
-  //           data: {
-  //             type: firstLoad ? 'START-TOUR' : 'CHANGE-SCENE',
-  //             name: selectedScene
-  //           }
-  //         },
-  //         'community-tours-logs'
-  //       )
-  //     );
-  //     setFirsLoad(false);
-  //   }
-  // }, [selectedScene]);
+  React.useEffect(() => {
+    if (selectedScene !== 'default') {
+      dispatch(
+        SocketAction.socketMessage(
+          {
+            action: 'START-TOUR',
+            data: {
+              type: firstLoad ? 'START-TOUR' : 'CHANGE-SCENE',
+              name: selectedScene
+            }
+          },
+          'community-tours-logs'
+        )
+      );
+      setFirsLoad(false);
+    }
+  }, [selectedScene]);
 
   const moveCarouselLeft = () => {
     if (galleryIndex === 0) {
