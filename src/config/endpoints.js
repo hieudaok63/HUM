@@ -1,10 +1,6 @@
 import { getLocalStorage } from '../utils';
 
 const ENV = getLocalStorage('ENV') || 'production';
-<<<<<<< HEAD
-=======
-
->>>>>>> v3.0
 export const WEBAPP_API_DEV = 'https://test-webapp-api.athum.co';
 export const WEBAPP_API_PROD = 'https://webapp-api.athum.co';
 export const WEBAPP_API =

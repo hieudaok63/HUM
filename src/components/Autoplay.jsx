@@ -6,7 +6,7 @@ import { loadingSelector } from '../selectors/loading';
 import { blurSelector } from '../selectors/HideBlur';
 import PanoramaAction from '../stores/panorama/actions';
 import ThreeSixtyAction from '../stores/threeSixty/actions';
-import { getAutoTourSelector, getSelectedScene } from '../selectors/menu';
+import { getSelectedScene } from '../selectors/menu';
 import { sceneSelector } from '../selectors/ThreeSixty';
 import { ReactComponent as SlowMoIcon } from '../assets/Icons/icon_slow_motion.svg';
 import { disableActionsSelector } from '../selectors/Tour';

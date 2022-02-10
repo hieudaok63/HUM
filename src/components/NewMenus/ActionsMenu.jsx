@@ -83,7 +83,7 @@ const ActionsMenu = ({
         setInfoPage(null);
       }
     }
-  });
+  }, []);
 
   React.useEffect(() => {
     const handleClickOutside = (e) => {

@@ -66,7 +66,7 @@ const TourPage = ({
 
   React.useEffect(() => {
     async function getData() {
-      await dispatch(SocketAction.initSocket(SOCKET));
+      // await dispatch(SocketAction.initSocket(SOCKET));
       await dispatch(LoadingAction.setLoader(true));
       await dispatch(TourAction.getData(builderId, projectId));
       await dispatch(LanguageAction.setLanguageFromTour());
@@ -79,18 +79,18 @@ const TourPage = ({
 
   React.useEffect(() => {
     if (selectedScene !== 'default') {
-      dispatch(
-        SocketAction.socketMessage(
-          {
-            action: 'START-TOUR',
-            data: {
-              type: firstLoad ? 'START-TOUR' : 'CHANGE-SCENE',
-              name: selectedScene
-            }
-          },
-          'community-tours-logs'
-        )
-      );
+      // dispatch(
+      //   SocketAction.socketMessage(
+      //     {
+      //       action: 'START-TOUR',
+      //       data: {
+      //         type: firstLoad ? 'START-TOUR' : 'CHANGE-SCENE',
+      //         name: selectedScene
+      //       }
+      //     },
+      //     'community-tours-logs'
+      //   )
+      // );
       setFirsLoad(false);
     }
   }, [selectedScene]);
