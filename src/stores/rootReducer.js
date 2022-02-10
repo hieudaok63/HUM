@@ -6,6 +6,8 @@ import PanoramaReducer from './panorama/reducers';
 import SessionReducer from './session/reducers';
 import ThreeSixtyReducer from './threeSixty/reducers';
 import SocketReducer from './socket/reducers';
+import TourReducer from './tour/reducers';
+import AmenitiesReducer from './amenities/reducers';
 
 const rootReducer = combineReducers({
   error: new ErrorReducer().reducer,
@@ -14,7 +16,9 @@ const rootReducer = combineReducers({
   language: new LanguageReducer().reducer,
   threeSixty: new ThreeSixtyReducer().reducer,
   panorama: new PanoramaReducer().reducer,
-  socket: new SocketReducer().reducer
+  socket: new SocketReducer().reducer,
+  tour: new TourReducer().reducer,
+  amenities: new AmenitiesReducer().reducer
 });
 
 export default rootReducer;

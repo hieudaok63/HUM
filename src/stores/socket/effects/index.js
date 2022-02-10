@@ -1,9 +1,9 @@
 import SocketModel from '../models';
 
 export default class SocketEffect {
-  static async sendMessage(socket, socketData) {
+  static async sendMessage(socket, socketData, event) {
     const model = new SocketModel(socketData);
-    socket.emit('three-sixty-log', model);
+    socket.emit(event, model);
 
     return model;
   }

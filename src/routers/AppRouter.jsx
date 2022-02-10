@@ -6,18 +6,16 @@ import App from '../App';
 import strings from '../language';
 import LanguageActions from '../stores/language/actions';
 import NotFoundPage from '../pages/NotFoundPage';
+// import NotFoundPage from '../pages/NotFoundPage';
+import TourPage from '../pages/TourPage';
 
 class AppRouter extends Component {
   async componentDidMount() {
     const language = strings.getLanguage();
     const { dispatch } = this.props;
-    if (language !== 'es' && language !== 'en') {
-      strings.setLanguage('es');
-      await dispatch(LanguageActions.setLanguage('es'));
-    } else {
-      strings.setLanguage(language);
-      await dispatch(LanguageActions.setLanguage(language));
-    }
+
+    strings.setLanguage('en');
+    await dispatch(LanguageActions.setLanguage('en'));
   }
 
   render() {
@@ -31,6 +29,9 @@ class AppRouter extends Component {
               exact
               component={App}
             />
+          )}
+          {language && (
+            <Route path="/:builderId/:projectId" exact component={TourPage} />
           )}
           <Route component={NotFoundPage} />
         </Switch>

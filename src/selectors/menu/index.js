@@ -372,6 +372,10 @@ export class MenuSelector {
     }
     return { width: 0, height: 0 };
   }
+
+  static getAutoTour(state) {
+    return state.threeSixty.autoTour;
+  }
 }
 
 export const menuOptionsSelector = createSelector(
@@ -402,6 +406,11 @@ export const getSelectedStyle = createSelector(
 export const getSelectedScene = createSelector(
   [MenuSelector.getSelectedScene],
   (selectedScene) => selectedScene
+);
+
+export const getAutoTourSelector = createSelector(
+  [MenuSelector.getAutoTour],
+  (autoTour) => autoTour
 );
 
 export const getFinishScenes = createSelector(

@@ -4,52 +4,60 @@ import BaseReducer from '../../../utilities/BaseReducer';
 
 export default class ThreeSixtyReducer extends BaseReducer {
   initialState = {
-    scenes: [],
-    menu: [],
-    builderLogo: '',
     builderId: '',
-    propertyId: '',
+    projectId: '',
     layoutName: '',
-    defaultStyle: '',
     displayName: '',
+    defaultStyle: '',
     language: '',
     levels: [],
-    furniture: [],
-    roomUse: [],
-    finishScenes: {},
-    personalized: {},
-    projectId: 0,
-    rotationMessage: '',
-    shoppingCart: {},
-    showError: false,
-    surveyCompletedDefaults: {},
-    totalLevels: 1,
-    urls: {},
-    isPreview: false,
-    isSurveyCompleted: false,
+    styles: [],
+    area: 0,
+    bathrooms: 0,
+    bedrooms: 0,
+    features: [],
+    floorPlanId: null,
+    parking: 0,
+    unit: '',
+    level: {},
     selectedScene: 'default',
     selectedFinish: 'default',
     selectedStyle: 'default',
     selectedStyleName: 'default',
     currentRoomUse: 'default',
-    currentLevel: 1,
+    currentLevel: 0,
     mode: 'day',
-    tour360: false,
-    expanded: false,
     selectedMenuOption: '',
-    menuOptions: [
-      'mini-map',
-      'views',
-      'styles',
-      'furniture',
-      'change-room',
-      'finishes'
-    ],
-    threeSixty: null,
-    threeSixtyItem: {},
-    levelsWithScenes: [],
-    levelScenes: []
+    levelScenes: [],
+    showLoader: false,
+    autoTour: 0,
+    autoRotate: false
   };
+
+  [ThreeSixtyAction.SET_THREESIXTY_DATA_FINISHED](state, action) {
+    return {
+      ...state,
+      builderId: action.payload.builderId,
+      projectId: action.payload.projectId,
+      layoutName: action.payload.layoutName,
+      displayName: action.payload.displayName,
+      defaultStyle: action.payload.defaultStyle,
+      selectedStyle: action.payload.defaultStyle,
+      levels: action.payload.levels,
+      styles: action.payload.styles,
+      area: action.payload.area,
+      bathrooms: action.payload.bathrooms,
+      bedrooms: action.payload.bedrooms,
+      features: action.payload.features,
+      floorPlanId: action.payload.floorPlanId,
+      parking: action.payload.parking,
+      unit: action.payload.unit,
+      level: action.payload.level,
+      levelScenes: action.payload.levelScenes,
+      selectedScene: action.payload.selectedScene,
+      autoRotate: action.payload.autoRotate
+    };
+  }
 
   [ThreeSixtyAction.VIEW_MENU_REQUEST_FINISHED](state, action) {
     return {
@@ -66,39 +74,8 @@ export default class ThreeSixtyReducer extends BaseReducer {
     };
   }
 
-  [ThreeSixtyAction.THREE_SIXTY_DATA_REQUEST_FINISHED](state, action) {
-    return {
-      ...state,
-      builderId: action.payload.builderId,
-      defaultStyle: action.payload.defaultStyle,
-      displayName: action.payload.displayName,
-      language: action.payload.language,
-      layoutName: action.payload.layoutName,
-      levels: action.payload.levels,
-      personalized: action.payload.personalized,
-      projectId: action.payload.projectId,
-      rotationMessage: action.payload.rotationMessage,
-      shoppingCart: action.payload.shoppingCart,
-      showError: action.payload.showError,
-      surveyCompletedDefaults: action.payload.surveyCompletedDefaults,
-      totalLevels: action.payload.totalLevels,
-      urls: action.payload.urls,
-      levelScenes: action.payload.levelScenes,
-      selectedScene: action.payload.selectedScene
-    };
-  }
-
   [ThreeSixtyAction.GET_FURNITURE_BY_STYLES_REQUEST_FINISHED](state, action) {
     return { ...state, furniture: action.payload.furniture };
-  }
-
-  [ThreeSixtyAction.SET_BUILDER_REQUEST_FINISHED](state, action) {
-    return {
-      ...state,
-      builderId: action.payload.builderId,
-      propertyId: action.payload.projectId,
-      layoutName: action.payload.layoutName
-    };
   }
 
   [ThreeSixtyAction.SET_PREVIEW_REQUEST_FINISHED](state, action) {
@@ -186,9 +163,57 @@ export default class ThreeSixtyReducer extends BaseReducer {
     };
   }
 
-  [ThreeSixtyAction.RESET_REQUEST_FINISHED]() {
+  [ThreeSixtyAction.CHANGE_LANGUAGE_REQUEST_FINISHED](state, action) {
     return {
-      ...this.initialState
+      ...state,
+      language: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.RESET_REQUEST_FINISHED](state) {
+    return {
+      ...state,
+      builderId: '',
+      projectId: '',
+      layoutName: '',
+      displayName: '',
+      defaultStyle: '',
+      levels: [],
+      styles: [],
+      area: 0,
+      bathrooms: 0,
+      bedrooms: 0,
+      features: [],
+      floorPlanId: null,
+      parking: 0,
+      unit: '',
+      level: {},
+      selectedScene: 'default',
+      selectedFinish: 'default',
+      selectedStyle: 'default',
+      selectedStyleName: 'default',
+      currentRoomUse: 'default',
+      currentLevel: 0,
+      mode: 'day',
+      selectedMenuOption: '',
+      levelScenes: [],
+      showLoader: false,
+      autoTour: 0,
+      autoRotate: false
+    };
+  }
+
+  [ThreeSixtyAction.CHANGE_FLOORPLAN_MENU_REQUEST_FINISHED](state, action) {
+    return {
+      ...state,
+      showLoader: action.payload
+    };
+  }
+
+  [ThreeSixtyAction.SET_AUTO_TOUR_FINISHED](state, action) {
+    return {
+      ...state,
+      autoTour: action.payload
     };
   }
 }

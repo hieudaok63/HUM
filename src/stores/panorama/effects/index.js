@@ -1,6 +1,6 @@
 import PanoramaModel from '../models';
 import PanoramaErrorModel from '../../../models/PanoramaErrorModel';
-import THREESIXTY from '../../../classes/ThreeSixty2.0';
+import THREESIXTY from '../../../classes/ThreeSixty';
 
 export default class SessionEffect {
   /* */
@@ -13,16 +13,19 @@ export default class SessionEffect {
     room,
     use,
     finish,
-    scenes
+    scenes,
+    styles,
+    language,
+    panorama
   ) {
-    const selectedLevel = SessionEffect.getLevel(levels, level);
-
+    if (panorama) {
+      panorama.clearScene();
+    }
+    const selectedLevel = levels[level];
     if (selectedLevel) {
       const styleToRequest = style === 'default' ? defaultStyle : style;
-      const selectedStyle = SessionEffect.getStyle(
-        selectedLevel.styles,
-        styleToRequest
-      );
+      const selectedStyle = SessionEffect.getStyle(styles, styleToRequest);
+
       if (selectedStyle) {
         const roomToRequest =
           room === 'default' ? selectedLevel.defaultScene : room;
@@ -39,7 +42,8 @@ export default class SessionEffect {
           use,
           finish,
           level,
-          style: selectedStyle.key
+          style: selectedStyle.key,
+          language
         });
 
         return model;
@@ -56,18 +60,6 @@ export default class SessionEffect {
 
     if (selectedStyle.length > 0) {
       return selectedStyle[0];
-    }
-
-    return null;
-  }
-
-  /* */
-  static getLevel(levels, level) {
-    const currentLevel = levels.filter((item) =>
-      item.levelNumber === level ? item : null
-    );
-    if (currentLevel.length > 0) {
-      return currentLevel[0];
     }
 
     return null;
@@ -96,7 +88,13 @@ export default class SessionEffect {
     updateCall,
     updateMenuCall,
     updateStyleCall,
-    loaderCall
+    loaderCall,
+    changingFromFloorplanCall,
+    showLoader,
+    setImageGallery,
+    setVideoGallery,
+    setGalleryImages,
+    setGalleryVideos
   ) {
     const threeSixty = new THREESIXTY();
 
@@ -114,6 +112,22 @@ export default class SessionEffect {
       },
       loaderCall: async (loading) => {
         loaderCall(loading);
+      },
+      changingFromFloorplanCall: async () => {
+        changingFromFloorplanCall();
+      },
+      showLoader,
+      activateImageGallery: async (activate) => {
+        setImageGallery(activate);
+      },
+      activateVideoGallery: async (activate) => {
+        setVideoGallery(activate);
+      },
+      setCurrentGalleryImages: async (gallery) => {
+        setGalleryImages(gallery);
+      },
+      setCurrentGalleryVideos: async (gallery) => {
+        setGalleryVideos(gallery);
       }
     };
     threeSixty.init(params);

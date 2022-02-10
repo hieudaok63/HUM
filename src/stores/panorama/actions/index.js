@@ -2,8 +2,9 @@ import ActionUtility from '../../../utilities/ActionUtility';
 import PanoramaErrorModel from '../../../models/PanoramaErrorModel';
 import PanoramaEffect from '../effects';
 import ThreeSixtyAction from '../../threeSixty/actions';
-import SocketAction from '../../socket/actions';
+// import SocketAction from '../../socket/actions';
 import LoadingAction from '../../loading/actions';
+import TourAction from '../../tour/actions';
 
 export default class PanoramaAction {
   static PANORAMA_INFO_REQUEST = 'PANORAMA_INFO_REQUEST';
@@ -12,6 +13,7 @@ export default class PanoramaAction {
   static PANORAMA_REQUEST = 'PANORAMA_REQUEST';
   static PANORAMA_REQUEST_FINISHED = 'PANORAMA_REQUEST_FINISHED';
   static AUTOROTATE_REQUEST = 'AUTOROTATE_REQUEST';
+  static DESTROY_PANORAMA = 'DESTROY_PANORAMA';
 
   /* */
   static setContainer(container) {
@@ -24,8 +26,9 @@ export default class PanoramaAction {
   /* */
   static createPanoramaInfo() {
     return async (dispatch, getState) => {
-      const { threeSixty, panorama } = getState();
-      const { container } = panorama;
+      const { threeSixty, panorama: statePanorama, tour } = getState();
+      const { container, panorama } = statePanorama;
+      const { floorplans, selectedFloorplan, defaultLanguage } = tour;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         PanoramaAction.PANORAMA_INFO_REQUEST,
@@ -38,7 +41,10 @@ export default class PanoramaAction {
         threeSixty.selectedScene,
         threeSixty.currentRoomUse,
         threeSixty.selectedFinish,
-        threeSixty.levelScenes
+        threeSixty.levelScenes,
+        floorplans[selectedFloorplan].styles,
+        defaultLanguage,
+        panorama
       );
       const isError = model instanceof PanoramaErrorModel;
       return { model, isError };
@@ -48,9 +54,10 @@ export default class PanoramaAction {
   /* */
   static setPanorama() {
     return async (dispatch, getState) => {
-      const { panorama, threeSixty } = getState();
+      const { panorama, threeSixty, tour } = getState();
       const { panoramaInfo, panorama: threeSixtyPano } = panorama;
-      const { menu } = threeSixty;
+      const { styles, showLoader, language } = threeSixty;
+      const { autoRotate } = tour;
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         PanoramaAction.PANORAMA_REQUEST,
@@ -60,35 +67,40 @@ export default class PanoramaAction {
         async (sceneName, level, use) => {
           if (sceneName !== undefined) {
             await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
-            dispatch(
-              SocketAction.socketMessage({
-                event: 'CHANGE-SCENE',
-                data: {
-                  type: 'CHANGE-SCENE',
-                  name: sceneName
-                }
-              })
-            );
+            // dispatch(
+            //   SocketAction.socketMessage({
+            //     event: 'CHANGE-SCENE',
+            //     data: {
+            //       type: 'CHANGE-SCENE',
+            //       name: sceneName
+            //     }
+            //   })
+            // );
           }
+          console.log(level);
           if (level !== undefined) {
             await dispatch(ThreeSixtyAction.setCurrentLevel(level));
-            await dispatch(ThreeSixtyAction.getScenes());
             await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
-            dispatch(
-              SocketAction.socketMessage({
-                event: 'CHANGE-SCENE',
-                data: {
-                  type: 'CHANGE-SCENE',
-                  name: sceneName
-                }
-              })
-            );
+            //   dispatch(
+            //     SocketAction.socketMessage({
+            //       event: 'CHANGE-SCENE',
+            //       data: {
+            //         type: 'CHANGE-SCENE',
+            //         name: sceneName
+            //       }
+            //     })
+            //   );
           }
           if (use !== undefined) {
             await dispatch(ThreeSixtyAction.setSelectedUse(use));
           }
 
-          await dispatch(ThreeSixtyAction.getStyles());
+          if (autoRotate) {
+            await dispatch(ThreeSixtyAction.autoPlay(true));
+            setTimeout(async () => {
+              await dispatch(ThreeSixtyAction.autoPlay(false));
+            }, 28000);
+          }
         },
         async (expand) => {
           if (expand !== undefined) {
@@ -98,9 +110,22 @@ export default class PanoramaAction {
         },
         async (style) => {
           if (style !== undefined) {
-            const selectedStyle = menu.find((item) => item.type === style);
+            const currentStyles = [...styles];
+            currentStyles.push({
+              key: 'Empty',
+              name: {
+                en: 'Empty',
+                es: 'Vacio'
+              }
+            });
+            const selectedStyle = currentStyles.find(
+              (item) => item.key === style
+            );
+
             await dispatch(
-              ThreeSixtyAction.setSelectedNameStyle(selectedStyle.style)
+              ThreeSixtyAction.setSelectedNameStyle(
+                selectedStyle.name[language]
+              )
             );
           }
         },
@@ -108,6 +133,22 @@ export default class PanoramaAction {
           if (loading !== undefined) {
             await dispatch(LoadingAction.setLoader(loading));
           }
+        },
+        async () => {
+          await dispatch(ThreeSixtyAction.changingFloorplanFromMenu(false));
+        },
+        showLoader,
+        async (activate) => {
+          await dispatch(TourAction.setImageGallery(activate));
+        },
+        async (activate) => {
+          await dispatch(TourAction.setVideoGallery(activate));
+        },
+        async (gallery) => {
+          await dispatch(TourAction.setGalleryImages(gallery));
+        },
+        async (gallery) => {
+          await dispatch(TourAction.setGalleryVideos(gallery));
         }
       );
 
@@ -130,5 +171,9 @@ export default class PanoramaAction {
         activate
       );
     };
+  }
+
+  static destroyPanorama() {
+    return ActionUtility.createAction(PanoramaAction.DESTROY_PANORAMA);
   }
 }

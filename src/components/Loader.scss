@@ -10,7 +10,7 @@
   justify-content: center;
   align-items: center;
   opacity: 1;
-  transition: 1s opacity;
+  transition: opacity 1s, z-index 1s;
   &.white-background {
     background-color: white;
   }
@@ -19,6 +19,7 @@
   }
   &.loader.none {
     opacity: 0;
+    z-index: -1;
     & .loader-image-container {
       opacity: 0;
     }

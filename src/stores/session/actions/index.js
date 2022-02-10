@@ -46,15 +46,15 @@ export default class SessionAction {
         layoutName,
         logs
       );
-      dispatch(
-        SocketAction.socketMessage({
-          event: 'CHANGE-SCENE',
-          data: {
-            type: 'CHANGE-SCENE',
-            name: selectedScene
-          }
-        })
-      );
+      // dispatch(
+      //   SocketAction.socketMessage({
+      //     event: 'CHANGE-SCENE',
+      //     data: {
+      //       type: 'CHANGE-SCENE',
+      //       name: selectedScene
+      //     }
+      //   })
+      // );
       const isError = model instanceof HttpErrorResponseModel;
       return { model, isError };
     };

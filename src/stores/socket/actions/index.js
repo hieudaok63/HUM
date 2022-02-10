@@ -14,8 +14,10 @@ export default class SocketAction {
   /* */
   static initSocket(url) {
     const io = socketIOClient(url, {
+      withCredentials: false,
       reconnectionDelayMax: 10000
     });
+    io.connect();
     return ActionUtility.createAction(
       SocketAction.SOCKET_INIT_REQUEST_FINISHED,
       io
@@ -32,23 +34,23 @@ export default class SocketAction {
   }
 
   /* */
-  static socketMessage(data) {
+  static socketMessage(data, event) {
     return async (dispatch, getState) => {
-      const { socket: socketState, session, threeSixty } = getState();
+      const { socket: socketState, threeSixty } = getState();
       const { socket } = socketState;
-      const { logId } = session;
-      const { builderId, propertyId, layoutName } = threeSixty;
+      const { builderId, projectId, layoutName } = threeSixty;
       const socketData = data;
-      socketData.id = logId;
-      socketData.data.builderId = builderId;
-      socketData.data.propertyId = propertyId;
-      socketData.data.layoutName = layoutName;
+      socketData.builderId = builderId;
+      socketData.projectId = projectId;
+      socketData.layoutName = layoutName;
+      console.log(socketData);
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         SocketAction.SOCKET_MESSAGE_REQUEST,
         SocketEffect.sendMessage,
         socket,
-        socketData
+        socketData,
+        event
       );
 
       return { model };

@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-expressions */
 import * as THREE from 'three';
 import TWEEN from '@tweenjs/tween.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { DeviceOrientationControls } from '../lib/three/DeviceOrientationControls';
 import { TextureLoader } from '../lib/three/loaders/loaders';
-import { TweenLite } from 'gsap';
+import Data from '../assets/Data';
+import loaderGIF from '../assets/home-white.gif';
+import { getLocalStorage } from '../utils';
 
 class ThreeSixtySphere {
   constructor(
@@ -39,12 +42,11 @@ class ThreeSixtySphere {
     this.ctrl = false;
     this.control = null;
     this.hasGyro = false;
-    this.scaleUpAnimation = new TWEEN.Tween();
-    this.scaleDownAnimation = new TWEEN.Tween();
     this.easingAnimationUp = [];
     this.easingAnimationDown = [];
     this.showAnimation = [];
     this.hotspots = [];
+    this.spots = [];
     this.createdHotspots = [];
     this.scaled = null;
     this.scaleUpAnimation = null;
@@ -53,80 +55,156 @@ class ThreeSixtySphere {
     this.firstLoad = true;
     this.loadingCallBack = null;
     this.updateCallBack = null;
-    this.currentStylle = 'default';
+    this.currentStyle = 'default';
     this.currentFinish = 'default';
+    this.selectedSceneLoadedImage = '';
     this.startScenePosition = startScenePosition;
+    this.setCameraPosition = false;
   }
 
   init = ({
     container,
-    image,
     width,
     height,
     radius,
     widthSegments,
     heightSegments,
-    hotspots,
-    loader,
-    loadingCallBack = null,
-    updateCallBack = null,
-    startScenePosition
+    scenes,
+    selectedScene = 'default',
+    use = 'default',
+    finish = 'default',
+    updateCallBack,
+    level,
+    updateMenuCall,
+    updateStyleCall,
+    style,
+    loaderCall,
+    language,
+    changingFromFloorplanCall,
+    showLoader,
+    activateImageGallery,
+    activateVideoGallery,
+    setCurrentGalleryImages,
+    setCurrentGalleryVideos
   }) => {
+    while (container.firstChild) {
+      container.removeChild(container.lastChild);
+    }
+    this.buildMode = getLocalStorage('three-sixty-builder') === 'true';
     this.container = container;
-    this.loader = loader;
-    // this.loaderContainer = this.createLoader();
-    // this.container.appendChild(this.loaderContainer);
-    // this.blurContainer = this.createBlur();
     this.tooltip = this.createTooltip();
-    this.image = image;
+    this.thumbnail = this.createThumbNail();
     this.width = width;
     this.height = height;
     this.radius = radius;
     this.widthSegments = widthSegments;
     this.heightSegments = heightSegments;
-    this.hotspots = hotspots;
-    this.loadingCallBack = loadingCallBack !== null ? loadingCallBack : null;
-    this.updateCallBack = updateCallBack !== null ? updateCallBack : null;
-    this.startScenePosition = startScenePosition;
+    this.scenes = scenes;
+    this.selectedScene = selectedScene;
+    this.use = use;
+    this.finish = finish;
+    this.updateCallBack = updateCallBack;
+    this.updateMenuCall = updateMenuCall;
+    this.updateStyleCall = updateStyleCall;
+    this.loaderCall = loaderCall;
+    this.showLoader = showLoader;
+    this.activateImageGallery = activateImageGallery;
+    this.activateVideoGallery = activateVideoGallery;
+    this.setCurrentGalleryImages = setCurrentGalleryImages;
+    this.setCurrentGalleryVideos = setCurrentGalleryVideos;
+    if (this.showLoader) {
+      this.loaderContainer = this.createLoader();
+      this.container.appendChild(this.loaderContainer);
+    }
+    this.createBlur();
+    this.level = level;
+    this.currentStyle = style;
+    this.language = language;
+    this.setCameraPosition = true;
+    this.changingFromFloorplanCall = changingFromFloorplanCall;
+    this.initializeManager();
     this.initializeCamera();
     this.initializeScene();
-    this.initializeGeometry();
-    this.initializeTexture(this.image);
-    this.initializeMaterial();
-    this.initializeMesh();
+    this.initializeSpheres();
     this.initializeRaycaster();
-    this.addMeshToScene();
-    this.addLighting();
     this.initializeRenderer();
     this.initializeControls();
     this.bindEventListeners();
+    this.loaded = true;
     this.container.appendChild(this.renderer.domElement);
-    this.setStartingScenePosition(this.startScenePosition);
   };
 
-  addMeshToScene = () => {
-    this.addToScene(this.mesh);
-    this.mesh.opacity = 0;
-    TweenLite.to(this.mesh.material, 1, {
-      opacity: 1
-    });
+  /* */
+  createBlur = () => {
+    const el = document.querySelector('.three-sixty-blur');
+    if (el) {
+      el.classList.remove('none');
+    } else {
+      const blurContainer = document.createElement('div');
+      blurContainer.classList.add('three-sixty-blur');
+      this.container.appendChild(blurContainer);
+    }
   };
 
-  addLighting = () => {
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
-    this.scene.add(hemiLight);
+  /* */
+  createLoader = () => {
+    const loaderContainer = document.createElement('div');
+    loaderContainer.classList.add('loader');
+    loaderContainer.classList.add('white-background');
+    const loaderImageContainer = document.createElement('div');
+    loaderImageContainer.classList.add('loader-image-container');
+
+    const loaderImage = document.createElement('img');
+    loaderImage.alt = 'athum loader';
+    loaderImage.src = loaderGIF;
+    loaderImageContainer.appendChild(loaderImage);
+
+    loaderContainer.appendChild(loaderImageContainer);
+    return loaderContainer;
   };
 
-  sceneUpdate = ({ image, hotspots }) => {
-    this.stopHotstposAnimation();
-    this.image = image;
-    this.hotspots = hotspots;
-    this.initializeMesh();
-    this.initializeTexture(this.image);
-    this.initializeMaterial();
-    this.addMeshToScene();
+  /* */
+  initializeManager = () => {
+    this.manager = new THREE.LoadingManager();
+    this.manager.onStart = () => {};
+    this.manager.onLoad = () => {
+      if (this.firstLoad) {
+        this.updateStyleCall(this.currentStyle);
+      }
+      this.loaderCall(false);
+      this.changingFromFloorplanCall();
+      if (this.setCameraPosition && this.activeMesh) {
+        this.setCameraStartScenePosition(
+          this.activeMesh.startScenePosition.x,
+          this.activeMesh.startScenePosition.y,
+          this.activeMesh.startScenePosition.z
+        );
+      }
+      if (this.showLoader) {
+        this.loaderContainer.classList.add('none');
+
+        this.loaderContainer.addEventListener(
+          'transitionend',
+          this.onTransitionEnd
+        );
+      }
+      const el = document.querySelector('.three-sixty-blur');
+      if (el) {
+        el.classList.add('none');
+        el.addEventListener('transitionend', (event) => {
+          event.target.remove();
+        });
+      }
+    };
+
+    this.manager.onProgress = (url) => {
+      if (url === this.selectedSceneLoadedImage) {
+        this.updateStyleCall(this.currentStyle);
+      }
+    };
   };
 
+  /* */
   createTooltip = () => {
     const tooltip = document.createElement('div');
     tooltip.classList.add('tooltip');
@@ -134,65 +212,41 @@ class ThreeSixtySphere {
     return tooltip;
   };
 
-  createLoader = () => {
-    const loaderContainer = document.createElement('div');
-    loaderContainer.classList.add('loader');
-    if (this.firstLoad) {
-      loaderContainer.classList.add('white-background');
-    }
-    const loaderImageContainer = document.createElement('div');
-    loaderImageContainer.classList.add('loader-image-container');
+  /* */
+  createThumbNail = () => {
+    const thumbnail = document.createElement('div');
+    thumbnail.classList.add('thumbnail');
+    const title = document.createElement('div');
+    title.classList.add('title-container');
+    thumbnail.appendChild(title);
+    thumbnail.addEventListener('pointerdown', (e) => {
+      if (e?.target?.hotspotType === 'image') {
+        this.activateImageGallery(true);
+        this.setCurrentGalleryImages(e?.target?.gallery);
+      }
 
-    const loaderImage = document.createElement('img');
-    loaderImage.alt = 'athum loader';
-    loaderImage.src = this.loader;
-    loaderImageContainer.appendChild(loaderImage);
-
-    loaderContainer.appendChild(loaderImageContainer);
-    return loaderContainer;
+      if (e?.target?.hotspotType === 'video') {
+        this.activateVideoGallery(true);
+        this.setCurrentGalleryVideos(e?.target?.gallery);
+      }
+      this.handleTooltipUnactive();
+    });
+    this.container.appendChild(thumbnail);
+    return thumbnail;
   };
 
-  createBlur = () => {
-    const blurContainer = document.createElement('div');
-    blurContainer.classList.add('three-sixty-blur');
-    return blurContainer;
-  };
-
-  LoadingManager = () => {
-    this.mesh.material = this.material;
-    this.mesh.material.needsUpdate = true;
-    this.updateHotspots();
-    /*
-    if (this.loaderContainer) {
-      this.loaderContainer.classList.add('none');
-      this.blurContainer.classList.add('none');
-      this.mesh.material = this.material;
-      this.mesh.material.needsUpdate = true;
-      this.updateHotspots();
-      this.loaderContainer.addEventListener(
-        'transitionend',
-        this.onTransitionEnd
-      );
-    }
-    */
-  };
-
+  /* */
   onTransitionEnd = (event) => {
     event.target.remove();
-    const el = document.querySelector('.three-sixty-blur');
-    if (el) {
-      el.remove();
-    }
-    if (this.loadingCallBack !== null) {
-      this.loadingCallBack(false);
-    }
-    this.animateHotspot();
+
     this.firstLoad = false;
-    // this.loaderContainer.classList.remove('white-background');
-    // this.loaderContainer.classList.remove('none');
-    // this.blurContainer.classList.remove('none');
+    this.loaderContainer.classList.remove('white-background');
+    this.loaderContainer.classList.remove('none');
+    this.loaderCall(false);
+    this.changingFromFloorplanCall();
   };
 
+  /* */
   initializeCamera = () => {
     this.camera = new THREE.PerspectiveCamera(
       75,
@@ -200,118 +254,306 @@ class ThreeSixtySphere {
       1,
       1100
     );
-    console.log('starto', this.startScenePosition);
-    this.camera.position.z = Math.PI;
-    this.camera.target = new THREE.Vector3(0, 0, 0);
+    this.camera.position.z = 0.1;
+    // this.camera.target = new THREE.Vector3(0, 0, 0);
   };
 
+  /* */
+  updateFinishes = (finish) => {
+    this.createBlur();
+    this.finish = finish;
+    this.updateSpheres();
+  };
+
+  /* */
+  updateScenes = (scenes, selectedScene, selectedFinish, selectedStyle) => {
+    this.createBlur();
+    this.scenes = scenes;
+    this.selectedScene = selectedScene;
+    this.selectedFinish = selectedFinish;
+    this.currentStyle = selectedStyle;
+    this.updateSpheres();
+  };
+
+  /* */
+  updateUse = (selectedScene, selectedFinish, selectedUse) => {
+    this.use = selectedUse;
+    this.selectedScene = selectedScene;
+    this.selectedFinish = selectedFinish;
+
+    const meshToUpdate = this.scene.children.find(
+      (mesh) => mesh.name === this.selectedScene
+    );
+
+    this.updateMeshMaterial(meshToUpdate);
+  };
+
+  /* */
+  clearCurrentMesh = () => {
+    if (this.mesh !== null) {
+      this.mesh.material.dispose();
+      this.mesh.geometry.dispose();
+      this.mesh.children = [];
+      this.scene.remove(this.mesh);
+      this.mesh = null;
+    }
+  };
+
+  /* */
+  clearScene = () => {
+    this.scene.children.forEach((mesh) => {
+      mesh.material.dispose();
+      mesh.geometry.dispose();
+      mesh.children = [];
+      this.scene.remove(mesh);
+    });
+    this.control.dispose();
+  };
+
+  /* */
   initializeScene = () => {
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xffffff);
+    this.scene.background = new THREE.Color(0x000000);
   };
 
-  initializeGeometry = () => {
-    this.geometry = new THREE.SphereGeometry(
-      this.radius,
-      this.widthSegments,
-      this.heightSegments
-    );
-    this.geometry.scale(-1, 1, 1);
+  /* */
+  updateSpheres = () => {
+    this.scene.children.map((mesh) => this.updateMeshMaterial(mesh));
   };
 
-  initializeTexture = (image) => {
-    this.texture = new THREE.TextureLoader().load(image, () => {
-      setTimeout(() => {
-        this.LoadingManager();
-        this.loaded = true;
-      }, 2000);
-    });
+  /* */
+  updateMeshMaterial = (mesh) => {
+    const loader = new THREE.TextureLoader(this.manager);
+    loader.setCrossOrigin('anonymous');
+    const sceneToUpdate = this.scenes.find((scene) => scene.key === mesh.name);
+    const buildedScene = this.createSceneInfo(sceneToUpdate);
+    if (buildedScene !== null) {
+      loader.load(buildedScene.panorama.uri, (texture) => {
+        const material = this.createMaterial(texture);
+        mesh.material = material;
+        mesh.use = buildedScene.panorama.use;
+        material.needsUpdate = true;
+        if (this.selectedScene === buildedScene.panorama.name) {
+          this.selectedSceneLoadedImage = buildedScene.panorama.uri;
+        }
+      });
+    }
   };
 
-  initializeMaterial = () => {
-    this.material = new THREE.MeshBasicMaterial({
-      map: this.texture,
+  /* */
+  initializeSpheres = () => {
+    this.scenes.map((scene) => this.createSphere(scene));
+  };
+
+  /* */
+  createSphere = (scene) => this.createSceneMesh(scene);
+
+  /* */
+  createSceneInfo = (scene) => {
+    const useToRequest = this.getRoomToRequest(scene.uses, scene.defaultUse);
+    const selectedUse = this.getUse(scene.uses, useToRequest);
+    if (selectedUse) {
+      const hotspots = this.assignHotspotImage(scene.hotspots);
+      const finishToRequest =
+        this.finish === 'default' ? scene.defaultFinish : this.finish;
+      const buildedScene = this.buildScene(
+        selectedUse,
+        hotspots,
+        scene.startScenePosition,
+        finishToRequest,
+        useToRequest,
+        scene.key
+      );
+      return buildedScene;
+    }
+    return null;
+  };
+
+  /* */
+  createSceneMesh = (scene) => {
+    const buildedScene = this.createSceneInfo(scene);
+    if (buildedScene !== null) {
+      const geometry = new THREE.SphereGeometry(
+        this.radius,
+        this.widthSegments,
+        this.heightSegments
+      );
+      geometry.scale(-1, 1, 1);
+
+      const loader = new THREE.TextureLoader(this.manager);
+      loader.setCrossOrigin('anonymous');
+      loader.load(buildedScene.panorama.uri, (texture) => {
+        const mesh = this.updateMesh(scene, geometry, buildedScene, texture);
+        if (this.selectedScene !== mesh.name) {
+          mesh.visible = false;
+        } else {
+          this.activeMesh = mesh;
+        }
+        this.scene.add(mesh);
+      });
+    }
+  };
+
+  /* */
+  updateMesh = (scene, geometry, buildedScene, texture) => {
+    const material = this.createMaterial(texture);
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.name = buildedScene.key;
+    mesh.use = buildedScene.panorama.use;
+    mesh.startScenePosition = buildedScene.startScenePosition;
+
+    if (this.selectedScene !== mesh.name) {
+      mesh.visible = false;
+    } else if (!this.buildMode) {
+      scene.hotspots.forEach((hotspot) => {
+        this.createHotspot(hotspot, mesh, scene.hotspots);
+      });
+    }
+
+    return mesh;
+  };
+
+  /* */
+  createMaterial = (texture) =>
+    new THREE.MeshBasicMaterial({
+      map: texture,
       side: THREE.DoubleSide
     });
-    this.material.transparent = true;
-    /*  this.material.onBeforeCompile = (shader) => {
-      shader.fragmentShader = shader.fragmentShader.replace(
-        'gl_FragColor = vec4( packNormalToRGB( normal ), opacity );',
-        [
-          'gl_FragColor = vec4( packNormalToRGB( normal ), opacity );',
-          'gl_FragColor.a *= pow( gl_FragCoord.z, 50.0 );'
-        ].join('\n')
-      );
-    }; */
-    /*  this.material = new THREE.ShaderMaterial({
-      side: THREE.DoubleSide,
-      map: this.texture,
-      defines: { USE_MAP: '' },
-      uniforms: {
-        map: {
-          type: 't',
-          value: this.texture
-        },
-        placement: {
-          type: 'v3',
-          value: new THREE.Vector3()
-        }
-      },
-      vertexShader:
-        '\
-        varying vec3 worldPosition;\n\
-        void main () {\n\
-          vec4 p = vec4 (position, 1.0);\n\
-          worldPosition = (modelMatrix * p).xyz;\n\
-          gl_Position = projectionMatrix * modelViewMatrix * p;\n\
-        }',
-      fragmentShader:
-        '\
-        uniform sampler2D map;\n\
-        uniform vec3 placement;\n\
-        varying vec3 worldPosition;\n\
-        const float seamWidth = 0.01;\n\
-        void main () {\n\
-          vec3 R = worldPosition - placement;\n\
-          float r = length (R);\n\
-          float c = -R.y / r;\n\
-          float theta = acos (c);\n\
-          float phi = atan (R.x, -R.z);\n\
-          float seam = \n\
-          	max (0.0, 1.0 - abs (R.x / r) / seamWidth) *\n\
-            clamp (1.0 + (R.z / r) / seamWidth, 0.0, 1.0);\n\
-          gl_FragColor = texture2D (map, vec2 (\n\
-            0.5 + phi / 6.2831852,\n\
-            theta / 3.1415926\n\
-          ), -2.0 * log2(1.0 + c * c) -12.3 * seam);\n\
-        }'
-    }); */
+
+  /* */
+  addHotspots = (scene) => {
+    const currentScene = this.scenes.find((item) => item.key === scene);
+    currentScene.hotspots.forEach((hotspot) => {
+      this.createHotspot(hotspot, this.activeMesh, currentScene.hotspots);
+    });
   };
 
-  initializeMesh = () => {
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.mesh.name = 'planet';
+  /* */
+  getActiveMesh = (key) =>
+    this.scene.children.find((mesh) => mesh.name === key);
+
+  /* */
+  getRoomToRequest = (uses, defaultUse) => {
+    let room = null;
+    if (this.use !== '' && this.use !== null && this.use !== undefined) {
+      room = this.use;
+    } else {
+      room = defaultUse;
+    }
+    const exist = uses.find((use) => use.key === room);
+
+    return exist ? room : defaultUse;
   };
 
+  /* */
+  getUse = (uses, use) => {
+    const currentUse = uses.filter((item) =>
+      item.key.toLowerCase() === use.toLowerCase() ? item : null
+    );
+
+    if (currentUse.length > 0) {
+      return currentUse[0];
+    }
+
+    return null;
+  };
+
+  /* */
+  assignHotspotImage = (hotspots) =>
+    hotspots.map((hotspot) => {
+      const current = hotspot;
+
+      if (typeof current.level === 'undefined') {
+        current.image = Data.AvriaHotpotArrow;
+      } else {
+        current.image = Data.AvriaHotspotStairs;
+      }
+
+      if (current.type === 'image') {
+        current.image = Data.AvriaGallery;
+      } else if (current.type === 'video') {
+        current.image = Data.AvriaVideo;
+      }
+      return current;
+    });
+
+  /* */
+  buildScene = (scene, hotspots = [], startScenePosition, finish, use, key) => {
+    const { name, furniture, finishScenes } = scene;
+    const displayingName = name[this.language];
+    let current = null;
+    if (finish !== undefined && use !== undefined) {
+      if (
+        finish.toLowerCase() === use.toLowerCase() &&
+        finishScenes.length === 0
+      ) {
+        current = scene;
+      } else {
+        current = this.getSelectedFinish(finishScenes, finish);
+      }
+    } else if (use !== undefined) {
+      current = scene;
+    }
+    const uri = `${current[this.currentStyle].modes.day}?not-from-cache-please`;
+    const panorama = {};
+    panorama.uri = uri;
+    panorama.name = key;
+    panorama.use = use;
+    panorama.finish = current.key;
+    return {
+      displayingName,
+      key,
+      panorama,
+      hotspots,
+      startScenePosition,
+      furniture
+    };
+  };
+
+  /* */
+  getSelectedFinish = (scenes, key) => {
+    if (key === 'default' || key === undefined || scenes.length === 0) {
+      return 'default';
+    }
+    const scene = scenes.filter((item) =>
+      item.key.toLowerCase() === key.toLowerCase() ? item : null
+    );
+
+    if (scene.length > 0) {
+      return scene[0];
+    }
+
+    return { key: 'default' };
+  };
+
+  /* */
   initializeRaycaster = () => {
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2(1, 1);
   };
 
-  addToScene = (obj) => {
-    this.scene.add(obj);
+  /* */
+  addToScene = (objs) => {
+    objs.forEach((obj) => {
+      const mesh = obj;
+      if (mesh !== null) {
+        this.scene.add(mesh);
+      }
+    });
   };
 
+  /* */
   initializeRenderer = () => {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
   };
 
+  /* */
   initializeControls = () => {
     this.control = new OrbitControls(this.camera, this.renderer.domElement);
-    // this.control.enablePan = false;
-    // this.control.enableZoom = false;
+    this.control.enablePan = false;
+    this.control.enableZoom = false;
     this.control.enableDamping = true;
     this.control.minPolarAngle = 0.8;
     this.control.maxPolarAngle = 2.4;
@@ -322,6 +564,7 @@ class ThreeSixtySphere {
     this.control.update();
   };
 
+  /* */
   initializeMobileControls = () => {
     this.control = new DeviceOrientationControls(
       this.camera,
@@ -330,16 +573,10 @@ class ThreeSixtySphere {
     this.control.enabled = true;
   };
 
-  updateHotspots = () => {
-    this.hotspots.forEach((hotspot) => {
-      console.log(hotspot);
-      this.createHotspot(hotspot);
-    });
-  };
-
+  /* */
   bindEventListeners = () => {
-    this.container.addEventListener('mousedown', this.onPointerStart);
-    this.container.addEventListener('mouseup', this.onPointerEnd);
+    this.container.addEventListener('pointerdown', this.onPointerStart);
+    this.container.addEventListener('pointerup', this.onPointerEnd);
     this.container.addEventListener('mousemove', this.onPointerMove, {
       passive: true
     });
@@ -350,6 +587,7 @@ class ThreeSixtySphere {
     document.addEventListener('keyup', this.handleKeyUp);
   };
 
+  /* */
   stopEasingAnimations = () => {
     this.easingAnimationDown.forEach((easingAnimationDown) =>
       easingAnimationDown.stop()
@@ -360,6 +598,7 @@ class ThreeSixtySphere {
     );
   };
 
+  /* */
   startEasingAnimationUp = () => {
     this.easingAnimationDown.forEach((easingAnimationDown) =>
       easingAnimationDown.stop()
@@ -370,6 +609,7 @@ class ThreeSixtySphere {
     );
   };
 
+  /* */
   startEasingAnimationDown = () => {
     this.easingAnimationDown.forEach((easingAnimationDown) =>
       easingAnimationDown.start()
@@ -380,6 +620,7 @@ class ThreeSixtySphere {
     );
   };
 
+  /* */
   stopHotstposAnimation = () => {
     this.easingAnimationUp.forEach((animation) => animation.stop());
     this.easingAnimationDown.forEach((animation) => animation.stop());
@@ -389,12 +630,13 @@ class ThreeSixtySphere {
     clearInterval(this.interval);
   };
 
-  animateHotspot = () => {
+  /* */
+  animateHotspots = (hotspots) => {
     if (!this.container) {
       return;
     }
-
-    this.createdHotspots.forEach((sprite) => {
+    this.stopHotstposAnimation();
+    hotspots.forEach((sprite) => {
       this.easingAnimationUp.push(
         new TWEEN.Tween(sprite.scale)
           .to(
@@ -433,8 +675,10 @@ class ThreeSixtySphere {
         timesRuning += 1;
       }
     }, 2000);
+    TWEEN.update();
   };
 
+  /* */
   startAnimation = (timesRuning) => {
     if (this.hover) {
       this.stopEasingAnimations();
@@ -454,30 +698,55 @@ class ThreeSixtySphere {
     }
   };
 
-  createHotspot = ({ x, y, z, name, key, img, level }) => {
+  /* */
+  createHotspot = (hotspot, mesh) => {
+    const {
+      x,
+      y,
+      z,
+      name,
+      key,
+      image,
+      level,
+      startSceneKey,
+      type,
+      thumbnail,
+      gallery
+    } = hotspot;
     const point = new THREE.Vector3(x, y, z);
-    const texture = new TextureLoader.Load(img);
+    const texture = new TextureLoader.Load(image);
     const spriteMaterial = new THREE.SpriteMaterial({
       map: texture
     });
     // spriteMaterial.alphaTest = 0.1;
     const sprite = new THREE.Sprite(spriteMaterial);
+
     sprite.name = name;
-    sprite.isHotspot = true;
+    sprite.isHotspot = type !== 'video' && type !== 'gallery';
+    sprite.hotspotType = type;
     sprite.key = key;
+    sprite.startScenePosition = mesh.startScenePosition;
+    sprite.startSceneKey = startSceneKey || '';
+    sprite.gallery = gallery;
+
+    if (thumbnail) {
+      sprite.thumbnail = thumbnail;
+    }
+
     sprite.position.copy(
       point
         .clone()
         .normalize()
-        .multiplyScalar(10)
+        .multiplyScalar(15)
     );
     if (level) {
       sprite.level = level;
     }
     this.createdHotspots.push(sprite);
-    this.mesh.add(sprite);
+    mesh.add(sprite);
   };
 
+  /* */
   isGyro = () => {
     if (typeof DeviceOrientationEvent !== 'undefined') {
       if (
@@ -492,19 +761,19 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   handleOrientation = () => {
     this.deviceOrientation = true;
   };
 
   handleKeyPress = (event) => {
     const key = event.keyCode;
-    console.log(key);
+
     switch (key) {
       case 60:
         this.ctrl = true;
         break;
       case 45:
-        console.log('HEY');
         this.activateGyro();
         break;
       case 49:
@@ -520,10 +789,12 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   handleKeyUp = () => {
     this.ctrl = false;
   };
 
+  /* */
   onWindowResize = (width, height) => {
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
@@ -532,6 +803,7 @@ class ThreeSixtySphere {
     this.renderer.setSize(this.width, this.height);
   };
 
+  /* */
   activateGyro = () => {
     if (!this.hasGyro) {
       this.isGyro();
@@ -546,34 +818,55 @@ class ThreeSixtySphere {
     }
   };
 
+  /* */
   getMouse = (event) => {
-    const deltaX = event.touches ? event.touches[0].clientX : event.clientX;
-    const deltaY = event.touches ? event.touches[0].clientY : event.clientY;
+    let deltaX = 0;
+    let deltaY = 0;
+    if (event.touches) {
+      if (event.touches.length > 0) {
+        deltaX = event.touches[0].clientX;
+        deltaY = event.touches[0].clientY;
+      }
+    } else {
+      deltaX = event.clientX;
+      deltaY = event.clientY;
+    }
+
     this.mouse = new THREE.Vector2(
       (deltaX / this.width) * 2 - 1,
       -(deltaY / this.height) * 2 + 1
     );
   };
 
-  onPointerEnd = (event) => {
+  /* */
+  onPointerEnd = () => {
     this.mouseDown = false;
-    this.getMouse(event);
     this.tooltip.classList.remove('is-active');
-    this.handleSpriteClick();
-    this.displayPosition();
+    this.thumbnail.classList.remove('is-active');
   };
 
-  onPointerStart = () => {
+  /* */
+  onPointerStart = (event) => {
     this.mouseDown = true;
+    this.getMouse(event);
+    this.updateMenuCall(false);
+    this.handleSpriteClick();
+    this.thumbnail.classList.remove('is-active');
+    if (this.buildMode) {
+      this.displayPosition();
+    }
   };
 
+  /* */
   onPointerMove = (event) => {
     this.getMouse(event);
+
     if (this.loaded) {
       this.intersects();
     }
   };
 
+  /* */
   handleSpriteClick = () => {
     this.raycaster.setFromCamera(this.mouse, this.camera);
     const intersects = this.raycaster.intersectObjects(
@@ -584,31 +877,156 @@ class ThreeSixtySphere {
       this.CLICKEDSPRITE = intersects[0].object;
       if (
         this.CLICKEDSPRITE.type === 'Sprite' &&
-        this.CLICKEDSPRITE.isHotspot
+        this.CLICKEDSPRITE.isHotspot &&
+        this.CLICKEDSPRITE.parent.name === this.selectedScene
       ) {
-        if (this.updateCallBack) {
-          this.mesh.children = [];
-          TweenLite.to(this.mesh.material, 1, {
-            opacity: 0,
-            onComplete: () => {
-              this.scene.remove(this.mesh);
-            }
-          });
-          this.updateCallBack(this.CLICKEDSPRITE.key, this.CLICKEDSPRITE.level);
+        this.setCameraPosition = true;
+        this.changeSphereScene(
+          this.CLICKEDSPRITE.key,
+          this.CLICKEDSPRITE.startScenePosition,
+          this.CLICKEDSPRITE.startSceneKey
+        );
+        const use = this.getSceneUse(this.CLICKEDSPRITE.key);
+        console.log(use);
+        if (use) {
+          this.updateCallBack(
+            this.CLICKEDSPRITE.key,
+            this.CLICKEDSPRITE.level,
+            use
+          );
         }
+      } else {
+        this.thumbnail.classList.remove('is-active');
       }
     }
   };
 
-  displayPosition = () => {
-    const intersection = this.raycaster.intersectObject(this.mesh);
-    if (intersection.length > 0) {
-      const { point } = intersection[0];
-      console.log('hotspot location', point);
-      console.log('camera position', this.camera.position);
+  /* */
+  changeSphereScene = (key, startScenePosition, startSceneKey) => {
+    this.oldMesh = this.scene.children.find(
+      (child) => child.name === this.selectedScene
+    );
+    if (this.oldMesh) {
+      this.activeMesh = this.getActiveMesh(key);
+      if (this.activeMesh) {
+        this.currentScaleDown = this.scaleDown(this.oldMesh, startSceneKey);
+        this.currentScaleDown.start();
+      }
     }
   };
 
+  /* */
+  scaleDown = (mesh, startSceneKey) =>
+    new TWEEN.Tween(mesh.scale)
+      .to(
+        {
+          x: 0,
+          y: 0,
+          z: 0
+        },
+        500
+      )
+      .onStart(() => {
+        const startScenePosition = this.getStartScenePosition(
+          this.activeMesh.name,
+          startSceneKey
+        );
+        this.setCameraStartScenePosition(
+          startScenePosition.x,
+          startScenePosition.y,
+          startScenePosition.z
+        );
+      })
+      .onUpdate((item) => {
+        this.render();
+        this.activeMesh.visible = true;
+        this.oldMesh.material.opacity = item.x;
+        this.oldMesh.material.transparent = true;
+        this.removeMeshChildren(this.oldMesh);
+      })
+      .onComplete(() => {
+        this.oldMesh.visible = false;
+        this.oldMesh.material.transparent = false;
+        this.oldMesh.scale.set(1, 1, 1);
+        this.selectedScene = this.activeMesh.name;
+        if (!this.buildMode) {
+          this.addHotspots(this.selectedScene);
+        }
+
+        this.currentScaleDown.stop();
+      });
+  getStartScenePosition = (scene, key) => {
+    const currentScene = this.scenes.find((item) => item.key === scene);
+    const currentHotspot = currentScene.hotspots.find(
+      (hotspot) => hotspot.key === key
+    );
+    if (currentHotspot) {
+      return { x: currentHotspot.x, y: currentHotspot.y, z: currentHotspot.z };
+    }
+
+    return currentScene.startScenePosition;
+  };
+
+  setCameraStartScenePosition = (x, y, z) => {
+    const camDistance = this.camera.position.length();
+    const obj = new THREE.Vector3(x, y, z);
+    this.camera.position
+      .copy(obj)
+      .normalize()
+      .multiplyScalar(camDistance)
+      .negate();
+    this.setCameraPosition = false;
+  };
+
+  /* */
+  scaleUp = (mesh) =>
+    new TWEEN.Tween(mesh.scale)
+      .to(
+        {
+          x: 8,
+          y: 8,
+          z: 8
+        },
+        5000
+      )
+      .onUpdate(() => {
+        this.render();
+      })
+      .onComplete(() => {
+        this.currentScaleUp.stop();
+      });
+
+  /* */
+  removeMeshChildren = (mesh) => {
+    mesh.children = [];
+  };
+
+  /* */
+  toggleMeshChildren = (mesh, visble) =>
+    mesh.children.forEach((item) => {
+      item.visible = visble;
+    });
+
+  getVisbleMesh = () => this.scene.children.find((mesh) => mesh.visible);
+
+  /* */
+  displayPosition = () => {
+    const visibleMesh = this.getVisbleMesh();
+    if (visibleMesh) {
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+      const intersection = this.raycaster.intersectObject(visibleMesh);
+      if (intersection.length > 0) {
+        const { point } = intersection[0];
+        this.createHotspot(
+          { ...point, img: Data.AvriaHotpotArrow },
+          visibleMesh
+        );
+        console.log(point);
+      }
+    }
+  };
+
+  /* */
   scaleUpSprite = (intersected) =>
     new TWEEN.Tween(intersected.scale)
       .to(
@@ -624,6 +1042,7 @@ class ThreeSixtySphere {
       })
       .easing(TWEEN.Easing.Elastic.Out);
 
+  /* */
   scaleDownSprite = (intersected) =>
     new TWEEN.Tween(intersected.scale)
       .to(
@@ -639,63 +1058,65 @@ class ThreeSixtySphere {
       })
       .easing(TWEEN.Easing.Elastic.Out);
 
+  /* */
   showAnimation = (obj) =>
     new TWEEN.Tween(obj)
       .to({ opacity: 1 }, 500)
-      .onStart(() => {
-        console.log('start');
-      })
+      .onStart(() => {})
       .easing(TWEEN.Easing.Quartic.Out);
 
+  /* */
   hideAnimation = (obj) =>
     new TWEEN.Tween(obj)
       .to({ opacity: 0 }, 500)
       .easing(TWEEN.Easing.Quartic.Out);
 
+  /* */
   intersects = () => {
-    if (!this.mouseDown) {
+    if (!this.mouseDown && !this.buildMode) {
       this.raycaster.setFromCamera(this.mouse, this.camera);
       const intersects = this.raycaster.intersectObjects(
         this.scene.children,
         true
       );
       if (intersects.length > 0) {
-        const { object, faceIndex } = intersects[0];
-        if (object.type !== 'Sprite') {
-          object.geometry.faces[faceIndex].color.set(Math.random() * 0xffffff);
-          object.geometry.colorsNeedUpdate = true;
-        }
-
-        if (this.INTERSECTED !== intersects[0].object) {
+        const { object } = intersects[0];
+        if (this.INTERSECTED !== object) {
           if (this.INTERSECTED) {
-            if (this.INTERSECTED.type === 'Sprite') {
-              this.INTERSECTED.scaleUp.stop();
-              this.INTERSECTED.scaleDown.start();
-              delete this.INTERSECTED.scaleUp;
-              delete this.INTERSECTED.scaleDown;
-              this.tooltip.classList.remove('is-active');
-              this.hover = false;
-              this.container.style.cursor = 'default';
+            if (
+              this.INTERSECTED.type === 'Sprite' &&
+              this.INTERSECTED.scaleUp !== undefined &&
+              this.INTERSECTED.scaleDown !== undefined
+            ) {
+              this.handleTooltipUnactive();
+
+              if (
+                this.INTERSECTED.hotspotType !== 'video' &&
+                this.INTERSECTED.hotspotType !== 'image'
+              ) {
+                this.tooltip.classList.remove('is-active');
+              }
             }
           }
 
-          this.INTERSECTED = intersects[0].object;
-          if (this.INTERSECTED.type === 'Sprite') {
+          this.INTERSECTED = object;
+          if (
+            this.INTERSECTED.type === 'Sprite' &&
+            object.parent.name === this.selectedScene
+          ) {
             this.INTERSECTED.scaleUp = this.scaleUpSprite(this.INTERSECTED);
             this.INTERSECTED.scaleDown = this.scaleDownSprite(this.INTERSECTED);
             this.INTERSECTED.scaleUp.start();
             if (!this.mouseDown) {
-              const position = this.INTERSECTED.position
-                .clone()
-                .project(this.camera);
-              console.log(position);
-              this.tooltip.style.top = `${((-1 * position.y + 1) *
-                this.height) /
-                2}px`;
-              this.tooltip.style.left = `${((position.x + 1) * this.width) /
-                2}px`;
-              this.tooltip.classList.add('is-active');
-              this.tooltip.innerHTML = this.INTERSECTED.name;
+              if (
+                this.INTERSECTED.hotspotType !== 'video' &&
+                this.INTERSECTED.hotspotType !== 'image'
+              ) {
+                this.handleTooltipActive();
+              } else {
+                this.handleThumnailActive();
+              }
+
               this.container.style.cursor = 'pointer';
             }
             this.hover = true;
@@ -708,57 +1129,103 @@ class ThreeSixtySphere {
     }
   };
 
+  handleThumnailActive = () => {
+    const position = this.INTERSECTED.position.clone().project(this.camera);
+
+    this.thumbnail.style.top = `${((-1 * position.y + 1) * this.height) / 2}px`;
+    this.thumbnail.style.left = `${((position.x + 1) * this.width) / 2}px`;
+    this.thumbnail.style.backgroundImage = `url(${this.INTERSECTED.thumbnail})`;
+    this.thumbnail.children[0].innerHTML = this.INTERSECTED.name[this.language];
+    this.thumbnail.classList.add('is-active');
+    this.thumbnail.hotspotType = this.INTERSECTED.hotspotType;
+    this.thumbnail.gallery = this.INTERSECTED.gallery;
+  };
+
+  handleTooltipActive = () => {
+    const position = this.INTERSECTED.position.clone().project(this.camera);
+
+    this.tooltip.style.top = `${((-1 * position.y + 1) * this.height) / 2}px`;
+    this.tooltip.style.left = `${((position.x + 1) * this.width) / 2}px`;
+    this.tooltip.classList.add('is-active');
+    this.tooltip.innerHTML = this.INTERSECTED.name[this.language];
+  };
+
+  handleTooltipUnactive = () => {
+    this.INTERSECTED.scaleUp?.stop();
+    this.INTERSECTED.scaleDown?.start();
+    delete this.INTERSECTED.scaleUp;
+    delete this.INTERSECTED.scaleDown;
+    this.hover = false;
+    this.container.style.cursor = 'default';
+  };
+
+  /* */
   update = () => {
     this.control.update();
     this.render();
     TWEEN.update();
   };
 
+  /* */
   render = () => {
     this.renderer.render(this.scene, this.camera);
   };
 
+  /* */
   updateCameraPosition = ({ x, y, z }) => {
     this.camera.position.set(x, y, z);
   };
 
-  setStartingScenePosition = ({ x, y, z }) => {
-    this.updateCameraPosition({
-      x: 0.00964106833161872,
-      y: 6.123233995736772e-19,
-      z: -0.002655146215382272
-    });
-    this.camera.lookAt(x, y, z);
-  };
-
+  /* */
   getRenderer = () => this.renderer;
 
+  /* */
   getCamera = () => this.camera;
 
+  /* */
   getCameraPosition = () => this.camera.position;
 
+  /* */
   getScene = () => this.scene;
 
-  getMatrix = () => {
-    console.log('MatrixWorld', this.scene.children[0].matrixWorld);
-    console.log('Matrix', this.scene.children[0].matrix);
+  /* */
+  getMatrix = () => {};
+
+  /* */
+  getSceneUse = (scene) => {
+    console.log(this.scene.children);
+    const sphere = this.scene.children.find((mesh) => mesh.name === scene);
+    return sphere?.use;
   };
 
+  /* */
   setCurrentStyle = (currentStylle) => {
-    this.currentStylle = currentStylle;
+    this.currentStyle = currentStylle;
   };
 
+  /* */
   setCurrentFinish = (currentFinish) => {
     this.currentFinish = currentFinish;
   };
 
+  /* */
   activateAutoRotate = (autoRotate) => {
     this.control.autoRotate = autoRotate;
   };
 
+  /* */
   animate = () => {
     this.update();
     window.requestAnimationFrame(this.animate);
+  };
+
+  /* */
+  dispose = () => {
+    this.renderer.renderLists.dispose();
+  };
+
+  changeLanguage = (language) => {
+    this.language = language;
   };
 }
 export default ThreeSixtySphere;

@@ -1,6 +1,10 @@
 import { getLocalStorage } from '../utils';
 
 const ENV = getLocalStorage('ENV') || 'production';
+<<<<<<< HEAD
+=======
+
+>>>>>>> v3.0
 export const WEBAPP_API_DEV = 'https://test-webapp-api.athum.co';
 export const WEBAPP_API_PROD = 'https://webapp-api.athum.co';
 export const WEBAPP_API =
@@ -11,11 +15,14 @@ export const WEBAPP_API_KEY_PROD = 'RVSTgA7lWk3hFLgka7j68S2moU5zmzA5OkT0Qmr8';
 export const WEBAPP_API_KEY =
   ENV === 'production' ? WEBAPP_API_KEY_PROD : WEBAPP_API_KEY_DEV;
 
-export const THREE_SIXTY_API_DEV = 'https://dev-360-api.athum.com/v3/';
+export const THREE_SIXTY_API_DEV =
+  'https://us-central1-avria-production.cloudfunctions.net/three_sixty_api_dev/v1/';
+// 'https://360-api.athum.com/three_sixty_api_dev/v1/';
 export const THREE_SIXTY_API_STAGING = 'https://staging-360-api.athum.com/';
-export const THREE_SIXTY_API_PROD = 'https://360-api.athum.com/v3/';
+export const THREE_SIXTY_API_PROD =
+  'https://tours-api.athum.com/three_sixty_api_prod/v1';
 export const THREE_SIXTY_GOOGLE_API_PROD =
-  'https://us-west2-avria-production.cloudfunctions.net/three_sixty_api/prod/v1/';
+  'https://us-central1-avria-production.cloudfunctions.net/three_sixty_api_prod/v1/';
 
 const threeSixtyApi = {
   production: THREE_SIXTY_GOOGLE_API_PROD,
@@ -40,7 +47,7 @@ const threeSixtyApiKey = {
 
 export const THREE_SIXTY_API_KEY = threeSixtyApiKey[ENV];
 
-export const SOCKET_TEST_API = 'https://virtualsalesapp.azurewebsites.net';
+export const SOCKET_TEST_API = 'https://dev-analytics-api.athum.com';
 export const SOCKET_PROD_API = 'https://prod-rso-websocket.azurewebsites.net';
 export const SOCKET_STAGING_API =
   'https://staging-athum-rso-ws.azurewebsites.net';
