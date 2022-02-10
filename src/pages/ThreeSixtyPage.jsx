@@ -6,17 +6,9 @@ import { connect } from 'react-redux';
 import ThreeSixtyAction from '../stores/threeSixty/actions';
 import Loader from '../components/Loader';
 import DesktopAthumLogo from '../components/DesktopAthumLogo';
-import Menu from '../components/Menu/Menu';
-import MiniMap from '../components/MiniMap';
 import CurrentViewStyle from '../components/CurrentViewStyle';
 import Viewer from '../components/Viewer';
-import Cardboard from '../components/Cardboard';
-import Autoplay from '../components/Autoplay';
-import ErrorModal from '../components/ErrorModal';
-import SessionAction from '../stores/session/actions';
-import SocketAction from '../stores/socket/actions';
 import LoadingAction from '../stores/loading/actions';
-import { SOCKET } from '../config/endpoints';
 import TourAction from '../stores/tour/actions';
 import LanguageAction from '../stores/language/actions';
 import { levelsSelector } from '../selectors/Tour';
@@ -43,9 +35,6 @@ const ThreeSixtyPage = ({ levels, loader, dispatch, amenity }) => {
       }
     };
     loadContent();
-    return () => {
-      dispatch(SocketAction.disconnect());
-    };
   }, []);
   return (
     <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
