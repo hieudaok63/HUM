@@ -187,11 +187,13 @@ class ThreeSixtySphere {
     this.loaderContainer.classList.remove('white-background');
     this.loaderContainer.classList.remove('none');
     this.loaderCall(false);
-    this.setCameraStartScenePosition(
-      this.activeMesh.startScenePosition.x,
-      this.activeMesh.startScenePosition.y,
-      this.activeMesh.startScenePosition.z
-    );
+    if (this.activeMesh.startScenePosition) {
+      this.setCameraStartScenePosition(
+        this.activeMesh.startScenePosition.x,
+        this.activeMesh.startScenePosition.y,
+        this.activeMesh.startScenePosition.z
+      );
+    }
   };
 
   /* */
@@ -839,12 +841,13 @@ class ThreeSixtySphere {
           this.activeMesh.name,
           startSceneKey
         );
-
-        this.setCameraStartScenePosition(
-          startScenePosition.x,
-          startScenePosition.y,
-          startScenePosition.z
-        );
+        if (startScenePosition) {
+          this.setCameraStartScenePosition(
+            startScenePosition.x,
+            startScenePosition.y,
+            startScenePosition.z
+          );
+        }
       })
       .onUpdate((item) => {
         this.render();

@@ -173,7 +173,11 @@ class ThreeSixtySphere {
       }
       this.loaderCall(false);
       this.changingFromFloorplanCall();
-      if (this.setCameraPosition && this.activeMesh) {
+      if (
+        this.setCameraPosition &&
+        this.activeMesh &&
+        this.activeMesh.startScenePosition
+      ) {
         this.setCameraStartScenePosition(
           this.activeMesh.startScenePosition.x,
           this.activeMesh.startScenePosition.y,
@@ -931,11 +935,13 @@ class ThreeSixtySphere {
           this.activeMesh.name,
           startSceneKey
         );
-        this.setCameraStartScenePosition(
-          startScenePosition.x,
-          startScenePosition.y,
-          startScenePosition.z
-        );
+        if (startScenePosition) {
+          this.setCameraStartScenePosition(
+            startScenePosition.x,
+            startScenePosition.y,
+            startScenePosition.z
+          );
+        }
       })
       .onUpdate((item) => {
         this.render();
