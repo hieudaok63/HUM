@@ -1,6 +1,7 @@
 import { getLocalStorage } from '../utils';
 
-export const ENV = getLocalStorage('ENV') || process.env.REACT_APP_ENV;
+export const ENV =
+  getLocalStorage('ENV') || process.env.REACT_APP_ENV || 'production';
 
 export const logger = getLocalStorage('logger') || false;
 

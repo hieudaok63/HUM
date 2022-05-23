@@ -178,30 +178,30 @@ const FloorplansSubmenu = ({
                         {displayName}
                       </div>
                       <div className="floorplan-content-features">
-                        {bedrooms && (
+                        {bedrooms && bedrooms > 0 ? (
                           <>
                             <BedroomIcon className="floorplan-content-features-icon" />
                             <div className="floorplan-content-features-value">
                               {bedrooms}
                             </div>
                           </>
-                        )}
-                        {bathrooms && (
+                        ) : null}
+                        {bathrooms && bathrooms > 0 ? (
                           <>
                             <BathroomIcon className="floorplan-content-features-icon" />
                             <div className="floorplan-content-features-value">
                               {bathrooms}
                             </div>
                           </>
-                        )}
-                        {parking && (
+                        ) : null}
+                        {parking && parking > 0 ? (
                           <>
                             <CarIcon className="floorplan-content-features-icon" />
                             <div className="floorplan-content-features-value">
                               {parking}
                             </div>
                           </>
-                        )}
+                        ) : null}
                         {area && unit && (
                           <>
                             <AreaIcon className="floorplan-content-features-icon" />

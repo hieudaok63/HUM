@@ -80,7 +80,7 @@ export class TourSelector {
     return state.tour.savedSchedule;
   }
   static getCanSchedule(state) {
-    return state.tour.canSchedule;
+    return state.tour.canSchedule || false;
   }
   static getLeftMenuOpen(state) {
     return state.tour.leftMenuOpened;
