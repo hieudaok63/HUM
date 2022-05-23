@@ -1023,11 +1023,11 @@ class ThreeSixtySphere {
       const intersection = this.raycaster.intersectObject(visibleMesh);
       if (intersection.length > 0) {
         const { point } = intersection[0];
+        console.table(point);
         this.createHotspot(
-          { ...point, img: Data.AvriaHotpotArrow },
+          { ...point, image: Data.AvriaHotpotArrow },
           visibleMesh
         );
-        console.log(point);
       }
     }
   };
