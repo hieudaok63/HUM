@@ -26,7 +26,9 @@ const threeSixtyApi = {
   staging: THREE_SIXTY_API_STAGING
 };
 
-export const THREE_SIXTY_API = threeSixtyApi[ENV];
+// export const THREE_SIXTY_API = threeSixtyApi[ENV];
+export const THREE_SIXTY_API =
+  'https://us-central1-avria-production.cloudfunctions.net/showroom_api_prod/v1/';
 
 export const THREE_SIXTY_API_PROD_KEY =
   'tHcR7YBjJG4Ty9I0IYEVU4ejEotjYksb1uFC0wbr';

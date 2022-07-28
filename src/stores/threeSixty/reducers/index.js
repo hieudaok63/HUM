@@ -9,7 +9,7 @@ export default class ThreeSixtyReducer extends BaseReducer {
     layoutName: '',
     displayName: '',
     defaultStyle: '',
-    language: '',
+    language: 'es',
     levels: [],
     styles: [],
     area: 0,

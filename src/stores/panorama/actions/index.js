@@ -67,29 +67,10 @@ export default class PanoramaAction {
         async (sceneName, level, use) => {
           if (sceneName !== undefined) {
             await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
-            // dispatch(
-            //   SocketAction.socketMessage({
-            //     event: 'CHANGE-SCENE',
-            //     data: {
-            //       type: 'CHANGE-SCENE',
-            //       name: sceneName
-            //     }
-            //   })
-            // );
           }
-          console.log(level);
           if (level !== undefined) {
             await dispatch(ThreeSixtyAction.setCurrentLevel(level));
             await dispatch(ThreeSixtyAction.setSelectedScene(sceneName));
-            //   dispatch(
-            //     SocketAction.socketMessage({
-            //       event: 'CHANGE-SCENE',
-            //       data: {
-            //         type: 'CHANGE-SCENE',
-            //         name: sceneName
-            //       }
-            //     })
-            //   );
           }
           if (use !== undefined) {
             await dispatch(ThreeSixtyAction.setSelectedUse(use));

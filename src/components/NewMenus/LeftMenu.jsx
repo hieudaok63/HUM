@@ -87,6 +87,30 @@ const LeftMenu = ({
     }
   }, [infoPage]);
 
+  React.useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        menu.current &&
+        menu.current.className !== 'hidden' &&
+        e.target.nodeName !== 'svg' &&
+        e.target.nodeName !== 'path' &&
+        (!e.target.className ||
+          (typeof e.target?.className === 'string' &&
+            e.target?.className?.includes('video-full-container')))
+      ) {
+        hideMenu();
+      }
+    };
+
+    document.addEventListener('pointerdown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('pointerdown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       <div onClick={showMenu} className="hidden" ref={minifiedMenu}>
@@ -124,6 +148,7 @@ const LeftMenu = ({
               setSelectedSubmenu={setSelectedSubmenu}
               setGalleryIndex={setGalleryIndex}
               identifier={section.key}
+              hideMenu={hideMenu}
             />
           ))}
         </div>

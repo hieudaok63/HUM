@@ -4,7 +4,7 @@ import BaseReducer from '../../../utilities/BaseReducer';
 
 export default class LanguageReducer extends BaseReducer {
   initialState = {
-    language: ''
+    language: 'es'
   };
 
   [LanguageAction.SET_LANGUAGE_FINISHED](state, action) {

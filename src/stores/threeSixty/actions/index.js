@@ -243,7 +243,6 @@ export default class ThreeSixtyAction {
     return async (dispatch, getState) => {
       const { panorama: panoramaState } = getState();
       const { panorama } = panoramaState;
-      console.log('hey');
       panorama.activateAutoRotate(autoRotate);
     };
   }

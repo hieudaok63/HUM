@@ -43,7 +43,6 @@ export default class SocketAction {
       socketData.builderId = builderId;
       socketData.projectId = projectId;
       socketData.layoutName = layoutName;
-      console.log(socketData);
       const model = await ActionUtility.createThunkEffect(
         dispatch,
         SocketAction.SOCKET_MESSAGE_REQUEST,

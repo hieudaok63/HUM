@@ -22,7 +22,7 @@ const Viewer = ({ selectedFloorplan, error, type, dispatch }) => {
       buildViewer();
     }
   }, [selectedFloorplan]);
-  console.log('error', error);
+
   return (
     <div
       id="viewer"

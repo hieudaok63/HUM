@@ -99,7 +99,6 @@ export default class ThreeSixtyModel {
       }
     }
 
-    console.log(scenes);
     return scenes;
   }
 

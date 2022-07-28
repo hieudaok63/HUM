@@ -24,7 +24,6 @@ const ScheduleAMeetingSteps = ({
 
   const getMessage = (e) => {
     if (isCalendlyEvent(e)) {
-      console.log(e);
       if (
         e.data.event !== 'calendly.event_type_viewed' &&
         e.data.event !== 'calendly.profile_page_viewed' &&

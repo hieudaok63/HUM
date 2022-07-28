@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { arrayOf, func, shape, bool, string, number } from 'prop-types';
 import { connect } from 'react-redux';
@@ -22,11 +22,13 @@ import {
   canScheduleSelector,
   selectedFloorplanSelector
 } from '../selectors/Tour';
-import { amenitySelector } from '../selectors/Amenities';
+import {
+  amenitySelector,
+  selectedAmenitySelector,
+  selectedContentSelector
+} from '../selectors/Amenities';
 import { loadingSelector } from '../selectors/loading';
 import ThreeSixtyAction from '../stores/threeSixty/actions';
-import SocketAction from '../stores/socket/actions';
-import { SOCKET } from '../config/endpoints';
 import LeftMenu from '../components/NewMenus/LeftMenu';
 import ActionsMenu from '../components/NewMenus/ActionsMenu';
 import InfoPage from '../components/InfoPage/InfoPage';
@@ -41,6 +43,7 @@ import AmenityNav from '../components/AmenityNav';
 import ThreeSixtyAmenityNav from '../components/ThreeSixtyAmenityNav';
 import AmenitiesActions from '../stores/amenities/actions';
 import { getSelectedScene } from '../selectors/menu';
+import InteractiveFloorplan from '../components/InteractiveFloorplan';
 
 const TourPage = ({
   floorplans,
@@ -57,7 +60,9 @@ const TourPage = ({
   scheduleActive,
   canSchedule,
   selectedFloorplan,
-  selectedScene
+  selectedScene,
+  selectedAmenity,
+  content
 }) => {
   const { builderId, projectId } = useParams();
   const [galleryIndex, setGalleryIndex] = React.useState(0);
@@ -66,7 +71,6 @@ const TourPage = ({
 
   React.useEffect(() => {
     async function getData() {
-      // await dispatch(SocketAction.initSocket(SOCKET));
       await dispatch(LoadingAction.setLoader(true));
       await dispatch(TourAction.getData(builderId, projectId));
       await dispatch(LanguageAction.setLanguageFromTour());
@@ -79,18 +83,6 @@ const TourPage = ({
 
   React.useEffect(() => {
     if (selectedScene !== 'default') {
-      // dispatch(
-      //   SocketAction.socketMessage(
-      //     {
-      //       action: 'START-TOUR',
-      //       data: {
-      //         type: firstLoad ? 'START-TOUR' : 'CHANGE-SCENE',
-      //         name: selectedScene
-      //       }
-      //     },
-      //     'community-tours-logs'
-      //   )
-      // );
       setFirsLoad(false);
     }
   }, [selectedScene]);
@@ -111,12 +103,12 @@ const TourPage = ({
     }
   };
 
-  const getAmenityType = () => {
+  const amenityType = useMemo(() => {
     if (amenity.length > 1 && levels.length > 0 && galleryIndex > 0)
-      return amenity[galleryIndex - 1].type;
+      return amenity[galleryIndex - 1]?.type;
 
-    return amenity[galleryIndex].type;
-  };
+    return amenity[galleryIndex]?.type;
+  }, [amenity, galleryIndex]);
 
   const getAmenityImage = () => {
     if (amenity.length > 1 && levels.length > 0 && galleryIndex > 0)
@@ -152,7 +144,6 @@ const TourPage = ({
 
     if (selectedFloorplan === 0 && floorplans.length > 0) setAmenity();
   }, [floorplans]);
-
   return (
     <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
       <Loader loading={loader} />
@@ -194,7 +185,7 @@ const TourPage = ({
               }}
             />
           )}
-          {getAmenityType() === '2d' && type !== 'three-sixty' && (
+          {amenityType === '2d' && type !== 'three-sixty' && (
             <ImageWithHotspots
               src={getAmenityImage()}
               spots={getSpots()}
@@ -202,12 +193,12 @@ const TourPage = ({
               className="image-full"
             />
           )}
-          {getAmenityType() === 'video' && type !== 'three-sixty' && (
+          {amenityType === 'video' && type !== 'three-sixty' && (
             <div className="video-full-container video-full-container-with-background">
               <VideoPlayer src={getUrl()} />
             </div>
           )}
-          {getAmenityType() === 'pano' && type !== 'three-sixty' && (
+          {amenityType === 'pano' && type !== 'three-sixty' && (
             <PanoViewer
               type={amenity[galleryIndex].type}
               image={amenity[galleryIndex].image}
@@ -216,6 +207,9 @@ const TourPage = ({
           )}
         </>
       )}
+      {selectedAmenity === 'availability' &&
+        type !== 'three-sixty' &&
+        !amenityType && <InteractiveFloorplan content={content} />}
       {!loader && (
         <>
           {stateBuilderId && canSchedule && <ScehduleAMeeting />}
@@ -228,7 +222,7 @@ const TourPage = ({
               infoPage={infoPage}
             />
           )}
-          {!scheduleActive && (
+          {!scheduleActive && selectedAmenity !== 'availability' && (
             <ActionsMenu
               infoPage={infoPage}
               setInfoPage={setInfoPage}
@@ -262,7 +256,9 @@ const mapStateToProps = (state) => ({
   scheduleActive: scheduleAMeetingSelector(state),
   canSchedule: canScheduleSelector(state),
   selectedFloorplan: selectedFloorplanSelector(state),
-  selectedScene: getSelectedScene(state)
+  selectedScene: getSelectedScene(state),
+  selectedAmenity: selectedAmenitySelector(state),
+  content: selectedContentSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -284,7 +280,9 @@ TourPage.propTypes = {
   scheduleActive: bool.isRequired,
   canSchedule: bool.isRequired,
   selectedFloorplan: number.isRequired,
-  selectedScene: string.isRequired
+  selectedScene: string.isRequired,
+  selectedAmenity: string.isRequired,
+  content: shape({}).isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TourPage);

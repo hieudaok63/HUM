@@ -182,7 +182,7 @@ export class MenuSelector {
   }
 
   static getSelectedScene(state) {
-    return state.threeSixty.levels.length > 0 &&
+    return state.threeSixty.levels?.length > 0 &&
       state.threeSixty.selectedScene === 'default'
       ? state.threeSixty.levels[0].defaultScene
       : state.threeSixty.selectedScene;

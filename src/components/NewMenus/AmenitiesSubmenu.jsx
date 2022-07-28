@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import { string, shape, func, bool } from 'prop-types';
 import { ReactComponent as DropdownIcon } from '../../assets/Icons/icon_dropdown.svg';
@@ -22,7 +22,8 @@ const AmenitiesSubmenu = ({
   selectedAmenity,
   setGalleryIndex,
   language,
-  identifier
+  identifier,
+  hideMenu
 }) => {
   const [isOpen, setIsOpen] = React.useState(openedMenu === 'identifier');
   const amenitiesSize = {
@@ -52,13 +53,20 @@ const AmenitiesSubmenu = ({
     }, 450);
   };
 
-  const loadAmenity = async (media, key) => {
-    if (media.length > 0) {
+  const loadAmenity = async (media, key, item) => {
+    if (key === 'availability') {
+      hideMenu();
+    }
+    await dispatch(AmenitiesActions.setSelectedAmenity(key));
+    await dispatch(AmenitiesActions.setSelectedContent(item));
+    await dispatch(ThreeSixtyAction.reset());
+    if (media?.length > 0) {
       setGalleryIndex(0);
       await dispatch(TourAction.selectType(media[0].type));
       await dispatch(AmenitiesActions.setAmenity(media));
-      await dispatch(AmenitiesActions.setSelectedAmenity(key));
-      await dispatch(ThreeSixtyAction.reset());
+    } else {
+      await dispatch(TourAction.selectType(item.type));
+      await dispatch(AmenitiesActions.setAmenity([]));
     }
 
     setSelectedSubmenu(identifier);
@@ -76,9 +84,14 @@ const AmenitiesSubmenu = ({
 
   const { content = [], name = {} } = amenities;
 
+  const currentContent = useMemo(
+    () => (Array.isArray(content) ? [...content] : [{ ...content }]),
+    [content]
+  );
+
   return (
     <>
-      {content.length > 0 && (
+      {currentContent.length > 0 && (
         <div className="w-100">
           <div
             onClick={() => {
@@ -97,16 +110,17 @@ const AmenitiesSubmenu = ({
             />
           </div>
           <div ref={submenu} className="hidden">
-            {content.map(({ thumbnail, room, key, media }) => {
-              const hasPano = media.some(({ type }) => type === 'pano');
-              const hasImage = media.some(({ type }) => type === '2d');
-              const hasVideo = media.some(({ type }) => type === 'video');
+            {currentContent.map((item) => {
+              const { thumbnail, room, key, media } = item;
+              const hasPano = media?.some(({ type }) => type === 'pano');
+              const hasImage = media?.some(({ type }) => type === '2d');
+              const hasVideo = media?.some(({ type }) => type === 'video');
               return (
                 <div
                   key={key}
                   className="amenity"
                   onClick={() => {
-                    loadAmenity(media, key);
+                    loadAmenity(media, key, item);
                   }}
                 >
                   {thumbnail && (
@@ -135,7 +149,11 @@ const AmenitiesSubmenu = ({
                         <ImageIcon className="amenity-content-icon-type" />
                       )}
                     </div>
-                    <div className="amenity-content-name">{room[language]}</div>
+                    {room && (
+                      <div className="amenity-content-name">
+                        {room[language]}
+                      </div>
+                    )}
                   </div>
                 </div>
               );
@@ -157,7 +175,8 @@ AmenitiesSubmenu.propTypes = {
   selectedAmenity: string.isRequired,
   setGalleryIndex: func.isRequired,
   language: string.isRequired,
-  identifier: string.isRequired
+  identifier: string.isRequired,
+  hideMenu: func.isRequired
 };
 
 const mapStateToProps = (state) => ({

@@ -11,7 +11,8 @@ export default class AmenitiesReducer extends BaseReducer {
     selectedAmenity: '',
     amenity: [],
     spots: [],
-    language: ''
+    language: '',
+    content: null
   };
 
   [AmenitiesActions.SET_SELECTED_AMENITY_FINISHED](state, action) {
@@ -75,6 +76,13 @@ export default class AmenitiesReducer extends BaseReducer {
     return {
       ...state,
       language: action.payload
+    };
+  }
+
+  [AmenitiesActions.SET_SELECTED_CONTENT_FINISHED](state, action) {
+    return {
+      ...state,
+      content: action.payload
     };
   }
 }

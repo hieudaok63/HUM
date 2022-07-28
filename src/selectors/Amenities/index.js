@@ -16,6 +16,10 @@ export class AmenitiesSelector {
   static getSelectedAmenity(state) {
     return state.amenities.selectedAmenity;
   }
+
+  static getSelectedContent(state) {
+    return state.amenities.content;
+  }
 }
 
 export const imageSelector = createSelector(
@@ -36,4 +40,9 @@ export const amenitySelector = createSelector(
 export const selectedAmenitySelector = createSelector(
   [AmenitiesSelector.getSelectedAmenity],
   (selectedAmenity) => selectedAmenity
+);
+
+export const selectedContentSelector = createSelector(
+  [AmenitiesSelector.getSelectedContent],
+  (selectedContent) => selectedContent
 );

@@ -17,6 +17,8 @@ export default class AmenitiesActions {
 
   static SET_SELECTED_AMENITY_FINISHED = 'SET_SELECTED_AMENITY_FINISHED';
 
+  static SET_SELECTED_CONTENT_FINISHED = 'SET_SELECTED_CONTENT_FINISHED';
+
   static SET_AMENITY_FINISHED = 'SET_AMENITY_FINISHED';
 
   static SET_PANO_SPOTS_FINISHED = 'SET_PANO_SPOTS_FINISHED';
@@ -44,7 +46,6 @@ export default class AmenitiesActions {
         async (type, key) => {
           const amenity = tour.sections.find((section) => section.key === type);
           if (amenity) {
-            console.log(amenity);
             const room = amenity.content.find((item) => item.key === key);
             if (room) {
               await dispatch(AmenitiesActions.setContainer(null));
@@ -63,6 +64,13 @@ export default class AmenitiesActions {
   static setSelectedAmenity(option) {
     return ActionUtility.createAction(
       AmenitiesActions.SET_SELECTED_AMENITY_FINISHED,
+      option
+    );
+  }
+
+  static setSelectedContent(option) {
+    return ActionUtility.createAction(
+      AmenitiesActions.SET_SELECTED_CONTENT_FINISHED,
       option
     );
   }
