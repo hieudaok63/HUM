@@ -1,7 +1,7 @@
 import { hexToRgb } from '../../utils';
 
 const styles = () => {
-  const selectedBackgroundRGB = hexToRgb('#ec6b69');
+  const selectedBackgroundRGB = hexToRgb('#163142');
   return {
     filters: {
       height: 105,
@@ -98,11 +98,11 @@ const styles = () => {
       width: '100%',
       padding: 8,
       background: `rgba(${selectedBackgroundRGB[0]}, ${selectedBackgroundRGB[1]}, ${selectedBackgroundRGB[2]}, 0.3)`,
-      borderBottom: `thin solid #ec6b69`,
-      borderTop: `thin solid #ec6b69`,
+      borderBottom: `thin solid #163142`,
+      borderTop: `thin solid #163142`,
       fontSize: 12,
       fontWeight: 300,
-      color: '#ec6b69',
+      color: '#163142',
       '& p': {
         margin: 0,
         '& span': {

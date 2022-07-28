@@ -47,7 +47,7 @@ export default class ProjectReducer extends BaseReducer {
       content: {
         backgroundColor: '#fafafa',
         inactiveFontColor: '#6c6c6c',
-        activeFontColor: '#ec6b69',
+        activeFontColor: '#163142',
         coverBackgroundColor: '#fafafa',
         coverInactiveFontColor: '#6c6c6c',
         coverActiveFontColor: '#ec6b69',

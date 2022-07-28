@@ -71,8 +71,10 @@ class InteractiveFloorplan extends PureComponent {
     this.setState({ mobile: isMobile() });
   };
 
-  unSelectUnitInfo = (unitInfo) => {
-    this.setState({ unitInfo });
+  unSelectUnitInfo = () => {
+    this.setState({ unitInfo: null });
+    this.setState({ selectedFloor: null });
+    this.closeSelectedFloorplanInfo();
   };
 
   setUnitInfo = (detailsUnit) => {
