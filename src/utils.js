@@ -190,6 +190,27 @@ const hexToRgb = (hex) => {
     : null;
 };
 
+const getMarkers = (categories, type) => {
+  const markers = [];
+  categories.forEach(({ places, name: catName, markerIcon: icon }) => {
+    if (catName === type) {
+      places.forEach(({ name, latitude, longitude }) => {
+        const location = {
+          lat: latitude,
+          lng: longitude
+        };
+        markers.push({
+          category: name,
+          name,
+          location,
+          icon
+        });
+      });
+    }
+  });
+  return markers;
+};
+
 export {
   deleteWhiteSpaces,
   bindEvent,
@@ -215,5 +236,6 @@ export {
   setLocalStorage,
   getLocalStorage,
   isMobile,
-  hexToRgb
+  hexToRgb,
+  getMarkers
 };

@@ -37,7 +37,7 @@ const Viewer = ({ selectedFloorplan, error, type, dispatch }) => {
 Viewer.propTypes = {
   error: string.isRequired,
   dispatch: func.isRequired,
-  type: func.isRequired,
+  type: string.isRequired,
   selectedFloorplan: number.isRequired
 };
 

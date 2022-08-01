@@ -15,7 +15,7 @@ export default class ThreeSixtyReducer extends BaseReducer {
     area: 0,
     bathrooms: 0,
     bedrooms: 0,
-    features: [],
+    features: {},
     floorPlanId: null,
     parking: 0,
     unit: '',

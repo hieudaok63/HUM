@@ -628,7 +628,7 @@ class InteractiveFloorplan extends PureComponent {
                   container
                   direction="column"
                   justify="center"
-                  algnItems="center"
+                  algnitems="center"
                   className={classes.mobileFilterLabelAndField}
                 >
                   <Grid container className={classes.filterLabel}>
@@ -659,7 +659,7 @@ class InteractiveFloorplan extends PureComponent {
                   container
                   direction="column"
                   justify="center"
-                  algnItems="center"
+                  algnitems="center"
                   className={classes.mobileFilterLabelAndField}
                 >
                   <Grid container className={classes.filterLabel}>
@@ -690,7 +690,7 @@ class InteractiveFloorplan extends PureComponent {
                   container
                   direction="column"
                   justify="center"
-                  algnItems="center"
+                  algnitems="center"
                   className={classes.mobileFilterLabelAndField}
                 >
                   <Grid container className={classes.filterLabel}>
@@ -738,7 +738,7 @@ class InteractiveFloorplan extends PureComponent {
                   container
                   direction="column"
                   justify="center"
-                  algnItems="center"
+                  algnitems="center"
                   className={classes.mobileFilterLabelAndField}
                 >
                   <Grid container className={classes.filterLabel}>
@@ -804,7 +804,7 @@ class InteractiveFloorplan extends PureComponent {
               container
               direction="column"
               justify="center"
-              algnItems="center"
+              algnitems="center"
               className={classes.filterLabelAndFieldBed}
             >
               <Grid container className={classes.filterLabel}>
@@ -835,7 +835,7 @@ class InteractiveFloorplan extends PureComponent {
               container
               direction="column"
               justify="center"
-              algnItems="center"
+              algnitems="center"
               className={classes.filterLabelAndFieldBath}
             >
               <Grid container className={classes.filterLabel}>
@@ -866,7 +866,7 @@ class InteractiveFloorplan extends PureComponent {
               container
               direction="column"
               justify="center"
-              algnItems="center"
+              algnitems="center"
               className={classes.filterLabelAndFieldArea}
             >
               <Grid container className={classes.filterLabel}>
@@ -912,7 +912,7 @@ class InteractiveFloorplan extends PureComponent {
               container
               direction="column"
               justify="center"
-              algnItems="center"
+              algnitems="center"
               className={classes.filterLabelAndFieldPrice}
             >
               <Grid container className={classes.filterLabel}>

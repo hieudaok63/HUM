@@ -54,7 +54,7 @@ const AmenitiesSubmenu = ({
   };
 
   const loadAmenity = async (media, key, item) => {
-    if (key === 'availability') {
+    if (key === 'availability' || key === 'localization') {
       hideMenu();
     }
     await dispatch(AmenitiesActions.setSelectedAmenity(key));
