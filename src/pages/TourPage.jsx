@@ -43,7 +43,7 @@ import AmenityNav from '../components/AmenityNav';
 import ThreeSixtyAmenityNav from '../components/ThreeSixtyAmenityNav';
 import AmenitiesActions from '../stores/amenities/actions';
 import { getSelectedScene } from '../selectors/menu';
-import InteractiveFloorplan from '../components/InteractiveFloorplan';
+import InteractiveFloorplan from '../components/InteractiveFloorplanThreeD';
 import Map from '../components/Maps';
 
 const TourPage = ({

@@ -3,7 +3,6 @@ import { shape } from 'prop-types';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Wrapper } from '@googlemaps/react-wrapper';
-import NeerByPlaces from '../NeerByPlaces';
 import styles from './styles';
 import Map from './Map';
 
@@ -48,26 +47,16 @@ class Maps extends Component {
     const { project } = content;
     const { latitude, longitude, markerIcon } = project;
     return (
-      <Grid
-        container
-        direction="column"
-        className={classes.mapContainer}
-        style={{ padding: '100px' }}
-      >
+      <Grid container direction="column" className={classes.mapContainer}>
         <Wrapper apiKey="AIzaSyApQ3-oto9pwPQsH8e_gfV4au1FdNiYFGw">
           <Map
-            latitude={Number(latitude)}
-            longitude={Number(longitude)}
+            latitude={Number(longitude)}
+            longitude={Number(latitude)}
             icon={markerIcon}
             selected={selected}
             places={places}
           />
         </Wrapper>
-        <NeerByPlaces
-          places={places}
-          selected={selected}
-          addMarkers={this.addMarkers}
-        />
       </Grid>
     );
   }

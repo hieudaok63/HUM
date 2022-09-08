@@ -9,6 +9,7 @@
   align-items: center;
   cursor: pointer;
   z-index: 10;
+
   &-title {
     width: 150px;
     height: 50px;
@@ -17,6 +18,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     & h1 {
       font-family: Roboto;
       font-style: normal;
@@ -29,6 +31,7 @@
       color: #ffffff;
     }
   }
+
   &-logo {
     width: 50px;
     height: 50px;
@@ -36,6 +39,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     & img {
       transform: rotate(90deg);
       max-width: 100%;
@@ -53,8 +57,9 @@
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
-  background: #1d1c1b;
+  background: #000000;
   color: #ffffff;
+
   &-header {
     width: 100%;
     height: 54px;
@@ -64,14 +69,17 @@
     background: #ffffff;
     color: #000000;
     padding: 12px;
+
     & img {
       max-height: 100%;
     }
+
     & .close-icon {
       cursor: pointer;
       color: black;
     }
   }
+
   &-item {
     display: flex;
     justify-content: space-between;
@@ -81,9 +89,11 @@
     cursor: pointer;
     background-color: black;
     margin: 2px 0;
+
     & .dropdown-icon {
       width: 24px;
       height: 24px;
+
       &-inverted {
         transform: rotate(180deg);
       }
@@ -95,6 +105,7 @@
   max-height: 450px;
   overflow: auto;
   -ms-overflow-style: none;
+
   &::-webkit-scrollbar {
     width: 8px;
   }
@@ -107,7 +118,7 @@
 
   /* Handle */
   &::-webkit-scrollbar-thumb {
-    background: #f9b342;
+    background: #3ECFAF;
     border-radius: 10px;
   }
 
@@ -151,6 +162,7 @@
   width: 100%;
   position: relative;
   height: 150px;
+
   &-content {
     width: 100%;
     height: 100%;
@@ -163,33 +175,40 @@
     align-items: flex-start;
     background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
+
     &-active {
       background-color: rgba(0, 0, 0, 0.5);
+
       &-indicator {
         height: 100%;
         width: 6px;
-        background-color: #f9b342;
+        background-color: #3ECFAF;
         position: absolute;
         left: 5px;
         top: 0;
       }
     }
+
     &:hover {
       background-color: rgba(0, 0, 0, 0.5);
     }
+
     &-name {
       font-weight: 900;
       font-size: 14px;
       line-height: 16px;
       margin-bottom: 16px;
     }
+
     &-features {
       display: flex;
       align-items: center;
+
       &-icon {
         width: 15px;
         height: 15px;
       }
+
       &-value {
         margin: 0 10px;
         font-size: 10px;
@@ -197,6 +216,7 @@
       }
     }
   }
+
   &-thumbnail {
     max-height: 100%;
   }
@@ -206,6 +226,7 @@
   width: 100%;
   position: relative;
   height: 150px;
+
   &-content {
     width: 100%;
     height: 100%;
@@ -218,38 +239,45 @@
     align-items: flex-start;
     background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
+
     &-active {
       background-color: rgba(0, 0, 0, 0.5);
+
       &-indicator {
         height: 100%;
         width: 6px;
-        background-color: #f9b342;
+        background-color: #3ECFAF;
         position: absolute;
         left: 5px;
         top: 0;
       }
     }
+
     &:hover {
       background-color: rgba(0, 0, 0, 0.5);
     }
+
     &-name {
       font-weight: 900;
       font-size: 14px;
       line-height: 16px;
       margin-bottom: 16px;
     }
+
     &-icons {
       width: 24px;
       position: absolute;
       top: 10px;
       right: 10px;
     }
+
     &-icon-type {
       width: 24px;
       height: 24px;
       margin-bottom: 15px;
     }
   }
+
   &-thumbnail {
     max-height: 100%;
   }
@@ -283,6 +311,7 @@
   0% {
     left: -75px;
   }
+
   100% {
     left: -125px;
   }
@@ -292,6 +321,7 @@
   0% {
     left: -125px;
   }
+
   100% {
     left: -75px;
   }
@@ -301,6 +331,7 @@
   0% {
     left: -300px;
   }
+
   100% {
     left: 0;
   }
@@ -310,6 +341,7 @@
   0% {
     left: 0;
   }
+
   100% {
     left: -300px;
   }
@@ -319,6 +351,7 @@
   0% {
     height: 0;
   }
+
   100% {
     height: 150px;
   }
@@ -328,6 +361,7 @@
   0% {
     height: 150px;
   }
+
   100% {
     height: 0;
   }
@@ -337,6 +371,7 @@
   0% {
     height: 0;
   }
+
   100% {
     height: 300px;
   }
@@ -346,6 +381,7 @@
   0% {
     height: 300px;
   }
+
   100% {
     height: 0;
   }
@@ -355,6 +391,7 @@
   0% {
     height: 0;
   }
+
   100% {
     height: 600px;
   }
@@ -364,6 +401,7 @@
   0% {
     height: 600px;
   }
+
   100% {
     height: 0;
   }
@@ -373,8 +411,8 @@
   position: absolute;
   left: 30px;
   bottom: 30px;
-  width: 67px;
-  height: 67px;
+  width: 32px;
+  height: 32px;
   animation-name: logoFadeIn;
   animation-duration: 1s;
   animation-delay: 0.5s;
@@ -386,6 +424,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -395,4 +434,28 @@
   animation-delay: 1.5s;
   left: -125px;
   animation-fill-mode: forwards;
+}
+
+.details-menu {
+  height: 53px;
+  display: flex;
+  align-items: center;
+  color: #C4C4C4;
+
+  &-item {
+    padding: 16px 36px;
+    cursor: pointer;
+    border-right: 1px solid #474747;
+
+    &:last-child {
+      border-left: 1px solid #474747;
+      border-right: none;
+    }
+
+    &.active {
+      border-bottom: 3px solid #3ECFAF;
+    }
+  }
+
+
 }

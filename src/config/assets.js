@@ -132,15 +132,15 @@ export const speakerOnIcon = {
   alt: 'Speaker'
 };
 export const bedroomIcon = {
-  src: `${ASSETS}/Icon_bedroom.svg`,
+  src: require('../../src/assets/Icons/icon_bedroom.svg'),
   alt: 'Bedroom'
 };
 export const bathroomIcon = {
-  src: `${ASSETS}/Icon_bath.svg`,
+  src: require('../../src/assets/Icons/icon_bathroom.svg'),
   alt: 'Bathroom'
 };
 export const parkingIcon = {
-  src: `${ASSETS}/Icon_parking.svg`,
+  src: require('../../src/assets/Icons/icon_car.svg'),
   alt: 'Parking'
 };
 export const sqmIcon = {
@@ -292,4 +292,14 @@ export const zoomOutExtents = {
 export const cursorIcon = {
   src: require('../../src/assets/Icons/Icon_cursor.svg'),
   alt: 'cursor'
+};
+
+export const areaIcon = {
+  src: require('../../src/assets/Icons/icon_area.svg'),
+  alt: 'Area'
+};
+
+export const levelIcon = {
+  src: require('../../src/assets/Icons/Icon_level.svg'),
+  alt: 'Area'
 };

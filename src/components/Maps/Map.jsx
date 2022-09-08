@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { Grid } from '@mui/material';
 import { withStyles } from '@material-ui/core/styles';
-import { shape, number, string, any, arrayOf } from 'prop-types';
+import { shape, number, string, arrayOf } from 'prop-types';
 import styles from './styles';
 import mapStyles from './mapStyles.json';
 import { getMarkers } from '../../utils';
@@ -27,7 +27,6 @@ const Map = ({
   }, []);
 
   useEffect(() => {
-    console.log(lat, lng);
     const options = {
       center: { lat, lng },
       zoom: 15,
@@ -35,8 +34,7 @@ const Map = ({
       zoomControl: true,
       zoomControlOptions: {
         position: window.google.maps.ControlPosition.RIGHT_BOTTOM
-      },
-      styles: mapStyles
+      }
     };
     const map = new window.google.maps.Map(ref.current, options);
     const marker = new window.google.maps.Marker({
