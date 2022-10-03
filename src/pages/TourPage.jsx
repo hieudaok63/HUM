@@ -43,7 +43,8 @@ import AmenityNav from '../components/AmenityNav';
 import ThreeSixtyAmenityNav from '../components/ThreeSixtyAmenityNav';
 import AmenitiesActions from '../stores/amenities/actions';
 import { getSelectedScene } from '../selectors/menu';
-import InteractiveFloorplan from '../components/InteractiveFloorplan';
+import InteractiveFloorplan from '../components/InteractiveFloorplanThreeD';
+import Map from '../components/Maps';
 
 const TourPage = ({
   floorplans,
@@ -144,6 +145,7 @@ const TourPage = ({
 
     if (selectedFloorplan === 0 && floorplans.length > 0) setAmenity();
   }, [floorplans]);
+
   return (
     <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center">
       <Loader loading={loader} />
@@ -209,7 +211,12 @@ const TourPage = ({
       )}
       {selectedAmenity === 'availability' &&
         type !== 'three-sixty' &&
+        content.svgImage &&
         !amenityType && <InteractiveFloorplan content={content} />}
+      {selectedAmenity === 'localization' &&
+        type !== 'three-sixty' &&
+        content.project &&
+        !amenityType && <Map content={content} />}
       {!loader && (
         <>
           {stateBuilderId && canSchedule && <ScehduleAMeeting />}
@@ -222,15 +229,17 @@ const TourPage = ({
               infoPage={infoPage}
             />
           )}
-          {!scheduleActive && selectedAmenity !== 'availability' && (
-            <ActionsMenu
-              infoPage={infoPage}
-              setInfoPage={setInfoPage}
-              type={type}
-              amenity={amenity}
-              galleryIndex={galleryIndex}
-            />
-          )}
+          {!scheduleActive &&
+            selectedAmenity !== 'availability' &&
+            selectedAmenity !== 'localization' && (
+              <ActionsMenu
+                infoPage={infoPage}
+                setInfoPage={setInfoPage}
+                type={type}
+                amenity={amenity}
+                galleryIndex={galleryIndex}
+              />
+            )}
         </>
       )}
       {infoPage && (
@@ -282,7 +291,11 @@ TourPage.propTypes = {
   selectedFloorplan: number.isRequired,
   selectedScene: string.isRequired,
   selectedAmenity: string.isRequired,
-  content: shape({}).isRequired
+  content: shape({})
+};
+
+TourPage.defaultProps = {
+  content: null
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TourPage);

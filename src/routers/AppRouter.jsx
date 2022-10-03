@@ -7,7 +7,7 @@ import strings from '../language';
 import LanguageActions from '../stores/language/actions';
 import NotFoundPage from '../pages/NotFoundPage';
 // import NotFoundPage from '../pages/NotFoundPage';
-import TourPage from '../pages/TourPage';
+import TourPage from '../pages/DemoLaHouse';
 
 class AppRouter extends Component {
   async componentDidMount() {

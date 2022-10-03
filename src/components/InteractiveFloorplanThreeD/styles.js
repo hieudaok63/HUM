@@ -4,8 +4,8 @@ const styles = () => {
   const selectedBackgroundRGB = hexToRgb('#163142');
   return {
     filters: {
-      height: 105,
-      padding: 20
+      height: 54,
+      marginLeft: 50
     },
     floorplansContainer: {
       width: '100%',
@@ -22,7 +22,7 @@ const styles = () => {
       overflow: 'auto'
     },
     svgContainer: {
-      width: 'calc(100% - 313px)',
+      width: '100%',
       height: '100%',
       position: 'relative',
       borderTop: 'thin solid rgba(142, 142, 142, 0.25)'
@@ -43,12 +43,10 @@ const styles = () => {
     },
     floorplanInfoContainer: {
       width: 270,
-      height: 310,
+      height: 350,
       position: 'absolute',
       zIndex: 2,
-      background: '#FAFAFA',
-      borderRadius: 10,
-      padding: 16,
+      background: ' rgba(0, 0, 0, 0.8)',
       boxShadow: '0px 1px 2px rgba(138, 138, 138, 0.5)'
     },
     overlayContainer: {
@@ -154,28 +152,50 @@ const styles = () => {
       width: '95%',
       height: 185,
       objectFit: 'contain',
-      marginBottom: 5
+      margin: '8px 0px'
     },
     floorplanTitleContainer: {
+      height: 48,
+      background: '#3DD0AE',
       marginBottom: 5,
-      '& p': {
-        margin: 0,
-        '& span': {
-          fontWeight: 500
-        }
+      padding: '0px 12px',
+      '& span': {
+        fontWeight: 700,
+        fontSize: 20
       }
     },
     featuresContainer: {
-      marginBottom: 5
+      width: '100%',
+      margin: '8px 0px',
+      padding: '0px 12px'
     },
     featureContainer: {
-      width: 60,
+      width: 40,
+      color: '#ffffff',
       '& p': {
-        margin: 0
+        margin: 0,
+        fontWeight: 500,
+        fontSize: 12
       }
     },
     floorplanPrice: {
+      height: 54,
+      marginTop: 8,
+      background: '#000000',
+      color: '#ffffff',
       '& p': {
+        paddingLeft: 12,
+        fontWeight: 400,
+        fontSize: 18,
+        margin: 0
+      }
+    },
+    floorplanAvailability: {
+      color: ' #3ECFAF',
+      '& p': {
+        paddingLeft: 12,
+        fontWeight: 400,
+        fontSize: '12px !important',
         margin: 0
       }
     },

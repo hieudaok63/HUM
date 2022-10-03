@@ -214,15 +214,15 @@ const ActionsMenu = ({
 
 ActionsMenu.propTypes = {
   setInfoPage: func.isRequired,
-  minimap: shape({}).isRequired,
+  minimap: shape({}),
   floorplanFeatures: shape({}).isRequired,
-  features: arrayOf(shape({})).isRequired,
+  features: shape({}),
   defaultLanguage: string.isRequired,
   availableLanguages: arrayOf(string).isRequired,
   dispatch: func.isRequired,
   type: string.isRequired,
   infoPage: shape({}),
-  amenity: shape({}),
+  amenity: arrayOf(shape({})),
   galleryIndex: number.isRequired,
   leftMenuOpen: bool.isRequired,
   disableActions: bool.isRequired
@@ -230,7 +230,9 @@ ActionsMenu.propTypes = {
 
 ActionsMenu.defaultProps = {
   infoPage: null,
-  amenity: {}
+  amenity: [],
+  minimap: {},
+  features: {}
 };
 
 const mapStateToProps = (state) => ({

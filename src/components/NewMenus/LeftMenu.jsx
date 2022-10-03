@@ -159,8 +159,8 @@ const LeftMenu = ({
 };
 
 LeftMenu.propTypes = {
-  reduceLogo: string.isRequired,
-  expandedLogo: string.isRequired,
+  reduceLogo: string,
+  expandedLogo: string,
   backgroundColor: string,
   closeButtonColor: string,
   floorplans: arrayOf(shape({})),
@@ -175,7 +175,9 @@ LeftMenu.defaultProps = {
   closeButtonColor: '#000000',
   floorplans: [],
   sections: [],
-  infoPage: null
+  infoPage: null,
+  reduceLogo: '',
+  expandedLogo: ''
 };
 
 const mapDispatchToProps = (dispatch) => ({

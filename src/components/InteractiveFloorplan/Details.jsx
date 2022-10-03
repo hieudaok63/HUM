@@ -31,7 +31,7 @@ const Details = ({ unselectLayout, unitInfo }) => {
         <Grid container justify="space-between" alignItems="center">
           <Grid container alignItems="center">
             <KeyboardArrowLeftIcon
-              onClick={() => unselectLayout(null)}
+              onClick={unselectLayout}
               style={{ cursor: 'pointer' }}
             />
             <h1 style={{ color: '#163142', margin: 0, fontSize: '21px' }}>

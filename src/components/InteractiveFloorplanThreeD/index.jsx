@@ -4,12 +4,15 @@ import { string, shape, bool, func, number } from 'prop-types';
 import { INITIAL_VALUE, ReactSVGPanZoom, TOOL_NONE } from 'react-svg-pan-zoom';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import { ReactSvgPanZoomLoader } from 'react-svg-pan-zoom-loader';
-import { Grid, Select, MenuItem } from '@material-ui/core';
+import { Grid, Select, MenuItem, Button, Divider } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import ChevronRight from '@material-ui/icons/ChevronRight';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import Bed from '@material-ui/icons/HotelOutlined';
+import Coin from '@material-ui/icons/MonetizationOnOutlined';
 import Clear from '@material-ui/icons/Clear';
 import moment from 'moment';
-import CustomFilterSelectInput from '../CustomFilterSelectInput';
 import CustomMobileFilterSelectInput from '../CustomMobileFilterSelectInput';
 import ProjectAction from '../../stores/project/actions';
 import MenuAction from '../../stores/menu/actions';
@@ -21,13 +24,14 @@ import {
   sqmIcon,
   moneyIcon,
   listWithBulletsIcon,
-  filtersIcon
+  filtersIcon,
+  interiorsIcon,
+  levelIcon
 } from '../../config/assets';
 import { isMobile } from '../../utils';
 import {
   underLabel,
   overLabel,
-  floorAvailability,
   bedsLabel,
   bathsLabel,
   priceLabel,
@@ -35,8 +39,9 @@ import {
   unitsLabel
 } from '../../config/messages';
 import Details from './Details';
+import Filter from './Filter';
 
-class InteractiveFloorplan extends PureComponent {
+class InteractiveFloorplanThreeD extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -52,11 +57,13 @@ class InteractiveFloorplan extends PureComponent {
       bathrooms: 0,
       areas: 0,
       prices: 0,
+      floorplanType: '',
       currentTime: moment().format('x'),
       mobile: isMobile(),
       filtersVisible: false,
       floorplansVisible: false,
-      unitInfo: null
+      unitInfo: null,
+      shouldClear: false
     };
     this.viewer = null;
     this.interval = null;
@@ -72,9 +79,9 @@ class InteractiveFloorplan extends PureComponent {
   };
 
   unSelectUnitInfo = () => {
-    this.setState({ unitInfo: null });
-    this.setState({ selectedFloor: null });
+    this.onSvgLoad();
     this.closeSelectedFloorplanInfo();
+    this.setState({ unitInfo: null });
   };
 
   setUnitInfo = (detailsUnit) => {
@@ -142,18 +149,17 @@ class InteractiveFloorplan extends PureComponent {
 
   onSvgLoad = () => {
     const myTimer = () => {
-      const { selectedFloor } = this.state;
       const { content } = this.props;
       const { floors } = content;
-      if (!selectedFloor) {
-        const item = document.getElementById(`Level${floors[0].floor}`);
+      floors.forEach((floor) => {
+        const item = document.getElementById(`Level${floor.floor}`);
         if (item) {
           item.setAttribute('style', 'display:block;');
           this.renderSVG();
           this.setState({ selectedFloor: floors[0] });
           clearInterval(this.interval);
         }
-      }
+      });
     };
     this.interval = setInterval(myTimer, 1000);
   };
@@ -171,12 +177,19 @@ class InteractiveFloorplan extends PureComponent {
   };
 
   closeSelectedFloorplanInfo = () => {
+    const { staticSelectedFloorplan } = this.state;
+    const currentSelectedFloorplan = { ...staticSelectedFloorplan };
+    const floorplanPolygon = document.getElementById(
+      `Unit${currentSelectedFloorplan?.unitNumber}`
+    );
+    if (floorplanPolygon) {
+      floorplanPolygon.style.fill = 'transparent';
+    }
+
     this.setState({ staticSelectedFloorplan: null, selectedFloorplan: null });
   };
 
-  handleChange = (event, id) => {
-    const { target } = event;
-    const { value } = target;
+  handleChange = ({ value }, id) => {
     this.setState({ [id]: value });
     this.renderSVG({ [id]: value });
   };
@@ -186,13 +199,15 @@ class InteractiveFloorplan extends PureComponent {
       bedrooms: bedroomsFromFilter = undefined,
       bathrooms: bathroomsFromFilter = undefined,
       areas: areasFromFilter = undefined,
-      prices: pricesFromFilter = undefined
+      prices: pricesFromFilter = undefined,
+      floorplanType: floorPlanTypesFromFilter = undefined
     } = filter;
     const {
       bedrooms: bedroomsFromState,
       bathrooms: bathroomsFromState,
       areas: areasFromState,
-      prices: pricesFromState
+      prices: pricesFromState,
+      floorplanType: floorplanTypeFromState
     } = this.state;
     const { theme } = this.props;
     const { activeFontColor } = theme.content;
@@ -210,37 +225,69 @@ class InteractiveFloorplan extends PureComponent {
       areaFilter !== 0 ? areaFilter.split(' - ') : [0, 999999999999999];
     const priceMinMax =
       priceFilter !== 0 ? priceFilter.split(' - ') : [0, 999999999999999];
+    const floorplanFilter =
+      floorPlanTypesFromFilter === undefined
+        ? floorplanTypeFromState
+        : floorPlanTypesFromFilter;
     const { content } = this.props;
     const { floors } = content;
     floors.forEach((floor) => {
       floor.floorPlans.forEach((el) => {
-        const { unitNumber, status, bedrooms, bathrooms, area, price } = el;
+        const {
+          unitNumber,
+          status,
+          bedrooms,
+          bathrooms,
+          area,
+          price,
+          unitName
+        } = el;
+
         const floorplan = document.getElementById(`U${unitNumber}`);
         const floorplanPolygon = document.getElementById(`Unit${unitNumber}`);
+        const floorplanCircleNumber = document.getElementById(
+          `Marker${unitNumber}`
+        );
+        floorplanPolygon.setAttribute(
+          'style',
+          'fill:transparent',
+          'border: none'
+        );
         if (
           (bedroomFilter !== 0 && bedroomFilter !== bedrooms) ||
           (bathroomFilter !== 0 && bathroomFilter !== bathrooms) ||
           (areaFilter !== 0 && area < Number(areaMinMax[0])) ||
           area > Number(areaMinMax[1]) ||
           (priceFilter !== 0 && price < Number(priceMinMax[0])) ||
-          price > Number(priceMinMax[1])
+          price > Number(priceMinMax[1]) ||
+          (floorplanFilter !== '' && floorplanFilter !== unitName)
         ) {
           if (status === 'available') {
-            floorplanPolygon.setAttribute(
+            floorplanCircleNumber.setAttribute(
               'style',
-              `fill:${activeFontColor}; opacity: 0.25;`
+              `fill:${activeFontColor};`
             );
           } else if (status === 'block') {
-            floorplanPolygon.setAttribute('style', 'fill:gray');
+            floorplanCircleNumber.setAttribute('style', 'fill:#EA2F3D ');
+          } else {
+            floorplanCircleNumber.setAttribute('style', 'fill:#B1AEAE');
           }
         } else {
           if (status === 'available') {
-            floorplanPolygon.setAttribute(
+            floorplanCircleNumber.setAttribute(
               'style',
-              `fill:${activeFontColor}; opacity: 0.5;`
+              `fill:${activeFontColor}; opacity: 1;`
             );
           } else if (status === 'block') {
-            floorplanPolygon.setAttribute('style', 'fill:gray');
+            floorplanCircleNumber.setAttribute(
+              'style',
+              'fill:#EA2F3D; opacity: 1;'
+            );
+          } else {
+            floorplanCircleNumber.setAttribute(
+              'style',
+              'fill:#B1AEAE; opacity: 1;'
+            );
           }
           floorplan.addEventListener('mouseenter', () => {
             this.mouseEnterAction(el);
@@ -264,7 +311,8 @@ class InteractiveFloorplan extends PureComponent {
         selectedFloorplan: el,
         selectFromMap: true
       });
-      floorplanPolygon.style.opacity = 1;
+      floorplanPolygon.style.fill = '#3ECFAF';
+      floorplanPolygon.style.opacity = 0.5;
     }
   };
 
@@ -273,7 +321,8 @@ class InteractiveFloorplan extends PureComponent {
       bedrooms: bedroomsFromState,
       bathrooms: bathroomsFromState,
       areas: areasFromState,
-      prices: pricesFromState
+      prices: pricesFromState,
+      staticSelectedFloorplan
     } = this.state;
     const areaMinMax =
       areasFromState !== 0 ? areasFromState.split(' - ') : [0, 999999999999999];
@@ -283,6 +332,9 @@ class InteractiveFloorplan extends PureComponent {
         : [0, 999999999999999];
     const { status, unitNumber, bedrooms, bathrooms, area, price } = el;
     const floorplanPolygon = document.getElementById(`Unit${unitNumber}`);
+    if (staticSelectedFloorplan?.unitNumber !== unitNumber) {
+      floorplanPolygon.style.fill = 'transparent';
+    }
     if (status === 'available') {
       this.svgEventInteraction(el, { selectedFloorplan: null });
       if (
@@ -301,8 +353,12 @@ class InteractiveFloorplan extends PureComponent {
   };
 
   clickAction = (el) => {
-    const { status } = el;
+    const { status, unitNumber } = el;
     if (status === 'available') {
+      const floorplanPolygon = document.getElementById(`Unit${unitNumber}`);
+      floorplanPolygon.style.fill = '#3ECFAF';
+      floorplanPolygon.style.opacity = 0.5;
+      console.log('this', el);
       this.svgEventInteraction(el, { staticSelectedFloorplan: el });
     }
   };
@@ -348,13 +404,16 @@ class InteractiveFloorplan extends PureComponent {
       mobile,
       filtersVisible,
       floorplansVisible,
-      unitInfo
+      unitInfo,
+      shouldClear
     } = this.state;
-    const { floors, filters, svgImage } = content;
+    const { filters, svgImage, floors } = content;
     const bedroomOptions = filters.bedrooms;
     const bathroomOptions = filters.bathrooms;
     const areaOptions = filters.areas;
     const priceOptions = filters.prices;
+    const floorplanTypesOptions = filters.floorPlanTypes;
+
     const contentWidth =
       window.innerWidth - 248 - (privatePanelVisible ? 400 : 0);
     const mobileVersion = mobile || contentWidth < 750;
@@ -406,7 +465,6 @@ class InteractiveFloorplan extends PureComponent {
                       preventPanOutside={false}
                       background={theme.content.backgroundColor}
                       SVGBackground={theme.content.backgroundColor}
-                      scaleFactorMin={1}
                     >
                       <svg width={width} height={height}>
                         {svgContent}
@@ -425,7 +483,19 @@ class InteractiveFloorplan extends PureComponent {
             className={classes.mobileSvgPanel}
           >
             <Grid container className={classes.floorSelectContainer}>
-              <Select
+              <Button
+                id="demo-customized-button"
+                aria-controls={undefined}
+                aria-haspopup="true"
+                aria-expanded={undefined}
+                variant="contained"
+                disableElevation
+                onClick={() => {}}
+                endIcon={<KeyboardArrowDownIcon />}
+              >
+                Recamaras
+              </Button>
+              {/* <Select
                 id="selectedFloor"
                 value={selectedFloor ? selectedFloor.floor : 0}
                 onChange={(event) => this.changeFloor(event.target.value)}
@@ -473,7 +543,7 @@ class InteractiveFloorplan extends PureComponent {
                     </MenuItem>
                   );
                 })}
-              </Select>
+              </Select> */}
             </Grid>
             <img
               src={filtersIcon.src}
@@ -504,6 +574,7 @@ class InteractiveFloorplan extends PureComponent {
                 selectedFloorplan={staticSelectedFloorplan}
                 selectFromMap={selectFromMap}
                 setUnitInfo={this.setUnitInfo}
+                clearSelectedFloor={this.closeSelectedFloorplanInfo}
               />
             </Grid>
           )}
@@ -791,179 +862,248 @@ class InteractiveFloorplan extends PureComponent {
       );
     }
     return (
-      <div style={{ padding: '100px', width: '100%', height: '100%' }}>
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          background: 'black'
+        }}
+      >
         <Grid
           container
-          justify="flex-start"
+          justify="space-evenly"
           alignItems="center"
           direction="row"
           className={classes.filters}
         >
-          {bedroomOptions.length > 1 && (
-            <Grid
-              container
-              direction="column"
-              justify="center"
-              algnitems="center"
-              className={classes.filterLabelAndFieldBed}
+          <Grid
+            container
+            justify="flex-start"
+            alignItems="center"
+            direction="row"
+            style={{ width: 110, height: '60%' }}
+          >
+            <h3
+              style={{
+                color: 'white',
+                fontWeight: 700,
+                fontSize: 14,
+                marginBottom: 0,
+                marginRight: 8
+              }}
             >
-              <Grid container className={classes.filterLabel}>
-                <img
-                  src={bedroomIcon.src}
-                  alt={bedroomIcon.alt}
-                  className={classes.filterIcon}
-                />
-                <p>{bedsLabel[language]}</p>
-              </Grid>
-              <Select
-                id="bedrooms"
-                value={bedroomsFilter}
-                onChange={(event) => this.handleChange(event, 'bedrooms')}
-                input={<CustomFilterSelectInput />}
-                className={classes.filterSelect}
-              >
-                {bedroomOptions.map(({ text, value: inputValue }, i) => (
-                  <MenuItem key={inputValue} value={inputValue}>
-                    {i === 0 ? allLabel[language] : text}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Grid>
-          )}
-          {bathroomOptions.length > 1 && (
-            <Grid
-              container
-              direction="column"
-              justify="center"
-              algnitems="center"
-              className={classes.filterLabelAndFieldBath}
+              Filtros
+            </h3>
+            <div
+              onClick={() => {
+                this.setState({
+                  bedrooms: 0,
+                  bathrooms: 0,
+                  areas: 0,
+                  prices: 0,
+                  shouldClear: true
+                });
+                this.renderSVG();
+              }}
             >
-              <Grid container className={classes.filterLabel}>
-                <img
-                  src={bathroomIcon.src}
-                  alt={bathroomIcon.alt}
-                  className={classes.filterIcon}
-                />
-                <p>{bathsLabel[language]}</p>
-              </Grid>
-              <Select
-                id="bathrooms"
-                value={bathroomsFilter}
-                onChange={(event) => this.handleChange(event, 'bathrooms')}
-                input={<CustomFilterSelectInput />}
-                className={classes.filterSelect}
-              >
-                {bathroomOptions.map(({ text, value: inputValue }, i) => (
-                  <MenuItem key={inputValue} value={inputValue}>
-                    {i === 0 ? allLabel[language] : text}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Grid>
-          )}
-          {areaOptions.length > 1 && (
-            <Grid
-              container
-              direction="column"
-              justify="center"
-              algnitems="center"
-              className={classes.filterLabelAndFieldArea}
-            >
-              <Grid container className={classes.filterLabel}>
-                <img
-                  src={sqmIcon.src}
-                  alt={sqmIcon.alt}
-                  className={classes.filterIcon}
-                />
-                <p>{areaOptions[0].areaMetric || 'Sq/ft'}</p>
-              </Grid>
-              <Select
-                id="areas"
-                value={areasFilter}
-                onChange={(event) => this.handleChange(event, 'areas')}
-                input={<CustomFilterSelectInput />}
-                className={classes.filterSelect}
-              >
-                {areaOptions.map(({ text, min, max, areaMetric = 'm2' }, i) => {
-                  let optionText = `${min} - ${max} ${areaMetric}`;
-                  if (i === 0) {
-                    optionText = allLabel[language];
-                  }
-                  if (i === 1) {
-                    optionText = `${underLabel[language]} ${max} ${areaMetric}`;
-                  }
-                  if (i === priceOptions.length - 1) {
-                    optionText = `${overLabel[language]} ${min} ${areaMetric}`;
-                  }
-                  return (
-                    <MenuItem
-                      key={text}
-                      value={i === 0 ? 0 : `${min} - ${max}`}
-                    >
-                      {optionText}
-                    </MenuItem>
+              <HighlightOffIcon
+                style={{ color: '#4A4A4A', width: 18, height: 18 }}
+              />
+            </div>
+
+            <Divider
+              orientation="vertical"
+              flexItem
+              variant="middle"
+              light
+              style={{ backgroundColor: 'white' }}
+            />
+          </Grid>
+          <Filter
+            text="Recámaras"
+            options={bedroomOptions}
+            startIcon={
+              <Bed style={{ color: 'white', width: 18, height: 18 }} />
+            }
+            onChange={(event) => this.handleChange(event, 'bedrooms')}
+            shouldClear={shouldClear}
+            resetShouldClear={() => {
+              this.setState({ shouldClear: false });
+            }}
+          />
+          <Filter
+            text="Baños"
+            options={bathroomOptions}
+            startIcon={(
+              <img
+                src={bathroomIcon.src}
+                alt={bathroomIcon.alt}
+                className={classes.filterIcon}
+              />
+            )}
+            onChange={(event) => this.handleChange(event, 'bathrooms')}
+            shouldClear={shouldClear}
+            resetShouldClear={() => {
+              this.setState({ shouldClear: false });
+            }}
+          />
+          <Filter
+            text="Precio"
+            options={priceOptions.map(({ min, max, currency }, i) => {
+              let optionText = `${numberFormat.format(
+                min
+              )} - ${numberFormat.format(max)} ${currency}`;
+              if (i === 1) {
+                optionText = `${underLabel[language]} ${numberFormat.format(
+                  max
+                )} ${currency}`;
+              }
+              if (i === priceOptions.length - 1) {
+                optionText = `${overLabel[language]} ${numberFormat.format(
+                  min
+                )} ${currency}`;
+              }
+              return {
+                text: optionText,
+                value: i === 0 ? 0 : `${min} - ${max}`
+              };
+            })}
+            startIcon={
+              <Coin style={{ color: 'white', width: 18, height: 18 }} />
+            }
+            onChange={(event) => this.handleChange(event, 'prices')}
+            shouldClear={shouldClear}
+            resetShouldClear={() => {
+              this.setState({ shouldClear: false });
+            }}
+          />
+          <Filter
+            text="Área"
+            options={areaOptions.map(({ min, max, areaMetric = 'm2' }, i) => {
+              let optionText = `${min} - ${max} ${areaMetric}`;
+              if (i === 1) {
+                optionText = `${underLabel[language]} ${max} ${areaMetric}`;
+              }
+              if (i === priceOptions.length - 1) {
+                optionText = `${overLabel[language]} ${min} ${areaMetric}`;
+              }
+              return {
+                text: optionText,
+                value: i === 0 ? 0 : `${min} - ${max}`
+              };
+            })}
+            startIcon={
+              <img
+                src={sqmIcon.src}
+                alt={sqmIcon.alt}
+                className={classes.filterIcon}
+              />
+            }
+            onChange={(event) => this.handleChange(event, 'areas')}
+            shouldClear={shouldClear}
+            resetShouldClear={() => {
+              this.setState({ shouldClear: false });
+            }}
+          />
+
+          <Filter
+            text="Planta Tipo"
+            options={floorplanTypesOptions}
+            startIcon={
+              <img
+                src={interiorsIcon.src}
+                alt={interiorsIcon.alt}
+                className={classes.filterIcon}
+              />
+            }
+            onChange={(event) => this.handleChange(event, 'floorplanType')}
+            shouldClear={shouldClear}
+            resetShouldClear={() => {
+              this.setState({ shouldClear: false });
+            }}
+          />
+          <Grid
+            container
+            justify="flex-start"
+            alignItems="center"
+            direction="row"
+            style={{ width: 40, height: '60%' }}
+          >
+            <Divider
+              orientation="vertical"
+              flexItem
+              variant="middle"
+              light
+              style={{ backgroundColor: 'white' }}
+            />
+          </Grid>
+          <Filter
+            text="Disponibilidad"
+            options={floors
+              .map(({ floor, floorPlans }) => {
+                let filteredFloorplans = floorPlans;
+                if (bedroomsFilter !== 0) {
+                  filteredFloorplans = filteredFloorplans.filter(
+                    (el) => el.bedrooms === bedroomsFilter
                   );
-                })}
-              </Select>
-            </Grid>
-          )}
-          {priceOptions.length > 1 && (
-            <Grid
-              container
-              direction="column"
-              justify="center"
-              algnitems="center"
-              className={classes.filterLabelAndFieldPrice}
-            >
-              <Grid container className={classes.filterLabel}>
-                <img
-                  src={moneyIcon.src}
-                  alt={moneyIcon.alt}
-                  className={classes.filterIcon}
-                />
-                <p>{priceLabel[language]}</p>
-              </Grid>
-              <Select
-                id="prices"
-                value={pricesFilter}
-                onChange={(event) => this.handleChange(event, 'prices')}
-                input={<CustomFilterSelectInput />}
-                className={classes.filterSelect}
-              >
-                {priceOptions.map(({ text, min, max, currency }, i) => {
-                  let optionText = `${numberFormat.format(
-                    min
-                  )} - ${numberFormat.format(max)} ${currency}`;
-                  if (i === 0) {
-                    optionText = allLabel[language];
-                  }
-                  if (i === 1) {
-                    optionText = `${underLabel[language]} ${numberFormat.format(
-                      max
-                    )} ${currency}`;
-                  }
-                  if (i === priceOptions.length - 1) {
-                    optionText = `${overLabel[language]} ${numberFormat.format(
-                      min
-                    )} ${currency}`;
-                  }
-                  return (
-                    <MenuItem
-                      key={text}
-                      value={i === 0 ? 0 : `${min} - ${max}`}
-                    >
-                      {optionText}
-                    </MenuItem>
+                }
+                if (bathroomsFilter !== 0) {
+                  filteredFloorplans = filteredFloorplans.filter(
+                    (el) => el.bathrooms === bathroomsFilter
                   );
-                })}
-              </Select>
-            </Grid>
-          )}
+                }
+                const areaMinMax =
+                  areasFilter !== 0
+                    ? areasFilter.split(' - ')
+                    : [0, 999999999999999];
+                const priceMinMax =
+                  pricesFilter !== 0
+                    ? pricesFilter.split(' - ')
+                    : [0, 999999999999999];
+                if (areasFilter !== 0) {
+                  filteredFloorplans = filteredFloorplans.filter(
+                    (el) =>
+                      el.area >= Number(areaMinMax[0]) &&
+                      el.area <= Number(areaMinMax[1])
+                  );
+                }
+                if (pricesFilter !== 0) {
+                  filteredFloorplans = filteredFloorplans.filter(
+                    (el) =>
+                      el.price >= Number(priceMinMax[0]) &&
+                      el.price <= Number(priceMinMax[1])
+                  );
+                }
+
+                return {
+                  text: `${floor} | ${filteredFloorplans.length} ${unitsLabel[language]}`,
+                  value: floor,
+                  paddingLeft: floor < 10 ? 26 : 16
+                };
+              })
+              ?.reverse()}
+            startIcon={(
+              <img
+                src={levelIcon.src}
+                alt={levelIcon.alt}
+                className={classes.filterIcon}
+              />
+            )}
+            onChange={(event) => {
+              this.changeFloor(event.value);
+            }}
+            firstOption="Nivel | Unidades"
+            showAllLabel={false}
+            shouldClear={shouldClear}
+            resetShouldClear={() => {
+              this.setState({ shouldClear: false });
+            }}
+          />
         </Grid>
         <Grid
           container
-          justify="flex-start"
-          alignItems="flex-start"
+          justify="center"
+          alignItems="center"
           direction="row"
           className={classes.floorplansContainer}
         >
@@ -974,6 +1114,7 @@ class InteractiveFloorplan extends PureComponent {
               x={x}
               y={y}
               setUnitInfo={this.setUnitInfo}
+              clearSelectedFloor={this.closeSelectedFloorplanInfo}
             />
           ) : null}
           {staticSelectedFloorplan && (
@@ -990,94 +1131,10 @@ class InteractiveFloorplan extends PureComponent {
                 x={x}
                 y={y}
                 setUnitInfo={this.setUnitInfo}
+                clearSelectedFloor={this.closeSelectedFloorplanInfo}
               />
             </Grid>
           )}
-          <Grid
-            container
-            justify="flex-start"
-            alignItems="flex-start"
-            direction="column"
-            className={classes.floorsContainer}
-          >
-            <Grid
-              container
-              justify="flex-start"
-              alignItems="center"
-              className={classes.floorsTitleContainer}
-            >
-              <p>{floorAvailability[language]}</p>
-            </Grid>
-            <Grid
-              container
-              justify="flex-start"
-              alignItems="flex-start"
-              direction="column"
-              className={classes.floorsAndUnitsContainer}
-            >
-              <Grid
-                container
-                justify="flex-start"
-                alignItems="flex-start"
-                direction="column"
-              >
-                {floors.map(({ floor, floorPlans }) => {
-                  let filteredFloorplans = floorPlans;
-                  if (bedroomsFilter !== 0) {
-                    filteredFloorplans = filteredFloorplans.filter(
-                      (el) => el.bedrooms === bedroomsFilter
-                    );
-                  }
-                  if (bathroomsFilter !== 0) {
-                    filteredFloorplans = filteredFloorplans.filter(
-                      (el) => el.bathrooms === bathroomsFilter
-                    );
-                  }
-                  const areaMinMax =
-                    areasFilter !== 0
-                      ? areasFilter.split(' - ')
-                      : [0, 999999999999999];
-                  const priceMinMax =
-                    pricesFilter !== 0
-                      ? pricesFilter.split(' - ')
-                      : [0, 999999999999999];
-                  if (areasFilter !== 0) {
-                    filteredFloorplans = filteredFloorplans.filter(
-                      (el) =>
-                        el.area >= Number(areaMinMax[0]) &&
-                        el.area <= Number(areaMinMax[1])
-                    );
-                  }
-                  if (pricesFilter !== 0) {
-                    filteredFloorplans = filteredFloorplans.filter(
-                      (el) =>
-                        el.price >= Number(priceMinMax[0]) &&
-                        el.price <= Number(priceMinMax[1])
-                    );
-                  }
-                  return (
-                    <Grid
-                      key={floor}
-                      container
-                      justify="flex-start"
-                      alignItems="center"
-                      onClick={() => this.changeFloor(floor)}
-                      className={
-                        selectedFloor && selectedFloor.floor === floor
-                          ? classes.selectedFloorContainer
-                          : classes.floorContainer
-                      }
-                    >
-                      <p>
-                        <span>{floor}</span>
-                        {`${filteredFloorplans.length} ${unitsLabel[language]}`}
-                      </p>
-                    </Grid>
-                  );
-                })}
-              </Grid>
-            </Grid>
-          </Grid>
           <Grid
             container
             justify="flex-start"
@@ -1109,7 +1166,7 @@ class InteractiveFloorplan extends PureComponent {
                       detectAutoPan={false}
                       preventPanOutside={false}
                       background={theme.content.backgroundColor}
-                      SVGBackground={theme.content.backgroundColor}
+                      SVGBackground="#000000"
                       scaleFactorMin={1}
                     >
                       <svg width={width} height={height}>
@@ -1121,87 +1178,13 @@ class InteractiveFloorplan extends PureComponent {
               )}
             </AutoSizer>
           </Grid>
-          <Grid
-            container
-            justify="flex-start"
-            alignItems="flex-start"
-            direction="column"
-            className={classes.filteredFloorplansContainer}
-          >
-            {selectedFloor &&
-              selectedFloor.floorPlans.map((floorplan) => {
-                const {
-                  id,
-                  unitName,
-                  unitNumber,
-                  bedrooms,
-                  bathrooms,
-                  area,
-                  price,
-                  detailsUnit
-                } = floorplan;
-                const areaMinMax =
-                  areasFilter !== 0
-                    ? areasFilter.split(' - ')
-                    : [0, 999999999999999];
-                const priceMinMax =
-                  pricesFilter !== 0
-                    ? pricesFilter.split(' - ')
-                    : [0, 999999999999999];
-                if (bedroomsFilter !== 0 && bedroomsFilter !== bedrooms) {
-                  return null;
-                }
-                if (bathroomsFilter !== 0 && bathroomsFilter !== bathrooms) {
-                  return null;
-                }
-                if (
-                  (areasFilter !== 0 && area < Number(areaMinMax[0])) ||
-                  area > Number(areaMinMax[1])
-                ) {
-                  return null;
-                }
-                if (
-                  (pricesFilter !== 0 && price < Number(priceMinMax[0])) ||
-                  price > Number(priceMinMax[1])
-                ) {
-                  return null;
-                }
-                return (
-                  <Grid
-                    key={id}
-                    container
-                    justify="flex-start"
-                    alignItems="center"
-                    direction="column"
-                    onClick={() => this.setUnitInfo(detailsUnit)}
-                    onFocus={() => this.selectFloorplan(floorplan)}
-                    onMouseOver={() => this.selectFloorplan(floorplan)}
-                    onMouseLeave={this.unselectFloorplan}
-                    className={classes.filteredFloorContainer}
-                  >
-                    <Grid
-                      container
-                      justify="space-between"
-                      alignItems="center"
-                      direction="row"
-                    >
-                      <p>
-                        <span>{unitNumber}</span>
-                      </p>
-                      <p>{unitName}</p>
-                      <ChevronRight />
-                    </Grid>
-                  </Grid>
-                );
-              })}
-          </Grid>
         </Grid>
       </div>
     );
   }
 }
 
-InteractiveFloorplan.propTypes = {
+InteractiveFloorplanThreeD.propTypes = {
   classes: shape({}).isRequired,
   content: shape({}).isRequired,
   theme: shape({}).isRequired,
@@ -1233,4 +1216,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(InteractiveFloorplan));
+)(withStyles(styles)(InteractiveFloorplanThreeD));

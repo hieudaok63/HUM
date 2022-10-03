@@ -229,7 +229,11 @@ FloorplansSubmenu.propTypes = {
   dispatch: func.isRequired,
   isActive: bool.isRequired,
   setSelectedSubmenu: func.isRequired,
-  floorplansSectionName: string.isRequired
+  floorplansSectionName: string
+};
+
+FloorplansSubmenu.defaultProps = {
+  floorplansSectionName: ''
 };
 
 const mapStateToProps = (state) => ({

@@ -11,6 +11,7 @@ html {
   color: rgba(0, 0, 0, 0.77);
   font-family: 'Roboto', sans-serif;
   background: #fafafa;
+
   &.modal-active {
     overflow: hidden;
   }
@@ -40,4 +41,8 @@ code {
   display: none !important;
   width: 0px;
   transition: all 0.4s ease-in-out;
+}
+
+.filter-menu .MuiPaper-root {
+  background-color: #1D1C1B;
 }
