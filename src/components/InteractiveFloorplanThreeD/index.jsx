@@ -262,33 +262,37 @@ class InteractiveFloorplanThreeD extends PureComponent {
           price > Number(priceMinMax[1]) ||
           (floorplanFilter !== '' && floorplanFilter !== unitName)
         ) {
-          if (status === 'available') {
+          if (status === 'available' && floorplanCircleNumber) {
             floorplanCircleNumber.setAttribute(
               'style',
               `fill:${activeFontColor};`
             );
-          } else if (status === 'block') {
+          } else if (status === 'block' && floorplanCircleNumber) {
             floorplanCircleNumber.setAttribute('style', 'fill:#EA2F3D ');
-          } else {
+          } else if (floorplanCircleNumber) {
             floorplanCircleNumber.setAttribute('style', 'fill:#B1AEAE');
           }
         } else {
-          if (status === 'available') {
+          if (status === 'available' && floorplanCircleNumber) {
             floorplanCircleNumber.setAttribute(
               'style',
               `fill:${activeFontColor}; opacity: 1;`
             );
-          } else if (status === 'block') {
+          } else if (status === 'block' && floorplanCircleNumber) {
             floorplanCircleNumber.setAttribute(
               'style',
               'fill:#EA2F3D; opacity: 1;'
             );
-          } else {
+          } else if (floorplanCircleNumber) {
             floorplanCircleNumber.setAttribute(
               'style',
               'fill:#B1AEAE; opacity: 1;'
             );
           }
+          if (!floorplanCircleNumber && status === 'available') {
+            floorplanPolygon.setAttribute('style', `fill:${activeFontColor};`);
+          }
+
           floorplan.addEventListener('mouseenter', () => {
             this.mouseEnterAction(el);
           });
@@ -358,7 +362,6 @@ class InteractiveFloorplanThreeD extends PureComponent {
       const floorplanPolygon = document.getElementById(`Unit${unitNumber}`);
       floorplanPolygon.style.fill = '#3ECFAF';
       floorplanPolygon.style.opacity = 0.5;
-      console.log('this', el);
       this.svgEventInteraction(el, { staticSelectedFloorplan: el });
     }
   };
@@ -934,13 +937,13 @@ class InteractiveFloorplanThreeD extends PureComponent {
           <Filter
             text="Baños"
             options={bathroomOptions}
-            startIcon={(
+            startIcon={
               <img
                 src={bathroomIcon.src}
                 alt={bathroomIcon.alt}
                 className={classes.filterIcon}
               />
-            )}
+            }
             onChange={(event) => this.handleChange(event, 'bathrooms')}
             shouldClear={shouldClear}
             resetShouldClear={() => {
@@ -1082,13 +1085,13 @@ class InteractiveFloorplanThreeD extends PureComponent {
                 };
               })
               ?.reverse()}
-            startIcon={(
+            startIcon={
               <img
                 src={levelIcon.src}
                 alt={levelIcon.alt}
                 className={classes.filterIcon}
               />
-            )}
+            }
             onChange={(event) => {
               this.changeFloor(event.value);
             }}
