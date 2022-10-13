@@ -26,16 +26,16 @@ export const Filters = () => {
     bedroomsOptions,
     bathroomOptions,
     floorplanTypesOptions,
-    // priceOptions,
-    // areaOptions,
+    priceOptions,
+    areaOptions,
     levels
   ] = useFilters();
   const [
     bedroomFilter,
     bathroomFilter,
     floorplanFilter,
-    // priceFilter,
-    // areaFilter,
+    priceFilter,
+    areaFilter,
     levelFilter
   ] = useFiltersValues();
   console.log(levelFilter);
