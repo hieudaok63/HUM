@@ -1,62 +1,41 @@
 {
-  "name": "panorama",
+  "name": "my-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@date-io/date-fns": "^2.11.0",
-    "@emotion/react": "^11.4.1",
-    "@emotion/styled": "^11.3.0",
-    "@googlemaps/react-wrapper": "^1.1.35",
-    "@material-ui/core": "^4.5.1",
-    "@material-ui/icons": "^4.5.1",
-    "@mui/lab": "^5.0.0-alpha.48",
-    "@mui/material": "^5.0.1",
-    "@mui/styles": "^5.9.2",
-    "@tweenjs/tween.js": "^18.6.4",
-    "babel-eslint": "^10.0.3",
-    "bootstrap": "^4.3.1",
-    "classnames": "^2.3.1",
-    "copy-to-clipboard": "^3.3.1",
-    "date-fns": "^2.24.0",
-    "gsap": "^3.5.1",
-    "lodash": "^4.17.21",
-    "moment": "^2.29.1",
-    "moment-timezone": "^0.5.33",
-    "node-sass": "^4.13.1",
-    "prop-types": "^15.7.2",
-    "query-string": "^6.8.2",
-    "react": "^16.8.6",
-    "react-bootstrap": "^1.6.1",
-    "react-bootstrap4-modal": "^1.7.4",
-    "react-calendly": "^2.2.2",
-    "react-dom": "^16.8.6",
-    "react-joyride": "^2.1.1",
-    "react-localization": "^1.0.15",
-    "react-redux": "^7.1.3",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.0.1",
-    "react-share": "^4.4.0",
-    "react-svg-pan-zoom": "^3.11.0",
-    "react-svg-pan-zoom-loader": "^1.4.1",
-    "react-virtualized": "^9.22.3",
-    "redux": "^4.0.4",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0",
-    "reselect": "^4.0.0",
-    "socket.io-client": "^4.4.0",
-    "three": "^0.129.0",
-    "uuid": "^8.3.0"
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.9",
+    "@mui/material": "^5.10.9",
+    "@reduxjs/toolkit": "^1.8.6",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.65",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "axios": "^1.1.2",
+    "moment": "^2.29.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.4",
+    "react-scripts": "5.0.1",
+    "react-svg": "^15.1.10",
+    "typescript": "^4.8.4",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "env HOST=0.0.0.0 REACT_APP_ENV=development REACT_APP_VERSION=V4 react-scripts start",
-    "build": "env REACT_APP_ENV=production REACT_APP_VERSION=V4 react-scripts build",
-    "build:dev": "env REACT_APP_ENV=development REACT_APP_VERSION=V4 react-scripts build",
-    "build:staging": "env REACT_APP_ENV=staging REACT_APP_VERSION=V4 react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -69,17 +48,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "eslint": "^6.6.0",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-prettier": "^6.5.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-react": "^7.16.0",
-    "panolens": "^0.11.0",
-    "prettier": "^1.18.2"
-  },
-  "homepage": "https://dev-360-test.athum.co/"
+  }
 }
