@@ -123,6 +123,7 @@ export const Filters = () => {
           sx={{ backgroundColor: "#ffffff", height: 32 }}
         />
         <Filter
+          key={"level"}
           text="Nivel"
           options={levels}
           index={levelIndex}
@@ -134,6 +135,7 @@ export const Filters = () => {
           }}
         />
         <Filter
+          key={"bedrooms"}
           text="Recámaras"
           options={bedroomsOptions}
           index={bedroomIndex}
@@ -145,6 +147,7 @@ export const Filters = () => {
           }}
         />
         <Filter
+          key={"bathrooms"}
           text="Baños"
           index={bathroomIndex}
           options={bathroomOptions}
@@ -178,6 +181,7 @@ export const Filters = () => {
           }}
         /> */}
         <Filter
+          key={"floorplan"}
           text="Planta Tipo"
           options={floorplanTypesOptions}
           index={floorplanIndex}

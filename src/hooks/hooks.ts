@@ -13,7 +13,7 @@ export const useFilters = () => {
     }), []);
     const availability = useAppSelector((state) => state.availability);
     const bedrooms = useMemo(() => availability.filters.bedrooms || [], [availability.filters.bedrooms]);
-    const bathrooms = useMemo(() => availability.filters.bedrooms || [], [availability.filters.bedrooms]);
+    const bathrooms = useMemo(() => availability.filters.bathrooms || [], [availability.filters.bathrooms]);
     const floorplanTypes = useMemo(() => availability.filters.floorPlanTypes || [], [availability.filters.floorPlanTypes]);
     const prices = useMemo(() => availability.filters.prices?.map(
         (
