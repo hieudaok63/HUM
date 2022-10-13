@@ -63,7 +63,7 @@ export const useFilters = () => {
     ) || [], [availability.filters.areas]);
 
     const levels = useMemo(() => availability.floors.map(({ floor }) => ({
-        text: floor,
+        text: `Nivel ${floor}`,
         value: floor,
     })
     ), [availability.floors])

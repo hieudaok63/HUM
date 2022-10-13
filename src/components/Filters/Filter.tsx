@@ -8,9 +8,9 @@ interface Props {
   options: FilterOptions[];
   startIcon: ReactNode;
   onChange: (e: any) => void;
-  firstOption?: string;
   shouldClear: boolean;
   resetShouldClear: () => void;
+  index: number;
 }
 
 export const Filter = ({
@@ -18,12 +18,12 @@ export const Filter = ({
   options,
   startIcon,
   onChange,
-  firstOption,
   shouldClear,
-  resetShouldClear
+  resetShouldClear,
+  index
 }: Props) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(index);
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -46,6 +46,8 @@ export const Filter = ({
     }
   }, [shouldClear, anchorEl, resetShouldClear]);
 
+  useEffect(() => setSelectedIndex(index !== null ? index : null), [index]);
+
   return (
     <div>
       <Button
@@ -61,7 +63,9 @@ export const Filter = ({
         }
         sx={{ color: "white", textAlign: "center", textTransform: "none" }}
       >
-        {selectedIndex ? options[selectedIndex]?.text : text}
+        {selectedIndex !== null && options[selectedIndex]
+          ? options[selectedIndex].text
+          : text}
       </Button>
       <Menu
         anchorEl={anchorEl}
@@ -70,14 +74,6 @@ export const Filter = ({
         TransitionComponent={Fade}
         sx={{ ".MuiList-root": { backgroundColor: "#000000" } }}
       >
-        {firstOption && (
-          <MenuItem
-            disabled
-            sx={{ color: "white", backgroundColor: "#000000" }}
-          >
-            {firstOption}
-          </MenuItem>
-        )}
         {options.map(
           ({ text: optionText, value: inputValue, paddingLeft }, i) => (
             <MenuItem

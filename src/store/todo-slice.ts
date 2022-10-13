@@ -6,12 +6,12 @@ const initialAvailabilityState: Availability = {
     filters: {},
     svgImage: '',
     svgImage2D: '',
-    bedrooms: 0,
-    bathrooms: 0,
-    prices: 0,
+    bedrooms: null,
+    bathrooms: null,
+    prices: null,
     areas: '',
     floorplanType: '',
-    level: null,
+    level: 0,
     availability: 'all',
     svgType: '2D'
 }
