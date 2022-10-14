@@ -6,6 +6,7 @@ const initialAvailabilityState: Availability = {
     filters: {},
     svgImage: '',
     svgImage2D: '',
+    svgImage2: '',
     bedrooms: null,
     bathrooms: null,
     prices: null,
@@ -13,7 +14,8 @@ const initialAvailabilityState: Availability = {
     floorplanType: '',
     level: 0,
     availability: 'all',
-    svgType: '2D'
+    svgType: '2D',
+    stage: 'etapa-1'
 }
 
 export const availabilitySlice = createSlice({
@@ -25,6 +27,7 @@ export const availabilitySlice = createSlice({
             state.filters = action.payload.filters;
             state.svgImage = action.payload.svgImage;
             state.svgImage2D = action.payload.svgImage2D;
+            state.svgImage2 = action.payload.svgImage2;
         },
         setBedrooms(state, action: PayloadAction<{ bedrooms: number }>) {
             state.bedrooms = action.payload.bedrooms;
@@ -49,6 +52,9 @@ export const availabilitySlice = createSlice({
         },
         setSVGType(state, action: PayloadAction<{ svgType: SvgImageType }>) {
             state.svgType = action.payload.svgType;
+        },
+        setStage(state, action: PayloadAction<{ stage: string }>) {
+            state.stage = action.payload.stage;
         },
         cleanFilters(state) {
             state.bedrooms = null;

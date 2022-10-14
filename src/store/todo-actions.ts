@@ -47,6 +47,10 @@ export const setSVGType = (svgType: SvgImageType): ThunkAction<void, RootState, 
     dispatch(availabilityActions.setSVGType({ svgType }));
 }
 
+export const setStage = (stage: string): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+    dispatch(availabilityActions.setStage({ stage }));
+}
+
 export const cleanFilters = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
     dispatch(availabilityActions.cleanFilters());
 }

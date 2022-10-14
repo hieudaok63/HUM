@@ -84,7 +84,8 @@ export const useFiltersValues = () => {
 
 export const useSVGImage = () => {
     const availability = useAppSelector((state) => state.availability);
-    return useMemo(() => availability.svgType === '3D' ? availability.svgImage : availability.svgImage2D, [availability.svgImage, availability.svgImage2D, availability.svgType])
+    console.log(availability);
+    return useMemo(() => availability.svgType === '3D' ? availability.stage === 'etapa-1' ? availability.svgImage : availability.svgImage2 : availability.svgImage2D, [availability.stage, availability.svgImage, availability.svgImage2, availability.svgImage2D, availability.svgType])
 }
 
 export const useFloors = () => {
@@ -100,4 +101,9 @@ export const useAvailabilityFilter = () => {
 export const useSvgType = () => {
     const svgType = useAppSelector((state) => state.availability.svgType);
     return useMemo(() => svgType, [svgType])
+}
+
+export const useStage = () => {
+    const stage = useAppSelector((state) => state.availability.stage);
+    return useMemo(() => stage, [stage])
 }

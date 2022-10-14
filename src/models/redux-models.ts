@@ -108,6 +108,7 @@ export interface Availability {
     floors: Floors[];
     filters: Filters;
     svgImage: string;
+    svgImage2: string;
     svgImage2D: string;
     bedrooms: number | null;
     bathrooms: number | null;
@@ -117,6 +118,7 @@ export interface Availability {
     level: number | null;
     availability: string;
     svgType: SvgImageType;
+    stage: string;
 }
 
 export interface FilterOptions {
