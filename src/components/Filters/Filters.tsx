@@ -38,7 +38,7 @@ export const Filters = () => {
     areaFilter,
     levelFilter
   ] = useFiltersValues();
-  console.log(levelFilter);
+
   const bedroomIndex = useMemo(
     () =>
       bedroomsOptions.findIndex(

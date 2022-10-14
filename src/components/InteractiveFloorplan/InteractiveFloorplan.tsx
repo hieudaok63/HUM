@@ -5,8 +5,8 @@ import {
   useSVGImage
 } from "../../hooks";
 import { ReactSVG } from "react-svg";
-import moment from "moment";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
+import { FloorplanCard } from "../FloorplanCard";
 
 const fills: { [key: string]: string } = {
   available: "#B4FFEE",
@@ -18,6 +18,12 @@ const fills: { [key: string]: string } = {
 
 export const InteractiveFloorplan = () => {
   const currentSvg = useRef(null);
+  const hoveredElementRef = useRef<any>(null);
+  const lockElementRef = useRef<any>(null);
+  const [mousePosition, setMousePosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
   const [
     bedroomFilter,
     bathroomFilter,
@@ -98,9 +104,21 @@ export const InteractiveFloorplan = () => {
           }
 
           if (floorplan) {
-            floorplan.addEventListener("click", () => {
-              console.log(el);
+            floorplan.addEventListener("mousedown", (e: any) => {
+              const { clientX: x, clientY: y } = e;
+              setMousePosition({ x, y });
+              lockElementRef.current = true;
+              hoveredElementRef.current = el;
             });
+            floorplan.addEventListener(
+              "mouseenter",
+              (e: any) => {
+                const { clientX: x, clientY: y } = e;
+                setMousePosition({ x, y });
+                hoveredElementRef.current = el;
+              },
+              false
+            );
           }
         });
       });
@@ -120,19 +138,45 @@ export const InteractiveFloorplan = () => {
   if (!svgImage) return null;
 
   return (
-    <ReactSVG
-      ref={currentSvg}
-      afterInjection={(err, svg) => {
-        if (svg) renderSVG(svg);
-      }}
-      src={`${svgImage}?time=${moment().format("x")}`}
+    <div
       style={{
         height: "100%",
         width: "100%",
         paddingLeft: "9px",
-        paddingRight: "12px"
+        paddingRight: "12px",
+        position: "relative"
       }}
-      wrapper="svg"
-    />
+      onMouseEnter={() => {
+        if (!lockElementRef.current) {
+          setMousePosition(null);
+          hoveredElementRef.current = null;
+        }
+      }}
+    >
+      <ReactSVG
+        ref={currentSvg}
+        afterInjection={(err, svg) => {
+          if (svg) renderSVG(svg);
+        }}
+        src={`${svgImage}?v2`}
+        style={{
+          height: "100%",
+          width: "100%"
+        }}
+        wrapper="svg"
+      />
+      {mousePosition?.x && mousePosition?.y && hoveredElementRef.current && (
+        <FloorplanCard
+          x={mousePosition?.x}
+          y={mousePosition?.y}
+          selectedFloorplan={hoveredElementRef.current}
+          clearSelectedFloor={() => {
+            hoveredElementRef.current = null;
+            lockElementRef.current = false;
+            setMousePosition(null);
+          }}
+        />
+      )}
+    </div>
   );
 };
