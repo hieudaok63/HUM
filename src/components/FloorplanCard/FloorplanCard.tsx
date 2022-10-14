@@ -15,6 +15,7 @@ import LAUTRECGARDEN from "../../assets/minimaps/D_LAUTREC-GARDEN.jpg";
 import LAUTREC from "../../assets/minimaps/D_LAUTREC.jpg";
 import HARMONYGARDEN from "../../assets/minimaps/E_HARMONY-GARDEN.jpg";
 import HARMONY from "../../assets/minimaps/E_HARMONY.jpg";
+import ESSENCE from "../../assets/minimaps/ESSENCE.jpg";
 
 const maps: { [key: string]: string } = {
   AURA,
@@ -24,7 +25,10 @@ const maps: { [key: string]: string } = {
   LAUTRECGARDEN,
   LAUTREC,
   HARMONYGARDEN,
-  HARMONY
+  HARMONY,
+  NATURE: LAUTREC,
+  ESSENCE,
+  ESSENCEGARDEN: ESSENCE
 };
 
 interface Props {
@@ -32,13 +36,15 @@ interface Props {
   y: number;
   selectedFloorplan: FloorPlans;
   clearSelectedFloor: () => void;
+  onClick: () => void;
 }
 
 export const FloorplanCard = ({
   x,
   y,
   selectedFloorplan,
-  clearSelectedFloor
+  clearSelectedFloor,
+  onClick
 }: Props) => {
   const options = { style: "currency", currency: "USD" };
   const numberFormat = new Intl.NumberFormat("en-US", options);
@@ -57,8 +63,8 @@ export const FloorplanCard = ({
         opacity: "0,5",
         borderRadius: "10px",
         boxShadow: "0px 1px 2px rgba(138, 138, 138, 0.5)",
-        top: y,
-        left: x
+        top: y - 150,
+        left: x + 100
       }}
     >
       <Stack justifyContent="space-between" sx={{ height: "100%" }}>
@@ -153,7 +159,7 @@ export const FloorplanCard = ({
               objectFit: "contain",
               margin: "8px 0px"
             }}
-            onClick={() => {}}
+            onClick={onClick}
           />
         </Stack>
         <Stack
@@ -182,7 +188,7 @@ export const FloorplanCard = ({
               background: "#ffffff",
               cursor: "pointer"
             }}
-            onClick={() => {}}
+            onClick={onClick}
           >
             <ChevronRight style={{ color: "black" }} />
           </Stack>

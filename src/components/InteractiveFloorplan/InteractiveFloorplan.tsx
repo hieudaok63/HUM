@@ -7,6 +7,7 @@ import {
 import { ReactSVG } from "react-svg";
 import { useCallback, useRef, useState } from "react";
 import { FloorplanCard } from "../FloorplanCard";
+import { ModalFloorplan } from "../ModalFlooplan";
 
 const fills: { [key: string]: string } = {
   available: "#B4FFEE",
@@ -19,11 +20,13 @@ const fills: { [key: string]: string } = {
 export const InteractiveFloorplan = () => {
   const currentSvg = useRef(null);
   const hoveredElementRef = useRef<any>(null);
+  const selectedElementRef = useRef<any>(null);
   const lockElementRef = useRef<any>(null);
   const [mousePosition, setMousePosition] = useState<{
     x: number;
     y: number;
   } | null>(null);
+  const [openModal, setOpenModal] = useState(false);
   const [
     bedroomFilter,
     bathroomFilter,
@@ -109,6 +112,7 @@ export const InteractiveFloorplan = () => {
               setMousePosition({ x, y });
               lockElementRef.current = true;
               hoveredElementRef.current = el;
+              selectedElementRef.current = el;
             });
             floorplan.addEventListener(
               "mouseenter",
@@ -172,9 +176,23 @@ export const InteractiveFloorplan = () => {
           selectedFloorplan={hoveredElementRef.current}
           clearSelectedFloor={() => {
             hoveredElementRef.current = null;
+            selectedElementRef.current = null;
             lockElementRef.current = false;
             setMousePosition(null);
           }}
+          onClick={() => {
+            hoveredElementRef.current = null;
+            lockElementRef.current = false;
+            setMousePosition(null);
+            setOpenModal(true);
+          }}
+        />
+      )}
+      {selectedElementRef.current && (
+        <ModalFloorplan
+          open={openModal}
+          handleClose={() => setOpenModal(false)}
+          selectedFloorplan={selectedElementRef.current}
         />
       )}
     </div>
