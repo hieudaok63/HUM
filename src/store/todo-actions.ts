@@ -54,3 +54,7 @@ export const setStage = (stage: string): ThunkAction<void, RootState, unknown, A
 export const cleanFilters = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
     dispatch(availabilityActions.cleanFilters());
 }
+
+export const cleanLevels = (level: number | null): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+    dispatch(availabilityActions.cleanLevels({ level }));
+}

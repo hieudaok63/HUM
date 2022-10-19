@@ -62,7 +62,9 @@ export const availabilitySlice = createSlice({
             state.prices = null;
             state.areas = null;
             state.floorplanType = null;
-            state.level = null;
+        },
+        cleanLevels(state, action: PayloadAction<{ level: number | null }>) {
+            state.level = action.payload.level;
         }
     }
 })

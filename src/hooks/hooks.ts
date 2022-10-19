@@ -84,7 +84,6 @@ export const useFiltersValues = () => {
 
 export const useSVGImage = () => {
     const availability = useAppSelector((state) => state.availability);
-    console.log(availability);
     return useMemo(() => availability.svgType === '3D' ? availability.stage === 'etapa-1' ? availability.svgImage : availability.svgImage2 : availability.svgImage2D, [availability.stage, availability.svgImage, availability.svgImage2, availability.svgImage2D, availability.svgType])
 }
 

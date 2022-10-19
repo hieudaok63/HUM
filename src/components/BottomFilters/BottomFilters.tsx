@@ -2,12 +2,27 @@ import { Chip, Stack, Tab, Tabs } from "@mui/material";
 import { ReactComponent as LayoutIcon } from "../../assets/icons/layout.svg";
 import { ReactComponent as CubeIcon } from "../../assets/icons/cube.svg";
 import { useAppDispatch, useStage, useSvgType } from "../../hooks";
-import { setStage, setSVGType } from "../../store/todo-actions";
+import {
+  cleanFilters,
+  cleanLevels,
+  setStage,
+  setSVGType
+} from "../../store/todo-actions";
 
 export const BottomFilters = () => {
   const dispatch = useAppDispatch();
   const svgType = useSvgType();
   const stage = useStage();
+  const onClick2D = () => {
+    dispatch(setSVGType("2D"));
+    dispatch(cleanFilters());
+    dispatch(cleanLevels(0));
+  };
+  const onClick3D = () => {
+    dispatch(setSVGType("3D"));
+    dispatch(cleanFilters());
+    dispatch(cleanLevels(null));
+  };
   return (
     <Stack
       direction="row"
@@ -23,8 +38,8 @@ export const BottomFilters = () => {
           }}
           label={"2D"}
           deleteIcon={<LayoutIcon />}
-          onDelete={() => dispatch(setSVGType("2D"))}
-          onClick={() => dispatch(setSVGType("2D"))}
+          onDelete={onClick2D}
+          onClick={onClick2D}
         />
         <Chip
           sx={{
@@ -34,8 +49,8 @@ export const BottomFilters = () => {
           }}
           label={"3D"}
           deleteIcon={<CubeIcon />}
-          onDelete={() => dispatch(setSVGType("3D"))}
-          onClick={() => dispatch(setSVGType("3D"))}
+          onDelete={onClick3D}
+          onClick={onClick3D}
         />
       </Stack>
       {svgType === "3D" && (

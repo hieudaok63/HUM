@@ -101,27 +101,6 @@ export const Filters = () => {
         alignItems="center"
         alignContent="center"
       >
-        <h3
-          style={{
-            color: "white",
-            fontWeight: 700,
-            fontSize: 14
-          }}
-        >
-          Filtros
-        </h3>
-        <HighlightOffIcon
-          sx={{ color: "#B1AEAE", width: 18, height: 18, cursor: "pointer" }}
-          onClick={() => {
-            setShouldClear(true);
-            dispatch(cleanFilters());
-          }}
-        />
-        <Divider
-          orientation="vertical"
-          variant="middle"
-          sx={{ backgroundColor: "#ffffff", height: 32 }}
-        />
         <Filter
           key={"level"}
           text="Nivel"
@@ -133,6 +112,11 @@ export const Filters = () => {
           resetShouldClear={() => {
             setShouldClear(false);
           }}
+        />
+        <Divider
+          orientation="vertical"
+          variant="middle"
+          sx={{ backgroundColor: "#ffffff", height: 32 }}
         />
         <Filter
           key={"bedrooms"}
@@ -190,6 +174,22 @@ export const Filters = () => {
           shouldClear={shouldClear}
           resetShouldClear={() => {
             setShouldClear(false);
+          }}
+        />
+        <h3
+          style={{
+            color: "white",
+            fontWeight: 700,
+            fontSize: 14
+          }}
+        >
+          Filtros
+        </h3>
+        <HighlightOffIcon
+          sx={{ color: "#B1AEAE", width: 18, height: 18, cursor: "pointer" }}
+          onClick={() => {
+            setShouldClear(true);
+            dispatch(cleanFilters());
           }}
         />
       </Stack>
