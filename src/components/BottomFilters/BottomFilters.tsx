@@ -14,12 +14,12 @@ export const BottomFilters = () => {
   const svgType = useSvgType();
   const stage = useStage();
   const onClick2D = () => {
-    dispatch(setSVGType("2D"));
+    dispatch(setSVGType("2d"));
     dispatch(cleanFilters());
     dispatch(cleanLevels(0));
   };
   const onClick3D = () => {
-    dispatch(setSVGType("3D"));
+    dispatch(setSVGType("3d"));
     dispatch(cleanFilters());
     dispatch(cleanLevels(null));
   };
@@ -34,7 +34,7 @@ export const BottomFilters = () => {
           sx={{
             width: 72,
             backgroundColor: "#F6F6F6",
-            border: `1px solid ${svgType === "2D" ? "#3948FF" : "#E4E4E7"}`
+            border: `1px solid ${svgType === "2d" ? "#3948FF" : "#E4E4E7"}`
           }}
           label={"2D"}
           deleteIcon={<LayoutIcon />}
@@ -45,7 +45,7 @@ export const BottomFilters = () => {
           sx={{
             width: 72,
             backgroundColor: "#F6F6F6",
-            border: `1px solid ${svgType === "3D" ? "#3948FF" : "#E4E4E7"}`
+            border: `1px solid ${svgType === "3d" ? "#3948FF" : "#E4E4E7"}`
           }}
           label={"3D"}
           deleteIcon={<CubeIcon />}
@@ -53,7 +53,7 @@ export const BottomFilters = () => {
           onClick={onClick3D}
         />
       </Stack>
-      {svgType === "3D" && (
+      {svgType === "3d" && (
         <Tabs
           value={stage}
           onChange={(_: React.SyntheticEvent, newValue: string) => {

@@ -4,9 +4,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialAvailabilityState: Availability = {
     floors: [],
     filters: {},
-    svgImage: '',
-    svgImage2D: '',
-    svgImage2: '',
+    svgs:[],
+    apartments: [],
+    externalId: '',
     bedrooms: null,
     bathrooms: null,
     prices: null,
@@ -14,7 +14,7 @@ const initialAvailabilityState: Availability = {
     floorplanType: '',
     level: 0,
     availability: 'all',
-    svgType: '2D',
+    svgType: '2d',
     stage: 'etapa-1'
 }
 
@@ -23,11 +23,11 @@ export const availabilitySlice = createSlice({
     initialState: initialAvailabilityState,
     reducers: {
         setAvailability(state, action: PayloadAction<Availability>) {
-            state.floors = action.payload.floors;
-            state.filters = action.payload.filters;
-            state.svgImage = action.payload.svgImage;
-            state.svgImage2D = action.payload.svgImage2D;
-            state.svgImage2 = action.payload.svgImage2;
+            state.svgs = action.payload.svgs;
+            state.externalId = action.payload.externalId;
+        },
+        setApartments(state, action: PayloadAction<Availability>) {
+            state.apartments = action.payload.apartments;
         },
         setBedrooms(state, action: PayloadAction<{ bedrooms: number }>) {
             state.bedrooms = action.payload.bedrooms;

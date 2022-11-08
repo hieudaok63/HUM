@@ -1,21 +1,33 @@
 import React, { useLayoutEffect, useState } from "react";
 import "./App.css";
-import { fetchAvailability } from "./store/todo-actions";
-import { useAppDispatch } from "./hooks";
+import { fetchAvailability, fetchTypology } from "./store/todo-actions";
+import { useAppDispatch, useExternalId } from "./hooks";
 import { Desktop } from "./Pages";
 
 export const App = () => {
   const [requested, setRequested] = useState(false);
+  const [requestedTypology, setRequestedTypology] = useState(false);
   const dispatch = useAppDispatch();
+  const externalId = useExternalId();
 
   useLayoutEffect(() => {
     if (!requested)
       dispatch(
-        fetchAvailability("9768b832-db87-4ada-8ff0-ecace5c5315d", "767")
+        fetchAvailability("767")
       );
 
     setRequested(true);
   }, [dispatch, requested]);
+
+  useLayoutEffect(() => {
+    if(externalId && !requestedTypology){
+      dispatch(
+        fetchTypology()
+      );
+      setRequestedTypology(true);
+    }
+  }, [dispatch, externalId, requested, requestedTypology]);
+
 
   return <Desktop />;
 };

@@ -102,14 +102,61 @@ export interface Filters {
     [key: string]: any;
 }
 
-export type SvgImageType = '2D' | '3D';
+export type SvgImageType = '2d' | '3d';
+
+export interface SVGS{
+    svg:string;
+    type: SvgImageType;
+}
+
+export interface Attributes{
+    area_constructed: number;
+    area_open: number;
+    area_total: number;
+    bathroom: number;
+    bedroom: number;
+    exclusive_code: string;
+    terrace: boolean;
+}
+
+export interface UnitAttribute{
+    area_constructed: number;
+    area_open: number;
+    area_terrace: number;
+    area_total: number;
+    bathroom: number;
+    bedroom: number;
+    blueprint: string[];
+    cover: string;
+    exclusive_code: string;
+    level: string;
+    plans: string[];
+    price: number;
+    product_subtype: string;
+    product_type: string;
+}
+
+export interface Unit{
+    name: string;
+    code: string;
+    status: string;
+    attributes: UnitAttribute;
+    typology: string;
+}
+
+export interface Apartments {
+    name: string;
+    code: string;
+    attributes: Attributes;
+    units: Unit[]
+}
 
 export interface Availability {
     floors: Floors[];
     filters: Filters;
-    svgImage: string;
-    svgImage2: string;
-    svgImage2D: string;
+    svgs: SVGS[];
+    apartments: Apartments[];
+    externalId: string;
     bedrooms: number | null;
     bathrooms: number | null;
     prices: number | null;

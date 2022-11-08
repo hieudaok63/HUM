@@ -2,16 +2,23 @@ import { availabilitySlice } from './todo-slice'
 import { AnyAction } from '@reduxjs/toolkit'
 import { ThunkAction } from '@reduxjs/toolkit'
 import { RootState } from './index'
-import { Availability, SvgImageType } from "../models/redux-models";
+import { SvgImageType } from "../models/redux-models";
 import { availabilityService } from '../service/availabilityService';
 
 export const availabilityActions = availabilitySlice.actions
 
-export const fetchAvailability = (builderId: string, projectId: string): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch, getState) => {
-    if (!getState().availability.svgImage) {
-        const response = await availabilityService.getAvailability(builderId, projectId);
-        const availability: Availability = response.data.sections.filter((section: { key: string }) => section.key === 'price-availability')?.[0]?.content?.[0] || {};
-        dispatch(availabilityActions.setAvailability(availability))
+export const fetchAvailability = (projectId: string): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch, getState) => {
+    if (getState().availability.svgs.length === 0) {
+        const response = await availabilityService.getProject(projectId);
+        dispatch(availabilityActions.setAvailability(response))
+    }
+}
+
+export const fetchTypology = () : ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch, getState) => {
+    const externalId = getState().availability.externalId;
+    if (externalId) {
+        const data = await availabilityService.getTypologies(externalId);
+        dispatch(availabilityActions.setApartments(data))
     }
 }
 
