@@ -104,12 +104,12 @@ export interface Filters {
 
 export type SvgImageType = '2d' | '3d';
 
-export interface SVGS{
-    svg:string;
+export interface SVGS {
+    svg: string;
     type: SvgImageType;
 }
 
-export interface Attributes{
+export interface Attributes {
     area_constructed: number;
     area_open: number;
     area_total: number;
@@ -119,7 +119,7 @@ export interface Attributes{
     terrace: boolean;
 }
 
-export interface UnitAttribute{
+export interface UnitAttribute {
     area_constructed: number;
     area_open: number;
     area_terrace: number;
@@ -136,7 +136,7 @@ export interface UnitAttribute{
     product_type: string;
 }
 
-export interface Unit{
+export interface Unit {
     name: string;
     code: string;
     status: string;
@@ -170,6 +170,5 @@ export interface Availability {
 
 export interface FilterOptions {
     text: string,
-    value: string,
-    paddingLeft: string;
+    value: string | number,
 }

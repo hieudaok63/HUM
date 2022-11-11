@@ -74,24 +74,21 @@ export const Filter = ({
         TransitionComponent={Fade}
         sx={{ ".MuiList-root": { backgroundColor: "#000000" } }}
       >
-        {options.map(
-          ({ text: optionText, value: inputValue, paddingLeft }, i) => (
-            <MenuItem
-              key={inputValue}
-              value={inputValue}
-              sx={{
-                background:
-                  i === selectedIndex ? "rgba(61, 208, 174)" : "#000000",
-                color: "white",
-                paddingLeft
-              }}
-              selected={i === selectedIndex}
-              onClick={(event) => handleMenuItemClick(event, i)}
-            >
-              {optionText}
-            </MenuItem>
-          )
-        )}
+        {options.map(({ text: optionText, value: inputValue }, i) => (
+          <MenuItem
+            key={inputValue}
+            value={inputValue}
+            sx={{
+              background:
+                i === selectedIndex ? "rgba(61, 208, 174)" : "#000000",
+              color: "white"
+            }}
+            selected={i === selectedIndex}
+            onClick={(event) => handleMenuItemClick(event, i)}
+          >
+            {optionText}
+          </MenuItem>
+        ))}
       </Menu>
     </div>
   );
