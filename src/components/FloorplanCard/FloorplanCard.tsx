@@ -1,8 +1,7 @@
 import { Paper, Stack } from "@mui/material";
-import { FloorPlans } from "../../models/redux-models";
+import { Unit } from "../../models/redux-models";
 import Close from "@mui/icons-material/Close";
 import Bed from "@mui/icons-material/HotelOutlined";
-import Parking from "@mui/icons-material/DirectionsCarOutlined";
 import { ReactComponent as BathroomIcon } from "../../assets/icons/bathroom.svg";
 import { ReactComponent as AreaIcon } from "../../assets/icons/area.svg";
 import { ChevronRight } from "@mui/icons-material";
@@ -34,7 +33,7 @@ const maps: { [key: string]: string } = {
 interface Props {
   x: number;
   y: number;
-  selectedFloorplan: FloorPlans;
+  selectedFloorplan: Unit;
   clearSelectedFloor: () => void;
   onClick: () => void;
 }
@@ -49,8 +48,8 @@ export const FloorplanCard = ({
   const options = { style: "currency", currency: "USD" };
   const numberFormat = new Intl.NumberFormat("en-US", options);
   const image = useMemo(
-    () => maps[selectedFloorplan.layoutName.replace(/\s/g, "")],
-    [selectedFloorplan.layoutName]
+    () => maps[selectedFloorplan.typology.replace(/\s/g, "")],
+    [selectedFloorplan.typology]
   );
   return (
     <Paper
@@ -80,9 +79,9 @@ export const FloorplanCard = ({
           alignItems="center"
         >
           <Stack direction="row" spacing={2} alignItems="center">
-            <h5>{selectedFloorplan.unitName}</h5>
+            <h5>{selectedFloorplan.typology}</h5>
             <h5>|</h5>
-            <h5>{`${selectedFloorplan.unitNumber} `}</h5>
+            <h5>{`${selectedFloorplan.name} `}</h5>
           </Stack>
           <Close
             style={{ cursor: "pointer" }}
@@ -106,8 +105,7 @@ export const FloorplanCard = ({
           >
             <AreaIcon />
             <h6 style={{ color: "white", margin: 0 }}>
-              {selectedFloorplan.area}
-              {selectedFloorplan.detailsUnit.areaMetric}
+              {selectedFloorplan.attributes.area_total} m2
             </h6>
           </Stack>
           <Stack
@@ -118,7 +116,7 @@ export const FloorplanCard = ({
           >
             <Bed sx={{ color: "white", width: "15px", height: "15px" }} />
             <h6 style={{ color: "white", margin: 0 }}>
-              {selectedFloorplan.bedrooms}
+              {selectedFloorplan.attributes.bedroom}
             </h6>
           </Stack>
           <Stack
@@ -129,18 +127,7 @@ export const FloorplanCard = ({
           >
             <BathroomIcon />
             <h6 style={{ color: "white", margin: 0 }}>
-              {selectedFloorplan.bathrooms}
-            </h6>
-          </Stack>
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={0}
-            alignContent="start"
-          >
-            <Parking sx={{ color: "white", width: "15px", height: "15px" }} />
-            <h6 style={{ color: "white", margin: 0 }}>
-              {selectedFloorplan.parking}
+              {selectedFloorplan.attributes.bathroom}
             </h6>
           </Stack>
         </Stack>
@@ -152,7 +139,7 @@ export const FloorplanCard = ({
         >
           <img
             src={image}
-            alt={selectedFloorplan.unitName}
+            alt={selectedFloorplan.typology}
             style={{
               width: "95%",
               height: 185,
@@ -171,9 +158,7 @@ export const FloorplanCard = ({
         >
           <Stack sx={{ paddingLeft: "10px" }}>
             <h5 style={{ color: "white", margin: 0 }}>
-              {`${numberFormat.format(selectedFloorplan.price)} ${
-                selectedFloorplan.currency
-              }`}
+              {`${numberFormat.format(selectedFloorplan.attributes.price)} MXN`}
             </h5>
             <h6 style={{ margin: 0, color: " #B4FFEE" }}>Disponible</h6>
           </Stack>

@@ -107,6 +107,7 @@ export type SvgImageType = '2d' | '3d';
 export interface SVGS {
     svg: string;
     type: SvgImageType;
+    stage?: string;
 }
 
 export interface Attributes {

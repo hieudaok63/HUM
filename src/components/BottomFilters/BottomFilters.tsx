@@ -15,11 +15,13 @@ export const BottomFilters = () => {
   const stage = useStage();
   const onClick2D = () => {
     dispatch(setSVGType("2d"));
+    dispatch(setStage(""));
     dispatch(cleanFilters());
     dispatch(cleanLevels(0));
   };
   const onClick3D = () => {
     dispatch(setSVGType("3d"));
+    dispatch(setStage("etapa-1"));
     dispatch(cleanFilters());
     dispatch(cleanLevels(null));
   };

@@ -53,10 +53,9 @@ export const Filters = () => {
 
   const levelIndex = useMemo(
     () =>
-      levels.findIndex((level: { value: number }) => {
-        console.log(level.value, levelFilter);
-        return level.value.toString() === levelFilter;
-      }),
+      levels.findIndex(
+        (level: { value: number }) => level.value.toString() === levelFilter
+      ),
     [levelFilter, levels]
   );
 

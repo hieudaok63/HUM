@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialAvailabilityState: Availability = {
     floors: [],
     filters: {},
-    svgs:[],
+    svgs: [],
     apartments: [],
     externalId: '',
     bedrooms: null,
@@ -15,7 +15,7 @@ const initialAvailabilityState: Availability = {
     level: 0,
     availability: 'all',
     svgType: '2d',
-    stage: 'etapa-1'
+    stage: ''
 }
 
 export const availabilitySlice = createSlice({

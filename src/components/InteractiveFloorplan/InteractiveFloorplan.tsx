@@ -8,6 +8,7 @@ import { ReactSVG } from "react-svg";
 import { useCallback, useRef, useState } from "react";
 import { FloorplanCard } from "../FloorplanCard";
 import { ModalFloorplan } from "../ModalFlooplan";
+import { Unit } from "../../models/redux-models";
 
 const fills: { [key: string]: string } = {
   available: "#B4FFEE",
@@ -67,7 +68,7 @@ export const InteractiveFloorplan = () => {
                 el.typology === floorplanFilter
             );
 
-      floorPlans.forEach((el) => {
+      floorPlans.forEach((el: Unit) => {
         const { name, status } = el;
         const floorplan = document.getElementById(`U-${name}`);
         const floorplanPolygon = document.getElementById(`P-${name}`);

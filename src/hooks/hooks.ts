@@ -112,7 +112,11 @@ export const useFiltersValues = () => {
 
 export const useSVGImage = () => {
     const availability = useAppSelector((state) => state.availability);
-    const svgs = availability.svgs?.filter((svg) => svg.type === availability.svgType);
+    let stage = '';
+    if (availability.stage)
+        stage = availability.stage === 'etapa-1' ? 'Etapa 1' : 'Etapa 2';
+
+    const svgs = availability.svgs?.filter((svg) => svg.type === availability.svgType && svg.stage === stage);
     return useMemo(() => svgs[0]?.svg || '', [svgs]);
 }
 

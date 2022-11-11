@@ -1,12 +1,12 @@
 import { Close } from "@mui/icons-material";
 import { Dialog, Stack } from "@mui/material";
-import { FloorPlans } from "../../models/redux-models";
+import { Unit } from "../../models/redux-models";
 import { Images } from "./Images";
 
 interface Props {
   open: boolean;
   handleClose: () => void;
-  selectedFloorplan: FloorPlans;
+  selectedFloorplan: Unit;
 }
 export const ModalFloorplan = ({
   open,
@@ -36,38 +36,41 @@ export const ModalFloorplan = ({
           <Stack spacing={2}>
             <Stack>
               <p style={{ margin: 0 }}>Unidad</p>
-              <h2 style={{ margin: 0, fontWeight: "900", fontSize: " 24px" }}>{selectedFloorplan.unitNumber}</h2>
+              <h2 style={{ margin: 0, fontWeight: "900", fontSize: " 24px" }}>
+                {selectedFloorplan.name}
+              </h2>
             </Stack>
             <Stack>
               <p style={{ margin: 0 }}>Valor de la vivienda</p>
-              <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 18px" }}>{`${numberFormat.format(
-                selectedFloorplan.price
-              )} ${selectedFloorplan.currency}`}</h2>
+              <h2
+                style={{ margin: 0, fontWeight: "700", fontSize: " 18px" }}
+              >{`${numberFormat.format(
+                selectedFloorplan.attributes.price
+              )} MXN`}</h2>
             </Stack>
             <Stack direction="row" alignItems="center" spacing={2}>
               <p style={{ margin: 0 }}>Tipología: </p>
               <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
-                {selectedFloorplan.layoutName}
+                {selectedFloorplan.typology}
               </h2>
             </Stack>
             <Stack direction="row" alignItems="center" spacing={2}>
               <p style={{ margin: 0 }}>Área Total: </p>
               <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
-                {selectedFloorplan.area}
-                {selectedFloorplan.detailsUnit.areaMetric}
+                {selectedFloorplan.attributes.area_total} m2
               </h2>
             </Stack>
             <Stack direction="row" alignItems="center" spacing={2}>
               <Stack direction="row" alignItems="center" spacing={2}>
                 <p style={{ margin: 0 }}>Habitaciones: </p>
                 <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
-                  {selectedFloorplan.bedrooms}
+                  {selectedFloorplan.attributes.bedroom}
                 </h2>
               </Stack>
               <Stack direction="row" alignItems="center" spacing={2}>
                 <p style={{ margin: 0 }}>Baños: </p>
                 <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
-                  {selectedFloorplan.bathrooms}
+                  {selectedFloorplan.attributes.bathroom}
                 </h2>
               </Stack>
             </Stack>
