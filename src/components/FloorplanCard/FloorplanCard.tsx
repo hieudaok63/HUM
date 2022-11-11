@@ -5,30 +5,6 @@ import Bed from "@mui/icons-material/HotelOutlined";
 import { ReactComponent as BathroomIcon } from "../../assets/icons/bathroom.svg";
 import { ReactComponent as AreaIcon } from "../../assets/icons/area.svg";
 import { ChevronRight } from "@mui/icons-material";
-import { useMemo } from "react";
-import AURA from "../../assets/minimaps/A_AURA.jpg";
-import ENERGYGARDEN from "../../assets/minimaps/B_ENERGY-GARDEN.jpg";
-import ENERGY from "../../assets/minimaps/B_ENERGY.jpg";
-import RENOIR from "../../assets/minimaps/C_RENOIR.jpg";
-import LAUTRECGARDEN from "../../assets/minimaps/D_LAUTREC-GARDEN.jpg";
-import LAUTREC from "../../assets/minimaps/D_LAUTREC.jpg";
-import HARMONYGARDEN from "../../assets/minimaps/E_HARMONY-GARDEN.jpg";
-import HARMONY from "../../assets/minimaps/E_HARMONY.jpg";
-import ESSENCE from "../../assets/minimaps/ESSENCE.jpg";
-
-const maps: { [key: string]: string } = {
-  AURA,
-  ENERGYGARDEN,
-  ENERGY,
-  RENOIR,
-  LAUTRECGARDEN,
-  LAUTREC,
-  HARMONYGARDEN,
-  HARMONY,
-  NATURE: LAUTREC,
-  ESSENCE,
-  ESSENCEGARDEN: ESSENCE
-};
 
 interface Props {
   x: number;
@@ -47,10 +23,6 @@ export const FloorplanCard = ({
 }: Props) => {
   const options = { style: "currency", currency: "USD" };
   const numberFormat = new Intl.NumberFormat("en-US", options);
-  const image = useMemo(
-    () => maps[selectedFloorplan.typology.replace(/\s/g, "")],
-    [selectedFloorplan.typology]
-  );
   return (
     <Paper
       sx={{
@@ -138,7 +110,7 @@ export const FloorplanCard = ({
           justifyItems="center"
         >
           <img
-            src={image}
+            src={selectedFloorplan.attributes.blueprint[0]}
             alt={selectedFloorplan.typology}
             style={{
               width: "95%",

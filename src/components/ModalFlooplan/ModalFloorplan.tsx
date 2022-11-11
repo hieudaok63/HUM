@@ -32,7 +32,7 @@ export const ModalFloorplan = ({
           <Close sx={{ cursor: "pointer" }} onClick={handleClose} />
         </Stack>
         <Stack direction="row" spacing={4}>
-          <Images />
+          <Images image={selectedFloorplan.attributes.cover} />
           <Stack spacing={2}>
             <Stack>
               <p style={{ margin: 0 }}>Unidad</p>
