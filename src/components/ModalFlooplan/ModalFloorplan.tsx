@@ -1,7 +1,6 @@
 import { Close } from "@mui/icons-material";
-import { Dialog, Stack } from "@mui/material";
+import { Box, Dialog, Grid, Stack } from "@mui/material";
 import { Unit } from "../../models/redux-models";
-import { Images } from "./Images";
 
 interface Props {
   open: boolean;
@@ -20,22 +19,36 @@ export const ModalFloorplan = ({
       open={open}
       onClose={handleClose}
       fullWidth
-      maxWidth="sm"
+      maxWidth="md"
       sx={{
         "& .MuiDialog-paper": {
-          borderRadius: "10px"
+          borderRadius: "10px",
+          height: "553px"
         }
       }}
     >
-      <Stack sx={{ padding: "20px" }} spacing={2}>
-        <Stack direction="row" justifyContent="end">
-          <Close sx={{ cursor: "pointer" }} onClick={handleClose} />
-        </Stack>
-        <Stack direction="row" spacing={4}>
-          <Images image={selectedFloorplan.attributes.cover} />
+      <Grid container spacing={3} sx={{ height: "100%", padding: "30px" }}>
+        <Grid item sm={6}>
+          <Box sx={{ width: "100%", height: "100%" }}>
+            <img
+              src={selectedFloorplan.attributes.cover}
+              alt="preview"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                borderRadius: "10px"
+              }}
+            />
+          </Box>
+        </Grid>
+        <Grid item sm={6}>
           <Stack spacing={2}>
             <Stack>
-              <p style={{ margin: 0 }}>Unidad</p>
+              <Stack direction="row" justifyContent="space-between">
+                <p style={{ margin: 0 }}>Unidad</p>
+                <Close sx={{ cursor: "pointer" }} onClick={handleClose} />
+              </Stack>
               <h2 style={{ margin: 0, fontWeight: "900", fontSize: " 24px" }}>
                 {selectedFloorplan.name}
               </h2>
@@ -75,8 +88,8 @@ export const ModalFloorplan = ({
               </Stack>
             </Stack>
           </Stack>
-        </Stack>
-      </Stack>
+        </Grid>
+      </Grid>
     </Dialog>
   );
 };
