@@ -1,13 +1,14 @@
 import {
   useAvailabilityFilter,
   useFiltersValues,
-  useFloors,
-  useSVGImage
+  useSVGImage,
+  useUnits
 } from "../../hooks";
 import { ReactSVG } from "react-svg";
 import { useCallback, useRef, useState } from "react";
 import { FloorplanCard } from "../FloorplanCard";
 import { ModalFloorplan } from "../ModalFlooplan";
+import { Unit } from "../../models/redux-models";
 
 const fills: { [key: string]: string } = {
   available: "#B4FFEE",
@@ -37,25 +38,18 @@ export const InteractiveFloorplan = () => {
     level
   ] = useFiltersValues();
   const availability = useAvailabilityFilter();
+  const units = useUnits();
   const svgImage = useSVGImage();
-  const floors = useFloors();
 
   const renderSVG = useCallback(() => {
-    const areaMinMax =
-      typeof areaFilter === "string"
-        ? areaFilter.split(" - ")
-        : [0, 999999999999999];
-    const priceMinMax =
-      typeof priceFilter === "string"
-        ? priceFilter.split(" - ")
-        : [0, 999999999999999];
-
-    floors.forEach((floor) => {
-      const currentLevelNode = document.getElementById(`Level${floor.floor}`);
+    units.forEach((unit) => {
+      const currentLevelNode = document.getElementById(
+        `Level${unit.attributes.level}`
+      );
 
       if (currentLevelNode) {
         currentLevelNode.classList.add("floor");
-        if (floor.floor === level || level === null) {
+        if (unit.attributes.level === level?.toString() || level === null) {
           currentLevelNode.classList.remove("floor");
         }
       }
@@ -66,25 +60,19 @@ export const InteractiveFloorplan = () => {
         !floorplanFilter &&
         !priceFilter &&
         !areaFilter
-          ? floor.floorPlans
-          : floor.floorPlans.filter(
+          ? units
+          : units.filter(
               (el) =>
-                el.bathrooms === bathroomFilter ||
-                el.bedrooms === bedroomFilter ||
-                el.unitName === floorplanFilter ||
-                (el.area < Number(areaMinMax[0]) &&
-                  el.area > Number(areaMinMax[1])) ||
-                (el.price < Number(priceMinMax[0]) &&
-                  el.price > Number(priceMinMax[1]))
+                el.attributes.bathroom === bathroomFilter ||
+                el.attributes.bedroom === bedroomFilter ||
+                el.typology === floorplanFilter
             );
 
-      floorPlans.forEach((el) => {
-        const { unitNumber, status } = el;
-        const floorplan = document.getElementById(`U-${unitNumber}`);
-        const floorplanPolygon = document.getElementById(`P-${unitNumber}`);
-        const floorplanCircleNumber = document.getElementById(
-          `M-${unitNumber}`
-        );
+      floorPlans.forEach((el: Unit) => {
+        const { name, status } = el;
+        const floorplan = document.getElementById(`U-${name}`);
+        const floorplanPolygon = document.getElementById(`P-${name}`);
+        const floorplanCircleNumber = document.getElementById(`M-${name}`);
 
         if (floorplanPolygon) {
           floorplanPolygon.classList.add("st2");
@@ -100,7 +88,7 @@ export const InteractiveFloorplan = () => {
             );
           }
 
-          if (lockUnitRef.current === unitNumber) {
+          if (lockUnitRef.current === name) {
             floorplanPolygon.classList.remove("st2");
             floorplanPolygon.setAttribute(
               "style",
@@ -121,7 +109,7 @@ export const InteractiveFloorplan = () => {
             const { clientX: x, clientY: y } = e;
             setMousePosition({ x, y });
             lockElementRef.current = true;
-            lockUnitRef.current = unitNumber;
+            lockUnitRef.current = name;
             hoveredElementRef.current = el;
             selectedElementRef.current = el;
           });
@@ -147,12 +135,12 @@ export const InteractiveFloorplan = () => {
       });
     });
   }, [
-    areaFilter,
-    priceFilter,
-    floors,
+    units,
     bathroomFilter,
     bedroomFilter,
     floorplanFilter,
+    priceFilter,
+    areaFilter,
     level,
     availability
   ]);

@@ -1,40 +1,15 @@
 import { Paper, Stack } from "@mui/material";
-import { FloorPlans } from "../../models/redux-models";
+import { Unit } from "../../models/redux-models";
 import Close from "@mui/icons-material/Close";
 import Bed from "@mui/icons-material/HotelOutlined";
-import Parking from "@mui/icons-material/DirectionsCarOutlined";
 import { ReactComponent as BathroomIcon } from "../../assets/icons/bathroom.svg";
 import { ReactComponent as AreaIcon } from "../../assets/icons/area.svg";
 import { ChevronRight } from "@mui/icons-material";
-import { useMemo } from "react";
-import AURA from "../../assets/minimaps/A_AURA.jpg";
-import ENERGYGARDEN from "../../assets/minimaps/B_ENERGY-GARDEN.jpg";
-import ENERGY from "../../assets/minimaps/B_ENERGY.jpg";
-import RENOIR from "../../assets/minimaps/C_RENOIR.jpg";
-import LAUTRECGARDEN from "../../assets/minimaps/D_LAUTREC-GARDEN.jpg";
-import LAUTREC from "../../assets/minimaps/D_LAUTREC.jpg";
-import HARMONYGARDEN from "../../assets/minimaps/E_HARMONY-GARDEN.jpg";
-import HARMONY from "../../assets/minimaps/E_HARMONY.jpg";
-import ESSENCE from "../../assets/minimaps/ESSENCE.jpg";
-
-const maps: { [key: string]: string } = {
-  AURA,
-  ENERGYGARDEN,
-  ENERGY,
-  RENOIR,
-  LAUTRECGARDEN,
-  LAUTREC,
-  HARMONYGARDEN,
-  HARMONY,
-  NATURE: LAUTREC,
-  ESSENCE,
-  ESSENCEGARDEN: ESSENCE
-};
 
 interface Props {
   x: number;
   y: number;
-  selectedFloorplan: FloorPlans;
+  selectedFloorplan: Unit;
   clearSelectedFloor: () => void;
   onClick: () => void;
 }
@@ -48,10 +23,6 @@ export const FloorplanCard = ({
 }: Props) => {
   const options = { style: "currency", currency: "USD" };
   const numberFormat = new Intl.NumberFormat("en-US", options);
-  const image = useMemo(
-    () => maps[selectedFloorplan.layoutName.replace(/\s/g, "")],
-    [selectedFloorplan.layoutName]
-  );
   return (
     <Paper
       sx={{
@@ -80,9 +51,9 @@ export const FloorplanCard = ({
           alignItems="center"
         >
           <Stack direction="row" spacing={2} alignItems="center">
-            <h5>{selectedFloorplan.unitName}</h5>
+            <h5>{selectedFloorplan.typology}</h5>
             <h5>|</h5>
-            <h5>{`${selectedFloorplan.unitNumber} `}</h5>
+            <h5>{`${selectedFloorplan.name} `}</h5>
           </Stack>
           <Close
             style={{ cursor: "pointer" }}
@@ -106,8 +77,7 @@ export const FloorplanCard = ({
           >
             <AreaIcon />
             <h6 style={{ color: "white", margin: 0 }}>
-              {selectedFloorplan.area}
-              {selectedFloorplan.detailsUnit.areaMetric}
+              {selectedFloorplan.attributes.area_total} m2
             </h6>
           </Stack>
           <Stack
@@ -118,7 +88,7 @@ export const FloorplanCard = ({
           >
             <Bed sx={{ color: "white", width: "15px", height: "15px" }} />
             <h6 style={{ color: "white", margin: 0 }}>
-              {selectedFloorplan.bedrooms}
+              {selectedFloorplan.attributes.bedroom}
             </h6>
           </Stack>
           <Stack
@@ -129,18 +99,7 @@ export const FloorplanCard = ({
           >
             <BathroomIcon />
             <h6 style={{ color: "white", margin: 0 }}>
-              {selectedFloorplan.bathrooms}
-            </h6>
-          </Stack>
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={0}
-            alignContent="start"
-          >
-            <Parking sx={{ color: "white", width: "15px", height: "15px" }} />
-            <h6 style={{ color: "white", margin: 0 }}>
-              {selectedFloorplan.parking}
+              {selectedFloorplan.attributes.bathroom}
             </h6>
           </Stack>
         </Stack>
@@ -151,8 +110,8 @@ export const FloorplanCard = ({
           justifyItems="center"
         >
           <img
-            src={image}
-            alt={selectedFloorplan.unitName}
+            src={selectedFloorplan.attributes.blueprint[0]}
+            alt={selectedFloorplan.typology}
             style={{
               width: "95%",
               height: 185,
@@ -171,9 +130,7 @@ export const FloorplanCard = ({
         >
           <Stack sx={{ paddingLeft: "10px" }}>
             <h5 style={{ color: "white", margin: 0 }}>
-              {`${numberFormat.format(selectedFloorplan.price)} ${
-                selectedFloorplan.currency
-              }`}
+              {`${numberFormat.format(selectedFloorplan.attributes.price)} MXN`}
             </h5>
             <h6 style={{ margin: 0, color: " #B4FFEE" }}>Disponible</h6>
           </Stack>

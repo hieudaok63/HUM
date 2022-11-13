@@ -1,12 +1,11 @@
 import { Close } from "@mui/icons-material";
-import { Dialog, Stack } from "@mui/material";
-import { FloorPlans } from "../../models/redux-models";
-import { Images } from "./Images";
+import { Box, Dialog, Grid, Stack } from "@mui/material";
+import { Unit } from "../../models/redux-models";
 
 interface Props {
   open: boolean;
   handleClose: () => void;
-  selectedFloorplan: FloorPlans;
+  selectedFloorplan: Unit;
 }
 export const ModalFloorplan = ({
   open,
@@ -20,60 +19,77 @@ export const ModalFloorplan = ({
       open={open}
       onClose={handleClose}
       fullWidth
-      maxWidth="sm"
+      maxWidth="md"
       sx={{
         "& .MuiDialog-paper": {
-          borderRadius: "10px"
+          borderRadius: "10px",
+          height: "553px"
         }
       }}
     >
-      <Stack sx={{ padding: "20px" }} spacing={2}>
-        <Stack direction="row" justifyContent="end">
-          <Close sx={{ cursor: "pointer" }} onClick={handleClose} />
-        </Stack>
-        <Stack direction="row" spacing={4}>
-          <Images />
+      <Grid container spacing={3} sx={{ height: "100%", padding: "30px" }}>
+        <Grid item sm={6}>
+          <Box sx={{ width: "100%", height: "100%" }}>
+            <img
+              src={selectedFloorplan.attributes.cover}
+              alt="preview"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                borderRadius: "10px"
+              }}
+            />
+          </Box>
+        </Grid>
+        <Grid item sm={6}>
           <Stack spacing={2}>
             <Stack>
-              <p style={{ margin: 0 }}>Unidad</p>
-              <h2 style={{ margin: 0, fontWeight: "900", fontSize: " 24px" }}>{selectedFloorplan.unitNumber}</h2>
+              <Stack direction="row" justifyContent="space-between">
+                <p style={{ margin: 0 }}>Unidad</p>
+                <Close sx={{ cursor: "pointer" }} onClick={handleClose} />
+              </Stack>
+              <h2 style={{ margin: 0, fontWeight: "900", fontSize: " 24px" }}>
+                {selectedFloorplan.name}
+              </h2>
             </Stack>
             <Stack>
               <p style={{ margin: 0 }}>Valor de la vivienda</p>
-              <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 18px" }}>{`${numberFormat.format(
-                selectedFloorplan.price
-              )} ${selectedFloorplan.currency}`}</h2>
+              <h2
+                style={{ margin: 0, fontWeight: "700", fontSize: " 18px" }}
+              >{`${numberFormat.format(
+                selectedFloorplan.attributes.price
+              )} MXN`}</h2>
             </Stack>
             <Stack direction="row" alignItems="center" spacing={2}>
               <p style={{ margin: 0 }}>Tipología: </p>
               <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
-                {selectedFloorplan.layoutName}
+                {selectedFloorplan.typology}
               </h2>
             </Stack>
             <Stack direction="row" alignItems="center" spacing={2}>
               <p style={{ margin: 0 }}>Área Total: </p>
               <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
-                {selectedFloorplan.area}
-                {selectedFloorplan.detailsUnit.areaMetric}
+                {selectedFloorplan.attributes.area_total} m2
               </h2>
             </Stack>
             <Stack direction="row" alignItems="center" spacing={2}>
               <Stack direction="row" alignItems="center" spacing={2}>
                 <p style={{ margin: 0 }}>Habitaciones: </p>
                 <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
-                  {selectedFloorplan.bedrooms}
+                  {selectedFloorplan.attributes.bedroom}
                 </h2>
               </Stack>
               <Stack direction="row" alignItems="center" spacing={2}>
                 <p style={{ margin: 0 }}>Baños: </p>
                 <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
-                  {selectedFloorplan.bathrooms}
+                  {selectedFloorplan.attributes.bathroom}
                 </h2>
               </Stack>
             </Stack>
           </Stack>
-        </Stack>
-      </Stack>
+        </Grid>
+      </Grid>
     </Dialog>
   );
 };

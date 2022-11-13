@@ -1,20 +1,16 @@
 import { Divider, Grid, Stack } from "@mui/material";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Bed from "@mui/icons-material/HotelOutlined";
-// import Coin from "@mui/icons-material/MonetizationOnOutlined";
 import { ReactComponent as BathroomIcon } from "../../assets/icons/bathroom.svg";
-// import { ReactComponent as AreaIcon } from "../../assets/icons/area.svg";
 import { ReactComponent as FloorplanIcon } from "../../assets/icons/floorplan.svg";
 import { ReactComponent as LevelsIcon } from "../../assets/icons/levels.svg";
 import { Filter } from "./Filter";
 import { useMemo, useState } from "react";
 import { useAppDispatch, useFilters, useFiltersValues } from "../../hooks";
 import {
-  // setAreas,
   setBathrooms,
   setBedrooms,
   setFloorPlanType,
-  // setPrices,
   setLevel,
   cleanFilters
 } from "../../store/todo-actions";
@@ -22,22 +18,14 @@ import {
 export const Filters = () => {
   const dispatch = useAppDispatch();
   const [shouldClear, setShouldClear] = useState(false);
-  const [
-    bedroomsOptions,
-    bathroomOptions,
-    floorplanTypesOptions,
-    priceOptions,
-    areaOptions,
+  const {
+    bedrooms: bedroomsOptions,
+    bathrooms: bathroomOptions,
+    floorplanTypes: floorplanTypesOptions,
     levels
-  ] = useFilters();
-  const [
-    bedroomFilter,
-    bathroomFilter,
-    floorplanFilter,
-    priceFilter,
-    areaFilter,
-    levelFilter
-  ] = useFiltersValues();
+  } = useFilters();
+  const [bedroomFilter, bathroomFilter, floorplanFilter, levelFilter] =
+    useFiltersValues();
 
   const bedroomIndex = useMemo(
     () =>
@@ -58,7 +46,7 @@ export const Filters = () => {
   const floorplanIndex = useMemo(
     () =>
       floorplanTypesOptions.findIndex(
-        (floorplan: { value: number }) => floorplan.value === floorplanFilter
+        (floorplan: { value: string }) => floorplan.value === floorplanFilter
       ),
     [floorplanFilter, floorplanTypesOptions]
   );
@@ -66,26 +54,10 @@ export const Filters = () => {
   const levelIndex = useMemo(
     () =>
       levels.findIndex(
-        (level: { value: number }) => level.value === levelFilter
+        (level: { value: number }) => level.value.toString() === levelFilter
       ),
     [levelFilter, levels]
   );
-
-  // const priceIndex = useMemo(
-  //   () =>
-  //     priceOptions.findIndex(
-  //       (price: { value: number }) => price.value === priceFilter
-  //     ),
-  //   [priceFilter, priceOptions]
-  // );
-
-  // const areaIndex = useMemo(
-  //   () =>
-  //     areaOptions.findIndex(
-  //       (area: { value: number }) => area.value === areaFilter
-  //     ),
-  //   [areaFilter, areaOptions]
-  // );
 
   return (
     <Grid
@@ -142,28 +114,6 @@ export const Filters = () => {
             setShouldClear(false);
           }}
         />
-        {/* <Filter
-          text="Precio"
-          options={priceOptions}
-          index={priceIndex}
-          startIcon={<Coin style={{ color: "white", width: 18, height: 18 }} />}
-          onChange={(event) => dispatch(setPrices(event.value))}
-          shouldClear={shouldClear}
-          resetShouldClear={() => {
-            setShouldClear(false);
-          }}
-        />
-        <Filter
-          text="Área"
-          options={areaOptions}
-          index={areaIndex}
-          startIcon={<AreaIcon />}
-          onChange={(event) => dispatch(setAreas(event.value))}
-          shouldClear={shouldClear}
-          resetShouldClear={() => {
-            setShouldClear(false);
-          }}
-        /> */}
         <Filter
           key={"floorplan"}
           text="Planta Tipo"
