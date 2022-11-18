@@ -5,6 +5,7 @@ import Bed from "@mui/icons-material/HotelOutlined";
 import { ReactComponent as BathroomIcon } from "../../assets/icons/bathroom.svg";
 import { ReactComponent as AreaIcon } from "../../assets/icons/area.svg";
 import { ChevronRight } from "@mui/icons-material";
+import { fills } from "../InteractiveFloorplan";
 
 interface Props {
   x: number;
@@ -14,7 +15,7 @@ interface Props {
   onClick: () => void;
 }
 
-const status: { [key: string]: string } = {
+export const status: { [key: string]: string } = {
   available: "Disponible",
   nonavailable: "No Disponible",
   taken: "Apartado",
@@ -51,7 +52,7 @@ export const FloorplanCard = ({
           direction="row"
           justifyContent="space-between"
           sx={{
-            backgroundColor: "#B4FFEE",
+            backgroundColor: fills[selectedFloorplan.status],
             borderTopRightRadius: "10px",
             borderTopLeftRadius: "10px",
             padding: "0px 15px"
@@ -140,7 +141,12 @@ export const FloorplanCard = ({
             <h5 style={{ color: "white", margin: 0 }}>
               {`${numberFormat.format(selectedFloorplan.attributes.price)} MXN`}
             </h5>
-            <h6 style={{ margin: 0, color: " #B4FFEE" }}>
+            <h6
+              style={{
+                margin: 0,
+                color: fills[selectedFloorplan.status]
+              }}
+            >
               {status[selectedFloorplan.status]}
             </h6>
           </Stack>

@@ -10,7 +10,7 @@ import { FloorplanCard } from "../FloorplanCard";
 import { ModalFloorplan } from "../ModalFlooplan";
 import { Unit } from "../../models/redux-models";
 
-const fills: { [key: string]: string } = {
+export const fills: { [key: string]: string } = {
   available: "#B4FFEE",
   reserved: "#FFE7B6",
   taken: "#C0C7FF",

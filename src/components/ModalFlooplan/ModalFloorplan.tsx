@@ -1,6 +1,8 @@
 import { Close } from "@mui/icons-material";
-import { Box, Dialog, Grid, Stack } from "@mui/material";
+import { Box, Chip, Dialog, Grid, Stack } from "@mui/material";
 import { Unit } from "../../models/redux-models";
+import { status } from "../FloorplanCard";
+import { fills } from "../InteractiveFloorplan";
 
 interface Props {
   open: boolean;
@@ -46,7 +48,20 @@ export const ModalFloorplan = ({
           <Stack spacing={2}>
             <Stack>
               <Stack direction="row" justifyContent="space-between">
-                <p style={{ margin: 0 }}>Unidad</p>
+                <Stack
+                  direction="row"
+                  justifyItems="center"
+                  alignItems="center"
+                  alignContent="center"
+                  justifyContent="center"
+                  spacing={1}
+                >
+                  <h1 style={{ margin: 0 }}>Unidad</h1>
+                  <Chip
+                    label={status[selectedFloorplan.status]}
+                    sx={{ backgroundColor: fills[selectedFloorplan.status] }}
+                  />
+                </Stack>
                 <Close sx={{ cursor: "pointer" }} onClick={handleClose} />
               </Stack>
               <h2 style={{ margin: 0, fontWeight: "900", fontSize: " 24px" }}>
