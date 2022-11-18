@@ -13,7 +13,7 @@ const filters = [
   { text: "Reservado", icon: <ReservedIcon />, value: "reserved" },
   { text: "Apartado", icon: <TakenIcon />, value: "taken" },
   { text: "Vendido", icon: <SoldIcon />, value: "sold" },
-  { text: "No disponible", icon: <NotAvailableIcon />, value: "not-available" },
+  { text: "No disponible", icon: <NotAvailableIcon />, value: "nonavailable" },
   { text: "Todos", icon: <AllIcon />, value: "all" }
 ];
 export const AvailabilityFilters = () => {

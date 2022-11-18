@@ -15,7 +15,7 @@ const fills: { [key: string]: string } = {
   reserved: "#FFE7B6",
   taken: "#C0C7FF",
   sold: "#FFC0C0",
-  "not-available": "#C4C4C4"
+  nonavailable: "#C4C4C4"
 };
 
 export const InteractiveFloorplan = () => {

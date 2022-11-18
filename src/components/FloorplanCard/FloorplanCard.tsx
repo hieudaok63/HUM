@@ -14,6 +14,14 @@ interface Props {
   onClick: () => void;
 }
 
+const status: { [key: string]: string } = {
+  available: "Disponible",
+  nonavailable: "No Disponible",
+  taken: "Apartado",
+  reserved: "Reservado",
+  sold: "Vendido"
+};
+
 export const FloorplanCard = ({
   x,
   y,
@@ -132,7 +140,9 @@ export const FloorplanCard = ({
             <h5 style={{ color: "white", margin: 0 }}>
               {`${numberFormat.format(selectedFloorplan.attributes.price)} MXN`}
             </h5>
-            <h6 style={{ margin: 0, color: " #B4FFEE" }}>Disponible</h6>
+            <h6 style={{ margin: 0, color: " #B4FFEE" }}>
+              {status[selectedFloorplan.status]}
+            </h6>
           </Stack>
           <Stack
             alignContent="center"
