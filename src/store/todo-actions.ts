@@ -14,14 +14,6 @@ export const fetchAvailability = (projectId: string): ThunkAction<void, RootStat
     }
 }
 
-export const fetchTypology = () : ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch, getState) => {
-    const externalId = getState().availability.externalId;
-    if (externalId) {
-        const data = await availabilityService.getTypologies(externalId);
-        dispatch(availabilityActions.setApartments(data))
-    }
-}
-
 export const setBedrooms = (bedrooms: number): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
     dispatch(availabilityActions.setBedrooms({ bedrooms }));
 }

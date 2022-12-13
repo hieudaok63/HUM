@@ -144,3 +144,8 @@ export const useExternalId = () => {
     const externalId = useAppSelector((state) => state.availability.externalId);
     return useMemo(() => externalId, [externalId])
 }
+
+export const useProjectId = () => {
+    const projectId = useAppSelector((state) => state.availability.projectId);
+    return useMemo(() => projectId, [projectId])
+}

@@ -7,6 +7,7 @@ const initialAvailabilityState: Availability = {
     svgs: [],
     apartments: [],
     externalId: '',
+    projectId: '',
     bedrooms: null,
     bathrooms: null,
     prices: null,
@@ -24,7 +25,8 @@ export const availabilitySlice = createSlice({
     reducers: {
         setAvailability(state, action: PayloadAction<Availability>) {
             state.svgs = action.payload.svgs;
-            state.externalId = action.payload.externalId;
+            state.projectId = action.payload.projectId;
+            state.apartments = action.payload.apartments;
         },
         setApartments(state, action: PayloadAction<Availability>) {
             state.apartments = action.payload.apartments;

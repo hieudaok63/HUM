@@ -1,8 +1,10 @@
 import { Close } from "@mui/icons-material";
 import { Box, Chip, Dialog, Grid, Stack } from "@mui/material";
+import { useMemo } from "react";
 import { Unit } from "../../models/redux-models";
 import { status } from "../FloorplanCard";
 import { fills } from "../InteractiveFloorplan";
+import { Images } from "./Images";
 
 interface Props {
   open: boolean;
@@ -16,6 +18,25 @@ export const ModalFloorplan = ({
 }: Props) => {
   const options = { style: "currency", currency: "USD" };
   const numberFormat = new Intl.NumberFormat("en-US", options);
+  const images = useMemo(() => {
+    const carouselImages = [];
+
+    if (!!selectedFloorplan.attributes.cover)
+      carouselImages.push(selectedFloorplan.attributes.cover);
+
+    if (!!selectedFloorplan.attributes.pictures?.length)
+      carouselImages.push(...selectedFloorplan.attributes.pictures);
+
+    if (!!selectedFloorplan.attributes.plans.length)
+      carouselImages.push(...selectedFloorplan.attributes.plans);
+
+    return carouselImages;
+  }, [
+    selectedFloorplan.attributes.cover,
+    selectedFloorplan.attributes.pictures,
+    selectedFloorplan.attributes.plans
+  ]);
+
   return (
     <Dialog
       open={open}
@@ -32,16 +53,7 @@ export const ModalFloorplan = ({
       <Grid container spacing={3} sx={{ height: "100%", padding: "30px" }}>
         <Grid item sm={6}>
           <Box sx={{ width: "100%", height: "100%" }}>
-            <img
-              src={selectedFloorplan.attributes.cover}
-              alt="preview"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                borderRadius: "10px"
-              }}
-            />
+            <Images images={images} />
           </Box>
         </Grid>
         <Grid item sm={6}>

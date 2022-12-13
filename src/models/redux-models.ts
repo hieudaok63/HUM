@@ -135,6 +135,7 @@ export interface UnitAttribute {
     price: number;
     product_subtype: string;
     product_type: string;
+    pictures: string[];
 }
 
 export interface Unit {
@@ -167,6 +168,7 @@ export interface Availability {
     availability: string;
     svgType: SvgImageType;
     stage: string;
+    projectId: string;
 }
 
 export interface FilterOptions {
