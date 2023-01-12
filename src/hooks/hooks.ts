@@ -149,3 +149,28 @@ export const useProjectId = () => {
     const projectId = useAppSelector((state) => state.availability.projectId);
     return useMemo(() => projectId, [projectId])
 }
+
+export const useLocations = () => {
+    const locations = useAppSelector((state) => state.availability.locations);
+    return useMemo(() => locations, [locations])
+}
+
+export const useCurrentLocation = () => {
+    const currentLocation = useAppSelector((state) => state.availability.currentLocation);
+    return useMemo(() => currentLocation, [currentLocation])
+}
+
+export const useCurrentView = () => {
+    const currentView = useAppSelector((state) => state.availability.currentView);
+    return useMemo(() => currentView, [currentView])
+}
+
+export const useCurrentVideo = () => {
+    const currentVideo = useAppSelector((state) => state.availability.currentVideo);
+    return useMemo(() => currentVideo, [currentVideo])
+}
+
+export const useCurrentType = () => {
+    const currentVideoType = useAppSelector((state) => state.availability.currentVideoType);
+    return useMemo(() => currentVideoType, [currentVideoType])
+}

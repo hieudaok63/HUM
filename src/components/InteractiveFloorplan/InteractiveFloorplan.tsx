@@ -18,7 +18,11 @@ export const fills: { [key: string]: string } = {
   nonavailable: "#C4C4C4"
 };
 
-export const InteractiveFloorplan = () => {
+interface Props {
+  svg: string;
+}
+
+export const InteractiveFloorplan = ({ svg }: Props) => {
   const currentSvg = useRef(null);
   const hoveredElementRef = useRef<any>(null);
   const selectedElementRef = useRef<any>(null);
@@ -39,7 +43,6 @@ export const InteractiveFloorplan = () => {
   ] = useFiltersValues();
   const availability = useAvailabilityFilter();
   const units = useUnits();
-  const svgImage = useSVGImage();
 
   const renderSVG = useCallback(() => {
     units.forEach((unit) => {
@@ -145,7 +148,7 @@ export const InteractiveFloorplan = () => {
     availability
   ]);
 
-  if (!svgImage) return null;
+  if (!svg) return null;
 
   return (
     <div
@@ -168,7 +171,7 @@ export const InteractiveFloorplan = () => {
         afterInjection={(err, svg) => {
           if (svg) renderSVG();
         }}
-        src={`${svgImage}?v2`}
+        src={`${svg}?v2`}
         style={{
           height: "100%",
           width: "100%"

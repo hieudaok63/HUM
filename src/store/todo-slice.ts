@@ -16,7 +16,12 @@ const initialAvailabilityState: Availability = {
     level: 0,
     availability: 'all',
     svgType: '2d',
-    stage: ''
+    stage: '',
+    locations: [],
+    currentLocation: 0,
+    currentView: 0,
+    currentVideo: null,
+    currentVideoType: 'forward'
 }
 
 export const availabilitySlice = createSlice({
@@ -27,6 +32,61 @@ export const availabilitySlice = createSlice({
             state.svgs = action.payload.svgs;
             state.projectId = action.payload.projectId;
             state.apartments = action.payload.apartments;
+            state.locations = [
+                {
+                    "key": "view-1",
+                    "order": 0,
+                    "views": [
+                        {
+                            "jpg": "https://athum.com/images-tmp/okun-conjunto.jpg",
+                            "svg": "none",
+                            "order": 1,
+                            "video": "none",
+                            videoBack: "none"
+                        }
+                    ]
+                },
+                {
+                    "key": "view-2",
+                    "order": 1,
+                    "views": [
+                        {
+                            "jpg": "https://athum.com/images-tmp/okun-etapa1A.jpg",
+                            "svg": "none",
+                            "order": 1,
+                            "video": "https://athum.com/images-tmp/okun-etapa_1-1.webm",
+                            "videoBack": "none"
+                        },
+                        {
+                            "jpg": "https://athum.com/images-tmp/okun-etapa1B.jpg",
+                            "svg": "none",
+                            "order": 2,
+                            "video": "https://athum.com/images-tmp/okun-etapa_1-2.webm",
+                            "videoBack": "https://athum.com/images-tmp/okun-etapa_1-1_rev.webm"
+                        }
+                    ]
+                },
+                {
+                    "key": "view-3",
+                    "order": 2,
+                    "views": [
+                        {
+                            "jpg": "https://athum.com/images-tmp/okun-etapa2A.jpg",
+                            "svg": "none",
+                            "order": 3,
+                            "video": "https://athum.com/images-tmp/okun-etapa_2-1.webm",
+                            videoBack: "none"
+                        },
+                        {
+                            "jpg": "https://athum.com/images-tmp/okun-etapa2B.jpg",
+                            "svg": "none",
+                            "order": 4,
+                            "video": "https://athum.com/images-tmp/okun-etapa_2-2.webm",
+                            videoBack: "none"
+                        }
+                    ]
+                },
+            ]
         },
         setApartments(state, action: PayloadAction<Availability>) {
             state.apartments = action.payload.apartments;
@@ -67,6 +127,16 @@ export const availabilitySlice = createSlice({
         },
         cleanLevels(state, action: PayloadAction<{ level: number | null }>) {
             state.level = action.payload.level;
+        },
+        setCurrentLocations(state, action: PayloadAction<{ currentLocation: number }>) {
+            state.currentLocation = action.payload.currentLocation;
+        },
+        setCurrentLocationView(state, action: PayloadAction<{ currentView: number }>) {
+            state.currentView = action.payload.currentView;
+        },
+        setCurrentVideo(state, action: PayloadAction<{ currentVideo: string | null, currentVideoType: 'forward' | 'rewind' }>) {
+            state.currentVideo = action.payload.currentVideo;
+            state.currentVideoType = action.payload.currentVideoType;
         }
     }
 })

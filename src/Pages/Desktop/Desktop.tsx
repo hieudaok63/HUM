@@ -1,14 +1,13 @@
 import { Box, CircularProgress, Stack } from "@mui/material";
-import {
-  Filters,
-  InteractiveFloorplan,
-  AvailabilityFilters,
-  BottomFilters
-} from "../../components";
-import { useSVGImage } from "../../hooks";
+import { Filters, AvailabilityFilters, Locations } from "../../components";
+import { NavigationArrows } from "../../components/NavigationArrows";
+import { Video } from "../../components/Video";
+import { useCurrentType, useCurrentVideo, useSVGImage } from "../../hooks";
 
 export const Desktop = () => {
   const svgImage = useSVGImage();
+  const video = useCurrentVideo();
+  const type = useCurrentType();
 
   return !svgImage ? (
     <Box
@@ -34,18 +33,20 @@ export const Desktop = () => {
     >
       <Filters />
       <Stack
-        direction="row"
         alignItems="center"
         sx={{
           height: "100%",
           width: "100%",
-          overflow: "hidden"
+          overflow: "hidden",
+          position: "relative"
         }}
       >
-        <InteractiveFloorplan />
+        <Video src={video || ""} type={type} />
+        <Locations />
         <AvailabilityFilters />
+        <NavigationArrows position="left" disabled={false} />
+        <NavigationArrows position="right" disabled={false} />
       </Stack>
-      <BottomFilters />
     </Stack>
   );
 };

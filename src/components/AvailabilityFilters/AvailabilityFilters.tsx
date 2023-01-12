@@ -22,20 +22,33 @@ export const AvailabilityFilters = () => {
   return (
     <Stack
       spacing={8}
-      sx={{ height: "100%", paddingRight: "32px" }}
+      direction="row"
+      sx={{
+        position: "absolute",
+        bottom: 0,
+        marginBottom: "40px",
+        paddingLeft: "40px",
+        width: "100%"
+      }}
       alignContent="center"
-      justifyContent="center"
+      justifyContent="flex-start"
     >
       {filters.map((filter) => (
         <Chip
           key={filter.value}
           sx={{
             width: 156,
-            backgroundColor: "#F6F6F6",
-            border: `1px solid ${
-              filter.value === availability ? "#3948FF" : "#E4E4E7"
-            }`,
-            justifyContent: "space-between"
+            backgroundColor:
+              filter.value === availability
+                ? "rgba(0, 0, 0, 0.1)"
+                : "rgba(0, 0, 0, 0.6)",
+            border: `1px solid white`,
+            color: "white",
+            justifyContent: "space-between",
+            "&:hover": {
+              fontWeight: "bold",
+              backgroundColor: "rgba(0, 0, 0, 0.1)"
+            }
           }}
           label={filter.text}
           deleteIcon={filter.icon}

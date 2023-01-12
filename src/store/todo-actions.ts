@@ -57,3 +57,15 @@ export const cleanFilters = (): ThunkAction<void, RootState, unknown, AnyAction>
 export const cleanLevels = (level: number | null): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
     dispatch(availabilityActions.cleanLevels({ level }));
 }
+
+export const setCurrentLocations = (currentLocation: number): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+    dispatch(availabilityActions.setCurrentLocations({ currentLocation }));
+}
+
+export const setCurrentLocationView = (currentView: number): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+    dispatch(availabilityActions.setCurrentLocationView({ currentView }));
+}
+
+export const setCurrentVideo = (currentVideo: string | null, currentVideoType: 'forward' | 'rewind'): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+    dispatch(availabilityActions.setCurrentVideo({ currentVideo, currentVideoType }));
+}
