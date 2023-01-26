@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useAppDispatch } from "../../hooks";
-import { setCurrentVideo } from "../../store/todo-actions";
+import { setCurrentVideo, setHideImage } from "../../store/todo-actions";
 
 interface Props {
   src: string;
@@ -14,8 +14,13 @@ export const Video = ({ src, type }: Props) => {
     if (vidRef.current) {
       vidRef.current.play();
       vidRef.current.addEventListener("timeupdate", function () {
-        if (vidRef.current.currentTime === vidRef.current.duration) {
+        if (
+          vidRef.current &&
+          vidRef.current.currentTime === vidRef.current.duration
+        ) {
+          vidRef.current.pause();
           dispatch(setCurrentVideo(null, "forward"));
+          dispatch(setHideImage(false));
         }
       });
     }
@@ -38,6 +43,7 @@ export const Video = ({ src, type }: Props) => {
   useEffect(() => {
     if (vidRef && vidRef.current && src) {
       vidRef.current.src = src;
+      dispatch(setHideImage(true));
       vidRef.current.type = "video/webm";
       if (type === "forward") {
         handlePlayVideo();
@@ -45,7 +51,8 @@ export const Video = ({ src, type }: Props) => {
         handleBackwards();
       }
     }
-  }, [handleBackwards, handlePlayVideo, src, type, vidRef]);
+  }, [dispatch, handleBackwards, handlePlayVideo, src, type, vidRef]);
+
   return (
     <video
       ref={vidRef}

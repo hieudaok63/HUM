@@ -69,3 +69,7 @@ export const setCurrentLocationView = (currentView: number): ThunkAction<void, R
 export const setCurrentVideo = (currentVideo: string | null, currentVideoType: 'forward' | 'rewind'): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
     dispatch(availabilityActions.setCurrentVideo({ currentVideo, currentVideoType }));
 }
+
+export const setHideImage = (hideImage: boolean): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+    dispatch(availabilityActions.setHideImage({ hideImage }));
+}

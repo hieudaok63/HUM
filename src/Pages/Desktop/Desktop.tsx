@@ -41,7 +41,7 @@ export const Desktop = () => {
           position: "relative"
         }}
       >
-        <Video src={video || ""} type={type} />
+        {video && <Video src={video} type={type} />}
         <Locations />
         <AvailabilityFilters />
         <NavigationArrows position="left" disabled={false} />

@@ -188,6 +188,8 @@ export interface Availability {
     currentView: number;
     currentVideo: string | null;
     currentVideoType: 'forward' | 'rewind';
+    pastView: number;
+    hideImage: boolean;
 }
 
 export interface FilterOptions {

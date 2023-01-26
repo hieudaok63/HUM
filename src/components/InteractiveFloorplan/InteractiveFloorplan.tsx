@@ -1,7 +1,8 @@
 import {
+  useAppDispatch,
   useAvailabilityFilter,
   useFiltersValues,
-  useSVGImage,
+  useLocations,
   useUnits
 } from "../../hooks";
 import { ReactSVG } from "react-svg";
@@ -9,6 +10,11 @@ import { useCallback, useRef, useState } from "react";
 import { FloorplanCard } from "../FloorplanCard";
 import { ModalFloorplan } from "../ModalFlooplan";
 import { Unit } from "../../models/redux-models";
+import {
+  setCurrentLocations,
+  setCurrentLocationView,
+  setCurrentVideo
+} from "../../store/todo-actions";
 
 export const fills: { [key: string]: string } = {
   available: "#B4FFEE",
@@ -23,6 +29,7 @@ interface Props {
 }
 
 export const InteractiveFloorplan = ({ svg }: Props) => {
+  const dispatch = useAppDispatch();
   const currentSvg = useRef(null);
   const hoveredElementRef = useRef<any>(null);
   const selectedElementRef = useRef<any>(null);
@@ -43,8 +50,26 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
   ] = useFiltersValues();
   const availability = useAvailabilityFilter();
   const units = useUnits();
+  const locations = useLocations();
 
   const renderSVG = useCallback(() => {
+    const currentLocations = [...locations];
+    currentLocations.splice(1, 1);
+    currentLocations.forEach((locations, index) => {
+      const currentLocationNode = document.getElementById(`L-E${index + 1}`);
+      const currentLocation = index + 1;
+
+      if (currentLocationNode) {
+        currentLocationNode.addEventListener(
+          "mousedown",
+          (e: any) => {
+            dispatch(setCurrentLocations(currentLocation));
+            dispatch(setCurrentLocationView(0));
+          },
+          false
+        );
+      }
+    });
     units.forEach((unit) => {
       const currentLevelNode = document.getElementById(
         `Level${unit.attributes.level}`
@@ -155,8 +180,6 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
       style={{
         height: "100%",
         width: "100%",
-        paddingLeft: "9px",
-        paddingRight: "12px",
         position: "relative"
       }}
       onMouseEnter={() => {
@@ -171,7 +194,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
         afterInjection={(err, svg) => {
           if (svg) renderSVG();
         }}
-        src={`${svg}?v2`}
+        src={`${svg}?type=svg`}
         style={{
           height: "100%",
           width: "100%"

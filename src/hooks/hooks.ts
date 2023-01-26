@@ -165,6 +165,11 @@ export const useCurrentView = () => {
     return useMemo(() => currentView, [currentView])
 }
 
+export const usePastView = () => {
+    const pastView = useAppSelector((state) => state.availability.pastView);
+    return useMemo(() => pastView, [pastView])
+}
+
 export const useCurrentVideo = () => {
     const currentVideo = useAppSelector((state) => state.availability.currentVideo);
     return useMemo(() => currentVideo, [currentVideo])
@@ -173,4 +178,9 @@ export const useCurrentVideo = () => {
 export const useCurrentType = () => {
     const currentVideoType = useAppSelector((state) => state.availability.currentVideoType);
     return useMemo(() => currentVideoType, [currentVideoType])
+}
+
+export const useHideImage = () => {
+    const hideImage = useAppSelector((state) => state.availability.hideImage);
+    return useMemo(() => hideImage, [hideImage])
 }

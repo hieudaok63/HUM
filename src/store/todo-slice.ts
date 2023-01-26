@@ -21,7 +21,9 @@ const initialAvailabilityState: Availability = {
     currentLocation: 0,
     currentView: 0,
     currentVideo: null,
-    currentVideoType: 'forward'
+    currentVideoType: 'forward',
+    pastView: 0,
+    hideImage: false,
 }
 
 export const availabilitySlice = createSlice({
@@ -39,7 +41,7 @@ export const availabilitySlice = createSlice({
                     "views": [
                         {
                             "jpg": "https://athum.com/images-tmp/okun-conjunto.jpg",
-                            "svg": "none",
+                            "svg": "https://athum.com/images-tmp/okun-conjunto.svg",
                             "order": 1,
                             "video": "none",
                             videoBack: "none"
@@ -52,16 +54,16 @@ export const availabilitySlice = createSlice({
                     "views": [
                         {
                             "jpg": "https://athum.com/images-tmp/okun-etapa1A.jpg",
-                            "svg": "none",
+                            "svg": "https://athum.com/images-tmp/okun-etapa1-vistaA-anim.svg",
                             "order": 1,
                             "video": "https://athum.com/images-tmp/okun-etapa_1-1.webm",
                             "videoBack": "none"
                         },
                         {
                             "jpg": "https://athum.com/images-tmp/okun-etapa1B.jpg",
-                            "svg": "none",
+                            "svg": "https://athum.com/images-tmp/okun-etapa1-vistaB-anim.svg",
                             "order": 2,
-                            "video": "https://athum.com/images-tmp/okun-etapa_1-2.webm",
+                            "video": "none",
                             "videoBack": "https://athum.com/images-tmp/okun-etapa_1-1_rev.webm"
                         }
                     ]
@@ -72,17 +74,17 @@ export const availabilitySlice = createSlice({
                     "views": [
                         {
                             "jpg": "https://athum.com/images-tmp/okun-etapa2A.jpg",
-                            "svg": "none",
+                            "svg": "https://athum.com/images-tmp/okun-etapa2-vistaA-anim.svg",
                             "order": 3,
                             "video": "https://athum.com/images-tmp/okun-etapa_2-1.webm",
-                            videoBack: "none"
+                            "videoBack": "https://athum.com/images-tmp/okun-etapa_1-2_rev.webm"
                         },
                         {
                             "jpg": "https://athum.com/images-tmp/okun-etapa2B.jpg",
-                            "svg": "none",
+                            "svg": "https://athum.com/images-tmp/okun-etapa2-vistaB-anim.svg",
                             "order": 4,
                             "video": "https://athum.com/images-tmp/okun-etapa_2-2.webm",
-                            videoBack: "none"
+                            "videoBack": "https://athum.com/images-tmp/okun-etapa_2-1_rev.webm"
                         }
                     ]
                 },
@@ -132,11 +134,15 @@ export const availabilitySlice = createSlice({
             state.currentLocation = action.payload.currentLocation;
         },
         setCurrentLocationView(state, action: PayloadAction<{ currentView: number }>) {
+            state.pastView = state.currentView;
             state.currentView = action.payload.currentView;
         },
         setCurrentVideo(state, action: PayloadAction<{ currentVideo: string | null, currentVideoType: 'forward' | 'rewind' }>) {
             state.currentVideo = action.payload.currentVideo;
             state.currentVideoType = action.payload.currentVideoType;
+        },
+        setHideImage(state, action: PayloadAction<{ hideImage: boolean }>) {
+            state.hideImage = action.payload.hideImage;
         }
     }
 })
