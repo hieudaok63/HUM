@@ -153,6 +153,20 @@ export interface Apartments {
     units: Unit[]
 }
 
+export interface LocationViews {
+    jpg: string;
+    svg: string;
+    order: number;
+    video: string;
+    videoBack: string;
+}
+
+export interface Locations {
+    key: string;
+    order: number;
+    views: LocationViews[];
+}
+
 export interface Availability {
     floors: Floors[];
     filters: Filters;
@@ -169,6 +183,13 @@ export interface Availability {
     svgType: SvgImageType;
     stage: string;
     projectId: string;
+    locations: Locations[];
+    currentLocation: number;
+    currentView: number;
+    currentVideo: string | null;
+    currentVideoType: 'forward' | 'rewind';
+    pastView: number;
+    hideImage: boolean;
 }
 
 export interface FilterOptions {
