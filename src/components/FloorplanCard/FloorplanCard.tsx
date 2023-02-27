@@ -45,6 +45,7 @@ export const FloorplanCard = ({
         boxShadow: "0px 1px 2px rgba(138, 138, 138, 0.5)",
         top: y - 150,
         left: x + 100,
+        animation: "fadeIn 0.8s",
       }}
     >
       <Stack justifyContent="space-between" sx={{ height: "100%" }}>
