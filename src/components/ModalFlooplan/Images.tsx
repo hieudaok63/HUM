@@ -41,6 +41,7 @@ export const Images = ({ images }: Props) => {
               "&:hover": {
                 opacity: "0.8",
               },
+              overflow: "hidden",
             }}
             onClick={() => setSelectedIndex(index)}
           >
