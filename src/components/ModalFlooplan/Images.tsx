@@ -18,7 +18,7 @@ export const Images = ({ images }: Props) => {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              borderRadius: "10px"
+              borderRadius: "10px",
             }}
           />
         </Box>
@@ -28,13 +28,21 @@ export const Images = ({ images }: Props) => {
         spacing={1}
         sx={{
           overflowX: "auto",
-          width: "100%"
+          width: "100%",
         }}
       >
         {images.map((image, index) => (
           <Box
             key={`image-${index}`}
-            sx={{ width: "100px", height: "57px", cursor: "pointer" }}
+            sx={{
+              width: "100px",
+              height: "57px",
+              cursor: "pointer",
+              "&:hover": {
+                opacity: "0.8",
+              },
+              overflow: "hidden",
+            }}
             onClick={() => setSelectedIndex(index)}
           >
             <img
@@ -45,7 +53,7 @@ export const Images = ({ images }: Props) => {
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
-                borderRadius: "10px"
+                borderRadius: "10px",
               }}
             />
           </Box>

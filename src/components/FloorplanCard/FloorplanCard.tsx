@@ -1,4 +1,4 @@
-import { Paper, Stack } from "@mui/material";
+import { Box, Paper, Stack } from "@mui/material";
 import { Unit } from "../../models/redux-models";
 import Close from "@mui/icons-material/Close";
 import Bed from "@mui/icons-material/HotelOutlined";
@@ -20,7 +20,7 @@ export const status: { [key: string]: string } = {
   nonavailable: "No Disponible",
   taken: "Apartado",
   reserved: "Reservado",
-  sold: "Vendido"
+  sold: "Vendido",
 };
 
 export const FloorplanCard = ({
@@ -28,7 +28,7 @@ export const FloorplanCard = ({
   y,
   selectedFloorplan,
   clearSelectedFloor,
-  onClick
+  onClick,
 }: Props) => {
   const options = { style: "currency", currency: "USD" };
   const numberFormat = new Intl.NumberFormat("en-US", options);
@@ -44,7 +44,7 @@ export const FloorplanCard = ({
         borderRadius: "10px",
         boxShadow: "0px 1px 2px rgba(138, 138, 138, 0.5)",
         top: y - 150,
-        left: x + 100
+        left: x + 100,
       }}
     >
       <Stack justifyContent="space-between" sx={{ height: "100%" }}>
@@ -55,7 +55,7 @@ export const FloorplanCard = ({
             backgroundColor: fills[selectedFloorplan.status],
             borderTopRightRadius: "10px",
             borderTopLeftRadius: "10px",
-            padding: "0px 15px"
+            padding: "0px 15px",
           }}
           alignItems="center"
         >
@@ -64,12 +64,20 @@ export const FloorplanCard = ({
             <h5>|</h5>
             <h5>{`${selectedFloorplan.name} `}</h5>
           </Stack>
-          <Close
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              clearSelectedFloor();
+          <Box
+            sx={{
+              "&:hover": {
+                color: "white",
+              },
             }}
-          />
+          >
+            <Close
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                clearSelectedFloor();
+              }}
+            />
+          </Box>
         </Stack>
         <Stack
           direction="row"
@@ -125,7 +133,7 @@ export const FloorplanCard = ({
               width: "95%",
               height: 185,
               objectFit: "contain",
-              margin: "8px 0px"
+              margin: "8px 0px",
             }}
             onClick={onClick}
           />
@@ -144,7 +152,7 @@ export const FloorplanCard = ({
             <h6
               style={{
                 margin: 0,
-                color: fills[selectedFloorplan.status]
+                color: fills[selectedFloorplan.status],
               }}
             >
               {status[selectedFloorplan.status]}
@@ -159,7 +167,10 @@ export const FloorplanCard = ({
               height: "100%",
               width: "54px",
               background: "#ffffff",
-              cursor: "pointer"
+              cursor: "pointer",
+              "&:hover": {
+                opacity: "0.8",
+              },
             }}
             onClick={onClick}
           >
