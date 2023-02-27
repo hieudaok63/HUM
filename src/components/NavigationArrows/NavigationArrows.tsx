@@ -6,12 +6,12 @@ import {
   useAppDispatch,
   useCurrentLocation,
   useCurrentView,
-  useLocations
+  useLocations,
 } from "../../hooks";
 import {
   setCurrentLocations,
   setCurrentLocationView,
-  setCurrentVideo
+  setCurrentVideo,
 } from "../../store/todo-actions";
 
 interface Props {
@@ -111,7 +111,10 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
     () =>
       position === "left" ? (
         <SubdirectoryArrowLeftIcon
-          sx={{ transform: "rotate(90deg)", paddingRight: "2px" }}
+          sx={{
+            transform: "rotate(90deg)",
+            paddingRight: "2px",
+          }}
           onClick={prevLocation}
         />
       ) : (
@@ -127,10 +130,10 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
     () =>
       position === "left"
         ? {
-            left: "15px"
+            left: "15px",
           }
         : {
-            right: "15px"
+            right: "15px",
           },
     [position]
   );
@@ -144,7 +147,10 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
         top: "0",
         bottom: "0",
         margin: "auto 0",
-        ...sx
+        "&:hover": {
+          opacity: 0.8,
+        },
+        ...sx,
       }}
       onClick={position === "left" ? prevLocation : nextLocation}
     >
