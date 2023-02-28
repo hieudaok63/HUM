@@ -14,7 +14,7 @@ interface Props {
 export const ModalFloorplan = ({
   open,
   handleClose,
-  selectedFloorplan
+  selectedFloorplan,
 }: Props) => {
   const options = { style: "currency", currency: "USD" };
   const numberFormat = new Intl.NumberFormat("en-US", options);
@@ -34,7 +34,7 @@ export const ModalFloorplan = ({
   }, [
     selectedFloorplan.attributes.cover,
     selectedFloorplan.attributes.pictures,
-    selectedFloorplan.attributes.plans
+    selectedFloorplan.attributes.plans,
   ]);
 
   return (
@@ -46,8 +46,8 @@ export const ModalFloorplan = ({
       sx={{
         "& .MuiDialog-paper": {
           borderRadius: "10px",
-          height: "553px"
-        }
+          height: "553px",
+        },
       }}
     >
       <Grid container spacing={3} sx={{ height: "100%", padding: "30px" }}>
@@ -74,7 +74,17 @@ export const ModalFloorplan = ({
                     sx={{ backgroundColor: fills[selectedFloorplan.status] }}
                   />
                 </Stack>
-                <Close sx={{ cursor: "pointer" }} onClick={handleClose} />
+                <Close
+                  sx={{
+                    cursor: "pointer",
+                    "&:hover": {
+                      backgroundColor: "#555",
+                      color: "#ffffff",
+                      borderRadius: "5px",
+                    },
+                  }}
+                  onClick={handleClose}
+                />
               </Stack>
               <h2 style={{ margin: 0, fontWeight: "900", fontSize: " 24px" }}>
                 {selectedFloorplan.name}

@@ -13,7 +13,7 @@ import { Unit } from "../../models/redux-models";
 import {
   setCurrentLocations,
   setCurrentLocationView,
-  setCurrentVideo
+  // setCurrentVideo
 } from "../../store/todo-actions";
 
 export const fills: { [key: string]: string } = {
@@ -103,20 +103,20 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
         const floorplanCircleNumber = document.getElementById(`M-${name}`);
 
         if (floorplanPolygon) {
-          floorplanPolygon.classList.add("st2");
-          floorplanPolygon.setAttribute(
-            "style",
-            "fill:transparent; border: none"
-          );
-          if (status === availability) {
+          floorplanPolygon.classList.remove("st2");
+            floorplanPolygon.setAttribute(
+              "style",
+              `fill:transparent; opacity: 1`
+            );
+            if (status === availability) {
             floorplanPolygon.classList.remove("st2");
             floorplanPolygon.setAttribute(
               "style",
               `fill:${fills[availability]}; opacity: 0.5`
             );
-          }
+            }
 
-          if (lockUnitRef.current === name) {
+            if (lockUnitRef.current === name) {
             floorplanPolygon.classList.remove("st2");
             floorplanPolygon.setAttribute(
               "style",

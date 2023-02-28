@@ -1,4 +1,4 @@
-import { Button, Menu, MenuItem, Fade } from "@mui/material";
+import { Button, Menu, MenuItem, Fade, Box } from "@mui/material";
 import { ReactNode, useEffect, useState } from "react";
 import { FilterOptions } from "../../models/redux-models";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -20,7 +20,7 @@ export const Filter = ({
   onChange,
   shouldClear,
   resetShouldClear,
-  index
+  index,
 }: Props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(index);
@@ -49,7 +49,14 @@ export const Filter = ({
   useEffect(() => setSelectedIndex(index !== null ? index : null), [index]);
 
   return (
-    <div>
+    <Box
+      sx={{
+        "&:hover": {
+          background: "#333",
+        },
+        padding: "6px 0px",
+      }}
+    >
       <Button
         aria-controls={open ? "fade-menu" : undefined}
         aria-haspopup="true"
@@ -81,7 +88,7 @@ export const Filter = ({
             sx={{
               background:
                 i === selectedIndex ? "rgba(61, 208, 174)" : "#000000",
-              color: "white"
+              color: "white",
             }}
             selected={i === selectedIndex}
             onClick={(event) => handleMenuItemClick(event, i)}
@@ -90,6 +97,6 @@ export const Filter = ({
           </MenuItem>
         ))}
       </Menu>
-    </div>
+    </Box>
   );
 };
