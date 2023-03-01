@@ -3,7 +3,7 @@ import {
   useAvailabilityFilter,
   useFiltersValues,
   useLocations,
-  useUnits
+  useUnits,
 } from "../../hooks";
 import { ReactSVG } from "react-svg";
 import { useCallback, useRef, useState } from "react";
@@ -21,7 +21,7 @@ export const fills: { [key: string]: string } = {
   reserved: "#FFE7B6",
   taken: "#C0C7FF",
   sold: "#FFC0C0",
-  nonavailable: "#C4C4C4"
+  nonavailable: "#C4C4C4",
 };
 
 interface Props {
@@ -46,7 +46,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
     floorplanFilter,
     priceFilter,
     areaFilter,
-    level
+    level,
   ] = useFiltersValues();
   const availability = useAvailabilityFilter();
   const units = useUnits();
@@ -76,7 +76,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
       );
 
       if (currentLevelNode) {
-        currentLevelNode.classList.add("floor");
+        currentLevelNode.classList.remove("floor");
         if (unit.attributes.level === level?.toString() || level === null) {
           currentLevelNode.classList.remove("floor");
         }
@@ -104,19 +104,19 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
 
         if (floorplanPolygon) {
           floorplanPolygon.classList.remove("st2");
-            floorplanPolygon.setAttribute(
-              "style",
-              `fill:transparent; opacity: 1`
-            );
-            if (status === availability) {
+          floorplanPolygon.setAttribute(
+            "style",
+            `fill:transparent; opacity: 1`
+          );
+          if (status === availability) {
             floorplanPolygon.classList.remove("st2");
             floorplanPolygon.setAttribute(
               "style",
               `fill:${fills[availability]}; opacity: 0.5`
             );
-            }
+          }
 
-            if (lockUnitRef.current === name) {
+          if (lockUnitRef.current === name) {
             floorplanPolygon.classList.remove("st2");
             floorplanPolygon.setAttribute(
               "style",
@@ -170,7 +170,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
     priceFilter,
     areaFilter,
     level,
-    availability
+    availability,
   ]);
 
   if (!svg) return null;
@@ -180,7 +180,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
       style={{
         height: "100%",
         width: "100%",
-        position: "relative"
+        position: "relative",
       }}
       onMouseEnter={() => {
         if (!lockElementRef.current) {
@@ -197,7 +197,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
         src={`${svg}?type=svg`}
         style={{
           height: "100%",
-          width: "100%"
+          width: "100%",
         }}
         className="svg-container"
       />
