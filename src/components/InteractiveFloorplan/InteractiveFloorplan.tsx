@@ -76,7 +76,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
       );
 
       if (currentLevelNode) {
-        currentLevelNode.classList.remove("floor");
+        currentLevelNode.classList.add("floor");
         if (unit.attributes.level === level?.toString() || level === null) {
           currentLevelNode.classList.remove("floor");
         }
