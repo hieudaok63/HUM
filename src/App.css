@@ -61,3 +61,11 @@
     opacity: 1;
   }
 }
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .svg-container div svg {
+      width: 100vw;
+      height: 100%;
+    }
+  }
+}
