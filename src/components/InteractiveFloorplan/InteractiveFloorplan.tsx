@@ -1,6 +1,7 @@
 import {
   useAppDispatch,
   useAvailabilityFilter,
+  useCurrentLoading,
   useFiltersValues,
   useLocations,
   useUnits,
@@ -15,6 +16,7 @@ import {
   setCurrentLocationView,
   // setCurrentVideo
 } from "../../store/todo-actions";
+import { Box, CircularProgress } from "@mui/material";
 
 export const fills: { [key: string]: string } = {
   available: "#B4FFEE",
@@ -52,6 +54,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
   const units = useUnits();
   const locations = useLocations();
 
+  const loading = useCurrentLoading();
   const renderSVG = useCallback(() => {
     const currentLocations = [...locations];
     currentLocations.splice(1, 1);
@@ -77,7 +80,11 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
 
       if (currentLevelNode) {
         currentLevelNode.classList.add("floor");
-        if (unit.attributes.level === level?.toString() || level === null || currentLevelNode?.innerHTML.includes("circle")) {
+        if (
+          unit.attributes.level === level?.toString() ||
+          level === null ||
+          currentLevelNode?.innerHTML.includes("circle")
+        ) {
           currentLevelNode.classList.remove("floor");
         }
       }
@@ -189,18 +196,34 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
         }
       }}
     >
-      <ReactSVG
-        ref={currentSvg}
-        afterInjection={(err, svg) => {
-          if (svg) renderSVG();
-        }}
-        src={`${svg}?type=svg`}
-        style={{
-          height: "100%",
-          width: "100%",
-        }}
-        className="svg-container"
-      />
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            height: "100%",
+            width: "100%",
+            alignContent: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            justifyItems: "center",
+          }}
+        >
+          <CircularProgress sx={{ color: "#3948FF" }} />
+        </Box>
+      ) : (
+        <ReactSVG
+          ref={currentSvg}
+          afterInjection={(err, svg) => {
+            if (svg) renderSVG();
+          }}
+          src={`${svg}?type=svg`}
+          style={{
+            height: "100%",
+            width: "100%",
+          }}
+          className="svg-container"
+        />
+      )}
       {mousePosition?.x && mousePosition?.y && hoveredElementRef.current && (
         <FloorplanCard
           x={mousePosition?.x}

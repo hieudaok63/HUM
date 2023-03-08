@@ -4,6 +4,7 @@ import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRig
 import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
 import {
   useAppDispatch,
+  useCurrentLoading,
   useCurrentLocation,
   useCurrentView,
   useLocations,
@@ -24,10 +25,10 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   const currentLocation = useCurrentLocation();
   const currentView = useCurrentView();
   const locations = useLocations();
-
   const prevLocation = useCallback(() => {
     const newLocation =
       currentLocation === 0 ? locations.length - 1 : currentLocation - 1;
+
     const lastLocationIndex = locations.length - 1;
     const lastViewIndex = locations[newLocation].views.length - 1;
     if (currentView === 0 && currentLocation > 0) {
@@ -39,13 +40,21 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      dispatch(setCurrentLocations(newLocation));
-      dispatch(setCurrentLocationView(lastViewIndex));
+      setTimeout(() => {
+        dispatch(setCurrentLocations(newLocation));
+      }, 500);
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(lastViewIndex));
+      }, 500);
       return;
     }
     if (currentLocation === 0) {
-      dispatch(setCurrentLocations(lastLocationIndex));
-      dispatch(setCurrentLocationView(lastViewIndex));
+      setTimeout(() => {
+        dispatch(setCurrentLocations(lastLocationIndex));
+      }, 500);
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(lastViewIndex));
+      }, 500);
       return;
     }
     dispatch(
@@ -56,7 +65,9 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
         "forward"
       )
     );
-    dispatch(setCurrentLocationView(currentView - 1));
+    setTimeout(() => {
+      dispatch(setCurrentLocationView(currentView - 1));
+    }, 500);
   }, [currentLocation, currentView, dispatch, locations]);
 
   const nextLocation = useCallback(() => {
@@ -101,8 +112,12 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      dispatch(setCurrentLocations(currentLocation + 1));
-      dispatch(setCurrentLocationView(0));
+      setTimeout(() => {
+        dispatch(setCurrentLocations(currentLocation + 1));
+      }, 500);
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(0));
+      }, 500);
       return;
     }
   }, [currentLocation, currentView, dispatch, locations]);
