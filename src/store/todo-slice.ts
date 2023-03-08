@@ -1,7 +1,7 @@
 import { Availability, SvgImageType } from "../models/redux-models";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialAvailabilityState: Availability = {
+const initialAvailabilityState: Availability & { loading: boolean } = {
   floors: [],
   filters: {},
   svgs: [],
@@ -24,6 +24,7 @@ const initialAvailabilityState: Availability = {
   currentVideoType: "forward",
   pastView: 0,
   hideImage: false,
+  loading: false,
 };
 
 export const availabilitySlice = createSlice({
@@ -89,6 +90,9 @@ export const availabilitySlice = createSlice({
           ],
         },
       ];
+    },
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload;
     },
     setApartments(state, action: PayloadAction<Availability>) {
       state.apartments = action.payload.apartments;

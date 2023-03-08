@@ -5,7 +5,7 @@ import {
   useCurrentView,
   useHideImage,
   useLocations,
-  usePastView
+  usePastView,
 } from "../../hooks";
 import { InteractiveFloorplan } from "../InteractiveFloorplan";
 
@@ -43,13 +43,14 @@ export const Locations = () => {
 
   if (locations.length === 0) return null;
 
-  console.log(locations);
-
   return (
     <div
       style={{
         height: "100%",
-        width: "100%"
+        width: "100%",
+        backgroundImage: `url(${locations[currentLocation].views[currentView]?.jpg})`,
+        backgroundSize: "cover",
+        transition: "all .5s ",
       }}
     >
       {svg ? <InteractiveFloorplan svg={svg} /> : jpg}
