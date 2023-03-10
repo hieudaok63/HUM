@@ -1,9 +1,10 @@
 import {
   useAppDispatch,
   useAvailabilityFilter,
+  useCurrentLoading,
   useFiltersValues,
   useLocations,
-  useUnits
+  useUnits,
 } from "../../hooks";
 import { ReactSVG } from "react-svg";
 import { useCallback, useRef, useState } from "react";
@@ -15,13 +16,14 @@ import {
   setCurrentLocationView,
   // setCurrentVideo
 } from "../../store/todo-actions";
+import { Box, CircularProgress } from "@mui/material";
 
 export const fills: { [key: string]: string } = {
   available: "#B4FFEE",
   reserved: "#FFE7B6",
   taken: "#C0C7FF",
   sold: "#FFC0C0",
-  nonavailable: "#C4C4C4"
+  nonavailable: "#C4C4C4",
 };
 
 interface Props {
@@ -46,12 +48,13 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
     floorplanFilter,
     priceFilter,
     areaFilter,
-    level
+    level,
   ] = useFiltersValues();
   const availability = useAvailabilityFilter();
   const units = useUnits();
   const locations = useLocations();
 
+  const loading = useCurrentLoading();
   const renderSVG = useCallback(() => {
     const currentLocations = [...locations];
     currentLocations.splice(1, 1);
@@ -77,7 +80,11 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
 
       if (currentLevelNode) {
         currentLevelNode.classList.add("floor");
-        if (unit.attributes.level === level?.toString() || level === null) {
+        if (
+          unit.attributes.level === level?.toString() ||
+          level === null ||
+          currentLevelNode?.innerHTML.includes("circle")
+        ) {
           currentLevelNode.classList.remove("floor");
         }
       }
@@ -104,19 +111,19 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
 
         if (floorplanPolygon) {
           floorplanPolygon.classList.remove("st2");
-            floorplanPolygon.setAttribute(
-              "style",
-              `fill:transparent; opacity: 1`
-            );
-            if (status === availability) {
+          floorplanPolygon.setAttribute(
+            "style",
+            `fill:transparent; opacity: 1`
+          );
+          if (status === availability) {
             floorplanPolygon.classList.remove("st2");
             floorplanPolygon.setAttribute(
               "style",
               `fill:${fills[availability]}; opacity: 0.5`
             );
-            }
+          }
 
-            if (lockUnitRef.current === name) {
+          if (lockUnitRef.current === name) {
             floorplanPolygon.classList.remove("st2");
             floorplanPolygon.setAttribute(
               "style",
@@ -170,7 +177,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
     priceFilter,
     areaFilter,
     level,
-    availability
+    availability,
   ]);
 
   if (!svg) return null;
@@ -180,7 +187,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
       style={{
         height: "100%",
         width: "100%",
-        position: "relative"
+        position: "relative",
       }}
       onMouseEnter={() => {
         if (!lockElementRef.current) {
@@ -189,18 +196,34 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
         }
       }}
     >
-      <ReactSVG
-        ref={currentSvg}
-        afterInjection={(err, svg) => {
-          if (svg) renderSVG();
-        }}
-        src={`${svg}?type=svg`}
-        style={{
-          height: "100%",
-          width: "100%"
-        }}
-        className="svg-container"
-      />
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            height: "100%",
+            width: "100%",
+            alignContent: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            justifyItems: "center",
+          }}
+        >
+          <CircularProgress sx={{ color: "#3948FF" }} />
+        </Box>
+      ) : (
+        <ReactSVG
+          ref={currentSvg}
+          afterInjection={(err, svg) => {
+            if (svg) renderSVG();
+          }}
+          src={`${svg}?type=svg`}
+          style={{
+            height: "100%",
+            width: "100%",
+          }}
+          className="svg-container"
+        />
+      )}
       {mousePosition?.x && mousePosition?.y && hoveredElementRef.current && (
         <FloorplanCard
           x={mousePosition?.x}

@@ -18,7 +18,7 @@ export const Desktop = () => {
         alignContent: "center",
         justifyContent: "center",
         alignItems: "center",
-        justifyItems: "center"
+        justifyItems: "center",
       }}
     >
       <CircularProgress sx={{ color: "#3948FF" }} />
@@ -26,19 +26,25 @@ export const Desktop = () => {
   ) : (
     <Stack
       sx={{
-        height: "100%",
+        height: {
+          xl: "100%",
+          lg: "120%",
+        },
         width: "100%",
-        overflow: "hidden"
+        overflow: "hidden",
       }}
     >
       <Filters />
       <Stack
         alignItems="center"
         sx={{
-          height: "100%",
+          height: {
+            xl: "100%",
+            lg: "80%",
+          },
           width: "100%",
           overflow: "hidden",
-          position: "relative"
+          position: "relative",
         }}
       >
         {video && <Video src={video} type={type} />}
