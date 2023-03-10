@@ -35,61 +35,7 @@ export const availabilitySlice = createSlice({
       state.svgs = action.payload.svgs;
       state.projectId = action.payload.projectId;
       state.apartments = action.payload.apartments;
-      state.locations = [
-        {
-          key: "view-1",
-          order: 0,
-          views: [
-            {
-              jpg: "https://athum.com/images-tmp/okun-conjunto.jpg",
-              svg: "https://athum.com/images-tmp/okun-conjunto.svg",
-              order: 1,
-              video: "none",
-              videoBack: "none",
-            },
-          ],
-        },
-        {
-          key: "view-2",
-          order: 1,
-          views: [
-            {
-              jpg: "https://athum.com/images-tmp/okun-etapa1A.jpg",
-              svg: "https://athum.com/images-tmp/okun-etapa1-vistaA-anim.svg",
-              order: 1,
-              video: "https://athum.com/images-tmp/okun-etapa_1-1.webm",
-              videoBack: "none",
-            },
-            {
-              jpg: "https://athum.com/images-tmp/okun-etapa1B.jpg",
-              svg: "https://athum.com/images-tmp/okun-etapa1-vistaB-anim.svg",
-              order: 2,
-              video: "none",
-              videoBack: "https://athum.com/images-tmp/okun-etapa_1-1_rev.webm",
-            },
-          ],
-        },
-        {
-          key: "view-3",
-          order: 2,
-          views: [
-            {
-              jpg: "https://athum.com/images-tmp/okun-etapa2A.jpg",
-              svg: "https://athum.com/images-tmp/okun-etapa2-vistaA-anim.svg",
-              order: 3,
-              video: "https://athum.com/images-tmp/okun-etapa_2-1.webm",
-              videoBack: "https://athum.com/images-tmp/okun-etapa_1-2_rev.webm",
-            },
-            {
-              jpg: "https://athum.com/images-tmp/okun-etapa2B.jpg",
-              svg: "https://athum.com/images-tmp/okun-etapa2-vistaB-anim.svg",
-              order: 4,
-              video: "https://athum.com/images-tmp/okun-etapa_2-2.webm",
-              videoBack: "https://athum.com/images-tmp/okun-etapa_2-1_rev.webm",
-            },
-          ],
-        },
-      ];
+      state.locations = action.payload.locations;
     },
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload;

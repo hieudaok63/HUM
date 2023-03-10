@@ -1,18 +1,16 @@
 import React, { useLayoutEffect, useState } from "react";
 import "./App.css";
-import { fetchAvailability } from "./store/todo-actions";
-import { useAppDispatch } from "./hooks";
 import { Desktop } from "./Pages";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 export const App = () => {
-  const [requested, setRequested] = useState(false);
-  const dispatch = useAppDispatch();
-
-  useLayoutEffect(() => {
-    if (!requested) dispatch(fetchAvailability("767"));
-
-    setRequested(true);
-  }, [dispatch, requested]);
-
-  return <Desktop />;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Desktop />} />
+        {/* <Route path="/error" component={ErrorPage} /> */}
+        <Route path="/:builderId/:projectId" element={<Desktop />} />
+      </Routes>
+    </Router>
+  );
 };

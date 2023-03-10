@@ -1,13 +1,30 @@
 import { Box, CircularProgress, Stack } from "@mui/material";
+import { useLayoutEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Filters, AvailabilityFilters, Locations } from "../../components";
 import { NavigationArrows } from "../../components/NavigationArrows";
 import { Video } from "../../components/Video";
-import { useCurrentType, useCurrentVideo, useSVGImage } from "../../hooks";
+import {
+  useAppDispatch,
+  useCurrentType,
+  useCurrentVideo,
+  useSVGImage,
+} from "../../hooks";
+import { fetchAvailability } from "../../store/todo-actions";
 
 export const Desktop = () => {
   const svgImage = useSVGImage();
   const video = useCurrentVideo();
   const type = useCurrentType();
+
+  const [requested, setRequested] = useState(false);
+  const dispatch = useAppDispatch();
+  const { projectId } = useParams();
+  useLayoutEffect(() => {
+    if (!requested) dispatch(fetchAvailability((projectId as string) ?? "767"));
+
+    setRequested(true);
+  }, [dispatch, requested]);
 
   return !svgImage ? (
     <Box
