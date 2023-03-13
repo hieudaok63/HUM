@@ -4,7 +4,6 @@ import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRig
 import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
 import {
   useAppDispatch,
-  useCurrentLoading,
   useCurrentLocation,
   useCurrentView,
   useLocations,

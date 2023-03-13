@@ -19,12 +19,12 @@ export const Locations = () => {
 
   const jpg = useMemo(
     () =>
-      locations[currentLocation].views[currentView]?.jpg === "none" ? null : (
+      locations[currentLocation]?.views[currentView]?.jpg === "none" ? null : (
         <img
           src={
             video
-              ? locations[currentLocation].views[pastView]?.jpg
-              : locations[currentLocation].views[currentView]?.jpg
+              ? locations[currentLocation]?.views[pastView]?.jpg
+              : locations[currentLocation]?.views[currentView]?.jpg
           }
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
           alt="location"
@@ -35,9 +35,9 @@ export const Locations = () => {
 
   const svg = useMemo(
     () =>
-      locations[currentLocation].views[currentView]?.svg === "none"
+      locations[currentLocation]?.views[currentView]?.svg === "none"
         ? null
-        : locations[currentLocation].views[currentView]?.svg,
+        : locations[currentLocation]?.views[currentView]?.svg,
     [currentLocation, currentView, locations]
   );
 
@@ -48,7 +48,7 @@ export const Locations = () => {
       style={{
         height: "100%",
         width: "100%",
-        backgroundImage: `url(${locations[currentLocation].views[currentView]?.jpg})`,
+        backgroundImage: `url(${locations[currentLocation]?.views[currentView]?.jpg})`,
         backgroundSize: "cover",
         transition: "all .5s ",
       }}
