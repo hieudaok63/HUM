@@ -39,21 +39,13 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(newLocation));
-      }, 500);
-      setTimeout(() => {
-        dispatch(setCurrentLocationView(lastViewIndex));
-      }, 500);
+      dispatch(setCurrentLocations(newLocation));
+      dispatch(setCurrentLocationView(lastViewIndex));
       return;
     }
     if (currentLocation === 0) {
-      setTimeout(() => {
-        dispatch(setCurrentLocations(lastLocationIndex));
-      }, 500);
-      setTimeout(() => {
-        dispatch(setCurrentLocationView(lastViewIndex));
-      }, 500);
+      dispatch(setCurrentLocations(lastLocationIndex));
+      dispatch(setCurrentLocationView(lastViewIndex));
       return;
     }
     dispatch(
@@ -64,9 +56,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
         "forward"
       )
     );
-    setTimeout(() => {
-      dispatch(setCurrentLocationView(currentView - 1));
-    }, 500);
+    dispatch(setCurrentLocationView(currentView - 1));
   }, [currentLocation, currentView, dispatch, locations]);
 
   const nextLocation = useCallback(() => {
@@ -98,7 +88,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       return;
     }
     if (currentLocation === lastLocationIndex) {
-      dispatch(setCurrentLocations(0));
+      dispatch(setCurrentLocations(1));
       dispatch(setCurrentLocationView(0));
       return;
     }
@@ -111,12 +101,8 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(currentLocation + 1));
-      }, 500);
-      setTimeout(() => {
-        dispatch(setCurrentLocationView(0));
-      }, 500);
+      dispatch(setCurrentLocations(currentLocation + 1));
+      dispatch(setCurrentLocationView(0));
       return;
     }
   }, [currentLocation, currentView, dispatch, locations]);

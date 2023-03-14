@@ -15,13 +15,7 @@ export const fetchAvailability =
       dispatch(availabilityActions.setAvailability(response));
     }
   };
-// export const fetchFakeAvailability =
-//   (projectId: string): ThunkAction<void, RootState, unknown, AnyAction> =>
-//   async (dispatch) => {
-//     dispatch(availabilityActions.setLoading(true));
-//     await availabilityService.getProject(projectId);
-//     dispatch(availabilityActions.setLoading(false));
-//   };
+
 export const setBedrooms =
   (bedrooms: number): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
