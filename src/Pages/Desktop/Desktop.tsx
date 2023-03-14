@@ -6,17 +6,18 @@ import { NavigationArrows } from "../../components/NavigationArrows";
 import { Video } from "../../components/Video";
 import {
   useAppDispatch,
+  useCurrentLocation,
   useCurrentType,
   useCurrentVideo,
-  useSVGImage,
+  useCurrentView,
 } from "../../hooks";
 import { fetchAvailability } from "../../store/todo-actions";
 
 export const Desktop = () => {
-  const svgImage = useSVGImage();
-  console.log(svgImage);
   const video = useCurrentVideo();
   const type = useCurrentType();
+  const currentView = useCurrentView();
+  const currentLocation = useCurrentLocation();
 
   const [requested, setRequested] = useState(false);
   const dispatch = useAppDispatch();
@@ -54,8 +55,12 @@ export const Desktop = () => {
         {video && <Video src={video} type={type} />}
         <Locations />
         <AvailabilityFilters />
-        <NavigationArrows position="left" disabled={false} />
-        <NavigationArrows position="right" disabled={false} />
+        {currentLocation !== 0 && currentView !== 0 && (
+          <NavigationArrows position="left" disabled={false} />
+        )}
+        {currentLocation !== 0 && (
+          <NavigationArrows position="right" disabled={false} />
+        )}
       </Stack>
     </Stack>
   );

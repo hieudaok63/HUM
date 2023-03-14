@@ -1,4 +1,10 @@
-import { Divider, Grid, Stack } from "@mui/material";
+import {
+  Divider,
+  Grid,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@mui/material";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Bed from "@mui/icons-material/HotelOutlined";
 import { ReactComponent as BathroomIcon } from "../../assets/icons/bathroom.svg";
@@ -12,17 +18,21 @@ import {
   setBedrooms,
   setFloorPlanType,
   setLevel,
-  cleanFilters
+  cleanFilters,
+  setCurrentLocations,
+  setCurrentLocationView,
 } from "../../store/todo-actions";
+import { Box } from "@mui/system";
 
 export const Filters = () => {
   const dispatch = useAppDispatch();
   const [shouldClear, setShouldClear] = useState(false);
+  const [toggle, setToggle] = useState("3d");
   const {
     bedrooms: bedroomsOptions,
     bathrooms: bathroomOptions,
     floorplanTypes: floorplanTypesOptions,
-    levels
+    levels,
   } = useFilters();
   const [bedroomFilter, bathroomFilter, floorplanFilter, levelFilter] =
     useFiltersValues();
@@ -59,13 +69,30 @@ export const Filters = () => {
     [levelFilter, levels]
   );
 
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newToggle: string
+  ) => {
+    setToggle(newToggle);
+  };
+
+  const handleClick = () => {
+    dispatch(setCurrentLocations(0));
+    dispatch(setCurrentLocationView(0));
+  };
+
   return (
     <Grid
       container
       direction="row"
       justifyContent="space-between"
       alignItems="center"
-      sx={{ height: 56, backgroundColor: "#000000", padding: "0px 23px" }}
+      sx={{
+        height: 56,
+        backgroundColor: "#000000",
+        padding: "0px 23px",
+        cursor: "pointer",
+      }}
     >
       <Stack
         direction="row"
@@ -73,6 +100,9 @@ export const Filters = () => {
         alignItems="center"
         alignContent="center"
       >
+        <Box sx={{ color: "white" }}>
+          <p onClick={handleClick}>home</p>
+        </Box>
         <Filter
           key={"level"}
           text="Nivel"
@@ -130,7 +160,7 @@ export const Filters = () => {
           style={{
             color: "white",
             fontWeight: 700,
-            fontSize: 14
+            fontSize: 14,
           }}
         >
           Filtros
@@ -143,6 +173,42 @@ export const Filters = () => {
           }}
         />
       </Stack>
+      <Box>
+        <ToggleButtonGroup
+          exclusive
+          aria-label="Platform"
+          onChange={handleChange}
+          value={toggle}
+          color="primary"
+          sx={{
+            borderRadius: "18px",
+            width: "82px",
+            height: "28px",
+            backgroundColor: "#ffffff",
+          }}
+        >
+          <ToggleButton
+            value="2d"
+            sx={{
+              borderRadius: "18px",
+              color: "#000000",
+              fontWeight: toggle === "2d" ? "600" : "unset",
+            }}
+          >
+            2D
+          </ToggleButton>
+          <ToggleButton
+            value="3d"
+            sx={{
+              borderRadius: "18px",
+              color: "#000000",
+              fontWeight: toggle === "3d" ? "600" : "unset",
+            }}
+          >
+            3D
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
     </Grid>
   );
 };
