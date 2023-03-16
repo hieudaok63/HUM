@@ -31,10 +31,7 @@ export const Desktop = () => {
   return (
     <Stack
       sx={{
-        height: {
-          xl: "100%",
-          lg: "120%",
-        },
+        height: "100%",
         width: "100%",
         overflow: "hidden",
       }}
@@ -43,10 +40,7 @@ export const Desktop = () => {
       <Stack
         alignItems="center"
         sx={{
-          height: {
-            xl: "100%",
-            lg: "80%",
-          },
+          height: "100%",
           width: "100%",
           overflow: "hidden",
           position: "relative",
@@ -54,7 +48,7 @@ export const Desktop = () => {
       >
         {video && <Video src={video} type={type} />}
         <Locations />
-        <AvailabilityFilters />
+        {currentLocation !== 0 && <AvailabilityFilters />}
         {currentLocation !== 0 && currentView !== 0 && (
           <NavigationArrows position="left" disabled={false} />
         )}

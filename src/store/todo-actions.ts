@@ -12,6 +12,7 @@ export const fetchAvailability =
   async (dispatch, getState) => {
     if (getState().availability.svgs.length === 0) {
       const response = await availabilityService.getProject(projectId);
+
       dispatch(availabilityActions.setAvailability(response));
     }
   };
@@ -84,21 +85,13 @@ export const cleanLevels =
 export const setCurrentLocations =
   (currentLocation: number): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
-    dispatch(availabilityActions.setLoading(true));
     dispatch(availabilityActions.setCurrentLocations({ currentLocation }));
-    setTimeout(() => {
-      dispatch(availabilityActions.setLoading(false));
-    }, 1000);
   };
 
 export const setCurrentLocationView =
   (currentView: number): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
-    dispatch(availabilityActions.setLoading(true));
     dispatch(availabilityActions.setCurrentLocationView({ currentView }));
-    setTimeout(() => {
-      dispatch(availabilityActions.setLoading(false));
-    }, 1000);
   };
 
 export const setCurrentVideo =
