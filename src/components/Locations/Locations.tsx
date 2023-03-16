@@ -50,6 +50,7 @@ export const Locations = () => {
         width: "100%",
         backgroundImage: `url(${locations[currentLocation]?.views[currentView]?.jpg})`,
         backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
         transition: "all .5s ",
       }}
     >
