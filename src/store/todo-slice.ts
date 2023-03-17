@@ -24,6 +24,7 @@ const initialAvailabilityState: Availability = {
   currentVideoType: "forward",
   pastView: 0,
   hideImage: false,
+  loading: false,
 };
 
 export const availabilitySlice = createSlice({

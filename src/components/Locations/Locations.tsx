@@ -48,9 +48,9 @@ export const Locations = () => {
       style={{
         height: "100%",
         width: "100%",
-        backgroundImage: `url(${locations[currentLocation]?.views[currentView]?.jpg})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
+        // backgroundImage: `url(${locations[currentLocation]?.views[currentView]?.jpg})`,
+        // backgroundSize: "cover",
+        // backgroundRepeat: "no-repeat",
         transition: "all .5s ",
       }}
     >

@@ -1,4 +1,5 @@
 import {
+  Button,
   Divider,
   Grid,
   Stack,
@@ -29,6 +30,9 @@ import {
   setCurrentLocationView,
 } from "../../store/todo-actions";
 import { Box } from "@mui/system";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 export const Filters = () => {
   const dispatch = useAppDispatch();
@@ -88,7 +92,16 @@ export const Filters = () => {
   };
 
   const currentLocation = useCurrentLocation();
+  const mobile = useMediaQuery("(max-width:600px)");
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClickMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Grid
       container
@@ -111,7 +124,7 @@ export const Filters = () => {
         <Box sx={{ color: "white" }} onClick={handleClick}>
           <HomeIcon />
         </Box>
-        {currentLocation !== 0 && (
+        {currentLocation !== 0 && !mobile && (
           <>
             <Filter
               key={"level"}
@@ -192,6 +205,55 @@ export const Filters = () => {
           </>
         )}
       </Stack>
+      {mobile && (
+        <>
+          <button
+            onClick={handleClickMenu}
+            id="basic-button"
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+          >
+            Menu
+          </button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+            PaperProps={{
+              style: {
+                width: "100%",
+                height: "100%",
+                backgroundColor: "#000",
+              },
+            }}
+          >
+            <MenuItem onClick={handleClose}>
+              <Filter
+                key={"level"}
+                text="Level"
+                options={levels}
+                index={levelIndex}
+                onChange={(event) => dispatch(setLevel(event.value))}
+                shouldClear={shouldClear}
+                resetShouldClear={() => {
+                  setShouldClear(false);
+                }}
+                startIcon={undefined}
+              />
+              <Divider
+                orientation="horizontal"
+                variant="middle"
+                sx={{ backgroundColor: "#ffffff", height: 1, margin: 0 }}
+              />
+            </MenuItem>
+          </Menu>
+        </>
+      )}
       {currentLocation !== 0 && (
         <Box>
           <ToggleButtonGroup
