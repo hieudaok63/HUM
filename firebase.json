@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "demolahaus",
+    "site": "prod-showroom",
     "public": "build",
     "ignore": [
       "firebase.json",
