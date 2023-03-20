@@ -1,4 +1,11 @@
-import { Button, Menu, MenuItem, Fade, Box } from "@mui/material";
+import {
+  Button,
+  Menu,
+  MenuItem,
+  Fade,
+  Box,
+  useMediaQuery,
+} from "@mui/material";
 import { ReactNode, useEffect, useState } from "react";
 import { FilterOptions } from "../../models/redux-models";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -6,7 +13,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 interface Props {
   text: string;
   options: FilterOptions[];
-  startIcon: ReactNode;
+  startIcon?: ReactNode;
   onChange: (e: any) => void;
   shouldClear: boolean;
   resetShouldClear: () => void;
@@ -47,6 +54,7 @@ export const Filter = ({
   }, [shouldClear, anchorEl, resetShouldClear]);
 
   useEffect(() => setSelectedIndex(index !== null ? index : null), [index]);
+  const mobile = useMediaQuery("(max-width:600px)");
 
   return (
     <Box
@@ -54,7 +62,7 @@ export const Filter = ({
         "&:hover": {
           background: "#333",
         },
-        padding: "6px 0px",
+        padding: mobile ? "16px 0px" : "6px 0",
       }}
     >
       <Button
@@ -89,6 +97,7 @@ export const Filter = ({
               background:
                 i === selectedIndex ? "rgba(61, 208, 174)" : "#000000",
               color: "white",
+              width: "100%",
             }}
             selected={i === selectedIndex}
             onClick={(event) => handleMenuItemClick(event, i)}

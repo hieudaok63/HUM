@@ -1,4 +1,4 @@
-import { Box, Paper, Stack } from "@mui/material";
+import { Box, Paper, Stack, useMediaQuery } from "@mui/material";
 import { Unit } from "../../models/redux-models";
 import Close from "@mui/icons-material/Close";
 import Bed from "@mui/icons-material/HotelOutlined";
@@ -32,19 +32,20 @@ export const FloorplanCard = ({
 }: Props) => {
   const options = { style: "currency", currency: "USD" };
   const numberFormat = new Intl.NumberFormat("en-US", options);
+  const mobile = useMediaQuery("(max-width:600px)");
   return (
     <Paper
       sx={{
-        width: "270px",
-        height: "410px",
+        width: mobile ? "100%" : "270px",
+        height: mobile ? "60%" : "410px",
         position: "absolute",
         zIndex: 2,
         background: "rgba(0, 0, 0, 0.8)",
         opacity: "0,5",
         borderRadius: "10px",
         boxShadow: "0px 1px 2px rgba(138, 138, 138, 0.5)",
-        top: y - 150,
-        left: x + 100,
+        top: mobile ? "0" : y - 150,
+        left: mobile ? 0 : x + 100,
         animation: "fadeIn 0.8s",
       }}
     >
@@ -54,8 +55,8 @@ export const FloorplanCard = ({
           justifyContent="space-between"
           sx={{
             backgroundColor: fills[selectedFloorplan.status],
-            borderTopRightRadius: "10px",
-            borderTopLeftRadius: "10px",
+            borderTopRightRadius: mobile ? 0 : "10px",
+            borderTopLeftRadius: mobile ? 0 : "10px",
             padding: "0px 15px",
           }}
           alignItems="center"
@@ -132,7 +133,7 @@ export const FloorplanCard = ({
             alt={selectedFloorplan.typology}
             style={{
               width: "95%",
-              height: 185,
+              height: mobile ? "100%" : 185,
               objectFit: "contain",
               margin: "8px 0px",
             }}

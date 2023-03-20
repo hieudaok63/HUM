@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -10,11 +10,22 @@ interface Props {
 
 export const Images = ({ images }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const mobile = useMediaQuery("(max-width:600px)");
 
   return (
     <Stack spacing={2}>
-      <Stack>
-        <Box sx={{ height: "431px" }}>
+      <Stack
+        sx={{
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <Box
+          sx={{
+            height: mobile ? "350px" : "431px",
+            width: mobile ? "100%" : "unset",
+          }}
+        >
           <img
             src={images[selectedIndex]}
             alt="preview"
@@ -22,14 +33,22 @@ export const Images = ({ images }: Props) => {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              borderRadius: "10px",
+              borderRadius: mobile ? "20px" : "10px",
             }}
           />
         </Box>
       </Stack>
       <Stack direction="row">
         <Swiper
-          slidesPerView={images.length > 6 ? 6.5 : images.length}
+          slidesPerView={
+            mobile
+              ? images.length > 6
+                ? 4.5
+                : images.length
+              : images.length > 6
+              ? 6.5
+              : images.length
+          }
           spaceBetween={10}
           pagination={{
             clickable: true,
@@ -40,8 +59,8 @@ export const Images = ({ images }: Props) => {
               <Box
                 key={`image-${index}`}
                 sx={{
-                  width: "50px",
-                  height: "50px",
+                  width: mobile ? "70px" : "50px",
+                  height: mobile ? "70px" : "50px",
                   cursor: "pointer",
                   "&:hover": {
                     opacity: "0.8",
@@ -54,8 +73,8 @@ export const Images = ({ images }: Props) => {
                   src={image}
                   alt="exterior"
                   style={{
-                    width: "50px",
-                    height: "50px",
+                    width: "100%",
+                    height: "100%",
                     objectFit: "cover",
                     borderRadius: "10px",
                   }}
