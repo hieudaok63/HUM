@@ -57,14 +57,13 @@ export const AvailabilityFilters = () => {
   const theme = useTheme();
   const [personName, setPersonName] = useState<string[]>([]);
 
+  const defaultValue = personName.length === 0 ? ["all"] : personName;
+
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    setPersonName(typeof value === "string" ? value.split(",") : value);
   };
 
   return mobile ? (
@@ -75,15 +74,16 @@ export const AvailabilityFilters = () => {
         position: "absolute",
         bottom: 0,
         marginBottom: "0",
-        // paddingLeft: "40px",
-        width: "100%",
+        width: "100% !important",
+        background: "#000 ",
       }}
       alignContent="center"
       justifyContent="flex-start"
     >
       <Select
         id="demo-multiple-chip"
-        value={personName}
+        sx={{}}
+        value={defaultValue}
         onChange={handleChange}
         renderValue={(selected) => {
           return (
@@ -100,7 +100,7 @@ export const AvailabilityFilters = () => {
                   <Chip
                     key={value}
                     label={value}
-                    sx={{ minWidth: "140px" }}
+                    sx={{ minWidth: "80px" }}
                     deleteIcon={icon[0].icon}
                     onDelete={() => {}}
                   />
@@ -117,7 +117,7 @@ export const AvailabilityFilters = () => {
             value={filter.value}
             style={getStyles(filter.value, personName, theme)}
             onClick={() => dispatch(setAvailability(filter.value))}
-            sx={{ backgroundColor: "#000", color: "#fff" }}
+            sx={{ backgroundColor: "#000 !important", color: "#fff" }}
           >
             <div
               style={{

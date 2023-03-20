@@ -1,5 +1,4 @@
 import {
-  Button,
   Divider,
   Grid,
   Stack,
@@ -12,6 +11,9 @@ import { ReactComponent as BathroomIcon } from "../../assets/icons/bathroom.svg"
 import { ReactComponent as FloorplanIcon } from "../../assets/icons/floorplan.svg";
 import { ReactComponent as LevelsIcon } from "../../assets/icons/levels.svg";
 import { ReactComponent as HomeIcon } from "../../assets/icons/home.svg";
+import { ReactComponent as MenuIcon } from "../../assets/icons/menu.svg";
+import { ReactComponent as FilterRemove } from "../../assets/icons/FilterRemove.svg";
+import { ReactComponent as DeleteIcon } from "../../assets/icons/delete.svg";
 import { Filter } from "./Filter";
 import { useMemo, useState } from "react";
 import {
@@ -31,8 +33,6 @@ import {
 } from "../../store/todo-actions";
 import { Box } from "@mui/system";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 
 export const Filters = () => {
   const dispatch = useAppDispatch();
@@ -93,205 +93,340 @@ export const Filters = () => {
 
   const currentLocation = useCurrentLocation();
   const mobile = useMediaQuery("(max-width:600px)");
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClickMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [openMenu, setOpenMenu] = useState(false);
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="space-between"
-      alignItems="center"
-      sx={{
-        height: 56,
-        backgroundColor: "#000000",
-        padding: "0px 23px",
-        cursor: "pointer",
-      }}
-    >
-      <Stack
-        direction="row"
-        spacing={2}
-        alignItems="center"
-        alignContent="center"
-      >
-        <Box sx={{ color: "white" }} onClick={handleClick}>
-          <HomeIcon />
-        </Box>
-        {currentLocation !== 0 && !mobile && (
-          <>
-            <Filter
-              key={"level"}
-              text="Level"
-              options={levels}
-              index={levelIndex}
-              startIcon={<LevelsIcon />}
-              onChange={(event) => dispatch(setLevel(event.value))}
-              shouldClear={shouldClear}
-              resetShouldClear={() => {
-                setShouldClear(false);
-              }}
-            />
-            <Divider
-              orientation="vertical"
-              variant="middle"
-              sx={{ backgroundColor: "#ffffff", height: 32 }}
-            />
-            <Filter
-              key={"bedrooms"}
-              text="Recámaras"
-              options={bedroomsOptions}
-              index={bedroomIndex}
-              startIcon={
-                <Bed style={{ color: "white", width: 18, height: 18 }} />
-              }
-              onChange={(event) => dispatch(setBedrooms(event.value))}
-              shouldClear={shouldClear}
-              resetShouldClear={() => {
-                setShouldClear(false);
-              }}
-            />
-            <Filter
-              key={"bathrooms"}
-              text="Baños"
-              index={bathroomIndex}
-              options={bathroomOptions}
-              startIcon={<BathroomIcon />}
-              onChange={(event) => dispatch(setBathrooms(event.value))}
-              shouldClear={shouldClear}
-              resetShouldClear={() => {
-                setShouldClear(false);
-              }}
-            />
-            <Filter
-              key={"floorplan"}
-              text="Planta Tipo"
-              options={floorplanTypesOptions}
-              index={floorplanIndex}
-              startIcon={<FloorplanIcon />}
-              onChange={(event) => dispatch(setFloorPlanType(event.value))}
-              shouldClear={shouldClear}
-              resetShouldClear={() => {
-                setShouldClear(false);
-              }}
-            />
-            <h3
-              style={{
-                color: "white",
-                fontWeight: 700,
-                fontSize: 14,
-              }}
+    <>
+      {!mobile && (
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ height: 56, backgroundColor: "#000000", padding: "0px 23px" }}
+        >
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            alignContent="center"
+          >
+            <Box
+              sx={{ color: "white", cursor: "pointer" }}
+              onClick={handleClick}
             >
-              Filtros
-            </h3>
-            <HighlightOffIcon
-              sx={{
-                color: "#B1AEAE",
-                width: 18,
-                height: 18,
-                cursor: "pointer",
-              }}
-              onClick={() => {
-                setShouldClear(true);
-                dispatch(cleanFilters());
-              }}
-            />
-          </>
-        )}
-      </Stack>
-      {mobile && (
-        <>
-          <button
-            onClick={handleClickMenu}
-            id="basic-button"
-            aria-controls={open ? "basic-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-          >
-            Menu
-          </button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-            PaperProps={{
-              style: {
-                width: "100%",
-                height: "100%",
-                backgroundColor: "#000",
-              },
-            }}
-          >
-            <MenuItem onClick={handleClose}>
-              <Filter
-                key={"level"}
-                text="Level"
-                options={levels}
-                index={levelIndex}
-                onChange={(event) => dispatch(setLevel(event.value))}
-                shouldClear={shouldClear}
-                resetShouldClear={() => {
-                  setShouldClear(false);
+              <HomeIcon />
+            </Box>
+            {currentLocation !== 0 && (
+              <>
+                <Filter
+                  key={"level"}
+                  text="Nivel"
+                  options={levels}
+                  index={levelIndex}
+                  startIcon={<LevelsIcon />}
+                  onChange={(event) => dispatch(setLevel(event.value))}
+                  shouldClear={shouldClear}
+                  resetShouldClear={() => {
+                    setShouldClear(false);
+                  }}
+                />
+                <Divider
+                  orientation="vertical"
+                  variant="middle"
+                  sx={{ backgroundColor: "#ffffff", height: 32 }}
+                />
+                <Filter
+                  key={"bedrooms"}
+                  text="Recámaras"
+                  options={bedroomsOptions}
+                  index={bedroomIndex}
+                  startIcon={
+                    <Bed style={{ color: "white", width: 18, height: 18 }} />
+                  }
+                  onChange={(event) => dispatch(setBedrooms(event.value))}
+                  shouldClear={shouldClear}
+                  resetShouldClear={() => {
+                    setShouldClear(false);
+                  }}
+                />
+                <Filter
+                  key={"bathrooms"}
+                  text="Baños"
+                  index={bathroomIndex}
+                  options={bathroomOptions}
+                  startIcon={<BathroomIcon />}
+                  onChange={(event) => dispatch(setBathrooms(event.value))}
+                  shouldClear={shouldClear}
+                  resetShouldClear={() => {
+                    setShouldClear(false);
+                  }}
+                />
+                <Filter
+                  key={"floorplan"}
+                  text="Planta Tipo"
+                  options={floorplanTypesOptions}
+                  index={floorplanIndex}
+                  startIcon={<FloorplanIcon />}
+                  onChange={(event) => dispatch(setFloorPlanType(event.value))}
+                  shouldClear={shouldClear}
+                  resetShouldClear={() => {
+                    setShouldClear(false);
+                  }}
+                />
+                <h3
+                  style={{
+                    color: "white",
+                    fontWeight: 700,
+                    fontSize: 14,
+                  }}
+                >
+                  Filtros
+                </h3>
+                <HighlightOffIcon
+                  sx={{
+                    color: "#B1AEAE",
+                    width: 18,
+                    height: 18,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    setShouldClear(true);
+                    dispatch(cleanFilters());
+                  }}
+                />
+              </>
+            )}
+          </Stack>
+          {currentLocation !== 0 && (
+            <Box>
+              <ToggleButtonGroup
+                exclusive
+                aria-label="Platform"
+                onChange={handleChange}
+                value={toggle}
+                color="primary"
+                sx={{
+                  borderRadius: "18px",
+                  width: "82px",
+                  height: "28px",
+                  backgroundColor: "#ffffff",
                 }}
-                startIcon={undefined}
-              />
-              <Divider
-                orientation="horizontal"
-                variant="middle"
-                sx={{ backgroundColor: "#ffffff", height: 1, margin: 0 }}
-              />
-            </MenuItem>
-          </Menu>
-        </>
+              >
+                <ToggleButton
+                  value="2d"
+                  sx={{
+                    borderRadius: "18px",
+                    color: "#000000",
+                    fontWeight: toggle === "2d" ? "600" : "unset",
+                  }}
+                >
+                  2D
+                </ToggleButton>
+                <ToggleButton
+                  value="3d"
+                  sx={{
+                    borderRadius: "18px",
+                    color: "#000000",
+                    fontWeight: toggle === "3d" ? "600" : "unset",
+                  }}
+                >
+                  3D
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </Box>
+          )}
+        </Grid>
       )}
-      {currentLocation !== 0 && (
-        <Box>
-          <ToggleButtonGroup
-            exclusive
-            aria-label="Platform"
-            onChange={handleChange}
-            value={toggle}
-            color="primary"
-            sx={{
-              borderRadius: "18px",
-              width: "82px",
-              height: "28px",
-              backgroundColor: "#ffffff",
-            }}
+      {mobile && (
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{
+            height: 56,
+            backgroundColor: "#000000",
+            cursor: "pointer",
+          }}
+        >
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            alignContent="center"
           >
-            <ToggleButton
-              value="2d"
-              sx={{
-                borderRadius: "18px",
-                color: "#000000",
-                fontWeight: toggle === "2d" ? "600" : "unset",
-              }}
-            >
-              2D
-            </ToggleButton>
-            <ToggleButton
-              value="3d"
-              sx={{
-                borderRadius: "18px",
-                color: "#000000",
-                fontWeight: toggle === "3d" ? "600" : "unset",
-              }}
-            >
-              3D
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Box>
+            {!openMenu && (
+              <Box
+                sx={{ color: "white", paddingLeft: "10px" }}
+                onClick={handleClick}
+              >
+                <HomeIcon />
+              </Box>
+            )}
+          </Stack>
+          {
+            <>
+              {currentLocation !== 0 && (
+                <div
+                  onClick={() => {
+                    setOpenMenu(true);
+                  }}
+                >
+                  {!openMenu ? (
+                    <MenuIcon />
+                  ) : (
+                    <div
+                      onClick={() => {
+                        setShouldClear(true);
+                        dispatch(cleanFilters());
+                        setOpenMenu(true);
+                      }}
+                      style={{
+                        marginTop: "12px",
+                      }}
+                    >
+                      <FilterRemove />
+                    </div>
+                  )}
+                </div>
+              )}
+              {currentLocation !== 0 && openMenu && (
+                <span
+                  style={{
+                    color: "white",
+                    fontSize: "26px",
+                    position: "relative",
+                    right: "26px",
+                    top: "4px",
+                  }}
+                  onClick={() => {
+                    setOpenMenu(false);
+                  }}
+                >
+                  <DeleteIcon />
+                </span>
+              )}
+              {openMenu && (
+                <div
+                  style={{
+                    marginTop: "15px",
+                    backgroundColor: "#000",
+                    zIndex: "100",
+                    width: "100%",
+                    minHeight: "900px",
+                  }}
+                >
+                  <Divider
+                    orientation="horizontal"
+                    sx={{ backgroundColor: "#ffffff", height: 1 }}
+                  />
+                  <Filter
+                    key={"level"}
+                    text="Level"
+                    options={levels}
+                    index={levelIndex}
+                    onChange={(event) => dispatch(setLevel(event.value))}
+                    shouldClear={shouldClear}
+                    resetShouldClear={() => {
+                      setShouldClear(false);
+                    }}
+                  />
+                  <Divider
+                    orientation="horizontal"
+                    sx={{ backgroundColor: "#ffffff", height: 1 }}
+                  />
+                  <Filter
+                    key={"bedrooms"}
+                    text="Recámaras"
+                    options={bedroomsOptions}
+                    index={bedroomIndex}
+                    onChange={(event) => dispatch(setBedrooms(event.value))}
+                    shouldClear={shouldClear}
+                    resetShouldClear={() => {
+                      setShouldClear(false);
+                    }}
+                  />
+                  <Divider
+                    orientation="horizontal"
+                    sx={{ backgroundColor: "#ffffff", height: 1 }}
+                  />
+                  <Filter
+                    key={"bathrooms"}
+                    text="Baños"
+                    index={bathroomIndex}
+                    options={bathroomOptions}
+                    onChange={(event) => dispatch(setBathrooms(event.value))}
+                    shouldClear={shouldClear}
+                    resetShouldClear={() => {
+                      setShouldClear(false);
+                    }}
+                  />
+                  <Divider
+                    orientation="horizontal"
+                    sx={{ backgroundColor: "#ffffff", height: 1 }}
+                  />
+                  <Filter
+                    key={"floorplan"}
+                    text="Planta Tipo"
+                    options={floorplanTypesOptions}
+                    index={floorplanIndex}
+                    onChange={(event) =>
+                      dispatch(setFloorPlanType(event.value))
+                    }
+                    shouldClear={shouldClear}
+                    resetShouldClear={() => {
+                      setShouldClear(false);
+                    }}
+                  />
+                  <Divider
+                    orientation="horizontal"
+                    sx={{ backgroundColor: "#ffffff", height: 1 }}
+                  />
+                </div>
+              )}
+            </>
+          }
+          {currentLocation !== 0 && !openMenu && (
+            <Box>
+              <ToggleButtonGroup
+                exclusive
+                aria-label="Platform"
+                onChange={handleChange}
+                value={toggle}
+                color="primary"
+                sx={{
+                  borderRadius: "18px",
+                  width: "82px",
+                  height: "28px",
+                  backgroundColor: "#ffffff",
+                  marginRight: "10px",
+                }}
+              >
+                <ToggleButton
+                  value="2d"
+                  sx={{
+                    borderRadius: "18px",
+                    color: "#000000",
+                    fontWeight: toggle === "2d" ? "600" : "unset",
+                  }}
+                >
+                  2D
+                </ToggleButton>
+                <ToggleButton
+                  value="3d"
+                  sx={{
+                    borderRadius: "18px",
+                    color: "#000000",
+                    fontWeight: toggle === "3d" ? "600" : "unset",
+                  }}
+                >
+                  3D
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </Box>
+          )}
+        </Grid>
       )}
-    </Grid>
+    </>
   );
 };

@@ -1,5 +1,5 @@
 import { Close } from "@mui/icons-material";
-import { Box, Chip, Dialog, Grid, Stack } from "@mui/material";
+import { Box, Chip, Dialog, Grid, Stack, useMediaQuery } from "@mui/material";
 import { useMemo } from "react";
 import { Unit } from "../../models/redux-models";
 import { status } from "../FloorplanCard";
@@ -36,6 +36,7 @@ export const ModalFloorplan = ({
     selectedFloorplan.attributes.pictures,
     selectedFloorplan.attributes.plans,
   ]);
+  const mobile = useMediaQuery("(max-width:600px)");
 
   return (
     <Dialog
@@ -44,13 +45,42 @@ export const ModalFloorplan = ({
       fullWidth
       maxWidth="md"
       sx={{
-        "& .MuiDialog-paper": {
-          borderRadius: "10px",
-          height: "553px",
-        },
+        "& .MuiDialog-paper": !mobile
+          ? {
+              borderRadius: "10px",
+              height: "100%",
+            }
+          : {
+              borderRadius: "0",
+              height: "100%",
+              maxHeight: "100%",
+              width: "auto",
+              margin: "0",
+              alignItems: "center",
+            },
+
+        width: "100%",
       }}
     >
-      <Grid container spacing={3} sx={{ height: "100%", padding: "30px" }}>
+      {mobile && (
+        <Close
+          sx={{
+            margin: "20px 0",
+            fontSize: "30px",
+            marginLeft: "88%",
+          }}
+          onClick={handleClose}
+        />
+      )}
+      <Grid
+        container
+        spacing={3}
+        sx={{
+          height: "100%",
+          width: "100%",
+          padding: mobile ? "0" : "30px",
+        }}
+      >
         <Grid item sm={6}>
           <Box sx={{ width: "100%", height: "100%" }}>
             <Images images={images} />
@@ -74,17 +104,19 @@ export const ModalFloorplan = ({
                     sx={{ backgroundColor: fills[selectedFloorplan.status] }}
                   />
                 </Stack>
-                <Close
-                  sx={{
-                    cursor: "pointer",
-                    "&:hover": {
-                      backgroundColor: "#555",
-                      color: "#ffffff",
-                      borderRadius: "5px",
-                    },
-                  }}
-                  onClick={handleClose}
-                />
+                {!mobile && (
+                  <Close
+                    sx={{
+                      cursor: "pointer",
+                      "&:hover": {
+                        backgroundColor: "#555",
+                        color: "#ffffff",
+                        borderRadius: "5px",
+                      },
+                    }}
+                    onClick={handleClose}
+                  />
+                )}
               </Stack>
               <h2 style={{ margin: 0, fontWeight: "900", fontSize: " 24px" }}>
                 {selectedFloorplan.name}
