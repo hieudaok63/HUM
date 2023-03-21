@@ -9,7 +9,11 @@ import {
 } from "../../hooks";
 import { InteractiveFloorplan } from "../InteractiveFloorplan";
 
-export const Locations = () => {
+interface IScale {
+  scaleZoom: string;
+}
+
+export const Locations = ({ scaleZoom }: IScale) => {
   const locations = useLocations();
   const currentLocation = useCurrentLocation();
   const currentView = useCurrentView();
@@ -52,6 +56,7 @@ export const Locations = () => {
         // backgroundSize: "cover",
         // backgroundRepeat: "no-repeat",
         transition: "all .5s ",
+        scale: scaleZoom,
       }}
     >
       {svg ? <InteractiveFloorplan svg={svg} /> : jpg}

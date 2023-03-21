@@ -123,36 +123,58 @@ export const ModalFloorplan = ({
               </h2>
             </Stack>
             <Stack>
-              <p style={{ margin: 0 }}>Valor de la vivienda</p>
-              <h2
-                style={{ margin: 0, fontWeight: "700", fontSize: " 18px" }}
-              >{`${numberFormat.format(
-                selectedFloorplan.attributes.price
-              )} MXN`}</h2>
+              <p style={{ margin: 0 }}>Unit Price</p>
+              <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 18px" }}>
+                {numberFormat.format(selectedFloorplan.attributes.price)}
+              </h2>
             </Stack>
             <Stack direction="row" alignItems="center" spacing={2}>
-              <p style={{ margin: 0 }}>Tipología: </p>
+              <p style={{ margin: 0 }}>Floorplan: </p>
               <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
                 {selectedFloorplan.typology}
               </h2>
             </Stack>
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <p style={{ margin: 0 }}>Área Total: </p>
-              <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
-                {selectedFloorplan.attributes.area_total} m2
-              </h2>
-            </Stack>
+
             <Stack direction="row" alignItems="center" spacing={2}>
               <Stack direction="row" alignItems="center" spacing={2}>
-                <p style={{ margin: 0 }}>Habitaciones: </p>
+                <p style={{ margin: 0 }}>Building: : </p>
                 <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
                   {selectedFloorplan.attributes.bedroom}
                 </h2>
               </Stack>
               <Stack direction="row" alignItems="center" spacing={2}>
-                <p style={{ margin: 0 }}>Baños: </p>
+                <p style={{ margin: 0 }}>Phase: </p>
                 <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
                   {selectedFloorplan.attributes.bathroom}
+                </h2>
+              </Stack>
+            </Stack>
+
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <p style={{ margin: 0 }}>Bedrooms: : </p>
+                <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
+                  {selectedFloorplan.attributes.bedroom}
+                </h2>
+              </Stack>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <p style={{ margin: 0 }}>Bathrooms: : </p>
+                <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
+                  {selectedFloorplan.attributes.bathroom}
+                </h2>
+              </Stack>
+            </Stack>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <p style={{ margin: 0 }}>Total Area: </p>
+                <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
+                  {selectedFloorplan.attributes.area_total} m2
+                </h2>
+              </Stack>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <p style={{ margin: 0 }}>Usable Area : </p>
+                <h2 style={{ margin: 0, fontWeight: "700", fontSize: " 14px" }}>
+                  {selectedFloorplan.attributes.area_constructed}
                 </h2>
               </Stack>
             </Stack>

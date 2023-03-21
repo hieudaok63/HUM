@@ -60,9 +60,12 @@ export const Filter = ({
     <Box
       sx={{
         "&:hover": {
-          background: "#333",
+          opacity: 0.8,
         },
-        padding: mobile ? "16px 0px" : "6px 0",
+        padding: mobile ? "16px 0px" : "0",
+        border: "1px solid #fff",
+        minWidth: "130px",
+        borderRadius: !mobile ? "6px" : "0",
       }}
     >
       <Button
@@ -76,7 +79,15 @@ export const Filter = ({
             sx={{ color: "white", width: 18, height: 18 }}
           />
         }
-        sx={{ color: "white", textAlign: "center", textTransform: "none" }}
+        sx={{
+          color: "white",
+          textAlign: "center",
+          textTransform: "none",
+          padding: !mobile ? "0 8px" : "",
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
       >
         {selectedIndex !== null && options[selectedIndex]
           ? options[selectedIndex].text

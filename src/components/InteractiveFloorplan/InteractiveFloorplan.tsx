@@ -220,10 +220,12 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
           style={{
             height: "100%",
             width: "100%",
+            display: "block",
           }}
           className="svg-container"
         />
       )}
+
       {mousePosition?.x && mousePosition?.y && hoveredElementRef.current && (
         <FloorplanCard
           x={mousePosition?.x}
