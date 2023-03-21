@@ -5,11 +5,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import Bed from "@mui/icons-material/HotelOutlined";
-import { ReactComponent as BathroomIcon } from "../../assets/icons/bathroom.svg";
-import { ReactComponent as FloorplanIcon } from "../../assets/icons/floorplan.svg";
-import { ReactComponent as LevelsIcon } from "../../assets/icons/levels.svg";
+
 import { ReactComponent as HomeIcon } from "../../assets/icons/home.svg";
 import { ReactComponent as MenuIcon } from "../../assets/icons/menu.svg";
 import { ReactComponent as FilterRemove } from "../../assets/icons/FilterRemove.svg";
@@ -44,6 +40,7 @@ export const Filters = () => {
     floorplanTypes: floorplanTypesOptions,
     levels,
   } = useFilters();
+
   const [bedroomFilter, bathroomFilter, floorplanFilter, levelFilter] =
     useFiltersValues();
 
@@ -111,7 +108,7 @@ export const Filters = () => {
             alignContent="center"
           >
             <Box
-              sx={{ color: "white", cursor: "pointer" }}
+              sx={{ color: "white", cursor: "pointer", marginRight: "10px" }}
               onClick={handleClick}
             >
               <HomeIcon />
@@ -120,11 +117,67 @@ export const Filters = () => {
               <>
                 <Filter
                   key={"level"}
-                  text="Nivel"
+                  text="Level"
                   options={levels}
                   index={levelIndex}
-                  startIcon={<LevelsIcon />}
                   onChange={(event) => dispatch(setLevel(event.value))}
+                  shouldClear={shouldClear}
+                  resetShouldClear={() => {
+                    setShouldClear(false);
+                  }}
+                />
+
+                <Filter
+                  key={"bedrooms"}
+                  text="Bedrooms / Baths"
+                  options={bedroomsOptions}
+                  index={bedroomIndex}
+                  onChange={(event) => dispatch(setBedrooms(event.value))}
+                  shouldClear={shouldClear}
+                  resetShouldClear={() => {
+                    setShouldClear(false);
+                  }}
+                />
+                <Filter
+                  key={"bathrooms"}
+                  text="Phase"
+                  index={bathroomIndex}
+                  options={bathroomOptions}
+                  onChange={(event) => dispatch(setBathrooms(event.value))}
+                  shouldClear={shouldClear}
+                  resetShouldClear={() => {
+                    setShouldClear(false);
+                  }}
+                />
+                <Filter
+                  key={"floorplan"}
+                  text="Floorplan"
+                  options={floorplanTypesOptions}
+                  index={floorplanIndex}
+                  onChange={(event) => dispatch(setFloorPlanType(event.value))}
+                  shouldClear={shouldClear}
+                  resetShouldClear={() => {
+                    setShouldClear(false);
+                  }}
+                />
+                <Filter
+                  key={"floorplan"}
+                  text="Price"
+                  options={floorplanTypesOptions}
+                  index={floorplanIndex}
+                  onChange={(event) => dispatch(setFloorPlanType(event.value))}
+                  shouldClear={shouldClear}
+                  resetShouldClear={() => {
+                    setShouldClear(false);
+                  }}
+                />
+
+                <Filter
+                  key={"floorplan"}
+                  text="Area"
+                  options={floorplanTypesOptions}
+                  index={floorplanIndex}
+                  onChange={(event) => dispatch(setFloorPlanType(event.value))}
                   shouldClear={shouldClear}
                   resetShouldClear={() => {
                     setShouldClear(false);
@@ -135,44 +188,6 @@ export const Filters = () => {
                   variant="middle"
                   sx={{ backgroundColor: "#ffffff", height: 32 }}
                 />
-                <Filter
-                  key={"bedrooms"}
-                  text="Recámaras"
-                  options={bedroomsOptions}
-                  index={bedroomIndex}
-                  startIcon={
-                    <Bed style={{ color: "white", width: 18, height: 18 }} />
-                  }
-                  onChange={(event) => dispatch(setBedrooms(event.value))}
-                  shouldClear={shouldClear}
-                  resetShouldClear={() => {
-                    setShouldClear(false);
-                  }}
-                />
-                <Filter
-                  key={"bathrooms"}
-                  text="Baños"
-                  index={bathroomIndex}
-                  options={bathroomOptions}
-                  startIcon={<BathroomIcon />}
-                  onChange={(event) => dispatch(setBathrooms(event.value))}
-                  shouldClear={shouldClear}
-                  resetShouldClear={() => {
-                    setShouldClear(false);
-                  }}
-                />
-                <Filter
-                  key={"floorplan"}
-                  text="Planta Tipo"
-                  options={floorplanTypesOptions}
-                  index={floorplanIndex}
-                  startIcon={<FloorplanIcon />}
-                  onChange={(event) => dispatch(setFloorPlanType(event.value))}
-                  shouldClear={shouldClear}
-                  resetShouldClear={() => {
-                    setShouldClear(false);
-                  }}
-                />
                 <h3
                   style={{
                     color: "white",
@@ -180,20 +195,16 @@ export const Filters = () => {
                     fontSize: 14,
                   }}
                 >
-                  Filtros
+                  Filters
                 </h3>
-                <HighlightOffIcon
-                  sx={{
-                    color: "#B1AEAE",
-                    width: 18,
-                    height: 18,
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    setShouldClear(true);
-                    dispatch(cleanFilters());
-                  }}
-                />
+                <div style={{ cursor: "pointer" }}>
+                  <FilterRemove
+                    onClick={() => {
+                      setShouldClear(true);
+                      dispatch(cleanFilters());
+                    }}
+                  />
+                </div>
               </>
             )}
           </Stack>
@@ -337,7 +348,7 @@ export const Filters = () => {
                   />
                   <Filter
                     key={"bedrooms"}
-                    text="Recámaras"
+                    text="Bedrooms / Baths"
                     options={bedroomsOptions}
                     index={bedroomIndex}
                     onChange={(event) => dispatch(setBedrooms(event.value))}
@@ -352,7 +363,7 @@ export const Filters = () => {
                   />
                   <Filter
                     key={"bathrooms"}
-                    text="Baños"
+                    text="Phase"
                     index={bathroomIndex}
                     options={bathroomOptions}
                     onChange={(event) => dispatch(setBathrooms(event.value))}
@@ -367,12 +378,42 @@ export const Filters = () => {
                   />
                   <Filter
                     key={"floorplan"}
-                    text="Planta Tipo"
+                    text="Floorplan"
                     options={floorplanTypesOptions}
                     index={floorplanIndex}
                     onChange={(event) =>
                       dispatch(setFloorPlanType(event.value))
                     }
+                    shouldClear={shouldClear}
+                    resetShouldClear={() => {
+                      setShouldClear(false);
+                    }}
+                  />
+                  <Divider
+                    orientation="horizontal"
+                    sx={{ backgroundColor: "#ffffff", height: 1 }}
+                  />
+                  <Filter
+                    key={"bedrooms"}
+                    text="Price"
+                    options={bedroomsOptions}
+                    index={bedroomIndex}
+                    onChange={(event) => dispatch(setBedrooms(event.value))}
+                    shouldClear={shouldClear}
+                    resetShouldClear={() => {
+                      setShouldClear(false);
+                    }}
+                  />
+                  <Divider
+                    orientation="horizontal"
+                    sx={{ backgroundColor: "#ffffff", height: 1 }}
+                  />
+                  <Filter
+                    key={"bedrooms"}
+                    text="Area"
+                    options={bedroomsOptions}
+                    index={bedroomIndex}
+                    onChange={(event) => dispatch(setBedrooms(event.value))}
                     shouldClear={shouldClear}
                     resetShouldClear={() => {
                       setShouldClear(false);

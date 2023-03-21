@@ -27,6 +27,7 @@ export const useFilters = () => {
     []
   );
   const availability = useAppSelector((state) => state.availability);
+
   const units = useUnits();
   const bedrooms = useMemo(() => {
     const numberOfBedrooms = new Set<number>();
@@ -117,7 +118,7 @@ export const useFilters = () => {
 
     return Array.from(levelNumbers)
       .map((floor) => ({
-        text: `Nivel ${floor}`,
+        text: `Level ${floor}`,
         value: parseInt(floor, 10),
       }))
       .sort((a: any, b: any) => b.value - a.value);

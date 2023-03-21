@@ -60,13 +60,15 @@
     height: 100%;
   }
   .svg-container svg {
-    display: inline-block;
+    display: block;
     height: 100%;
+    scale: 0.6 1;
     position: relative;
-    left: 40%;
+    left: -20%;
     -webkit-transform: translateX(-50%);
     -ms-transform: translateX(-50%);
-    transform: translateX(-55%);
+    transform: translateX(-50%);
+    animation: alternate;
   }
 
   .MuiButtonBase-root {
@@ -94,7 +96,7 @@
   }
   .MuiPaper-root li {
     border-bottom: 1px solid #fff !important;
-    padding: 24px 0;
+    padding: 22px 0;
   }
 }
 
