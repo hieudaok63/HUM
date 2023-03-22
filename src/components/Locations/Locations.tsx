@@ -3,11 +3,13 @@ import {
   useCurrentLocation,
   useCurrentVideo,
   useCurrentView,
-  useHideImage,
+  // useHideImage,
   useLocations,
   usePastView,
+  useSvgType,
 } from "../../hooks";
 import { InteractiveFloorplan } from "../InteractiveFloorplan";
+import { Location2D } from "./Location2D";
 
 interface IScale {
   scaleZoom: string;
@@ -19,7 +21,8 @@ export const Locations = ({ scaleZoom }: IScale) => {
   const currentView = useCurrentView();
   const video = useCurrentVideo();
   const pastView = usePastView();
-  const hideImage = useHideImage();
+  // const hideImage = useHideImage();
+  const svgType = useSvgType();
 
   const jpg = useMemo(
     () =>
@@ -59,7 +62,19 @@ export const Locations = ({ scaleZoom }: IScale) => {
         scale: scaleZoom,
       }}
     >
-      {svg ? <InteractiveFloorplan svg={svg} /> : jpg}
+      {svg && svgType === "3d" ? (
+        <InteractiveFloorplan svg={svg} />
+      ) : (
+        <div
+          style={{
+            scale: scaleZoom,
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <Location2D />
+        </div>
+      )}
     </div>
   );
 };

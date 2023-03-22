@@ -1,10 +1,7 @@
 import {
   Box,
   Chip,
-  FormControl,
-  InputLabel,
   MenuItem,
-  NativeSelect,
   Select,
   SelectChangeEvent,
   Stack,
@@ -16,7 +13,7 @@ import { ReactComponent as TakenIcon } from "../../assets/icons/taken.svg";
 import { ReactComponent as SoldIcon } from "../../assets/icons/sold.svg";
 import { ReactComponent as NotAvailableIcon } from "../../assets/icons/notAvailable.svg";
 import { ReactComponent as AllIcon } from "../../assets/icons/all.svg";
-import { useAppDispatch, useAvailabilityFilter } from "../../hooks";
+import { useAppDispatch, useAvailabilityFilter, useSvgType } from "../../hooks";
 import { setAvailability } from "../../store/todo-actions";
 import { useState } from "react";
 import { Theme, useTheme } from "@mui/material/styles";
@@ -65,6 +62,7 @@ export const AvailabilityFilters = () => {
     } = event;
     setPersonName(typeof value === "string" ? value.split(",") : value);
   };
+  const svgType = useSvgType();
 
   return mobile ? (
     <Stack
@@ -74,7 +72,8 @@ export const AvailabilityFilters = () => {
         position: "absolute",
         bottom: 0,
         marginBottom: "0",
-        width: "100% !important",
+        width: svgType === "2d" ? "70% !important" : "100%",
+        marginRight: svgType === "2d" ? "30%" : "0",
         background: "#000 ",
       }}
       alignContent="center"
@@ -152,7 +151,7 @@ export const AvailabilityFilters = () => {
         <Chip
           key={filter.value}
           sx={{
-            width: 156,
+            width: svgType === "3d" ? 156 : "9%",
             backgroundColor:
               filter.value === availability
                 ? "rgba(0, 0, 0, 0.1)"
