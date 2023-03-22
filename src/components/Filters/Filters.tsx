@@ -1,10 +1,4 @@
-import {
-  Divider,
-  Grid,
-  Stack,
-  ToggleButton,
-  ToggleButtonGroup,
-} from "@mui/material";
+import { Divider, Grid, Stack } from "@mui/material";
 
 import { ReactComponent as HomeIcon } from "../../assets/icons/home.svg";
 import { ReactComponent as MenuIcon } from "../../assets/icons/menu.svg";
@@ -17,6 +11,7 @@ import {
   useCurrentLocation,
   useFilters,
   useFiltersValues,
+  useSvgType,
 } from "../../hooks";
 import {
   setBathrooms,
@@ -26,14 +21,17 @@ import {
   cleanFilters,
   setCurrentLocations,
   setCurrentLocationView,
+  setSVGType,
 } from "../../store/todo-actions";
 import { Box } from "@mui/system";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { BottomFilters } from "../BottomFilters";
 
 export const Filters = () => {
   const dispatch = useAppDispatch();
   const [shouldClear, setShouldClear] = useState(false);
-  const [toggle, setToggle] = useState("3d");
+  const svgType = useSvgType();
+
   const {
     bedrooms: bedroomsOptions,
     bathrooms: bathroomOptions,
@@ -76,14 +74,8 @@ export const Filters = () => {
     [levelFilter, levels]
   );
 
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newToggle: string
-  ) => {
-    setToggle(newToggle);
-  };
-
   const handleClick = () => {
+    svgType === "2d" && dispatch(setSVGType("3d"));
     dispatch(setCurrentLocations(0));
     dispatch(setCurrentLocationView(0));
   };
@@ -208,44 +200,7 @@ export const Filters = () => {
               </>
             )}
           </Stack>
-          {currentLocation !== 0 && (
-            <Box>
-              <ToggleButtonGroup
-                exclusive
-                aria-label="Platform"
-                onChange={handleChange}
-                value={toggle}
-                color="primary"
-                sx={{
-                  borderRadius: "18px",
-                  width: "82px",
-                  height: "28px",
-                  backgroundColor: "#ffffff",
-                }}
-              >
-                <ToggleButton
-                  value="2d"
-                  sx={{
-                    borderRadius: "18px",
-                    color: "#000000",
-                    fontWeight: toggle === "2d" ? "600" : "unset",
-                  }}
-                >
-                  2D
-                </ToggleButton>
-                <ToggleButton
-                  value="3d"
-                  sx={{
-                    borderRadius: "18px",
-                    color: "#000000",
-                    fontWeight: toggle === "3d" ? "600" : "unset",
-                  }}
-                >
-                  3D
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </Box>
-          )}
+          {currentLocation !== 0 && <BottomFilters />}
         </Grid>
       )}
       {mobile && (
@@ -427,45 +382,7 @@ export const Filters = () => {
               )}
             </>
           }
-          {currentLocation !== 0 && !openMenu && (
-            <Box>
-              <ToggleButtonGroup
-                exclusive
-                aria-label="Platform"
-                onChange={handleChange}
-                value={toggle}
-                color="primary"
-                sx={{
-                  borderRadius: "18px",
-                  width: "82px",
-                  height: "28px",
-                  backgroundColor: "#ffffff",
-                  marginRight: "10px",
-                }}
-              >
-                <ToggleButton
-                  value="2d"
-                  sx={{
-                    borderRadius: "18px",
-                    color: "#000000",
-                    fontWeight: toggle === "2d" ? "600" : "unset",
-                  }}
-                >
-                  2D
-                </ToggleButton>
-                <ToggleButton
-                  value="3d"
-                  sx={{
-                    borderRadius: "18px",
-                    color: "#000000",
-                    fontWeight: toggle === "3d" ? "600" : "unset",
-                  }}
-                >
-                  3D
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </Box>
-          )}
+          {currentLocation !== 0 && !openMenu && <BottomFilters />}
         </Grid>
       )}
     </>

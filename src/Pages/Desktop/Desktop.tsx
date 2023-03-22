@@ -10,6 +10,7 @@ import {
   useCurrentType,
   useCurrentVideo,
   useCurrentView,
+  useSvgType,
 } from "../../hooks";
 import { fetchAvailability } from "../../store/todo-actions";
 import { ReactComponent as ZoomInIcon } from "../../assets/icons/zoomin.svg";
@@ -17,6 +18,7 @@ import { ReactComponent as ZoomOutIcon } from "../../assets/icons/zoomout.svg";
 import { ReactComponent as MoveIcon } from "../../assets/icons/Move.svg";
 
 export const Desktop = () => {
+  const svgType = useSvgType();
   const video = useCurrentVideo();
   const type = useCurrentType();
   const currentView = useCurrentView();
@@ -71,18 +73,18 @@ export const Desktop = () => {
               position: "fixed",
               width: "100px",
               bottom: mobile ? "80px" : "40px",
-              right: mobile ? "0px" : "50px",
+              right: mobile ? "0px" : svgType === "2d" ? "170px" : "50px",
               flexDirection: mobile ? "column" : "row",
             }}
           >
-            <div
+            <span
               onClick={handleZoomIn}
               style={{
                 cursor: "pointer",
               }}
             >
               <ZoomInIcon />
-            </div>
+            </span>
 
             <div
               style={{
@@ -105,10 +107,10 @@ export const Desktop = () => {
           </div>
         )}
 
-        {currentLocation !== 0 && currentView !== 0 && (
+        {currentLocation !== 0 && currentView !== 0 && svgType === "3d" && (
           <NavigationArrows position="left" disabled={false} />
         )}
-        {currentLocation !== 0 && (
+        {currentLocation !== 0 && svgType === "3d" && (
           <NavigationArrows position="right" disabled={false} />
         )}
       </Stack>
