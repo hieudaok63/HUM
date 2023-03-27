@@ -58,7 +58,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
   const renderSVG = useCallback(() => {
     const currentLocations = [...locations];
     currentLocations.splice(1, 1);
-    currentLocations.forEach((locations, index) => {
+    currentLocations?.forEach((locations, index) => {
       const currentLocationNode = document.getElementById(`L-E${index + 1}`);
       const currentLocation = index + 1;
 
@@ -73,7 +73,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
         );
       }
     });
-    units.forEach((unit) => {
+    units?.forEach((unit) => {
       const currentLevelNode = document.getElementById(
         `Level${unit.attributes.level}`
       );
@@ -103,7 +103,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
                 el.typology === floorplanFilter
             );
 
-      floorPlans.forEach((el: Unit) => {
+      floorPlans?.forEach((el: Unit) => {
         const { name, status } = el;
         const floorplan = document.getElementById(`U-${name}`);
         const floorplanPolygon = document.getElementById(`P-${name}`);
