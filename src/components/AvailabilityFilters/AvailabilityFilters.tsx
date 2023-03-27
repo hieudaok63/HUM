@@ -93,7 +93,7 @@ export const AvailabilityFilters = () => {
                 borderRadius: "16px",
               }}
             >
-              {selected.map((value) => {
+              {selected?.map((value) => {
                 const icon = filters.filter((item) => item.value === value);
                 return (
                   <Chip
@@ -110,7 +110,7 @@ export const AvailabilityFilters = () => {
         }}
         MenuProps={MenuProps}
       >
-        {filters.map((filter) => (
+        {filters?.map((filter) => (
           <MenuItem
             key={filter.value}
             value={filter.value}
@@ -147,7 +147,7 @@ export const AvailabilityFilters = () => {
       alignContent="center"
       justifyContent="flex-start"
     >
-      {filters.map((filter) => (
+      {filters?.map((filter) => (
         <Chip
           key={filter.value}
           sx={{

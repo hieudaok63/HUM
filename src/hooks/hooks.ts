@@ -10,7 +10,7 @@ export const useUnits = () => {
   const availability = useAppSelector((state) => state.availability);
   return useMemo(() => {
     const units: Unit[] = [];
-    availability.apartments.forEach((apartment) => {
+    availability.apartments?.forEach((apartment) => {
       units.push(...apartment.units);
     });
     return units;
@@ -27,31 +27,32 @@ export const useFilters = () => {
     []
   );
   const availability = useAppSelector((state) => state.availability);
+  // console.log(availability);
 
   const units = useUnits();
   const bedrooms = useMemo(() => {
     const numberOfBedrooms = new Set<number>();
-    availability.apartments.forEach((apartment) => {
+    availability.apartments?.forEach((apartment) => {
       numberOfBedrooms.add(apartment.attributes.bedroom);
     });
-    return Array.from(numberOfBedrooms).map((bedroom) => ({
+    return Array.from(numberOfBedrooms)?.map((bedroom) => ({
       text: bedroom.toString(),
       value: bedroom,
     }));
   }, [availability.apartments]);
   const bathrooms = useMemo(() => {
     const numberOfBathrooms = new Set<number>();
-    availability.apartments.forEach((apartment) => {
+    availability.apartments?.forEach((apartment) => {
       numberOfBathrooms.add(apartment.attributes.bathroom);
     });
-    return Array.from(numberOfBathrooms).map((bathroom) => ({
+    return Array.from(numberOfBathrooms)?.map((bathroom) => ({
       text: bathroom.toString(),
       value: bathroom,
     }));
   }, [availability.apartments]);
   const floorplanTypes = useMemo(
     () =>
-      availability.apartments.map((apartment) => ({
+      availability.apartments?.map((apartment) => ({
         text: apartment.name,
         value: apartment.name,
       })) || [],
@@ -114,10 +115,10 @@ export const useFilters = () => {
 
   const levels = useMemo(() => {
     const levelNumbers = new Set<string>();
-    units.forEach((unit) => levelNumbers.add(unit.attributes.level));
+    units?.forEach((unit) => levelNumbers.add(unit.attributes.level));
 
     return Array.from(levelNumbers)
-      .map((floor) => ({
+      ?.map((floor) => ({
         text: `Level ${floor}`,
         value: parseInt(floor, 10),
       }))

@@ -37,7 +37,10 @@ export const Filters = () => {
     bathrooms: bathroomOptions,
     floorplanTypes: floorplanTypesOptions,
     levels,
+    prices,
+    areas,
   } = useFilters();
+  // console.log(areas);
 
   const [bedroomFilter, bathroomFilter, floorplanFilter, levelFilter] =
     useFiltersValues();
@@ -91,7 +94,14 @@ export const Filters = () => {
           direction="row"
           justifyContent="space-between"
           alignItems="center"
-          sx={{ height: 56, backgroundColor: "#000000", padding: "0px 23px" }}
+          sx={{
+            height: 48,
+            backgroundColor: currentLocation !== 0 ? "#000000" : "transparent",
+            padding: "0px 23px",
+            position: "absolute",
+            top: "0",
+            zIndex: "10",
+          }}
         >
           <Stack
             direction="row"
@@ -100,10 +110,21 @@ export const Filters = () => {
             alignContent="center"
           >
             <Box
-              sx={{ color: "white", cursor: "pointer", marginRight: "10px" }}
+              sx={{
+                color: "white",
+                cursor: "pointer",
+                marginRight: "10px",
+                width: "32px",
+                height: "32px",
+              }}
               onClick={handleClick}
             >
-              <HomeIcon />
+              <HomeIcon
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
             </Box>
             {currentLocation !== 0 && (
               <>

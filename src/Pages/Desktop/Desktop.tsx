@@ -12,6 +12,7 @@ import {
   useCurrentView,
   useSvgType,
 } from "../../hooks";
+
 import { fetchAvailability } from "../../store/todo-actions";
 import { ReactComponent as ZoomInIcon } from "../../assets/icons/zoomin.svg";
 import { ReactComponent as ZoomOutIcon } from "../../assets/icons/zoomout.svg";
@@ -65,7 +66,7 @@ export const Desktop = () => {
         <Locations scaleZoom={scaleZoom} />
         {currentLocation !== 0 && <AvailabilityFilters />}
 
-        {currentLocation !== 0 && (
+        {currentLocation !== 0 && svgType === "3d" && (
           <div
             style={{
               display: "flex",
@@ -73,7 +74,7 @@ export const Desktop = () => {
               position: "fixed",
               width: "100px",
               bottom: mobile ? "80px" : "40px",
-              right: mobile ? "0px" : svgType === "2d" ? "170px" : "50px",
+              right: mobile ? "0px" : "50px",
               flexDirection: mobile ? "column" : "row",
             }}
           >
@@ -107,7 +108,7 @@ export const Desktop = () => {
           </div>
         )}
 
-        {currentLocation !== 0 && currentView !== 0 && svgType === "3d" && (
+        {currentLocation !== 0 && svgType === "3d" && (
           <NavigationArrows position="left" disabled={false} />
         )}
         {currentLocation !== 0 && svgType === "3d" && (

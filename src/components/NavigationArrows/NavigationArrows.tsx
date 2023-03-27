@@ -24,9 +24,10 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   const currentLocation = useCurrentLocation();
   const currentView = useCurrentView();
   const locations = useLocations();
+
   const prevLocation = useCallback(() => {
     const newLocation =
-      currentLocation === 0 ? locations.length - 1 : currentLocation - 1;
+      currentLocation === 0 ? locations.length - 1 : currentLocation;
 
     const lastLocationIndex = locations.length - 1;
     const lastViewIndex = locations[newLocation].views.length - 1;
@@ -35,7 +36,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
         setCurrentVideo(
           locations[currentLocation].views[currentView].videoBack === "none"
             ? null
-            : locations[currentLocation].views[currentView].videoBack,
+            : null,
           "forward"
         )
       );
@@ -71,7 +72,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      dispatch(setCurrentLocations(currentLocation + 1));
+      dispatch(setCurrentLocations(currentLocation));
       dispatch(setCurrentLocationView(0));
       return;
     }
@@ -88,7 +89,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       return;
     }
     if (currentLocation === lastLocationIndex) {
-      dispatch(setCurrentLocations(1));
+      dispatch(setCurrentLocations(currentLocation));
       dispatch(setCurrentLocationView(0));
       return;
     }
@@ -101,7 +102,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      dispatch(setCurrentLocations(currentLocation + 1));
+      dispatch(setCurrentLocations(currentLocation));
       dispatch(setCurrentLocationView(0));
       return;
     }

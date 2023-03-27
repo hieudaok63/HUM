@@ -1,4 +1,4 @@
-import { Chip, Stack } from "@mui/material";
+import { Button, Chip, Stack } from "@mui/material";
 
 import { useAppDispatch, useSvgType } from "../../hooks";
 import { setSVGType } from "../../store/todo-actions";
@@ -15,39 +15,39 @@ export const BottomFilters = () => {
   return (
     <Stack direction="row" spacing={6}>
       <Stack direction="row" alignItems="end">
-        <Chip
-          sx={{
-            width: svgType === "2d" ? "44px" : "66px",
+        <button
+          style={{
+            height: "32px",
+            borderRadius: "20px",
+            width: svgType === "2d" ? "44px" : "58px",
             backgroundColor: svgType === "2d" ? "#B4FFEE" : "#F6F6F6",
             border: `1px solid ${svgType === "2d" ? "#167D77" : "#979797"}`,
             fontWeight: svgType === "2d" ? "700" : "400",
             marginRight: "-24px",
-            zIndex: svgType === "2d" ? "1000" : "0",
-            "&:hover": {
-              opacity: "0.8",
-              backgroundColor: svgType === "2d" ? "#B4FFEE" : "#F6F6F6",
-            },
+            zIndex: svgType === "2d" ? "1" : "0",
+            paddingRight: svgType === "3d" ? "20px" : "6px",
+            cursor: "pointer",
           }}
-          label={"2D"}
           onClick={onClick2D}
-        />
-        <Chip
-          sx={{
-            width: svgType === "3d" ? "44px" : "66px",
+        >
+          2D
+        </button>
+        <button
+          style={{
+            height: "32px",
+            borderRadius: "20px",
+            paddingLeft: svgType === "2d" ? "20px" : "6px",
+            width: svgType === "3d" ? "44px" : "58px",
             backgroundColor: svgType === "3d" ? "#B4FFEE" : "#F6F6F6",
-            border: `1px solid ${
-              svgType === "3d" ? "#167D77 !important" : "#979797"
-            }`,
+            border: `1px solid ${svgType === "2d" ? "#167D77" : "#979797"}`,
             fontWeight: svgType === "3d" ? "700" : "400",
-            zIndex: svgType === "3d" ? "1000" : "0",
-            "&:hover": {
-              opacity: "0.8",
-              backgroundColor: svgType === "3d" ? "#B4FFEE" : "#F6F6F6",
-            },
+            zIndex: svgType === "3d" ? "1" : "0",
+            cursor: "pointer",
           }}
-          label={"3D"}
           onClick={onClick3D}
-        />
+        >
+          3D
+        </button>
       </Stack>
     </Stack>
   );

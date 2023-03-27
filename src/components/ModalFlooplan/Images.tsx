@@ -54,7 +54,7 @@ export const Images = ({ images }: Props) => {
             clickable: true,
           }}
         >
-          {images.map((image, index) => (
+          {images?.map((image, index) => (
             <SwiperSlide>
               <Box
                 key={`image-${index}`}

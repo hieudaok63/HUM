@@ -1,12 +1,9 @@
 import { Chip, Stack, useMediaQuery } from "@mui/material";
-import { Key, useState } from "react";
-import { Theme, useTheme } from "@mui/material/styles";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 
 const Image2D = [
   {
@@ -39,7 +36,6 @@ export const Location2D = () => {
   const mobile = useMediaQuery("(max-width:600px)");
 
   const nameImage = Image2D?.map((nameImage) => nameImage.name);
-  console.log(nameImage);
   const handleChange = (event: any) => {
     const {
       target: { value },
@@ -79,7 +75,7 @@ export const Location2D = () => {
               >
                 LEVEL
               </p>
-              {Image2D.map((image) => (
+              {Image2D?.map((image) => (
                 <Chip
                   key={image.id}
                   sx={{
@@ -150,7 +146,7 @@ export const Location2D = () => {
               //   width: "inherit",
             }}
           >
-            {nameImage.map((name: any) => (
+            {nameImage?.map((name: any) => (
               <MenuItem
                 key={name}
                 value={name}

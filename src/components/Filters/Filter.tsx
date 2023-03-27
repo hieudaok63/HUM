@@ -100,7 +100,7 @@ export const Filter = ({
         TransitionComponent={Fade}
         sx={{ ".MuiList-root": { backgroundColor: "#000000" } }}
       >
-        {options.map(({ text: optionText, value: inputValue }, i) => (
+        {options?.map(({ text: optionText, value: inputValue }, i) => (
           <MenuItem
             key={inputValue}
             value={inputValue}
