@@ -4,6 +4,7 @@ import { ReactComponent as HomeIcon } from "../../assets/icons/home.svg";
 import { ReactComponent as MenuIcon } from "../../assets/icons/menu.svg";
 import { ReactComponent as FilterRemove } from "../../assets/icons/FilterRemove.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/icons/delete.svg";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import { Filter } from "./Filter";
 import { useMemo, useState } from "react";
 import {
@@ -30,6 +31,8 @@ import { BottomFilters } from "../BottomFilters";
 export const Filters = () => {
   const dispatch = useAppDispatch();
   const [shouldClear, setShouldClear] = useState(false);
+  const [icon, setIcon] = useState(false);
+  console.log(icon);
   const svgType = useSvgType();
 
   const {
@@ -37,10 +40,7 @@ export const Filters = () => {
     bathrooms: bathroomOptions,
     floorplanTypes: floorplanTypesOptions,
     levels,
-    prices,
-    areas,
   } = useFilters();
-  // console.log(areas);
 
   const [bedroomFilter, bathroomFilter, floorplanFilter, levelFilter] =
     useFiltersValues();
@@ -83,9 +83,28 @@ export const Filters = () => {
     dispatch(setCurrentLocationView(0));
   };
 
+  const handleClickFullView = () => {};
+
   const currentLocation = useCurrentLocation();
   const mobile = useMediaQuery("(max-width:600px)");
   const [openMenu, setOpenMenu] = useState(false);
+  let myDocument: any = document.documentElement;
+  let btn: any = document.getElementById("btn");
+
+  btn?.addEventListener("click", () => {
+    if (myDocument.requestFullscreen) {
+      myDocument.requestFullscreen();
+    } else if (myDocument.msRequestFullscreen) {
+      myDocument.msRequestFullscreen();
+    } else if (myDocument.mozRequestFullscreen) {
+      myDocument.mozRequestFullscreen();
+    } else if (myDocument.webkitRequestFullscreen) {
+      myDocument.webkitRequestFullscreen();
+    }
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  });
   return (
     <>
       {!mobile && (
@@ -221,7 +240,33 @@ export const Filters = () => {
               </>
             )}
           </Stack>
-          {currentLocation !== 0 && <BottomFilters />}
+          <div style={{ display: "flex" }}>
+            {currentLocation !== 0 && <BottomFilters />}
+            <button
+              id="btn"
+              onClick={handleClickFullView}
+              style={{
+                padding: "6px",
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "#344054",
+                borderRadius: "16px",
+                border: "none",
+                outline: "none",
+                cursor: "pointer",
+              }}
+            >
+              {myDocument.requestFullscreen ? (
+                <FullscreenIcon
+                  sx={{
+                    color: "#fff",
+                  }}
+                />
+              ) : (
+                <DeleteIcon />
+              )}
+            </button>
+          </div>
         </Grid>
       )}
       {mobile && (
