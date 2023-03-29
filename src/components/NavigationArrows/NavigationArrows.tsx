@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { Avatar } from "@mui/material";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
@@ -31,7 +31,24 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
 
     const lastLocationIndex = locations.length - 1;
     const lastViewIndex = locations[newLocation].views.length - 1;
-    if (currentView === 0 && currentLocation > 0) {
+    if (currentView === 0 && currentLocation === 1) {
+      dispatch(
+        setCurrentVideo(
+          locations[currentLocation + 1].views[currentView].videoBack === "none"
+            ? null
+            : locations[currentLocation + 1].views[currentView].videoBack,
+          "forward"
+        )
+      );
+      setTimeout(() => {
+        dispatch(setCurrentLocations(newLocation));
+      }, 500);
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(lastViewIndex));
+      }, 1000);
+      return;
+    }
+    if (currentView === 0 && currentLocation === 2) {
       dispatch(
         setCurrentVideo(
           locations[currentLocation].views[currentView].videoBack === "none"
@@ -40,29 +57,55 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      dispatch(setCurrentLocations(newLocation));
-      dispatch(setCurrentLocationView(lastViewIndex));
+      setTimeout(() => {
+        dispatch(setCurrentLocations(newLocation));
+      }, 500);
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(lastViewIndex));
+      }, 1000);
       return;
     }
     if (currentLocation === 0) {
-      dispatch(setCurrentLocations(lastLocationIndex));
-      dispatch(setCurrentLocationView(lastViewIndex));
+      setTimeout(() => {
+        dispatch(setCurrentLocations(lastLocationIndex));
+      }, 500);
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(lastViewIndex));
+      }, 500);
       return;
+    } else {
+      dispatch(
+        setCurrentVideo(
+          locations[currentLocation].views[currentView].videoBack === "none"
+            ? null
+            : locations[currentLocation].views[currentView].videoBack,
+          "forward"
+        )
+      );
     }
-    dispatch(
-      setCurrentVideo(
-        locations[currentLocation].views[currentView].videoBack === "none"
-          ? null
-          : locations[currentLocation].views[currentView].videoBack,
-        "forward"
-      )
-    );
-    dispatch(setCurrentLocationView(currentView - 1));
+    setTimeout(() => {
+      dispatch(setCurrentLocationView(currentView - 1));
+    }, 500);
   }, [currentLocation, currentView, dispatch, locations]);
 
   const nextLocation = useCallback(() => {
     const lastLocationIndex = locations.length - 1;
     const lastViewIndex = locations[currentLocation].views.length - 1;
+    if (currentView === 1 && currentLocation === 2) {
+      dispatch(
+        setCurrentVideo(
+          "https://athum.com/images-tmp/okun-etapa_2-2.webm",
+          "forward"
+        )
+      );
+      setTimeout(() => {
+        dispatch(setCurrentLocations(currentLocation));
+      }, 500);
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(0));
+      }, 500);
+      return;
+    }
     if (lastViewIndex === currentView && lastLocationIndex > currentLocation) {
       dispatch(
         setCurrentVideo(
@@ -72,8 +115,10 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      dispatch(setCurrentLocations(currentLocation));
-      dispatch(setCurrentLocationView(0));
+      setTimeout(() => {
+        dispatch(setCurrentLocations(currentLocation));
+        dispatch(setCurrentLocationView(0));
+      }, 500);
       return;
     }
     if (lastViewIndex > currentView) {
@@ -85,12 +130,16 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      dispatch(setCurrentLocationView(currentView + 1));
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(currentView + 1));
+      }, 500);
       return;
     }
     if (currentLocation === lastLocationIndex) {
-      dispatch(setCurrentLocations(currentLocation));
-      dispatch(setCurrentLocationView(0));
+      setTimeout(() => {
+        dispatch(setCurrentLocations(currentLocation));
+        dispatch(setCurrentLocationView(0));
+      }, 500);
       return;
     }
     if (currentView === lastViewIndex) {
@@ -102,8 +151,12 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      dispatch(setCurrentLocations(currentLocation));
-      dispatch(setCurrentLocationView(0));
+      setTimeout(() => {
+        dispatch(setCurrentLocations(currentLocation));
+      }, 500);
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(0));
+      }, 500);
       return;
     }
   }, [currentLocation, currentView, dispatch, locations]);
