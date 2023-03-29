@@ -31,8 +31,7 @@ import { BottomFilters } from "../BottomFilters";
 export const Filters = () => {
   const dispatch = useAppDispatch();
   const [shouldClear, setShouldClear] = useState(false);
-  const [icon, setIcon] = useState(false);
-  console.log(icon);
+
   const svgType = useSvgType();
 
   const {
@@ -82,8 +81,6 @@ export const Filters = () => {
     dispatch(setCurrentLocations(0));
     dispatch(setCurrentLocationView(0));
   };
-
-  const handleClickFullView = () => {};
 
   const currentLocation = useCurrentLocation();
   const mobile = useMediaQuery("(max-width:600px)");
@@ -244,12 +241,11 @@ export const Filters = () => {
             {currentLocation !== 0 && <BottomFilters />}
             <button
               id="btn"
-              onClick={handleClickFullView}
               style={{
-                padding: "6px",
+                padding: "4px",
                 display: "flex",
                 alignItems: "center",
-                backgroundColor: "#344054",
+                backgroundColor: "rgba(0, 0, 0, 0.4)",
                 borderRadius: "16px",
                 border: "none",
                 outline: "none",
