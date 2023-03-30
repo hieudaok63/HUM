@@ -24,6 +24,9 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   const currentLocation = useCurrentLocation();
   const currentView = useCurrentView();
   const locations = useLocations();
+  console.log("currentLocation", currentLocation);
+  console.log("currentView", currentView);
+  console.log("locations", locations);
 
   const prevLocation = useCallback(() => {
     const newLocation =
@@ -37,6 +40,21 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           locations[currentLocation + 1].views[currentView].videoBack === "none"
             ? null
             : locations[currentLocation + 1].views[currentView].videoBack,
+          "forward"
+        )
+      );
+      setTimeout(() => {
+        dispatch(setCurrentLocations(newLocation));
+      }, 500);
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(lastViewIndex));
+      }, 1000);
+      return;
+    }
+    if (currentView === 0 && currentLocation === 2) {
+      dispatch(
+        setCurrentVideo(
+          "https://athum.com/images-tmp/okun-etapa_2-2_rev.webm",
           "forward"
         )
       );

@@ -256,6 +256,9 @@ export const Filters = () => {
                 <FullscreenIcon
                   sx={{
                     color: "#fff",
+                    "&:hover": {
+                      scale: "1.2",
+                    },
                   }}
                 />
               ) : (
