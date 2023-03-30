@@ -52,10 +52,6 @@
   height: 100%;
 }
 
-/* .svg-container svg {
-  scale: 1 0.85;
-} */
-
 @media only screen and (max-width: 600px) {
   .svg-container div {
     display: block;
