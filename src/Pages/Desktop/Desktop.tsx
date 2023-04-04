@@ -73,7 +73,7 @@ export const Desktop = () => {
               position: "fixed",
               width: "100px",
               bottom: mobile ? "80px" : "40px",
-              right: mobile ? "0px" : "50px",
+              right: mobile ? "0px" : svgType === "3d" ? "50px" : "160px",
               flexDirection: mobile ? "column" : "row",
             }}
           >

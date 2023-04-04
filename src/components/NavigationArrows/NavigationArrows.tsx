@@ -24,9 +24,6 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   const currentLocation = useCurrentLocation();
   const currentView = useCurrentView();
   const locations = useLocations();
-  console.log("currentLocation", currentLocation);
-  console.log("currentView", currentView);
-  console.log("locations", locations);
 
   const prevLocation = useCallback(() => {
     const newLocation =
@@ -48,7 +45,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       }, 500);
       setTimeout(() => {
         dispatch(setCurrentLocationView(lastViewIndex));
-      }, 1000);
+      }, 500);
       return;
     }
     if (currentView === 0 && currentLocation === 2) {
@@ -63,7 +60,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       }, 500);
       setTimeout(() => {
         dispatch(setCurrentLocationView(lastViewIndex));
-      }, 1000);
+      }, 500);
       return;
     }
     if (currentView === 0 && currentLocation === 2) {
@@ -80,7 +77,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       }, 500);
       setTimeout(() => {
         dispatch(setCurrentLocationView(lastViewIndex));
-      }, 1000);
+      }, 500);
       return;
     }
     if (currentLocation === 0) {
