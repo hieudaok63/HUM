@@ -22,7 +22,6 @@ export const Desktop = () => {
   const svgType = useSvgType();
   const video = useCurrentVideo();
   const type = useCurrentType();
-  const currentView = useCurrentView();
   const currentLocation = useCurrentLocation();
 
   const [requested, setRequested] = useState(false);
@@ -66,7 +65,7 @@ export const Desktop = () => {
         <Locations scaleZoom={scaleZoom} />
         {currentLocation !== 0 && <AvailabilityFilters />}
 
-        {currentLocation !== 0 && svgType === "3d" && (
+        {currentLocation !== 0 && (
           <div
             style={{
               display: "flex",

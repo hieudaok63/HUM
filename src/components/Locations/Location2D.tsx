@@ -111,6 +111,9 @@ export const Location2D = () => {
           style={{
             height: "100%",
             width: "100%",
+            overflowX: "scroll",
+            overflowAnchor: "none",
+            overscrollBehavior: "contain",
           }}
         >
           <Select
@@ -164,14 +167,7 @@ export const Location2D = () => {
               </MenuItem>
             ))}
           </Select>
-          <img
-            src={getImage[0]?.image}
-            title="hieudao"
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
-          />
+          <img src={getImage[0]?.image} title="hieudao" />
         </div>
       )}
     </>
