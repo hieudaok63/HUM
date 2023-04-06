@@ -40,12 +40,10 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(newLocation));
-      }, 500);
+      dispatch(setCurrentLocations(newLocation));
       setTimeout(() => {
         dispatch(setCurrentLocationView(lastViewIndex));
-      }, 500);
+      }, 200);
       return;
     }
     if (currentView === 0 && currentLocation === 2) {
@@ -55,12 +53,10 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(newLocation));
-      }, 500);
+      dispatch(setCurrentLocations(newLocation));
       setTimeout(() => {
         dispatch(setCurrentLocationView(lastViewIndex));
-      }, 500);
+      }, 200);
       return;
     }
     if (currentView === 0 && currentLocation === 2) {
@@ -72,21 +68,13 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(newLocation));
-      }, 500);
-      setTimeout(() => {
-        dispatch(setCurrentLocationView(lastViewIndex));
-      }, 500);
+      dispatch(setCurrentLocations(newLocation));
+      dispatch(setCurrentLocationView(lastViewIndex));
       return;
     }
     if (currentLocation === 0) {
-      setTimeout(() => {
-        dispatch(setCurrentLocations(lastLocationIndex));
-      }, 500);
-      setTimeout(() => {
-        dispatch(setCurrentLocationView(lastViewIndex));
-      }, 500);
+      dispatch(setCurrentLocations(lastLocationIndex));
+      dispatch(setCurrentLocationView(lastViewIndex));
       return;
     } else {
       dispatch(
@@ -100,7 +88,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
     }
     setTimeout(() => {
       dispatch(setCurrentLocationView(currentView - 1));
-    }, 500);
+    }, 200);
   }, [currentLocation, currentView, dispatch, locations]);
 
   const nextLocation = useCallback(() => {
@@ -113,12 +101,10 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(currentLocation));
-      }, 500);
+      dispatch(setCurrentLocations(currentLocation));
       setTimeout(() => {
         dispatch(setCurrentLocationView(0));
-      }, 500);
+      }, 200);
       return;
     }
     if (lastViewIndex === currentView && lastLocationIndex > currentLocation) {
@@ -130,10 +116,10 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
+      dispatch(setCurrentLocations(currentLocation));
       setTimeout(() => {
-        dispatch(setCurrentLocations(currentLocation));
         dispatch(setCurrentLocationView(0));
-      }, 500);
+      }, 200);
       return;
     }
     if (lastViewIndex > currentView) {
@@ -147,14 +133,12 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       );
       setTimeout(() => {
         dispatch(setCurrentLocationView(currentView + 1));
-      }, 500);
+      }, 200);
       return;
     }
     if (currentLocation === lastLocationIndex) {
-      setTimeout(() => {
-        dispatch(setCurrentLocations(currentLocation));
-        dispatch(setCurrentLocationView(0));
-      }, 500);
+      dispatch(setCurrentLocations(currentLocation));
+      dispatch(setCurrentLocationView(0));
       return;
     }
     if (currentView === lastViewIndex) {
@@ -166,12 +150,8 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(currentLocation));
-      }, 500);
-      setTimeout(() => {
-        dispatch(setCurrentLocationView(0));
-      }, 500);
+      dispatch(setCurrentLocations(currentLocation));
+      dispatch(setCurrentLocationView(0));
       return;
     }
   }, [currentLocation, currentView, dispatch, locations]);
