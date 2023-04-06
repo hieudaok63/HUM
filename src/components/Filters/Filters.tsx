@@ -83,7 +83,7 @@ export const Filters = () => {
   };
 
   const currentLocation = useCurrentLocation();
-  const mobile = useMediaQuery("(max-width:600px)");
+  const mobile = useMediaQuery("(max-width:1024px)");
   const [openMenu, setOpenMenu] = useState(false);
   let myDocument: any = document.documentElement;
   let btn: any = document.getElementById("btn");
@@ -112,7 +112,7 @@ export const Filters = () => {
           alignItems="center"
           sx={{
             height: 48,
-            backgroundColor: currentLocation !== 0 ? "#000000" : "transparent",
+            backgroundColor: currentLocation !== 0 ? "#000" : "transparent",
             padding: "0px 23px",
             position: "absolute",
             top: "0",
@@ -276,8 +276,9 @@ export const Filters = () => {
           alignItems="center"
           sx={{
             height: 56,
-            backgroundColor: "#000000",
+            backgroundColor: currentLocation !== 0 ? "#000000" : "transparent",
             cursor: "pointer",
+            position: currentLocation === 0 ? "absolute" : "unset",
           }}
         >
           <Stack
@@ -288,7 +289,11 @@ export const Filters = () => {
           >
             {!openMenu && (
               <Box
-                sx={{ color: "white", paddingLeft: "10px" }}
+                sx={{
+                  color: "white",
+                  paddingLeft: "10px",
+                  zIndex: "10",
+                }}
                 onClick={handleClick}
               >
                 <HomeIcon />
