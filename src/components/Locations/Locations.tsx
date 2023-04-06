@@ -64,7 +64,6 @@ export const Locations = ({ scaleZoom }: IScale) => {
       ) : (
         <Location2D />
       )}
-      {!svg && jpg}
     </div>
   );
 };
