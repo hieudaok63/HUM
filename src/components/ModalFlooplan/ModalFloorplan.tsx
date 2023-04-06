@@ -36,7 +36,7 @@ export const ModalFloorplan = ({
     selectedFloorplan.attributes.pictures,
     selectedFloorplan.attributes.plans,
   ]);
-  const mobile = useMediaQuery("(max-width:600px)");
+  const mobile = useMediaQuery("(max-width:1024px)");
 
   return (
     <Dialog

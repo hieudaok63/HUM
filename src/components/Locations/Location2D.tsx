@@ -33,7 +33,7 @@ const Image2D = [
 export const Location2D = () => {
   const [level, setLevel] = useState<number>(1);
   const getImage = Image2D.filter((image2d) => image2d.id === level);
-  const mobile = useMediaQuery("(max-width:600px)");
+  const mobile = useMediaQuery("(max-width:1024px)");
 
   const nameImage = Image2D?.map((nameImage) => nameImage.name);
   const handleChange = (event: any) => {
@@ -109,9 +109,10 @@ export const Location2D = () => {
       {mobile && (
         <div
           style={{
-            height: "100%",
-            width: "100%",
+            height: "100vh",
+            width: "100vw",
             overflowX: "scroll",
+            overflowY: "hidden",
             overflowAnchor: "none",
             overscrollBehavior: "contain",
           }}
