@@ -50,8 +50,16 @@
 .svg-container div {
   width: 100%;
   height: 100%;
-  /* display: flex;
-  align-items: center; */
+}
+
+@supports (not (-moz-appearance: button)) and (contain: paint) and
+  (-webkit-appearance: none) {
+  .svg-container div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
 }
 
 @media only screen and (max-width: 1024px) {

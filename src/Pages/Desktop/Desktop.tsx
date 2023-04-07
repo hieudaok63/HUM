@@ -1,4 +1,4 @@
-import { Stack, useMediaQuery } from "@mui/material";
+import { Box, CircularProgress, Stack, useMediaQuery } from "@mui/material";
 import { useLayoutEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Filters, AvailabilityFilters, Locations } from "../../components";
@@ -10,6 +10,8 @@ import {
   useCurrentType,
   useCurrentVideo,
   useCurrentView,
+  useSVGImage,
+  useStage,
   useSvgType,
 } from "../../hooks";
 
@@ -29,10 +31,10 @@ export const Desktop = () => {
   const { projectId } = useParams();
   const [scale, setScale] = useState<number>(1);
   const scaleZoom = scale.toFixed(1);
+  const [test, setTest] = useState(true);
 
   useLayoutEffect(() => {
     if (!requested) dispatch(fetchAvailability((projectId as string) ?? "767"));
-
     setRequested(true);
   }, [dispatch, requested]);
 
@@ -42,8 +44,27 @@ export const Desktop = () => {
 
   const handleReset = () => setScale(1);
   const mobile = useMediaQuery("(max-width:1024px)");
+  const svgImage = useSVGImage();
 
-  return (
+  setTimeout(() => {
+    setTest(false);
+  }, 2000);
+
+  return test ? (
+    <Box
+      sx={{
+        display: "flex",
+        height: "100%",
+        width: "100%",
+        alignContent: "center",
+        justifyContent: "center",
+        alignItems: "center",
+        justifyItems: "center",
+      }}
+    >
+      <CircularProgress sx={{ color: "#3948FF" }} />
+    </Box>
+  ) : (
     <Stack
       sx={{
         height: "100%",
