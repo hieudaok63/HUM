@@ -98,7 +98,11 @@ export const Filter = ({
         open={open}
         onClose={handleClose}
         TransitionComponent={Fade}
-        sx={{ ".MuiList-root": { backgroundColor: "#000000" } }}
+        sx={{
+          ".MuiList-root": {
+            backgroundColor: "#0e0808",
+          },
+        }}
       >
         {options?.map(({ text: optionText, value: inputValue }, i) => (
           <MenuItem

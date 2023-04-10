@@ -17,6 +17,7 @@ import {
   // setCurrentVideo
 } from "../../store/todo-actions";
 import { Box, CircularProgress } from "@mui/material";
+import { setCurrentVideo } from "../../store/todo-actions";
 
 export const fills: { [key: string]: string } = {
   available: "#B4FFEE",
@@ -66,7 +67,28 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
         currentLocationNode.addEventListener(
           "mousedown",
           (e: any) => {
-            dispatch(setCurrentLocations(currentLocation));
+            if (currentLocation === 2) {
+              dispatch(
+                setCurrentVideo(
+                  "https://athum.com/images-tmp/okun-etapa_2-1_rev.webm",
+                  "forward"
+                )
+              );
+              setTimeout(() => {
+                dispatch(setCurrentLocations(2));
+              }, 300);
+            }
+            if (currentLocation === 1) {
+              dispatch(
+                setCurrentVideo(
+                  "https://athum.com/images-tmp/okun-etapa_1-1_rev.webm",
+                  "forward"
+                )
+              );
+              setTimeout(() => {
+                dispatch(setCurrentLocations(1));
+              }, 300);
+            }
             dispatch(setCurrentLocationView(0));
           },
           false
