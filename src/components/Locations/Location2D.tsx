@@ -116,6 +116,7 @@ export const Location2D = () => {
             overflowAnchor: "none",
             overscrollBehavior: "contain",
           }}
+          className="mobile-scroll"
         >
           <Select
             id="demo-multiple-chip"
