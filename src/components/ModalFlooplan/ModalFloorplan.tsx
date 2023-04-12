@@ -101,18 +101,6 @@ export const ModalFloorplan = ({
       </div>
     );
   };
-  // <iframe
-  //   src="https://360s.athum.com/c8fd1740-105b-4e62-be97-10fb354b95d7/19/miyana"
-  //   style="border:0px #FFFFFF none;"
-  //   name="Miyana"
-  //   scrolling="no"
-  //   frameborder="1"
-  //   marginheight="0px"
-  //   marginwidth="0px"
-  //   height="100%"
-  //   width="100%"
-  //   allowfullscreen
-  // ></iframe>;
 
   return (
     <Dialog

@@ -55,7 +55,6 @@ export const Locations = ({ scaleZoom }: IScale) => {
       style={{
         height: "100%",
         width: "100%",
-        transition: "all .5s ",
         scale: scaleZoom,
       }}
     >
