@@ -87,6 +87,7 @@ export const Filters = () => {
   const [openMenu, setOpenMenu] = useState(false);
   let myDocument: any = document.documentElement;
   let btn: any = document.getElementById("btn");
+  let documentExit: any = document;
 
   btn?.addEventListener("click", () => {
     if (myDocument.requestFullscreen) {
@@ -100,6 +101,12 @@ export const Filters = () => {
     }
     if (document.exitFullscreen) {
       document.exitFullscreen();
+    } else if (documentExit.mozCancelFullScreen) {
+      documentExit.mozCancelFullScreen();
+    } else if (documentExit.webkitCancelFullScreen) {
+      documentExit.webkitCancelFullScreen();
+    } else if (documentExit.cancelFullScreen) {
+      documentExit.cancelFullScreen();
     }
   });
   return (
@@ -326,6 +333,7 @@ export const Filters = () => {
                   )}
                 </div>
               )}
+
               {currentLocation !== 0 && openMenu && (
                 <span
                   style={{
@@ -342,6 +350,7 @@ export const Filters = () => {
                   <DeleteIcon />
                 </span>
               )}
+
               {openMenu && (
                 <div
                   style={{
@@ -452,7 +461,37 @@ export const Filters = () => {
               )}
             </>
           }
-          {currentLocation !== 0 && !openMenu && <BottomFilters />}
+          <Stack direction="row">
+            {currentLocation !== 0 && !openMenu && <BottomFilters />}
+            <button
+              id="btn"
+              style={{
+                padding: "4px",
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "rgba(0, 0, 0, 0.4)",
+                borderRadius: "16px",
+                border: "none",
+                outline: "none",
+                cursor: "pointer",
+                zIndex: 10,
+                marginRight: "10px",
+              }}
+            >
+              {myDocument.requestFullscreen ? (
+                <FullscreenIcon
+                  sx={{
+                    color: "#fff",
+                    "&:hover": {
+                      scale: "1.2",
+                    },
+                  }}
+                />
+              ) : (
+                <DeleteIcon />
+              )}
+            </button>
+          </Stack>
         </Grid>
       )}
     </>
