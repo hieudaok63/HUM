@@ -9,9 +9,7 @@ import {
   useCurrentLocation,
   useCurrentType,
   useCurrentVideo,
-  useCurrentView,
-  useSVGImage,
-  useStage,
+  useProjectId,
   useSvgType,
 } from "../../hooks";
 
@@ -31,7 +29,6 @@ export const Desktop = () => {
   const { projectId } = useParams();
   const [scale, setScale] = useState<number>(1);
   const scaleZoom = scale.toFixed(1);
-  const [test, setTest] = useState(true);
 
   useLayoutEffect(() => {
     if (!requested) dispatch(fetchAvailability((projectId as string) ?? "767"));
@@ -44,13 +41,9 @@ export const Desktop = () => {
 
   const handleReset = () => setScale(1);
   const mobile = useMediaQuery("(max-width:1024px)");
-  const svgImage = useSVGImage();
+  const projectLoading = useProjectId();
 
-  setTimeout(() => {
-    setTest(false);
-  }, 2000);
-
-  return test ? (
+  return !projectLoading ? (
     <Box
       sx={{
         display: "flex",

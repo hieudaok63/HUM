@@ -1523,6 +1523,8 @@ export const useFiltersValues = () => {
 
 export const useSVGImage = () => {
   const availability = useAppSelector((state) => state.availability);
+  console.log("availability", availability);
+
   let stage = "";
   if (availability.stage)
     stage = availability.stage === "etapa-1" ? "Etapa 1" : "Etapa 2";
@@ -1530,7 +1532,15 @@ export const useSVGImage = () => {
   const svgs = availability.svgs?.filter(
     (svg) => svg.type === availability.svgType && svg.stage === stage
   );
+  console.log("svgs", svgs);
+
   return useMemo(() => svgs[0]?.svg || "", [svgs]);
+};
+
+export const useGetProjectId = () => {
+  const availability = useAppSelector((state) => state.availability);
+  const getProjectId = availability.projectId;
+  return getProjectId;
 };
 
 export const useFloors = () => {

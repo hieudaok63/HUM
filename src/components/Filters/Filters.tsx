@@ -349,7 +349,7 @@ export const Filters = () => {
                     backgroundColor: "#000",
                     zIndex: "100",
                     width: "100%",
-                    minHeight: "900px",
+                    minHeight: "1200px",
                   }}
                 >
                   <Divider
