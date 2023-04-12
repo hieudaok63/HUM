@@ -52,7 +52,7 @@
   height: 100%;
 }
 
-@supports (not (-moz-appearance: button)) and (contain: paint) and
+/* @supports (not (-moz-appearance: button)) and (contain: paint) and
   (-webkit-appearance: none) {
   .svg-container div {
     width: 100%;
@@ -60,7 +60,7 @@
     display: flex;
     align-items: center;
   }
-}
+} */
 
 @media only screen and (max-width: 1024px) {
   .svg-container div {
@@ -73,7 +73,7 @@
   .svg-container svg {
     display: block;
     height: 100%;
-    width: 100%;
+    width: unset;
     animation: alternate;
   }
 
