@@ -79,7 +79,7 @@ export const Desktop = () => {
         <Locations scaleZoom={scaleZoom} />
         {currentLocation !== 0 && <AvailabilityFilters />}
 
-        {currentLocation !== 0 && (
+        {currentLocation !== 0 && !mobile && (
           <div
             style={{
               display: "flex",
