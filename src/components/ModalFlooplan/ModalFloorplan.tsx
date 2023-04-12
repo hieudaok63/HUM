@@ -266,6 +266,7 @@ export const ModalFloorplan = ({
               direction="row"
               sx={{
                 marginTop: mobile ? "20px" : "40px",
+                marginBottom: "10px",
               }}
             >
               <Button
