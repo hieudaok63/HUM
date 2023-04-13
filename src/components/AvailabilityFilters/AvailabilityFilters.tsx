@@ -71,13 +71,15 @@ export const AvailabilityFilters = () => {
       sx={{
         position: "absolute",
         bottom: 0,
+        left: "0",
         marginBottom: "0",
-        width: svgType === "2d" ? "70% !important" : "100%",
-        marginRight: svgType === "2d" ? "30%" : "0",
+        width: svgType === "2d" ? "unset" : "100%",
+        // marginRight: svgType === "2d" ? "30%" : "0",
         background: "#000 ",
       }}
       alignContent="center"
       justifyContent="flex-start"
+      className="bottom-mobile"
     >
       <Select
         id="demo-multiple-chip"

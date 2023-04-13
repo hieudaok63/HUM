@@ -1,4 +1,4 @@
-/* .App {
+.App {
   text-align: center;
 }
 
@@ -81,6 +81,10 @@
     display: flex;
     justify-content: space-between !important;
   }
+
+  .MuiButtonBase-root input {
+    opacity: unset;
+  }
   .MuiGrid-root {
     width: 100%;
   }
@@ -110,6 +114,22 @@
   .mobile-scroll {
     -webkit-overflow-scrolling: touch;
   }
+
+  /* .bottom-mobile div div {
+    padding: 10px;
+  }
+
+  .bottom-mobile div div div {
+    padding: 0;
+  } */
+
+  .MuiSvgIcon-root {
+    display: none;
+  }
+
+  #demo-multiple-chip {
+    padding: 10px 25px;
+  }
 }
 
 @keyframes fadeIn {
@@ -119,4 +139,4 @@
   100% {
     opacity: 1;
   }
-} */
+}

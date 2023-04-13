@@ -130,6 +130,7 @@ export const Location2D = () => {
                   flexWrap: "wrap",
                   gap: 2.5,
                   width: "100px",
+                  padding: "0",
                 }}
               >
                 <Chip
