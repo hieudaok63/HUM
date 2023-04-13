@@ -62,7 +62,7 @@
   }
 }
 
-@media only screen and (max-width: 1024px) {
+/* @media only screen and (max-width: 1024px) {
   .svg-container div {
     display: block;
     width: 100%;
@@ -110,7 +110,7 @@
   .mobile-scroll {
     -webkit-overflow-scrolling: touch;
   }
-}
+} */
 
 @keyframes fadeIn {
   0% {

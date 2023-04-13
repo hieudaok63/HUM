@@ -76,7 +76,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
               );
               setTimeout(() => {
                 dispatch(setCurrentLocations(2));
-              }, 300);
+              }, 1000);
             }
             if (currentLocation === 1) {
               dispatch(
@@ -87,7 +87,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
               );
               setTimeout(() => {
                 dispatch(setCurrentLocations(1));
-              }, 300);
+              }, 1000);
             }
             dispatch(setCurrentLocationView(0));
           },
