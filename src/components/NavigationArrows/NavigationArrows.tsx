@@ -43,7 +43,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       dispatch(setCurrentLocations(newLocation));
       setTimeout(() => {
         dispatch(setCurrentLocationView(lastViewIndex));
-      }, 200);
+      }, 1000);
       return;
     }
     if (currentView === 0 && currentLocation === 2) {
@@ -56,7 +56,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       dispatch(setCurrentLocations(newLocation));
       setTimeout(() => {
         dispatch(setCurrentLocationView(lastViewIndex));
-      }, 200);
+      }, 1000);
       return;
     }
     if (currentView === 0 && currentLocation === 2) {
@@ -88,7 +88,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
     }
     setTimeout(() => {
       dispatch(setCurrentLocationView(currentView - 1));
-    }, 200);
+    }, 1000);
   }, [currentLocation, currentView, dispatch, locations]);
 
   const nextLocation = useCallback(() => {
@@ -104,7 +104,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       dispatch(setCurrentLocations(currentLocation));
       setTimeout(() => {
         dispatch(setCurrentLocationView(0));
-      }, 200);
+      }, 1000);
       return;
     }
     if (lastViewIndex === currentView && lastLocationIndex > currentLocation) {
@@ -119,7 +119,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       dispatch(setCurrentLocations(currentLocation));
       setTimeout(() => {
         dispatch(setCurrentLocationView(0));
-      }, 200);
+      }, 1000);
       return;
     }
     if (lastViewIndex > currentView) {
@@ -133,7 +133,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       );
       setTimeout(() => {
         dispatch(setCurrentLocationView(currentView + 1));
-      }, 200);
+      }, 1000);
       return;
     }
     if (currentLocation === lastLocationIndex) {
