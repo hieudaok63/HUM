@@ -1409,7 +1409,7 @@ export const useFilters = () => {
       numberOfBedrooms.add(apartment.attributes.bedroom);
     });
     return Array.from(numberOfBedrooms)?.map((bedroom) => ({
-      text: `${bedroom.toString()} \\ ${bedroom.toString()}`,
+      text: `${bedroom.toString()} / ${bedroom.toString()}`,
       value: bedroom,
     }));
   }, [availability.apartments]);
