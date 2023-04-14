@@ -10,7 +10,6 @@ import {
 } from "../../hooks";
 import { InteractiveFloorplan } from "../InteractiveFloorplan";
 import { Location2D } from "./Location2D";
-import { useMediaQuery } from "@mui/material";
 interface IScale {
   scaleZoom: string;
 }
@@ -49,7 +48,6 @@ export const Locations = ({ scaleZoom }: IScale) => {
     [currentLocation, currentView, locations, pastView, video]
   );
 
-  const mobile = useMediaQuery("(max-width:1024px)");
   if (locations.length === 0) return null;
 
   return (
@@ -61,11 +59,7 @@ export const Locations = ({ scaleZoom }: IScale) => {
       }}
     >
       {svg && svgType === "3d" ? (
-        mobile && currentLocation !== 0 ? (
-          jpg
-        ) : (
-          <InteractiveFloorplan svg={svg} />
-        )
+        <InteractiveFloorplan svg={svg} />
       ) : (
         <Location2D />
       )}
