@@ -20,9 +20,10 @@ import {
   setFloorPlanType,
   setLevel,
   cleanFilters,
+  setSVGType,
+  setCurrentVideo,
   setCurrentLocations,
   setCurrentLocationView,
-  setSVGType,
 } from "../../store/todo-actions";
 import { Box } from "@mui/system";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -78,8 +79,11 @@ export const Filters = () => {
 
   const handleClick = () => {
     svgType === "2d" && dispatch(setSVGType("3d"));
-    dispatch(setCurrentLocations(0));
-    dispatch(setCurrentLocationView(0));
+
+    setTimeout(() => {
+      dispatch(setCurrentLocations(0));
+      dispatch(setCurrentLocationView(0));
+    }, 500);
   };
 
   const currentLocation = useCurrentLocation();
@@ -463,7 +467,6 @@ export const Filters = () => {
           }
           <Stack direction="row">
             {currentLocation !== 0 && !openMenu && <BottomFilters />}
-          
           </Stack>
         </Grid>
       )}
