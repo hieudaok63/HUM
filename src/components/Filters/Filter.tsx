@@ -63,7 +63,7 @@ export const Filter = ({
           opacity: 0.8,
         },
         padding: mobile ? "16px 0px" : "0",
-        border: "1px solid #fff",
+        border: mobile ? "unset" : "1px solid #fff",
         minWidth: "130px",
         borderRadius: !mobile ? "6px" : "0",
       }}
