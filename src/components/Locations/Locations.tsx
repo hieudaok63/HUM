@@ -59,11 +59,7 @@ export const Locations = ({ scaleZoom }: IScale) => {
       }}
     >
       {svg && svgType === "3d" ? (
-        currentLocation === 0 ? (
-          <InteractiveFloorplan svg={svg} />
-        ) : (
-          jpg
-        )
+        <InteractiveFloorplan svg={svg} />
       ) : (
         <Location2D />
       )}
