@@ -213,6 +213,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        zIndex: "100",
         ...sx,
       }}
       className="navigate"
