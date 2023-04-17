@@ -32,7 +32,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       setTimeout(() => {
         const myElement: any = document.getElementById("Level1");
         myElement.scrollIntoView({ behavior: "smooth" });
-      }, 2500);
+      }, 2600);
   }, []);
 
   const prevLocation = useCallback(() => {
@@ -40,7 +40,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       setTimeout(() => {
         const myElement: any = document.getElementById("Level1");
         myElement.scrollIntoView({ behavior: "smooth" });
-      }, 2500);
+      }, 2600);
     const newLocation =
       currentLocation === 0 ? locations.length - 1 : currentLocation;
 
@@ -111,7 +111,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       setTimeout(() => {
         const myElement: any = document.getElementById("Level1");
         myElement.scrollIntoView({ behavior: "smooth" });
-      }, 2500);
+      }, 2600);
     const lastLocationIndex = locations.length - 1;
     const lastViewIndex = locations[currentLocation].views.length - 1;
     if (currentView === 1 && currentLocation === 2) {
