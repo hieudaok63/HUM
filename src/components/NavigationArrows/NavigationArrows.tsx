@@ -25,6 +25,16 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   const currentView = useCurrentView();
   const locations = useLocations();
 
+  // useEffect(() => {
+  //   let a = setTimeout(() => {
+  //     const myElement: any = document.getElementById("Level1");
+  //     myElement.scrollIntoView();
+  //   }, 1200);
+  //   return () => {
+  //     clearTimeout(a);
+  //   };
+  // }, [currentLocation, currentView]);
+
   const prevLocation = useCallback(() => {
     const newLocation =
       currentLocation === 0 ? locations.length - 1 : currentLocation;
@@ -196,12 +206,16 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
         top: "0",
         bottom: "0",
         margin: "auto 0",
-        width: "20px",
-        height: "20px",
-        zIndex: "100000",
-
+        width: "40px",
+        height: "40px",
+        borderRadius: "50%",
+        color: "#ffffff",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         ...sx,
       }}
+      className="navigate"
       onClick={position === "left" ? prevLocation : nextLocation}
     >
       {arrow}
