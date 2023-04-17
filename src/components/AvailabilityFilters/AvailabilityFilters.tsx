@@ -101,7 +101,7 @@ export const AvailabilityFilters = () => {
                   <Chip
                     key={value}
                     label={value}
-                    sx={{ minWidth: "80px" }}
+                    sx={{ minWidth: "100px" }}
                     deleteIcon={icon[0].icon}
                     onDelete={() => {}}
                   />

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { Avatar, Box } from "@mui/material";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
 import {
@@ -13,6 +12,7 @@ import {
   setCurrentLocationView,
   setCurrentVideo,
 } from "../../store/todo-actions";
+import { Avatar, useMediaQuery } from "@mui/material";
 
 interface Props {
   position: "left" | "right";
@@ -25,17 +25,22 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   const currentView = useCurrentView();
   const locations = useLocations();
 
-  // useEffect(() => {
-  //   let a = setTimeout(() => {
-  //     const myElement: any = document.getElementById("Level1");
-  //     myElement.scrollIntoView();
-  //   }, 1200);
-  //   return () => {
-  //     clearTimeout(a);
-  //   };
-  // }, [currentLocation, currentView]);
+  const mobile = useMediaQuery("(max-width:1024px)");
+
+  useEffect(() => {
+    mobile &&
+      setTimeout(() => {
+        const myElement: any = document.getElementById("Level1");
+        myElement.scrollIntoView({ behavior: "smooth" });
+      }, 1200);
+  }, []);
 
   const prevLocation = useCallback(() => {
+    mobile &&
+      setTimeout(() => {
+        const myElement: any = document.getElementById("Level1");
+        myElement.scrollIntoView({ behavior: "smooth" });
+      }, 2300);
     const newLocation =
       currentLocation === 0 ? locations.length - 1 : currentLocation;
 
@@ -102,6 +107,11 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   }, [currentLocation, currentView, dispatch, locations]);
 
   const nextLocation = useCallback(() => {
+    mobile &&
+      setTimeout(() => {
+        const myElement: any = document.getElementById("Level1");
+        myElement.scrollIntoView({ behavior: "smooth" });
+      }, 2300);
     const lastLocationIndex = locations.length - 1;
     const lastViewIndex = locations[currentLocation].views.length - 1;
     if (currentView === 1 && currentLocation === 2) {
@@ -198,28 +208,23 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   );
 
   return (
-    <div
-      style={{
-        backgroundColor: disabled ? "rgb(168, 168, 168)" : "rgb(74, 177, 189)",
+    <Avatar
+      sx={{
+        bgcolor: disabled ? "rgb(168, 168, 168)" : "rgb(74, 177, 189)",
         position: "absolute",
         cursor: disabled ? "default" : "pointer",
         top: "0",
         bottom: "0",
         margin: "auto 0",
-        width: "40px",
-        height: "40px",
-        borderRadius: "50%",
-        color: "#ffffff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: "100",
+        zIndex: mobile ? "1" : "unset",
+        "&:hover": {
+          opacity: 0.8,
+        },
         ...sx,
       }}
-      className="navigate"
       onClick={position === "left" ? prevLocation : nextLocation}
     >
       {arrow}
-    </div>
+    </Avatar>
   );
 };
