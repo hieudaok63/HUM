@@ -53,11 +53,20 @@ export const Locations = ({ scaleZoom }: IScale) => {
   return (
     <div
       style={{
-        zIndex: "0",
+        height: "100%",
+        width: "100%",
         scale: scaleZoom,
       }}
     >
-      {svg && svgType === "3d" ? <InteractiveFloorplan svg={svg} /> : jpg}
+      {svg && svgType === "3d" ? (
+        currentLocation === 0 ? (
+          <InteractiveFloorplan svg={svg} />
+        ) : (
+          jpg
+        )
+      ) : (
+        <Location2D />
+      )}
     </div>
   );
 };
