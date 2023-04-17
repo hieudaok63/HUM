@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { Avatar } from "@mui/material";
+import { Avatar, Box } from "@mui/material";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
 import {
@@ -188,22 +188,23 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   );
 
   return (
-    <Avatar
-      sx={{
-        bgcolor: disabled ? "rgb(168, 168, 168)" : "rgb(74, 177, 189)",
+    <div
+      style={{
+        backgroundColor: disabled ? "rgb(168, 168, 168)" : "rgb(74, 177, 189)",
         position: "absolute",
         cursor: disabled ? "default" : "pointer",
         top: "0",
         bottom: "0",
         margin: "auto 0",
-        "&:hover": {
-          opacity: 0.8,
-        },
+        width: "20px",
+        height: "20px",
+        zIndex: "100000",
+
         ...sx,
       }}
       onClick={position === "left" ? prevLocation : nextLocation}
     >
       {arrow}
-    </Avatar>
+    </div>
   );
 };
