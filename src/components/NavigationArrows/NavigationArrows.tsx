@@ -31,7 +31,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
     mobile &&
       setTimeout(() => {
         const myElement: any = document.getElementById("Level1");
-        myElement.scrollIntoView({ behavior: "smooth" });
+        myElement?.scrollIntoView({ behavior: "smooth" });
       }, 2500);
   }, []);
 

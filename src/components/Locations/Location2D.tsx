@@ -42,14 +42,12 @@ export const Location2D = () => {
     } = event;
     setLevel(Number(value));
   };
+
   return (
-    <>
-      <video
-        width="250"
-        controls
-        playsInline
-        src="https://athum.com/images-tmp/okun-etapa_2-2.webm"
-      ></video>
-    </>
+    <iframe
+      width="420"
+      height="315"
+      src="https://athum.com/images-tmp/okun-etapa_2-2.webm"
+    ></iframe>
   );
 };
