@@ -179,6 +179,8 @@ export const Location2D = () => {
       controls
       poster="http://example.com/path/poster.jpg"
       playsInline
+      autoPlay
+      muted
     ></video>
   );
 };
