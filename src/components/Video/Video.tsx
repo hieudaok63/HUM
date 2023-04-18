@@ -59,6 +59,9 @@ export const Video = ({ src, type }: Props) => {
       id="html5"
       className="vjs-tech"
       muted
+      // loop
+      playsInline
+      autoPlay
       style={{
         position: "absolute",
         width: "100%",
