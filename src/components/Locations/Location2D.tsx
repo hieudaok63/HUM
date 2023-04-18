@@ -175,16 +175,10 @@ export const Location2D = () => {
     //   )}
     // </>
     <video
-      autoPlay
-      muted
-      playsInline
-      poster="video_thumbnail/thumbanil.jpg"
       src="https://athum.com/images-tmp/okun-etapa_2-2.webm"
-    >
-      <source
-        src="https://athum.com/images-tmp/okun-etapa_2-2.webm"
-        type="video/mp4"
-      ></source>
-    </video>
+      controls
+      poster="http://example.com/path/poster.jpg"
+      playsInline
+    ></video>
   );
 };
