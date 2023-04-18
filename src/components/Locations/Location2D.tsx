@@ -43,136 +43,148 @@ export const Location2D = () => {
     setLevel(Number(value));
   };
   return (
-    <>
-      {!mobile && (
-        <div
-          style={{
-            height: "100%",
-            width: "100%",
-          }}
-        >
-          <div
-            style={{
-              height: "100%",
-              width: "114px",
-              backgroundColor: "#D9D9D9",
-              position: "fixed",
-              right: "0",
-            }}
-          >
-            <Stack
-              direction="column"
-              alignItems="center"
-              justifyContent="center"
-              sx={{
-                height: "100%",
-              }}
-            >
-              <p
-                style={{
-                  fontWeight: "500",
-                }}
-              >
-                LEVEL
-              </p>
-              {Image2D?.map((image) => (
-                <Chip
-                  key={image.id}
-                  sx={{
-                    backgroundColor: level === image.id ? "#B2FFEE" : "#F6F6F6",
-                    border: `2px solid ${
-                      level === image.id ? "#46949C" : "#F6F6F6"
-                    }`,
+    // <>
+    //   {!mobile && (
+    //     <div
+    //       style={{
+    //         height: "100%",
+    //         width: "100%",
+    //       }}
+    //     >
+    //       <div
+    //         style={{
+    //           height: "100%",
+    //           width: "114px",
+    //           backgroundColor: "#D9D9D9",
+    //           position: "fixed",
+    //           right: "0",
+    //         }}
+    //       >
+    //         <Stack
+    //           direction="column"
+    //           alignItems="center"
+    //           justifyContent="center"
+    //           sx={{
+    //             height: "100%",
+    //           }}
+    //         >
+    //           <p
+    //             style={{
+    //               fontWeight: "500",
+    //             }}
+    //           >
+    //             LEVEL
+    //           </p>
+    //           {Image2D?.map((image) => (
+    //             <Chip
+    //               key={image.id}
+    //               sx={{
+    //                 backgroundColor: level === image.id ? "#B2FFEE" : "#F6F6F6",
+    //                 border: `2px solid ${
+    //                   level === image.id ? "#46949C" : "#F6F6F6"
+    //                 }`,
 
-                    width: "81px",
-                    height: "36px",
-                    margin: "10px 0",
-                    fontSize: "16px",
-                    cursor: "pointer",
-                  }}
-                  label={image.name}
-                  onClick={() => setLevel(image.id)}
-                />
-              ))}
-            </Stack>
-          </div>
-          <img
-            src={getImage[0]?.image}
-            title="hieudao"
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
-          />
-        </div>
-      )}
-      {mobile && (
-        <div
-          style={{
-            height: "100vh",
-            width: "100vw",
-            overflowX: "scroll",
-            overflowY: "hidden",
-            overflowAnchor: "none",
-            overscrollBehavior: "contain",
-          }}
-          className="mobile-scroll"
-        >
-          <Select
-            id="demo-multiple-chip"
-            value={level}
-            onChange={handleChange}
-            input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-            renderValue={() => (
-              <Box
-                sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: 2.5,
-                  width: "100px",
-                  padding: "0",
-                }}
-              >
-                <Chip
-                  key={level}
-                  label={`Level: ${level}`}
-                  sx={{
-                    width: "100%",
-                    backgroundColor: "#fff",
-                  }}
-                />
-              </Box>
-            )}
-            sx={{
-              position: "fixed !important",
-              right: "-20px",
-              bottom: "0px",
-              backgroundColor: "#000",
-              borderRadius: "",
-              //   width: "inherit",
-            }}
-          >
-            {nameImage?.map((name: any) => (
-              <MenuItem
-                key={name}
-                value={name}
-                sx={{
-                  backgroundColor: "#fff !important",
-                  width: "300px !important",
-                  display: "flex !important",
-                  justifyContent: "center !important",
-                  height: "36px",
-                  borderRadius: "24px",
-                  marginBottom: "11px",
-                }}
-              >
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-          <img src={getImage[0]?.image} title="hieudao" />
-        </div>
-      )}
-    </>
+    //                 width: "81px",
+    //                 height: "36px",
+    //                 margin: "10px 0",
+    //                 fontSize: "16px",
+    //                 cursor: "pointer",
+    //               }}
+    //               label={image.name}
+    //               onClick={() => setLevel(image.id)}
+    //             />
+    //           ))}
+    //         </Stack>
+    //       </div>
+    //       <img
+    //         src={getImage[0]?.image}
+    //         title="hieudao"
+    //         style={{
+    //           width: "100%",
+    //           height: "100%",
+    //         }}
+    //       />
+    //     </div>
+    //   )}
+    //   {mobile && (
+    //     <div
+    //       style={{
+    //         height: "100vh",
+    //         width: "100vw",
+    //         overflowX: "scroll",
+    //         overflowY: "hidden",
+    //         overflowAnchor: "none",
+    //         overscrollBehavior: "contain",
+    //       }}
+    //       className="mobile-scroll"
+    //     >
+    //       <Select
+    //         id="demo-multiple-chip"
+    //         value={level}
+    //         onChange={handleChange}
+    //         input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+    //         renderValue={() => (
+    //           <Box
+    //             sx={{
+    //               display: "flex",
+    //               flexWrap: "wrap",
+    //               gap: 2.5,
+    //               width: "100px",
+    //               padding: "0",
+    //             }}
+    //           >
+    //             <Chip
+    //               key={level}
+    //               label={`Level: ${level}`}
+    //               sx={{
+    //                 width: "100%",
+    //                 backgroundColor: "#fff",
+    //               }}
+    //             />
+    //           </Box>
+    //         )}
+    //         sx={{
+    //           position: "fixed !important",
+    //           right: "-20px",
+    //           bottom: "0px",
+    //           backgroundColor: "#000",
+    //           borderRadius: "",
+    //           //   width: "inherit",
+    //         }}
+    //       >
+    //         {nameImage?.map((name: any) => (
+    //           <MenuItem
+    //             key={name}
+    //             value={name}
+    //             sx={{
+    //               backgroundColor: "#fff !important",
+    //               width: "300px !important",
+    //               display: "flex !important",
+    //               justifyContent: "center !important",
+    //               height: "36px",
+    //               borderRadius: "24px",
+    //               marginBottom: "11px",
+    //             }}
+    //           >
+    //             {name}
+    //           </MenuItem>
+    //         ))}
+    //       </Select>
+    //       <img src={getImage[0]?.image} title="hieudao" />
+    //     </div>
+    //   )}
+    // </>
+    <video
+      autoPlay
+      muted
+      playsInline
+      poster="video_thumbnail/thumbanil.jpg"
+      src="https://athum.com/images-tmp/okun-etapa_2-2.webm"
+    >
+      <source
+        src="https://athum.com/images-tmp/okun-etapa_2-2.webm"
+        type="video/mp4"
+      ></source>
+    </video>
   );
 };
