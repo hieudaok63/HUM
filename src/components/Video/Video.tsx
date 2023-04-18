@@ -69,6 +69,8 @@ export const Video = ({ src, type }: Props) => {
         zIndex: !src ? "-1" : "1",
         objectFit: "cover",
       }}
-    ></video>
+    >
+      <source src={src} type="video/mp4"></source>
+    </video>
   );
 };
