@@ -44,6 +44,25 @@ export const Location2D = () => {
   };
 
   return (
-    <iframe src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4#t=0.001"></iframe>
+    // <video
+    //   autoPlay
+    //   loop
+    //   muted
+    //   playsInline
+    //   poster="video_thumbnail/thumbanil.jpg"
+    //   src="video/video.mp4"
+    // >
+    //   <source
+    //     src="https://athum.com/images-tmp/okun-etapa_2-2.webm"
+    //     type="video/webm"
+    //   ></source>
+    // </video>
+
+    <video width="320" height="240" controls playsInline muted autoPlay>
+      <source
+        src="https://athum.com/images-tmp/okun-etapa_2-2.webm"
+        type="video/webm"
+      />
+    </video>
   );
 };
