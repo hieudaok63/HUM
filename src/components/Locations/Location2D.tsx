@@ -57,20 +57,28 @@ export const Location2D = () => {
     //     type="video/webm"
     //   ></source>
     // </video>
-
-    <video
-      width="320"
-      height="240"
-      controls
-      playsInline
-      muted
-      autoPlay
-      preload="none"
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+      }}
     >
-      <source
-        src="https://athum.com/images-tmp/okun-etapa_2-2.webm"
-        type="video/webm"
-      />
-    </video>
+      <video
+        width="320"
+        height="240"
+        controls
+        playsInline
+        muted
+        autoPlay
+        preload="none"
+        controlsList="true"
+        loop
+      >
+        <source
+          src="https://athum.com/images-tmp/okun-etapa_2-2.webm"
+          type="video/webm"
+        />
+      </video>
+    </div>
   );
 };
