@@ -21,7 +21,6 @@ import {
   setLevel,
   cleanFilters,
   setSVGType,
-  setCurrentVideo,
   setCurrentLocations,
   setCurrentLocationView,
 } from "../../store/todo-actions";
@@ -79,11 +78,8 @@ export const Filters = () => {
 
   const handleClick = () => {
     svgType === "2d" && dispatch(setSVGType("3d"));
-
-    setTimeout(() => {
-      dispatch(setCurrentLocations(0));
-      dispatch(setCurrentLocationView(0));
-    }, 500);
+    dispatch(setCurrentLocations(0));
+    dispatch(setCurrentLocationView(0));
   };
 
   const currentLocation = useCurrentLocation();

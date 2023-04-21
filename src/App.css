@@ -91,6 +91,13 @@
   .MuiGrid-item {
     padding: 0;
   }
+  .MuiChip-root {
+    width: 100%;
+  }
+
+  /* .MuiSvgIcon-root {
+    display: none !important;
+  } */
 
   .MuiPaper-root {
     width: 100% !important;

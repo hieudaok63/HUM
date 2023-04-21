@@ -3,13 +3,15 @@ import {
   useCurrentLocation,
   useCurrentVideo,
   useCurrentView,
-  useHideImage,
   useLocations,
   usePastView,
   useSvgType,
 } from "../../hooks";
 import { InteractiveFloorplan } from "../InteractiveFloorplan";
-import { Location2D } from "./Location2D";
+import { InteractiveFloorplan2D } from "../InteractiveFloorplan2D";
+import { ReactComponent as OkunIcon } from "../../assets/icons/okun.svg";
+import { ReactComponent as LaHausIcon } from "../../assets/icons/lahaus.svg";
+import { useMediaQuery } from "@mui/material";
 interface IScale {
   scaleZoom: string;
 }
@@ -20,9 +22,8 @@ export const Locations = ({ scaleZoom }: IScale) => {
   const currentView = useCurrentView();
   const video = useCurrentVideo();
   const pastView = usePastView();
-  const hideImage = useHideImage();
-
   const svgType = useSvgType();
+  const mobile = useMediaQuery("(max-width:1024px)");
 
   const svg = useMemo(
     () =>
@@ -30,6 +31,11 @@ export const Locations = ({ scaleZoom }: IScale) => {
         ? null
         : locations[currentLocation]?.views[currentView]?.svg,
     [currentLocation, currentView, locations]
+  );
+
+  const svg2D = useMemo(
+    () => "https://athum.com/images-tmp/Okun-2D-Plans-AI-collapse4.svg",
+    []
   );
 
   const jpg = useMemo(
@@ -56,12 +62,50 @@ export const Locations = ({ scaleZoom }: IScale) => {
         height: "100%",
         width: "100%",
         scale: scaleZoom,
+        position: "relative",
       }}
     >
+      {currentLocation === 0 && (
+        <>
+          <div
+            style={{
+              position: "absolute",
+              width: "100%",
+              top: "10%",
+              zIndex: "10",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <OkunIcon
+              style={{
+                width: !mobile ? "18%" : "30%",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              width: "100%",
+              bottom: "5%",
+              zIndex: "10",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <LaHausIcon
+              style={{
+                width: !mobile ? "8%" : "20%",
+              }}
+            />
+          </div>
+        </>
+      )}
+
       {svg && svgType === "3d" ? (
         <InteractiveFloorplan svg={svg} />
       ) : (
-        <Location2D />
+        <InteractiveFloorplan2D svg={svg2D} />
       )}
     </div>
   );
