@@ -73,9 +73,8 @@ export const AvailabilityFilters = () => {
         bottom: 0,
         left: "0",
         marginBottom: "0",
-        width: svgType === "2d" ? "unset" : "100%",
-        // marginRight: svgType === "2d" ? "30%" : "0",
-        background: "#000 ",
+        width: svgType === "3d" ? "100%" : "unset",
+        background: svgType === "3d" ? "#000 " : "unset",
       }}
       alignContent="center"
       justifyContent="flex-start"
