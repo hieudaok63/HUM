@@ -10,7 +10,7 @@ interface Props {
 
 export const Images = ({ images }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const mobile = useMediaQuery("(max-width:1024px)");
+  const mobile = useMediaQuery("(max-width:1200px)");
 
   return (
     <Stack spacing={2}>

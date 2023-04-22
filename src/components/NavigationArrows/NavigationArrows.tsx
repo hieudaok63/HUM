@@ -25,7 +25,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   const currentView = useCurrentView();
   const locations = useLocations();
 
-  const mobile = useMediaQuery("(max-width:1024px)");
+  const mobile = useMediaQuery("(max-width:1200px)");
 
   useEffect(() => {
     mobile &&

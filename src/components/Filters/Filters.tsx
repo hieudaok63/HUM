@@ -83,7 +83,7 @@ export const Filters = () => {
   };
 
   const currentLocation = useCurrentLocation();
-  const mobile = useMediaQuery("(max-width:1024px)");
+  const mobile = useMediaQuery("(max-width:1200px)");
   const [openMenu, setOpenMenu] = useState(false);
   let myDocument: any = document.documentElement;
   let btn: any = document.getElementById("btn");

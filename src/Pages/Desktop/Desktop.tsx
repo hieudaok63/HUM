@@ -40,7 +40,7 @@ export const Desktop = () => {
   const handleZoomOut = () => scale > 1 && setScale(scale - 0.1);
 
   const handleReset = () => setScale(1);
-  const mobile = useMediaQuery("(max-width:1024px)");
+  const mobile = useMediaQuery("(max-width:1200px)");
   const projectLoading = useProjectId();
 
   return !projectLoading ? (
