@@ -46,7 +46,7 @@ export const ModalFloorplan = ({
     selectedFloorplan.attributes.pictures,
     selectedFloorplan.attributes.plans,
   ]);
-  const mobile = useMediaQuery("(max-width:1024px)");
+  const mobile = useMediaQuery("(max-width:1200px)");
 
   // useEffect(() => {
   //   setShowIframe(false);

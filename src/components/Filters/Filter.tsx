@@ -54,7 +54,7 @@ export const Filter = ({
   }, [shouldClear, anchorEl, resetShouldClear]);
 
   useEffect(() => setSelectedIndex(index !== null ? index : null), [index]);
-  const mobile = useMediaQuery("(max-width:1024px)");
+  const mobile = useMediaQuery("(max-width:1200px)");
 
   return (
     <Box

@@ -23,7 +23,7 @@ export const Locations = ({ scaleZoom }: IScale) => {
   const video = useCurrentVideo();
   const pastView = usePastView();
   const svgType = useSvgType();
-  const mobile = useMediaQuery("(max-width:1024px)");
+  const mobile = useMediaQuery("(max-width:1200px)");
 
   const svg = useMemo(
     () =>
@@ -71,7 +71,7 @@ export const Locations = ({ scaleZoom }: IScale) => {
             style={{
               position: "absolute",
               width: "100%",
-              top: "10%",
+              top: "4%",
               zIndex: "10",
               display: "flex",
               justifyContent: "center",
