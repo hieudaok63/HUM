@@ -1,72 +1,60 @@
-import { Chip, Stack, Tab, Tabs } from "@mui/material";
-import { ReactComponent as LayoutIcon } from "../../assets/icons/layout.svg";
-import { ReactComponent as CubeIcon } from "../../assets/icons/cube.svg";
-import { useAppDispatch, useStage, useSvgType } from "../../hooks";
-import {
-  cleanFilters,
-  cleanLevels,
-  setStage,
-  setSVGType
-} from "../../store/todo-actions";
+import { Button, Chip, Stack } from "@mui/material";
+
+import { useAppDispatch, useSvgType } from "../../hooks";
+import { setSVGType } from "../../store/todo-actions";
 
 export const BottomFilters = () => {
   const dispatch = useAppDispatch();
   const svgType = useSvgType();
-  const stage = useStage();
   const onClick2D = () => {
     dispatch(setSVGType("2d"));
-    dispatch(setStage(""));
-    dispatch(cleanFilters());
-    dispatch(cleanLevels(0));
   };
   const onClick3D = () => {
     dispatch(setSVGType("3d"));
-    dispatch(setStage("etapa-1"));
-    dispatch(cleanFilters());
-    dispatch(cleanLevels(null));
   };
   return (
-    <Stack
-      direction="row"
-      spacing={6}
-      sx={{ paddingLeft: "24px", paddingBottom: "32px" }}
-    >
-      <Stack direction="row" spacing={4} alignItems="end">
-        <Chip
-          sx={{
-            width: 72,
-            backgroundColor: "#F6F6F6",
-            border: `1px solid ${svgType === "2d" ? "#3948FF" : "#E4E4E7"}`
+    <Stack direction="row" spacing={6}>
+      <Stack
+        direction="row"
+        alignItems="end"
+        sx={{
+          marginRight: "10px",
+        }}
+      >
+        <button
+          style={{
+            height: "32px",
+            borderRadius: "20px",
+            width: svgType === "2d" ? "44px" : "58px",
+            backgroundColor: svgType === "2d" ? "#B4FFEE" : "#F6F6F6",
+            border: `1px solid ${svgType === "2d" ? "#167D77" : "#979797"}`,
+            fontWeight: svgType === "2d" ? "700" : "400",
+            marginRight: "-24px",
+            zIndex: svgType === "2d" ? "1" : "0",
+            paddingRight: svgType === "3d" ? "20px" : "6px",
+            cursor: "pointer",
           }}
-          label={"2D"}
-          deleteIcon={<LayoutIcon />}
-          onDelete={onClick2D}
           onClick={onClick2D}
-        />
-        <Chip
-          sx={{
-            width: 72,
-            backgroundColor: "#F6F6F6",
-            border: `1px solid ${svgType === "3d" ? "#3948FF" : "#E4E4E7"}`
-          }}
-          label={"3D"}
-          deleteIcon={<CubeIcon />}
-          onDelete={onClick3D}
-          onClick={onClick3D}
-        />
-      </Stack>
-      {svgType === "3d" && (
-        <Tabs
-          value={stage}
-          onChange={(_: React.SyntheticEvent, newValue: string) => {
-            dispatch(setStage(newValue));
-          }}
-          sx={{ height: "25px", paddingTop: "0px" }}
         >
-          <Tab label="Etapa 1" value={"etapa-1"} sx={{ padding: "0px" }} />
-          <Tab label="Etapa 2" value={"etapa-2"} sx={{ padding: "0px" }} />
-        </Tabs>
-      )}
+          2D
+        </button>
+        <button
+          style={{
+            height: "32px",
+            borderRadius: "20px",
+            paddingLeft: svgType === "2d" ? "20px" : "6px",
+            width: svgType === "3d" ? "44px" : "58px",
+            backgroundColor: svgType === "3d" ? "#B4FFEE" : "#F6F6F6",
+            border: `1px solid ${svgType === "2d" ? "#167D77" : "#979797"}`,
+            fontWeight: svgType === "3d" ? "700" : "400",
+            zIndex: svgType === "3d" ? "1" : "0",
+            cursor: "pointer",
+          }}
+          onClick={onClick3D}
+        >
+          3D
+        </button>
+      </Stack>
     </Stack>
   );
 };

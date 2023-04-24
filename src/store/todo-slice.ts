@@ -1,7 +1,7 @@
 import { Availability, SvgImageType } from "../models/redux-models";
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialAvailabilityState: Availability & { loading: boolean } = {
+const initialAvailabilityState: Availability = {
   floors: [],
   filters: {},
   svgs: [],
@@ -15,7 +15,7 @@ const initialAvailabilityState: Availability & { loading: boolean } = {
   floorplanType: "",
   level: null,
   availability: "all",
-  svgType: "2d",
+  svgType: "3d",
   stage: "",
   locations: [],
   currentLocation: 0,
@@ -37,9 +37,7 @@ export const availabilitySlice = createSlice({
       state.apartments = action.payload.apartments;
       state.locations = action.payload.svgs;
     },
-    setLoading(state, action: PayloadAction<boolean>) {
-      state.loading = action.payload;
-    },
+
     setApartments(state, action: PayloadAction<Availability>) {
       state.apartments = action.payload.apartments;
     },

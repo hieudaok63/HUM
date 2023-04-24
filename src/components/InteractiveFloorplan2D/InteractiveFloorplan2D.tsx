@@ -2,22 +2,36 @@ import {
   useAppDispatch,
   useAvailabilityFilter,
   useCurrentLoading,
+  useFilters,
   useFiltersValues,
   useLocations,
+  useSvgType,
   useUnits,
 } from "../../hooks";
 import { ReactSVG } from "react-svg";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FloorplanCard } from "../FloorplanCard";
 import { ModalFloorplan } from "../ModalFlooplan";
 import { Unit } from "../../models/redux-models";
 import {
+  cleanFilters,
   setCurrentLocations,
   setCurrentLocationView,
-  // setCurrentVideo
 } from "../../store/todo-actions";
-import { Box, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Chip,
+  CircularProgress,
+  FormControl,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  useMediaQuery,
+} from "@mui/material";
 import { setCurrentVideo } from "../../store/todo-actions";
+import { setLevel } from "../../store/todo-actions";
 
 export const fills: { [key: string]: string } = {
   available: "#B4FFEE",
@@ -31,13 +45,25 @@ interface Props {
   svg: string;
 }
 
-export const InteractiveFloorplan = ({ svg }: Props) => {
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+export const InteractiveFloorplan2D = ({ svg }: Props) => {
   const dispatch = useAppDispatch();
   const currentSvg = useRef(null);
   const hoveredElementRef = useRef<any>(null);
   const selectedElementRef = useRef<any>(null);
   const lockElementRef = useRef<any>(null);
   const lockUnitRef = useRef<any>(null);
+  const svgType = useSvgType();
   const [mousePosition, setMousePosition] = useState<{
     x: number;
     y: number;
@@ -54,8 +80,10 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
   const availability = useAvailabilityFilter();
   const units = useUnits();
   const locations = useLocations();
+  const { levels } = useFilters();
 
   const loading = useCurrentLoading();
+
   const renderSVG = useCallback(() => {
     const currentLocations = [...locations];
     currentLocations.splice(1, 1);
@@ -203,7 +231,26 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
     dispatch,
     locations,
   ]);
+
+  useEffect(() => {
+    svgType === "2d" ? dispatch(setLevel(0)) : dispatch(cleanFilters());
+  }, [dispatch, svgType]);
+
+  const mobile = useMediaQuery("(max-width:1365px)");
+
+  const [personName, setPersonName] = useState<string[]>([]);
+
+  const defauValue = personName.length === 0 ? ["0"] : personName;
+
+  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(typeof value === "string" ? value.split(",") : value);
+  };
+
   if (!svg) return null;
+
   return (
     <div
       style={{
@@ -218,6 +265,104 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
         }
       }}
     >
+      {!mobile && (
+        <div
+          style={{
+            width: "110px",
+            height: "100%",
+            position: "absolute",
+            zIndex: "100",
+            right: "0",
+            backgroundColor: "#D9D9D9",
+          }}
+        >
+          <Stack
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              height: "100%",
+            }}
+          >
+            <p
+              style={{
+                fontWeight: "500",
+              }}
+            >
+              LEVEL
+            </p>
+            {levels
+              ?.map(({ value: inputValue }, i: any) => {
+                return (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <Chip
+                      key={inputValue}
+                      sx={{
+                        backgroundColor: i === level ? "#B2FFEE" : "#F6F6F6",
+                        border: i === level ? "2px solid#46949C" : "none",
+                        width: "80px",
+                        height: "36px",
+                        margin: "6px 0",
+                        fontSize: "16px",
+                        fontWeight: i === level ? "600" : "",
+                        cursor: "pointer",
+                        "&:hover": {
+                          backgroundColor: i !== level ? "#ebe8e8" : "#B2FFEE",
+                        },
+                      }}
+                      label={i === 0 ? "PB" : i}
+                      onClick={() => dispatch(setLevel(i))}
+                    />
+                  </div>
+                );
+              })
+              .reverse()}
+          </Stack>
+        </div>
+      )}
+
+      {mobile && (
+        <FormControl
+          sx={{
+            m: 1,
+            width: 150,
+            position: "absolute",
+            bottom: "0",
+            right: "0",
+            margin: "0",
+            padding: "0",
+          }}
+        >
+          <Select
+            id="menu2d"
+            value={defauValue}
+            onChange={handleChange}
+            input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+            renderValue={(selected) => {
+              return <Chip label={`level: ${selected}`} />;
+            }}
+            MenuProps={MenuProps}
+          >
+            {levels.map(({ value: name }) => {
+              return (
+                <MenuItem
+                  key={name}
+                  value={name}
+                  onClick={() => dispatch(setLevel(name))}
+                >
+                  {name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+      )}
+
       {loading ? (
         <Box
           sx={{

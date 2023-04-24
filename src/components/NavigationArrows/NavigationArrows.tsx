@@ -1,5 +1,4 @@
-import { useCallback, useMemo } from "react";
-import { Avatar } from "@mui/material";
+import { useCallback, useEffect, useMemo } from "react";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
 import {
@@ -13,6 +12,7 @@ import {
   setCurrentLocationView,
   setCurrentVideo,
 } from "../../store/todo-actions";
+import { Avatar, useMediaQuery } from "@mui/material";
 
 interface Props {
   position: "left" | "right";
@@ -24,13 +24,74 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   const currentLocation = useCurrentLocation();
   const currentView = useCurrentView();
   const locations = useLocations();
+
+  const mobile = useMediaQuery("(max-width:1365px)");
+
+  useEffect(() => {
+    mobile &&
+      setTimeout(() => {
+        const myElement: any = document.getElementById("Level1");
+        myElement?.scrollIntoView({ behavior: "smooth" });
+      }, 2500);
+  }, [mobile]);
+
   const prevLocation = useCallback(() => {
+    mobile &&
+      setTimeout(() => {
+        const myElement: any = document.getElementById("Level1");
+        myElement.scrollIntoView({ behavior: "smooth" });
+      }, 2500);
     const newLocation =
-      currentLocation === 0 ? locations.length - 1 : currentLocation - 1;
+      currentLocation === 0 ? locations.length - 1 : currentLocation;
 
     const lastLocationIndex = locations.length - 1;
     const lastViewIndex = locations[newLocation].views.length - 1;
-    if (currentView === 0 && currentLocation > 0) {
+    if (currentView === 0 && currentLocation === 1) {
+      dispatch(
+        setCurrentVideo(
+          locations[currentLocation + 1].views[currentView].videoBack === "none"
+            ? null
+            : locations[currentLocation + 1].views[currentView].videoBack,
+          "forward"
+        )
+      );
+      dispatch(setCurrentLocations(newLocation));
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(lastViewIndex));
+      }, 1000);
+      return;
+    }
+    if (currentView === 0 && currentLocation === 2) {
+      dispatch(
+        setCurrentVideo(
+          "https://athum.com/images-tmp/okun-etapa_2-2_rev.webm",
+          "forward"
+        )
+      );
+      dispatch(setCurrentLocations(newLocation));
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(lastViewIndex));
+      }, 1000);
+      return;
+    }
+    if (currentView === 0 && currentLocation === 2) {
+      dispatch(
+        setCurrentVideo(
+          locations[currentLocation].views[currentView].videoBack === "none"
+            ? null
+            : null,
+          "forward"
+        )
+      );
+      dispatch(setCurrentLocations(newLocation));
+      dispatch(setCurrentLocationView(lastViewIndex));
+      return;
+    }
+    if (currentLocation === 0) {
+      dispatch(setCurrentLocations(lastLocationIndex));
+      dispatch(setCurrentLocationView(lastViewIndex));
+      return;
+    } else {
       dispatch(
         setCurrentVideo(
           locations[currentLocation].views[currentView].videoBack === "none"
@@ -39,39 +100,33 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(newLocation));
-      }, 500);
-      setTimeout(() => {
-        dispatch(setCurrentLocationView(lastViewIndex));
-      }, 500);
-      return;
     }
-    if (currentLocation === 0) {
-      setTimeout(() => {
-        dispatch(setCurrentLocations(lastLocationIndex));
-      }, 500);
-      setTimeout(() => {
-        dispatch(setCurrentLocationView(lastViewIndex));
-      }, 500);
-      return;
-    }
-    dispatch(
-      setCurrentVideo(
-        locations[currentLocation].views[currentView].videoBack === "none"
-          ? null
-          : locations[currentLocation].views[currentView].videoBack,
-        "forward"
-      )
-    );
     setTimeout(() => {
       dispatch(setCurrentLocationView(currentView - 1));
-    }, 500);
-  }, [currentLocation, currentView, dispatch, locations]);
+    }, 1000);
+  }, [currentLocation, currentView, dispatch, locations, mobile]);
 
   const nextLocation = useCallback(() => {
+    mobile &&
+      setTimeout(() => {
+        const myElement: any = document.getElementById("Level1");
+        myElement.scrollIntoView({ behavior: "smooth" });
+      }, 2500);
     const lastLocationIndex = locations.length - 1;
     const lastViewIndex = locations[currentLocation].views.length - 1;
+    if (currentView === 1 && currentLocation === 2) {
+      dispatch(
+        setCurrentVideo(
+          "https://athum.com/images-tmp/okun-etapa_2-2.webm",
+          "forward"
+        )
+      );
+      dispatch(setCurrentLocations(currentLocation));
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(0));
+      }, 1000);
+      return;
+    }
     if (lastViewIndex === currentView && lastLocationIndex > currentLocation) {
       dispatch(
         setCurrentVideo(
@@ -81,8 +136,10 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      dispatch(setCurrentLocations(currentLocation + 1));
-      dispatch(setCurrentLocationView(0));
+      dispatch(setCurrentLocations(currentLocation));
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(0));
+      }, 1000);
       return;
     }
     if (lastViewIndex > currentView) {
@@ -94,11 +151,13 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      dispatch(setCurrentLocationView(currentView + 1));
+      setTimeout(() => {
+        dispatch(setCurrentLocationView(currentView + 1));
+      }, 1000);
       return;
     }
     if (currentLocation === lastLocationIndex) {
-      dispatch(setCurrentLocations(0));
+      dispatch(setCurrentLocations(currentLocation));
       dispatch(setCurrentLocationView(0));
       return;
     }
@@ -111,15 +170,11 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(currentLocation + 1));
-      }, 500);
-      setTimeout(() => {
-        dispatch(setCurrentLocationView(0));
-      }, 500);
+      dispatch(setCurrentLocations(currentLocation));
+      dispatch(setCurrentLocationView(0));
       return;
     }
-  }, [currentLocation, currentView, dispatch, locations]);
+  }, [currentLocation, currentView, dispatch, locations, mobile]);
 
   const arrow = useMemo(
     () =>
@@ -161,6 +216,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
         top: "0",
         bottom: "0",
         margin: "auto 0",
+        zIndex: mobile ? "1" : "unset",
         "&:hover": {
           opacity: 0.8,
         },

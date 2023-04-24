@@ -1,4 +1,11 @@
-import { Button, Menu, MenuItem, Fade, Box } from "@mui/material";
+import {
+  Button,
+  Menu,
+  MenuItem,
+  Fade,
+  Box,
+  useMediaQuery,
+} from "@mui/material";
 import { ReactNode, useEffect, useState } from "react";
 import { FilterOptions } from "../../models/redux-models";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -6,7 +13,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 interface Props {
   text: string;
   options: FilterOptions[];
-  startIcon: ReactNode;
+  startIcon?: ReactNode;
   onChange: (e: any) => void;
   shouldClear: boolean;
   resetShouldClear: () => void;
@@ -47,14 +54,18 @@ export const Filter = ({
   }, [shouldClear, anchorEl, resetShouldClear]);
 
   useEffect(() => setSelectedIndex(index !== null ? index : null), [index]);
+  const mobile = useMediaQuery("(max-width:1365px)");
 
   return (
     <Box
       sx={{
         "&:hover": {
-          background: "#333",
+          opacity: 0.8,
         },
-        padding: "6px 0px",
+        padding: mobile ? "16px 0px" : "0",
+        border: mobile ? "unset" : "1px solid #fff",
+        minWidth: "130px",
+        borderRadius: !mobile ? "6px" : "0",
       }}
     >
       <Button
@@ -68,7 +79,15 @@ export const Filter = ({
             sx={{ color: "white", width: 18, height: 18 }}
           />
         }
-        sx={{ color: "white", textAlign: "center", textTransform: "none" }}
+        sx={{
+          color: "white",
+          textAlign: "center",
+          textTransform: "none",
+          padding: !mobile ? "0 8px" : "",
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
       >
         {selectedIndex !== null && options[selectedIndex]
           ? options[selectedIndex].text
@@ -79,9 +98,13 @@ export const Filter = ({
         open={open}
         onClose={handleClose}
         TransitionComponent={Fade}
-        sx={{ ".MuiList-root": { backgroundColor: "#000000" } }}
+        sx={{
+          ".MuiList-root": {
+            backgroundColor: "#0e0808",
+          },
+        }}
       >
-        {options.map(({ text: optionText, value: inputValue }, i) => (
+        {options?.map(({ text: optionText, value: inputValue }, i) => (
           <MenuItem
             key={inputValue}
             value={inputValue}
@@ -89,6 +112,7 @@ export const Filter = ({
               background:
                 i === selectedIndex ? "rgba(61, 208, 174)" : "#000000",
               color: "white",
+              width: "100%",
             }}
             selected={i === selectedIndex}
             onClick={(event) => handleMenuItemClick(event, i)}

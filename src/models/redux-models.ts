@@ -169,6 +169,7 @@ export interface Locations {
 }
 
 export interface Availability {
+  loading: boolean;
   floors: Floors[];
   filters: Filters;
   svgs: SVGS[];
