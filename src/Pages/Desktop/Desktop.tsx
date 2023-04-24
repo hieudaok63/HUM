@@ -37,7 +37,7 @@ export const Desktop = () => {
   useLayoutEffect(() => {
     if (!requested) dispatch(fetchAvailability((projectId as string) ?? "767"));
     setRequested(true);
-  }, [dispatch, requested]);
+  }, [dispatch, requested, projectId]);
 
   const projectLoading = useProjectId();
 

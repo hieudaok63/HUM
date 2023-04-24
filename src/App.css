@@ -88,6 +88,10 @@
     width: unset;
   }
 
+  .MuiSelect-icon {
+    display: none !important;
+  }
+
   .MuiButtonBase-root {
     width: 100%;
     display: flex;
@@ -105,6 +109,18 @@
   }
   .MuiChip-root {
     width: 100%;
+  }
+
+  .MuiMenu-list {
+    color: #fff;
+  }
+
+  .MuiOutlinedInput-notchedOutline {
+    border: none !important;
+  }
+
+  #menu2d {
+    padding: 10px 25px;
   }
 
   .MuiPaper-root {

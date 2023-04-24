@@ -200,10 +200,10 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
     areaFilter,
     level,
     availability,
+    dispatch,
+    locations,
   ]);
-
   if (!svg) return null;
-
   return (
     <div
       style={{

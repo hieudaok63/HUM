@@ -50,7 +50,7 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 export const AvailabilityFilters = () => {
   const dispatch = useAppDispatch();
   const availability = useAvailabilityFilter();
-  const mobile = useMediaQuery("(max-width:1200px)");
+  const mobile = useMediaQuery("(max-width:1365px)");
   const theme = useTheme();
   const [personName, setPersonName] = useState<string[]>([]);
 

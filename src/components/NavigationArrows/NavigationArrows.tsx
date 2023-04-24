@@ -33,7 +33,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
         const myElement: any = document.getElementById("Level1");
         myElement?.scrollIntoView({ behavior: "smooth" });
       }, 2500);
-  }, []);
+  }, [mobile]);
 
   const prevLocation = useCallback(() => {
     mobile &&
@@ -104,7 +104,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
     setTimeout(() => {
       dispatch(setCurrentLocationView(currentView - 1));
     }, 1000);
-  }, [currentLocation, currentView, dispatch, locations]);
+  }, [currentLocation, currentView, dispatch, locations, mobile]);
 
   const nextLocation = useCallback(() => {
     mobile &&
@@ -174,7 +174,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       dispatch(setCurrentLocationView(0));
       return;
     }
-  }, [currentLocation, currentView, dispatch, locations]);
+  }, [currentLocation, currentView, dispatch, locations, mobile]);
 
   const arrow = useMemo(
     () =>
