@@ -14,7 +14,13 @@ export const BottomFilters = () => {
   };
   return (
     <Stack direction="row" spacing={6}>
-      <Stack direction="row" alignItems="end">
+      <Stack
+        direction="row"
+        alignItems="end"
+        sx={{
+          marginRight: "10px",
+        }}
+      >
         <button
           style={{
             height: "32px",

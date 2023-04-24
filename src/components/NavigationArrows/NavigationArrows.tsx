@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { Avatar } from "@mui/material";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
 import {
@@ -13,6 +12,7 @@ import {
   setCurrentLocationView,
   setCurrentVideo,
 } from "../../store/todo-actions";
+import { Avatar, useMediaQuery } from "@mui/material";
 
 interface Props {
   position: "left" | "right";
@@ -24,11 +24,23 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   const currentLocation = useCurrentLocation();
   const currentView = useCurrentView();
   const locations = useLocations();
-  console.log("currentLocation", currentLocation);
-  console.log("currentView", currentView);
-  console.log("locations", locations);
+
+  const mobile = useMediaQuery("(max-width:1365px)");
+
+  useEffect(() => {
+    mobile &&
+      setTimeout(() => {
+        const myElement: any = document.getElementById("Level1");
+        myElement?.scrollIntoView({ behavior: "smooth" });
+      }, 2500);
+  }, [mobile]);
 
   const prevLocation = useCallback(() => {
+    mobile &&
+      setTimeout(() => {
+        const myElement: any = document.getElementById("Level1");
+        myElement.scrollIntoView({ behavior: "smooth" });
+      }, 2500);
     const newLocation =
       currentLocation === 0 ? locations.length - 1 : currentLocation;
 
@@ -43,9 +55,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(newLocation));
-      }, 500);
+      dispatch(setCurrentLocations(newLocation));
       setTimeout(() => {
         dispatch(setCurrentLocationView(lastViewIndex));
       }, 1000);
@@ -58,9 +68,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(newLocation));
-      }, 500);
+      dispatch(setCurrentLocations(newLocation));
       setTimeout(() => {
         dispatch(setCurrentLocationView(lastViewIndex));
       }, 1000);
@@ -75,21 +83,13 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(newLocation));
-      }, 500);
-      setTimeout(() => {
-        dispatch(setCurrentLocationView(lastViewIndex));
-      }, 1000);
+      dispatch(setCurrentLocations(newLocation));
+      dispatch(setCurrentLocationView(lastViewIndex));
       return;
     }
     if (currentLocation === 0) {
-      setTimeout(() => {
-        dispatch(setCurrentLocations(lastLocationIndex));
-      }, 500);
-      setTimeout(() => {
-        dispatch(setCurrentLocationView(lastViewIndex));
-      }, 500);
+      dispatch(setCurrentLocations(lastLocationIndex));
+      dispatch(setCurrentLocationView(lastViewIndex));
       return;
     } else {
       dispatch(
@@ -103,10 +103,15 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
     }
     setTimeout(() => {
       dispatch(setCurrentLocationView(currentView - 1));
-    }, 500);
-  }, [currentLocation, currentView, dispatch, locations]);
+    }, 1000);
+  }, [currentLocation, currentView, dispatch, locations, mobile]);
 
   const nextLocation = useCallback(() => {
+    mobile &&
+      setTimeout(() => {
+        const myElement: any = document.getElementById("Level1");
+        myElement.scrollIntoView({ behavior: "smooth" });
+      }, 2500);
     const lastLocationIndex = locations.length - 1;
     const lastViewIndex = locations[currentLocation].views.length - 1;
     if (currentView === 1 && currentLocation === 2) {
@@ -116,12 +121,10 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(currentLocation));
-      }, 500);
+      dispatch(setCurrentLocations(currentLocation));
       setTimeout(() => {
         dispatch(setCurrentLocationView(0));
-      }, 500);
+      }, 1000);
       return;
     }
     if (lastViewIndex === currentView && lastLocationIndex > currentLocation) {
@@ -133,10 +136,10 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
+      dispatch(setCurrentLocations(currentLocation));
       setTimeout(() => {
-        dispatch(setCurrentLocations(currentLocation));
         dispatch(setCurrentLocationView(0));
-      }, 500);
+      }, 1000);
       return;
     }
     if (lastViewIndex > currentView) {
@@ -150,14 +153,12 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       );
       setTimeout(() => {
         dispatch(setCurrentLocationView(currentView + 1));
-      }, 500);
+      }, 1000);
       return;
     }
     if (currentLocation === lastLocationIndex) {
-      setTimeout(() => {
-        dispatch(setCurrentLocations(currentLocation));
-        dispatch(setCurrentLocationView(0));
-      }, 500);
+      dispatch(setCurrentLocations(currentLocation));
+      dispatch(setCurrentLocationView(0));
       return;
     }
     if (currentView === lastViewIndex) {
@@ -169,15 +170,11 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
           "forward"
         )
       );
-      setTimeout(() => {
-        dispatch(setCurrentLocations(currentLocation));
-      }, 500);
-      setTimeout(() => {
-        dispatch(setCurrentLocationView(0));
-      }, 500);
+      dispatch(setCurrentLocations(currentLocation));
+      dispatch(setCurrentLocationView(0));
       return;
     }
-  }, [currentLocation, currentView, dispatch, locations]);
+  }, [currentLocation, currentView, dispatch, locations, mobile]);
 
   const arrow = useMemo(
     () =>
@@ -219,6 +216,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
         top: "0",
         bottom: "0",
         margin: "auto 0",
+        zIndex: mobile ? "1" : "unset",
         "&:hover": {
           opacity: 0.8,
         },

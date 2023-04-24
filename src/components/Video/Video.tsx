@@ -56,14 +56,21 @@ export const Video = ({ src, type }: Props) => {
   return (
     <video
       ref={vidRef}
+      id="html5"
+      className="vjs-tech"
       muted
+      // loop
+      playsInline
+      autoPlay
       style={{
         position: "absolute",
         width: "100%",
         height: "100%",
         zIndex: !src ? "-1" : "1",
-        objectFit: "cover"
+        objectFit: "cover",
       }}
-    />
+    >
+      <source src={src} type="video/mp4"></source>
+    </video>
   );
 };

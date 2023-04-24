@@ -54,7 +54,7 @@ export const Filter = ({
   }, [shouldClear, anchorEl, resetShouldClear]);
 
   useEffect(() => setSelectedIndex(index !== null ? index : null), [index]);
-  const mobile = useMediaQuery("(max-width:600px)");
+  const mobile = useMediaQuery("(max-width:1365px)");
 
   return (
     <Box
@@ -63,7 +63,7 @@ export const Filter = ({
           opacity: 0.8,
         },
         padding: mobile ? "16px 0px" : "0",
-        border: "1px solid #fff",
+        border: mobile ? "unset" : "1px solid #fff",
         minWidth: "130px",
         borderRadius: !mobile ? "6px" : "0",
       }}
@@ -98,7 +98,11 @@ export const Filter = ({
         open={open}
         onClose={handleClose}
         TransitionComponent={Fade}
-        sx={{ ".MuiList-root": { backgroundColor: "#000000" } }}
+        sx={{
+          ".MuiList-root": {
+            backgroundColor: "#0e0808",
+          },
+        }}
       >
         {options?.map(({ text: optionText, value: inputValue }, i) => (
           <MenuItem

@@ -50,7 +50,7 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 export const AvailabilityFilters = () => {
   const dispatch = useAppDispatch();
   const availability = useAvailabilityFilter();
-  const mobile = useMediaQuery("(max-width:600px)");
+  const mobile = useMediaQuery("(max-width:1365px)");
   const theme = useTheme();
   const [personName, setPersonName] = useState<string[]>([]);
 
@@ -71,13 +71,14 @@ export const AvailabilityFilters = () => {
       sx={{
         position: "absolute",
         bottom: 0,
+        left: "0",
         marginBottom: "0",
-        width: svgType === "2d" ? "70% !important" : "100%",
-        marginRight: svgType === "2d" ? "30%" : "0",
-        background: "#000 ",
+        width: svgType === "3d" ? "100%" : "unset",
+        background: svgType === "3d" ? "#000 " : "unset",
       }}
       alignContent="center"
       justifyContent="flex-start"
+      className="bottom-mobile"
     >
       <Select
         id="demo-multiple-chip"
@@ -99,7 +100,7 @@ export const AvailabilityFilters = () => {
                   <Chip
                     key={value}
                     label={value}
-                    sx={{ minWidth: "80px" }}
+                    sx={{ minWidth: "100px" }}
                     deleteIcon={icon[0].icon}
                     onDelete={() => {}}
                   />

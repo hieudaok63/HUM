@@ -7,7 +7,8 @@ import { AppDispatch, RootState } from "../store";
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export const useUnits = () => {
-  // const availability = useAppSelector((state) => state.availability);
+  const availability1 = useAppSelector((state) => state.availability);
+  // console.log(availability1);
 
   const availability = {
     apartments: [
@@ -1389,6 +1390,7 @@ export const useUnits = () => {
   }, [availability.apartments]);
 };
 export const useFilters = () => {
+  ///
   const numberFormat = useMemo(
     () =>
       new Intl.NumberFormat("en-US", {
@@ -1399,7 +1401,6 @@ export const useFilters = () => {
     []
   );
   const availability = useAppSelector((state) => state.availability);
-  // console.log(availability);
 
   const units = useUnits();
   const bedrooms = useMemo(() => {
@@ -1408,7 +1409,7 @@ export const useFilters = () => {
       numberOfBedrooms.add(apartment.attributes.bedroom);
     });
     return Array.from(numberOfBedrooms)?.map((bedroom) => ({
-      text: bedroom.toString(),
+      text: `${bedroom.toString()} \\ ${bedroom.toString()}`,
       value: bedroom,
     }));
   }, [availability.apartments]);
@@ -1522,6 +1523,7 @@ export const useFiltersValues = () => {
 
 export const useSVGImage = () => {
   const availability = useAppSelector((state) => state.availability);
+
   let stage = "";
   if (availability.stage)
     stage = availability.stage === "etapa-1" ? "Etapa 1" : "Etapa 2";
@@ -1529,7 +1531,14 @@ export const useSVGImage = () => {
   const svgs = availability.svgs?.filter(
     (svg) => svg.type === availability.svgType && svg.stage === stage
   );
+
   return useMemo(() => svgs[0]?.svg || "", [svgs]);
+};
+
+export const useGetProjectId = () => {
+  const availability = useAppSelector((state) => state.availability);
+  const getProjectId = availability.projectId;
+  return getProjectId;
 };
 
 export const useFloors = () => {

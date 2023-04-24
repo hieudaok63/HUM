@@ -20,9 +20,9 @@ import {
   setFloorPlanType,
   setLevel,
   cleanFilters,
+  setSVGType,
   setCurrentLocations,
   setCurrentLocationView,
-  setSVGType,
 } from "../../store/todo-actions";
 import { Box } from "@mui/system";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -83,10 +83,11 @@ export const Filters = () => {
   };
 
   const currentLocation = useCurrentLocation();
-  const mobile = useMediaQuery("(max-width:600px)");
+  const mobile = useMediaQuery("(max-width:1365px)");
   const [openMenu, setOpenMenu] = useState(false);
   let myDocument: any = document.documentElement;
   let btn: any = document.getElementById("btn");
+  let documentExit: any = document;
 
   btn?.addEventListener("click", () => {
     if (myDocument.requestFullscreen) {
@@ -100,6 +101,12 @@ export const Filters = () => {
     }
     if (document.exitFullscreen) {
       document.exitFullscreen();
+    } else if (documentExit.mozCancelFullScreen) {
+      documentExit.mozCancelFullScreen();
+    } else if (documentExit.webkitCancelFullScreen) {
+      documentExit.webkitCancelFullScreen();
+    } else if (documentExit.cancelFullScreen) {
+      documentExit.cancelFullScreen();
     }
   });
   return (
@@ -112,7 +119,7 @@ export const Filters = () => {
           alignItems="center"
           sx={{
             height: 48,
-            backgroundColor: currentLocation !== 0 ? "#000000" : "transparent",
+            backgroundColor: currentLocation !== 0 ? "#000" : "transparent",
             padding: "0px 23px",
             position: "absolute",
             top: "0",
@@ -276,8 +283,9 @@ export const Filters = () => {
           alignItems="center"
           sx={{
             height: 56,
-            backgroundColor: "#000000",
+            backgroundColor: currentLocation !== 0 ? "#000000" : "transparent",
             cursor: "pointer",
+            position: currentLocation === 0 ? "absolute" : "unset",
           }}
         >
           <Stack
@@ -288,7 +296,11 @@ export const Filters = () => {
           >
             {!openMenu && (
               <Box
-                sx={{ color: "white", paddingLeft: "10px" }}
+                sx={{
+                  color: "white",
+                  paddingLeft: "10px",
+                  zIndex: "10",
+                }}
                 onClick={handleClick}
               >
                 <HomeIcon />
@@ -321,6 +333,7 @@ export const Filters = () => {
                   )}
                 </div>
               )}
+
               {currentLocation !== 0 && openMenu && (
                 <span
                   style={{
@@ -337,6 +350,7 @@ export const Filters = () => {
                   <DeleteIcon />
                 </span>
               )}
+
               {openMenu && (
                 <div
                   style={{
@@ -344,7 +358,7 @@ export const Filters = () => {
                     backgroundColor: "#000",
                     zIndex: "100",
                     width: "100%",
-                    minHeight: "900px",
+                    minHeight: "1200px",
                   }}
                 >
                   <Divider
@@ -447,7 +461,9 @@ export const Filters = () => {
               )}
             </>
           }
-          {currentLocation !== 0 && !openMenu && <BottomFilters />}
+          <Stack direction="row">
+            {currentLocation !== 0 && !openMenu && <BottomFilters />}
+          </Stack>
         </Grid>
       )}
     </>

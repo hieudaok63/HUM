@@ -1,22 +1,15 @@
 import { useMemo } from "react";
 import {
   useCurrentLocation,
-  // useCurrentVideo,
   useCurrentView,
-  // useHideImage,
   useLocations,
-  // usePastView,
   useSvgType,
 } from "../../hooks";
 import { InteractiveFloorplan } from "../InteractiveFloorplan";
-import { Location2D } from "./Location2D";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { InteractiveFloorplan2D } from "../InteractiveFloorplan2D";
+import { ReactComponent as OkunIcon } from "../../assets/icons/okun.svg";
+import { ReactComponent as LaHausIcon } from "../../assets/icons/lahaus.svg";
 import { useMediaQuery } from "@mui/material";
-
-import { ReactComponent as ZoomInIcon } from "../../assets/icons/zoomin.svg";
-import { ReactComponent as ZoomOutIcon } from "../../assets/icons/zoomout.svg";
-import { ReactComponent as MoveIcon } from "../../assets/icons/Move.svg";
-
 interface IScale {
   scaleZoom: string;
 }
@@ -25,11 +18,22 @@ export const Locations = ({ scaleZoom }: IScale) => {
   const locations = useLocations();
   const currentLocation = useCurrentLocation();
   const currentView = useCurrentView();
-  // const video = useCurrentVideo();
-  // const pastView = usePastView();
-  // const hideImage = useHideImage();
+
   const svgType = useSvgType();
-  const mobile = useMediaQuery("(max-width:600px)");
+  const mobile = useMediaQuery("(max-width:1365px)");
+
+  const svg = useMemo(
+    () =>
+      locations[currentLocation]?.views[currentView]?.svg === "none"
+        ? null
+        : locations[currentLocation]?.views[currentView]?.svg,
+    [currentLocation, currentView, locations]
+  );
+
+  const svg2D = useMemo(
+    () => "https://athum.com/images-tmp/Okun-2D-Plans-AI-collapse4.svg",
+    []
+  );
 
   // const jpg = useMemo(
   //   () =>
@@ -47,14 +51,6 @@ export const Locations = ({ scaleZoom }: IScale) => {
   //   [currentLocation, currentView, locations, pastView, video]
   // );
 
-  const svg = useMemo(
-    () =>
-      locations[currentLocation]?.views[currentView]?.svg === "none"
-        ? null
-        : locations[currentLocation]?.views[currentView]?.svg,
-    [currentLocation, currentView, locations]
-  );
-
   if (locations.length === 0) return null;
 
   return (
@@ -62,81 +58,51 @@ export const Locations = ({ scaleZoom }: IScale) => {
       style={{
         height: "100%",
         width: "100%",
-        // backgroundImage: `url(${locations[currentLocation]?.views[currentView]?.jpg})`,
-        // backgroundSize: "cover",
-        // backgroundRepeat: "no-repeat",
-        transition: "all .5s ",
         scale: scaleZoom,
+        position: "relative",
       }}
     >
+      {currentLocation === 0 && (
+        <>
+          <div
+            style={{
+              position: "absolute",
+              width: "100%",
+              top: "4%",
+              zIndex: "10",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <OkunIcon
+              style={{
+                width: !mobile ? "18%" : "30%",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              width: "100%",
+              bottom: "5%",
+              zIndex: "10",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <LaHausIcon
+              style={{
+                width: !mobile ? "8%" : "20%",
+              }}
+            />
+          </div>
+        </>
+      )}
+
       {svg && svgType === "3d" ? (
         <InteractiveFloorplan svg={svg} />
       ) : (
-        <div
-          style={{
-            scale: scaleZoom,
-            height: "100%",
-            width: "100%",
-          }}
-        >
-          <TransformWrapper
-            initialScale={1}
-            initialPositionX={200}
-            initialPositionY={100}
-          >
-            {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-              <>
-                <div
-                  className="tools"
-                  style={{
-                    position: "absolute",
-                    bottom: mobile ? "80px" : "25px",
-                    right: mobile ? "0px" : svgType === "2d" ? "170px" : "50px",
-                    zIndex: "10",
-                  }}
-                >
-                  <div
-                    onClick={() => zoomIn()}
-                    style={{
-                      display: "inline-block",
-                      cursor: "pointer",
-                      width: "50px",
-                      height: "50px",
-                    }}
-                  >
-                    <ZoomInIcon />
-                  </div>
-                  <div
-                    onClick={() => zoomOut()}
-                    style={{
-                      display: "inline-block",
-                      cursor: "pointer",
-                      width: "50px",
-                      height: "50px",
-                    }}
-                  >
-                    {" "}
-                    <ZoomOutIcon />
-                  </div>
-                  <div
-                    onClick={() => resetTransform()}
-                    style={{
-                      display: "inline-block",
-                      cursor: "pointer",
-                      width: "50px",
-                      height: "50px",
-                    }}
-                  >
-                    <MoveIcon />
-                  </div>
-                </div>
-                <TransformComponent>
-                  <Location2D />
-                </TransformComponent>
-              </>
-            )}
-          </TransformWrapper>
-        </div>
+        <InteractiveFloorplan2D svg={svg2D} />
       )}
     </div>
   );
