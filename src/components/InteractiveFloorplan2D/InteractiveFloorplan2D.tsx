@@ -5,6 +5,7 @@ import {
   useFilters,
   useFiltersValues,
   useLocations,
+  useSvgType,
   useUnits,
 } from "../../hooks";
 import { ReactSVG } from "react-svg";
@@ -13,6 +14,7 @@ import { FloorplanCard } from "../FloorplanCard";
 import { ModalFloorplan } from "../ModalFlooplan";
 import { Unit } from "../../models/redux-models";
 import {
+  cleanFilters,
   setCurrentLocations,
   setCurrentLocationView,
 } from "../../store/todo-actions";
@@ -30,7 +32,6 @@ import {
 } from "@mui/material";
 import { setCurrentVideo } from "../../store/todo-actions";
 import { setLevel } from "../../store/todo-actions";
-import { useTheme } from "@emotion/react";
 
 export const fills: { [key: string]: string } = {
   available: "#B4FFEE",
@@ -62,6 +63,7 @@ export const InteractiveFloorplan2D = ({ svg }: Props) => {
   const selectedElementRef = useRef<any>(null);
   const lockElementRef = useRef<any>(null);
   const lockUnitRef = useRef<any>(null);
+  const svgType = useSvgType();
   const [mousePosition, setMousePosition] = useState<{
     x: number;
     y: number;
@@ -79,8 +81,6 @@ export const InteractiveFloorplan2D = ({ svg }: Props) => {
   const units = useUnits();
   const locations = useLocations();
   const { levels } = useFilters();
-  const [select, setSelect] = useState<any>();
-  console.log("select", select);
 
   const loading = useCurrentLoading();
 
@@ -228,15 +228,19 @@ export const InteractiveFloorplan2D = ({ svg }: Props) => {
     areaFilter,
     level,
     availability,
+    dispatch,
+    locations,
   ]);
 
   useEffect(() => {
-    dispatch(setLevel(0));
-  }, []);
+    svgType === "2d" ? dispatch(setLevel(0)) : dispatch(cleanFilters());
+  }, [dispatch, svgType]);
 
   const mobile = useMediaQuery("(max-width:1365px)");
 
   const [personName, setPersonName] = useState<string[]>([]);
+
+  const defauValue = personName.length === 0 ? ["0"] : personName;
 
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
@@ -335,21 +339,21 @@ export const InteractiveFloorplan2D = ({ svg }: Props) => {
           }}
         >
           <Select
-            id="demo-multiple-chip"
-            value={personName}
+            id="menu2d"
+            value={defauValue}
             onChange={handleChange}
             input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-            renderValue={(i) => {
-              return <Chip label={`level: ${i}`} />;
+            renderValue={(selected) => {
+              return <Chip label={`level: ${selected}`} />;
             }}
             MenuProps={MenuProps}
           >
-            {levels.map(({ value: name }, i: any) => {
+            {levels.map(({ value: name }) => {
               return (
                 <MenuItem
                   key={name}
                   value={name}
-                  onClick={() => dispatch(setLevel(i))}
+                  onClick={() => dispatch(setLevel(name))}
                 >
                   {name}
                 </MenuItem>
