@@ -234,7 +234,7 @@ export const InteractiveFloorplan2D = ({ svg }: Props) => {
     dispatch(setLevel(0));
   }, []);
 
-  const mobile = useMediaQuery("(max-width:1200px)");
+  const mobile = useMediaQuery("(max-width:1365px)");
 
   const [personName, setPersonName] = useState<string[]>([]);
 

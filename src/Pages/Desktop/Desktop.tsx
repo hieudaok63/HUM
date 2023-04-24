@@ -1,7 +1,12 @@
-import { Box, CircularProgress, Stack, useMediaQuery } from "@mui/material";
+import { Box, CircularProgress, Stack } from "@mui/material";
 import { useLayoutEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Filters, AvailabilityFilters, Locations } from "../../components";
+import {
+  Filters,
+  AvailabilityFilters,
+  Locations,
+  HandleZoom,
+} from "../../components";
 import { NavigationArrows } from "../../components/NavigationArrows";
 import { Video } from "../../components/Video";
 import {
@@ -14,33 +19,26 @@ import {
 } from "../../hooks";
 
 import { fetchAvailability } from "../../store/todo-actions";
-import { ReactComponent as ZoomInIcon } from "../../assets/icons/zoomin.svg";
-import { ReactComponent as ZoomOutIcon } from "../../assets/icons/zoomout.svg";
-import { ReactComponent as MoveIcon } from "../../assets/icons/Move.svg";
 
 export const Desktop = () => {
   const svgType = useSvgType();
   const video = useCurrentVideo();
   const type = useCurrentType();
   const currentLocation = useCurrentLocation();
-
+  const [scale, setScale] = useState<number>(1);
+  const scaleZoom = scale.toFixed(1);
+  const handleZoomIn = () => setScale(scale + 0.1);
+  const handleZoomOut = () => scale > 1 && setScale(scale - 0.1);
+  const handleReset = () => setScale(1);
   const [requested, setRequested] = useState(false);
   const dispatch = useAppDispatch();
   const { projectId } = useParams();
-  const [scale, setScale] = useState<number>(1);
-  const scaleZoom = scale.toFixed(1);
 
   useLayoutEffect(() => {
     if (!requested) dispatch(fetchAvailability((projectId as string) ?? "767"));
     setRequested(true);
   }, [dispatch, requested]);
 
-  const handleZoomIn = () => setScale(scale + 0.1);
-
-  const handleZoomOut = () => scale > 1 && setScale(scale - 0.1);
-
-  const handleReset = () => setScale(1);
-  const mobile = useMediaQuery("(max-width:1200px)");
   const projectLoading = useProjectId();
 
   return !projectLoading ? (
@@ -79,48 +77,11 @@ export const Desktop = () => {
         <Locations scaleZoom={scaleZoom} />
         {currentLocation !== 0 && <AvailabilityFilters />}
 
-        {currentLocation !== 0 && !mobile && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              position: "fixed",
-              width: "100px",
-              bottom: mobile ? "80px" : "40px",
-              right: mobile ? "0px" : svgType === "3d" ? "50px" : "160px",
-              flexDirection: mobile ? "column" : "row",
-            }}
-          >
-            <span
-              onClick={handleZoomIn}
-              style={{
-                cursor: "pointer",
-              }}
-            >
-              <ZoomInIcon />
-            </span>
-
-            <div
-              style={{
-                margin: mobile ? "16px 0" : "0 20px",
-                cursor: "pointer",
-              }}
-              onClick={handleZoomOut}
-            >
-              <ZoomOutIcon />
-            </div>
-
-            <div
-              onClick={handleReset}
-              style={{
-                cursor: "pointer",
-              }}
-            >
-              <MoveIcon />
-            </div>
-          </div>
-        )}
-
+        <HandleZoom
+          handleZoomIn={handleZoomIn}
+          handleZoomOut={handleZoomOut}
+          handleReset={handleReset}
+        />
         {currentLocation !== 0 && svgType === "3d" && (
           <NavigationArrows position="left" disabled={false} />
         )}
