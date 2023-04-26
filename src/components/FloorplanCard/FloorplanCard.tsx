@@ -32,7 +32,7 @@ export const FloorplanCard = ({
 }: Props) => {
   const options = { style: "currency", currency: "USD" };
   const numberFormat = new Intl.NumberFormat("en-US", options);
-  const mobile = useMediaQuery("(max-width:1365px)");
+  const mobile = useMediaQuery("(max-width:1260px)");
   return (
     <Paper
       sx={{

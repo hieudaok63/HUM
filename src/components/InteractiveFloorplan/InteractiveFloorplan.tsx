@@ -7,7 +7,7 @@ import {
   useUnits,
 } from "../../hooks";
 import { ReactSVG } from "react-svg";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FloorplanCard } from "../FloorplanCard";
 import { ModalFloorplan } from "../ModalFlooplan";
 import { Unit } from "../../models/redux-models";
@@ -62,6 +62,12 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
     currentLocations?.forEach((locations, index) => {
       const currentLocationNode = document.getElementById(`L-E${index + 1}`);
       const currentLocation = index + 1;
+
+      const svgEmbed: any = document.getElementsByClassName("injected-svg")[0];
+      if (svgEmbed) {
+        svgEmbed.setAttribute("preserveAspectRatio", "xMidYMid slice");
+        svgEmbed.id = "svgTest";
+      }
 
       if (currentLocationNode) {
         currentLocationNode.addEventListener(

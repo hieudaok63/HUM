@@ -12,7 +12,7 @@ export const HandleZoom: any = ({
 }: any) => {
   const currentLocation = useCurrentLocation();
   const svgType = useSvgType();
-  const mobile = useMediaQuery("(max-width:1365px)");
+  const mobile = useMediaQuery("(max-width:1260px)");
   return (
     currentLocation !== 0 &&
     !mobile && (

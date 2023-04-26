@@ -25,22 +25,22 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   const currentView = useCurrentView();
   const locations = useLocations();
 
-  const mobile = useMediaQuery("(max-width:1365px)");
+  const mobile = useMediaQuery("(max-width:1260px)");
 
-  useEffect(() => {
-    mobile &&
-      setTimeout(() => {
-        const myElement: any = document.getElementById("Level1");
-        myElement?.scrollIntoView({ behavior: "smooth" });
-      }, 2500);
-  }, [mobile]);
+  // useEffect(() => {
+  //   mobile &&
+  //     setTimeout(() => {
+  //       const myElement: any = document.getElementById("Level1");
+  //       myElement?.scrollIntoView({ behavior: "smooth" });
+  //     }, 2500);
+  // }, [mobile]);
 
   const prevLocation = useCallback(() => {
-    mobile &&
-      setTimeout(() => {
-        const myElement: any = document.getElementById("Level1");
-        myElement.scrollIntoView({ behavior: "smooth" });
-      }, 2500);
+    // mobile &&
+    //   setTimeout(() => {
+    //     const myElement: any = document.getElementById("Level1");
+    //     myElement.scrollIntoView({ behavior: "smooth" });
+    //   }, 2500);
     const newLocation =
       currentLocation === 0 ? locations.length - 1 : currentLocation;
 
@@ -104,14 +104,14 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
     setTimeout(() => {
       dispatch(setCurrentLocationView(currentView - 1));
     }, 1000);
-  }, [currentLocation, currentView, dispatch, locations, mobile]);
+  }, [currentLocation, currentView, dispatch, locations]);
 
   const nextLocation = useCallback(() => {
-    mobile &&
-      setTimeout(() => {
-        const myElement: any = document.getElementById("Level1");
-        myElement.scrollIntoView({ behavior: "smooth" });
-      }, 2500);
+    // mobile &&
+    //   setTimeout(() => {
+    //     const myElement: any = document.getElementById("Level1");
+    //     myElement.scrollIntoView({ behavior: "smooth" });
+    //   }, 2500);
     const lastLocationIndex = locations.length - 1;
     const lastViewIndex = locations[currentLocation].views.length - 1;
     if (currentView === 1 && currentLocation === 2) {

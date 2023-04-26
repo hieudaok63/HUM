@@ -91,6 +91,12 @@ export const InteractiveFloorplan2D = ({ svg }: Props) => {
       const currentLocationNode = document.getElementById(`L-E${index + 1}`);
       const currentLocation = index + 1;
 
+      const svgEmbed: any = document.getElementsByClassName("injected-svg")[0];
+      if (svgEmbed) {
+        svgEmbed.setAttribute("preserveAspectRatio", "xMidYMid slice");
+        svgEmbed.id = "svgTest";
+      }
+
       if (currentLocationNode) {
         currentLocationNode.addEventListener(
           "mousedown",
@@ -236,7 +242,7 @@ export const InteractiveFloorplan2D = ({ svg }: Props) => {
     svgType === "2d" ? dispatch(setLevel(0)) : dispatch(cleanFilters());
   }, [dispatch, svgType]);
 
-  const mobile = useMediaQuery("(max-width:1365px)");
+  const mobile = useMediaQuery("(max-width:1260px)");
 
   const [personName, setPersonName] = useState<string[]>([]);
 

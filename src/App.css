@@ -64,6 +64,11 @@
   height: 100%;
 }
 
+.injected-svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 @supports (not (-moz-appearance: button)) and (contain: paint) and
   (-webkit-appearance: none) {
   .svg-container div {
@@ -74,13 +79,17 @@
   }
 }
 
-@media only screen and (max-width: 1365px) {
+@media only screen and (max-width: 1260px) {
   .svg-container div {
     display: block;
     width: 100%;
     height: 100%;
-    overflow-x: scroll;
+    overflow-x: scroll !important;
     -webkit-overflow-scrolling: touch;
+  }
+  .injected-svg {
+    width: 100%;
+    height: 100%;
   }
   .svg-container svg {
     display: block;
