@@ -69,6 +69,17 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
         svgEmbed.id = "svgTest";
       }
 
+      setTimeout(() => {
+        const scrollLevel = document.getElementById("Level1");
+        if (scrollLevel) {
+          scrollLevel.scrollIntoView({
+            behavior: "smooth",
+            // inline: "center",
+            block: "center",
+          });
+        }
+      }, 500);
+
       if (currentLocationNode) {
         currentLocationNode.addEventListener(
           "mousedown",
