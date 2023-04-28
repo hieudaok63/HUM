@@ -66,19 +66,18 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
       const svgEmbed: any = document.getElementsByClassName("injected-svg")[0];
       if (svgEmbed) {
         svgEmbed.setAttribute("preserveAspectRatio", "xMidYMid slice");
-        svgEmbed.id = "svgTest";
       }
 
-      setTimeout(() => {
-        const scrollLevel = document.getElementById("Level1");
-        if (scrollLevel) {
-          scrollLevel.scrollIntoView({
-            behavior: "smooth",
-            // inline: "center",
-            block: "center",
-          });
-        }
-      }, 500);
+      // setTimeout(() => {
+      //   const scrollLevel = document.getElementById("Level1");
+      //   if (scrollLevel) {
+      //     scrollLevel.scrollIntoView({
+      //       behavior: "smooth",
+      //       // inline: "center",
+      //       block: "center",
+      //     });
+      //   }
+      // }, 500);
 
       if (currentLocationNode) {
         currentLocationNode.addEventListener(

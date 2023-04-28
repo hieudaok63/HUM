@@ -50,6 +50,11 @@
   }
 }
 
+.injected-svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 #root {
   height: 100%;
   width: 100%;
@@ -62,11 +67,6 @@
 .svg-container div {
   width: 100%;
   height: 100%;
-}
-
-.injected-svg {
-  width: 100% !important;
-  height: 100% !important;
 }
 
 @supports (not (-moz-appearance: button)) and (contain: paint) and
@@ -84,13 +84,15 @@
     display: block;
     width: 100%;
     height: 100%;
-    overflow-x: scroll !important;
+    overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
   }
+
   .injected-svg {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
   }
+
   .svg-container svg {
     display: block;
     height: 100%;
