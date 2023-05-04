@@ -7,14 +7,13 @@ import {
   useUnits,
 } from "../../hooks";
 import { ReactSVG } from "react-svg";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { FloorplanCard } from "../FloorplanCard";
 import { ModalFloorplan } from "../ModalFlooplan";
 import { Unit } from "../../models/redux-models";
 import {
   setCurrentLocations,
   setCurrentLocationView,
-  // setCurrentVideo
 } from "../../store/todo-actions";
 import { Box, CircularProgress } from "@mui/material";
 import { setCurrentVideo } from "../../store/todo-actions";
@@ -67,17 +66,6 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
       if (svgEmbed) {
         svgEmbed.setAttribute("preserveAspectRatio", "xMidYMid slice");
       }
-
-      // setTimeout(() => {
-      //   const scrollLevel = document.getElementById("Level1");
-      //   if (scrollLevel) {
-      //     scrollLevel.scrollIntoView({
-      //       behavior: "smooth",
-      //       // inline: "center",
-      //       block: "center",
-      //     });
-      //   }
-      // }, 500);
 
       if (currentLocationNode) {
         currentLocationNode.addEventListener(
