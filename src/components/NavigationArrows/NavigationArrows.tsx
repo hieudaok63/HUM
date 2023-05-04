@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
 import {
@@ -27,20 +27,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
 
   const mobile = useMediaQuery("(max-width:1260px)");
 
-  // useEffect(() => {
-  //   mobile &&
-  //     setTimeout(() => {
-  //       const myElement: any = document.getElementById("Level1");
-  //       myElement?.scrollIntoView({ behavior: "smooth" });
-  //     }, 2500);
-  // }, [mobile]);
-
   const prevLocation = useCallback(() => {
-    // mobile &&
-    //   setTimeout(() => {
-    //     const myElement: any = document.getElementById("Level1");
-    //     myElement.scrollIntoView({ behavior: "smooth" });
-    //   }, 2500);
     const newLocation =
       currentLocation === 0 ? locations.length - 1 : currentLocation;
 
@@ -107,11 +94,6 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
   }, [currentLocation, currentView, dispatch, locations]);
 
   const nextLocation = useCallback(() => {
-    // mobile &&
-    //   setTimeout(() => {
-    //     const myElement: any = document.getElementById("Level1");
-    //     myElement.scrollIntoView({ behavior: "smooth" });
-    //   }, 2500);
     const lastLocationIndex = locations.length - 1;
     const lastViewIndex = locations[currentLocation].views.length - 1;
     if (currentView === 1 && currentLocation === 2) {
@@ -174,7 +156,7 @@ export const NavigationArrows = ({ position, disabled }: Props) => {
       dispatch(setCurrentLocationView(0));
       return;
     }
-  }, [currentLocation, currentView, dispatch, locations, mobile]);
+  }, [currentLocation, currentView, dispatch, locations]);
 
   const arrow = useMemo(
     () =>
