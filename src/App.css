@@ -64,6 +64,14 @@
   height: 100%;
 }
 
+.utiliti-stratto {
+  cursor: pointer;
+}
+
+.utiliti-stratto:hover {
+  opacity: 0.8;
+}
+
 @supports (not (-moz-appearance: button)) and (contain: paint) and
   (-webkit-appearance: none) {
   .svg-container div {
