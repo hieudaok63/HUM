@@ -12,7 +12,7 @@ export const Video = ({ src, type }: Props) => {
   const vidRef = useRef<any>(null);
   const handlePlayVideo = useCallback(() => {
     if (vidRef.current) {
-      vidRef.current.play();
+      // vidRef.current.play();
       vidRef.current.addEventListener("timeupdate", function () {
         if (
           vidRef.current &&
