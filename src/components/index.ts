@@ -7,3 +7,4 @@ export * from "./HandleZoom";
 export * from "./AvailabilityScreen";
 export * from "./BRollScreen";
 export * from "./ComponentsUtilities";
+export * from "./FloorPlansScreen";
