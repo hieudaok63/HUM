@@ -1,8 +1,8 @@
 import { Box, Stack } from "@mui/material";
-import { ReactComponent as ButtonShare } from "../../assets/icons/ShareButton.svg";
-import { ReactComponent as ButtonLangue } from "../../assets/icons/ButtonLangue.svg";
-import { ReactComponent as ButtonLocation } from "../../assets/icons/ButtonLocation.svg";
-import { ReactComponent as ChatButton } from "../../assets/icons/ChatButton.svg";
+import { ReactComponent as ButtonShare } from "../../../assets/icons/ShareButton.svg";
+import { ReactComponent as ButtonLangue } from "../../../assets/icons/ButtonLangue.svg";
+import { ReactComponent as ButtonLocation } from "../../../assets/icons/ButtonLocation.svg";
+import { ReactComponent as ChatButton } from "../../../assets/icons/ChatButton.svg";
 
 export default function UtilitiesStratto() {
   return (

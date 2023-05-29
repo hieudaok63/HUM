@@ -1,3 +1,9 @@
+import { HomeIcon } from "../ComponentsUtilities";
+
 export default function BRollScreen() {
-  return <div>BRollScreen</div>;
+  return (
+    <div>
+      <HomeIcon />
+    </div>
+  );
 }

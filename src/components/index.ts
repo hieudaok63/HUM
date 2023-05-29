@@ -4,7 +4,6 @@ export * from "./AvailabilityFilters";
 export * from "./BottomFilters";
 export * from "./Locations";
 export * from "./HandleZoom";
-export * from "./ButtonStratto";
-export * from "./UtilitiesStratto";
 export * from "./AvailabilityScreen";
 export * from "./BRollScreen";
+export * from "./ComponentsUtilities";
