@@ -12,6 +12,7 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      {/* 123 */}
       <App />
     </Provider>
   </React.StrictMode>
