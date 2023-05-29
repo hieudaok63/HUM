@@ -1,11 +1,8 @@
 import { Box, Stack } from "@mui/material";
-import ButtonStratto from "../ButtonStratto";
-import UtilitiesStratto from "../UtilitiesStratto";
 import { ReactComponent as StrattoLogo } from "../../assets/icons/StrattoLogo.svg";
-import { useNavigate } from "react-router-dom";
+import { ButtonStratto, UtilitiesStratto } from "../ComponentsUtilities";
 
 export default function WelcomeScreen() {
-  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -13,6 +10,9 @@ export default function WelcomeScreen() {
         backgroundColor: "#888686",
         width: "100%",
         height: "100%",
+        backgroundImage: `url('https://athum.com/images-tmp/okun-etapa2A.jpg')`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <Stack
@@ -25,7 +25,22 @@ export default function WelcomeScreen() {
           width: "100%",
         }}
       >
-        <StrattoLogo onClick={() => navigate("/b-roll")} />
+        <Box
+          sx={{
+            width: {
+              xs: "300px",
+              lg: "400px",
+              xl: "420px",
+            },
+          }}
+        >
+          <StrattoLogo
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+          />
+        </Box>
         <Stack
           direction="row"
           spacing={4}

@@ -14,10 +14,14 @@ export default function ButtonStratto({
 }: ButtonStrattoProps) {
   const navigate = useNavigate();
 
+  const handleClick = () => {
+    navigate(`/${path}`);
+  };
+
   return (
     <div>
       <Button
-        onClick={() => navigate(`${path}`)}
+        onClick={handleClick}
         sx={{
           cursor: "pointer",
           width: "auto",
@@ -30,9 +34,12 @@ export default function ButtonStratto({
           color: "#000",
           fontWeight: "600",
           fontSize: "12px",
-          background: "gba(255, 255, 255, 0.8)",
+          backgroundColor: "rgba(255, 255, 255, 0.8)",
           marginRight: `${marginRight}`,
           display: "block",
+          "&:hover": {
+            backgroundColor: "rgba(200, 196, 196, 0.8)",
+          },
         }}
       >
         {name}
