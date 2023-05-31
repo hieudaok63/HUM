@@ -5,6 +5,7 @@ import Stratto from "./Pages/Stratto";
 import AvailabilityScreen from "./components/AvailabilityScreen";
 import BRollScreen from "./components/BRollScreen";
 import FloorPlansScreen from "./components/FloorPlansScreen";
+import AmenitiesArea from "./components/AmenitiesArea";
 
 export const App = () => {
   return (
@@ -15,6 +16,7 @@ export const App = () => {
         <Route path="/availability" element={<AvailabilityScreen />} />
         <Route path="/b-roll" element={<BRollScreen />} />
         <Route path="/floorplans" element={<FloorPlansScreen />} />
+        <Route path="/amenities-area" element={<AmenitiesArea/>} />
         {/* <Route path="/error" component={ErrorPage} /> */}
         <Route path="/:builderId/:projectId" element={<Desktop />} />
       </Routes>

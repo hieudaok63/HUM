@@ -105,13 +105,13 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
       );
 
       if (currentLevelNode) {
-        currentLevelNode.classList.add("floor");
+        currentLevelNode?.classList.add("floor");
         if (
           unit.attributes.level === level?.toString() ||
           level === null ||
           currentLevelNode?.innerHTML.includes("circle")
         ) {
-          currentLevelNode.classList.remove("floor");
+          currentLevelNode?.classList.remove("floor");
         }
       }
 
@@ -136,13 +136,13 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
         const floorplanCircleNumber = document.getElementById(`M-${name}`);
 
         if (floorplanPolygon) {
-          floorplanPolygon.classList.remove("st2");
+          floorplanPolygon?.classList.remove("st2");
           floorplanPolygon.setAttribute(
             "style",
             `fill:transparent; opacity: 1`
           );
           if (status === availability) {
-            floorplanPolygon.classList.remove("st2");
+            floorplanPolygon?.classList.remove("st2");
             floorplanPolygon.setAttribute(
               "style",
               `fill:${fills[availability]}; opacity: 0.5`
@@ -150,7 +150,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
           }
 
           if (lockUnitRef.current === name) {
-            floorplanPolygon.classList.remove("st2");
+            floorplanPolygon?.classList.remove("st2");
             floorplanPolygon.setAttribute(
               "style",
               `fill:${fills[status]}; opacity: 0.5`
@@ -181,7 +181,7 @@ export const InteractiveFloorplan = ({ svg }: Props) => {
                 const { clientX: x, clientY: y } = e;
                 setMousePosition({ x, y });
                 if (floorplanPolygon) {
-                  floorplanPolygon.classList.remove("st2");
+                  floorplanPolygon?.classList.remove("st2");
                   floorplanPolygon.setAttribute(
                     "style",
                     `fill:${fills[status]}; opacity: 0.5`
