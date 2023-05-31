@@ -10,12 +10,10 @@ const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      {/* 123 */}
-      <App />
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    {/* 123 */}
+    <App />
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

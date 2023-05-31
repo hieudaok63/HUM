@@ -76,6 +76,14 @@
 .utiliti-stratto:hover {
   opacity: 0.8;
 }
+::-webkit-scrollbar {
+  width: 6px;
+  background-color: #222222;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #7a7a7a;
+  border-radius: 10px;
+}
 
 @supports (not (-moz-appearance: button)) and (contain: paint) and
   (-webkit-appearance: none) {
