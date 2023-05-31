@@ -7,11 +7,16 @@ const useStyles = makeStyles(() => ({
     width: "100%",
     height: "auto",
     backgroundColor: "#222222",
+    cursor: "pointer",
     "@media (max-width: 640px)": {
       display: "flex",
       flexDirection: "row-reverse",
     },
+    "&:hover": {
+      opacity: "0.8",
+    },
   },
+
   header: {
     width: "100%",
     height: "182px",
