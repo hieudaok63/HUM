@@ -6,6 +6,7 @@ import AvailabilityScreen from "./components/AvailabilityScreen";
 import BRollScreen from "./components/BRollScreen";
 import FloorPlansScreen from "./components/FloorPlansScreen";
 import AmenitiesArea from "./components/AmenitiesArea";
+import FloorPlan3DTour from "./components/FloorPlansScreen/FloorPlan3DTour";
 
 export const App = () => {
   return (
@@ -16,7 +17,8 @@ export const App = () => {
         <Route path="/availability" element={<AvailabilityScreen />} />
         <Route path="/b-roll" element={<BRollScreen />} />
         <Route path="/floorplans" element={<FloorPlansScreen />} />
-        <Route path="/amenities-area" element={<AmenitiesArea/>} />
+        <Route path="/amenities-area" element={<AmenitiesArea />} />
+        <Route path="/floorplans-3d" element={<FloorPlan3DTour />} />
         {/* <Route path="/error" component={ErrorPage} /> */}
         <Route path="/:builderId/:projectId" element={<Desktop />} />
       </Routes>
