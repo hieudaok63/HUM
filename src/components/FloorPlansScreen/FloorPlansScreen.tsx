@@ -98,7 +98,7 @@ export default function FloorPlansScreen() {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   containerFloorPlans: {
     display: "block",
     width: "100%",
