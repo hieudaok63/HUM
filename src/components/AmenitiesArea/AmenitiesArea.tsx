@@ -150,7 +150,8 @@ export default function AmenitiesArea() {
         <div style={{position:'absolute', bottom:'24px', left:'30px', cursor:'pointer'}} onClick={()=> navigate('/b-roll')}>
             {!mobile && <ReplayIcon />}
         </div>
-        <div style={{position:'absolute', bottom: mobile ? '97px' : '20px', right:'0'}}>
+        
+        <div style={{position:'absolute', bottom: mobile ? '97px' : '20px', right:'0', display:open ? 'none' :'unset'}}>
             <UtilitiesStratto/>
         </div>
         <AmenitiesAreaModal onClose={handleClose} open={open}/>
