@@ -68,7 +68,7 @@ const InfoMobileView = () => {
 
 export default function AmenitiesAreaModal({onClose, open}:AmenitiesAreaModalProps) {
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
-    const desktop = useMediaQuery("(max-width:1440px)");
+    const desktop = useMediaQuery("(max-width:1870px)");
     const tablet = useMediaQuery("(max-width:1180px)");
     const tabletSmall = useMediaQuery("(max-width:1024px)")
     const tabletMini = useMediaQuery("(max-width:820px)");
@@ -85,7 +85,7 @@ export default function AmenitiesAreaModal({onClose, open}:AmenitiesAreaModalPro
             return '565px'
         }
         if(desktop) { 
-            return '760px'
+            return '785px'
         }
         return '1176px'
     }
@@ -96,7 +96,10 @@ export default function AmenitiesAreaModal({onClose, open}:AmenitiesAreaModalPro
         if(tablet) {
             return '535px'
         }
-        return '862px'
+        if(desktop) {
+            return '555px'
+        }
+        return '768px'
     }
     const setButtonWidth = () => {
         if(mobile){
