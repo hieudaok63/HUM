@@ -1,8 +1,10 @@
 import { Box, Stack } from "@mui/material";
 import { ReactComponent as StrattoLogo } from "../../assets/icons/StrattoLogo.svg";
 import { ButtonStratto, UtilitiesStratto } from "../ComponentsUtilities";
+import { useTranslation } from "react-i18next";
 
 export default function WelcomeScreen() {
+  const { t } = useTranslation();
   return (
     <Box
       sx={{
@@ -48,8 +50,8 @@ export default function WelcomeScreen() {
             marginTop: "10px",
           }}
         >
-          <ButtonStratto name="Explora la propiedad" path="b-roll" />
-          <ButtonStratto name="Escoge tu depa" path="availability" />
+          <ButtonStratto name={t("Explora la propiedad")} path="b-roll" />
+          <ButtonStratto name={t("Escoge tu depa")} path="availability" />
         </Stack>
       </Stack>
 

@@ -8,6 +8,7 @@ import FloorPlansScreen from "./components/FloorPlansScreen";
 import AmenitiesArea from "./components/AmenitiesArea";
 import FloorPlan3DTour from "./components/FloorPlansScreen/FloorPlan3DTour";
 import { ModalStratto } from "./components";
+import "./i18n/i18n";
 
 export const App = () => {
   return (
