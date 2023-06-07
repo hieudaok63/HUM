@@ -2,7 +2,6 @@ import { Divider, Grid, Stack } from "@mui/material";
 
 import { ReactComponent as LogoHome } from "../../../assets/icons/LogoHome.svg";
 import { ReactComponent as FilterRemove } from "../../../assets/icons/FilterRemove.svg";
-import { FilterStratto } from "./FilterStratto";
 import { useMemo, useState } from "react";
 import {
   useAppDispatch,
@@ -22,6 +21,10 @@ import {
 import { Box } from "@mui/system";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useNavigate } from "react-router-dom";
+import { ReactComponent as HomeIcon } from "../../../assets/icons/home.svg";
+import { ReactComponent as MenuIcon } from "../../../assets/icons/menu.svg";
+import { ReactComponent as DeleteIcon } from "../../../assets/icons/delete.svg";
+import { FilterStratto } from "./FilterStratto";
 
 export const FiltersStratto = () => {
   const dispatch = useAppDispatch();
@@ -205,7 +208,7 @@ export const FiltersStratto = () => {
           </Stack>
         </Grid>
       )}
-      {/* {mobile && (
+      {mobile && (
         <Grid
           container
           direction="row"
@@ -215,7 +218,8 @@ export const FiltersStratto = () => {
             height: 56,
             backgroundColor: "#000000",
             cursor: "pointer",
-            position: currentLocation === 0 ? "absolute" : "unset",
+            position: "unset",
+            // position: currentLocation === 0 ? "absolute" : "unset",
           }}
         >
           <Stack
@@ -239,32 +243,30 @@ export const FiltersStratto = () => {
           </Stack>
           {
             <>
-              {currentLocation !== 0 && (
-                <div
-                  onClick={() => {
-                    setOpenMenu(true);
-                  }}
-                >
-                  {!openMenu ? (
-                    <MenuIcon />
-                  ) : (
-                    <div
-                      onClick={() => {
-                        setShouldClear(true);
-                        dispatch(cleanFilters());
-                        setOpenMenu(true);
-                      }}
-                      style={{
-                        marginTop: "12px",
-                      }}
-                    >
-                      <FilterRemove />
-                    </div>
-                  )}
-                </div>
-              )}
+              <div
+                onClick={() => {
+                  setOpenMenu(true);
+                }}
+              >
+                {!openMenu ? (
+                  <MenuIcon />
+                ) : (
+                  <div
+                    onClick={() => {
+                      setShouldClear(true);
+                      dispatch(cleanFilters());
+                      setOpenMenu(true);
+                    }}
+                    style={{
+                      marginTop: "12px",
+                    }}
+                  >
+                    <FilterRemove />
+                  </div>
+                )}
+              </div>
 
-              {currentLocation !== 0 && openMenu && (
+              {openMenu && (
                 <span
                   style={{
                     color: "white",
@@ -295,23 +297,7 @@ export const FiltersStratto = () => {
                     orientation="horizontal"
                     sx={{ backgroundColor: "#ffffff", height: 1 }}
                   />
-                  <FilterStratto
-                    key={"level"}
-                    text="Level"
-                    options={levels}
-                    index={levelIndex}
-                    onChange={(event: { value: number }) =>
-                      dispatch(setLevel(event.value))
-                    }
-                    shouldClear={shouldClear}
-                    resetShouldClear={() => {
-                      setShouldClear(false);
-                    }}
-                  />
-                  <Divider
-                    orientation="horizontal"
-                    sx={{ backgroundColor: "#ffffff", height: 1 }}
-                  />
+
                   <FilterStratto
                     key={"bedrooms"}
                     text="Bedrooms / Baths"
@@ -401,11 +387,8 @@ export const FiltersStratto = () => {
               )}
             </>
           }
-          <Stack direction="row">
-            {currentLocation !== 0 && !openMenu && <BottomFilters />}
-          </Stack>
         </Grid>
-      )} */}
+      )}
     </>
   );
 };
