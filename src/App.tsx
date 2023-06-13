@@ -2,13 +2,13 @@ import "./App.css";
 import { Desktop } from "./Pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Stratto from "./Pages/Stratto";
-import AvailabilityScreen from "./components/AvailabilityScreen";
 import BRollScreen from "./components/BRollScreen";
 import FloorPlansScreen from "./components/FloorPlansScreen";
 import AmenitiesArea from "./components/AmenitiesArea";
 import FloorPlan3DTour from "./components/FloorPlansScreen/FloorPlan3DTour";
 import { ModalStratto } from "./components";
 import "./i18n/i18n";
+import AvailabilityScreen from "./components/AvailabilityScreen";
 
 export const App = () => {
   return (

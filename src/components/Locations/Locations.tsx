@@ -13,7 +13,7 @@ import { ReactComponent as OkunIcon } from "../../assets/icons/okun.svg";
 import { ReactComponent as LaHausIcon } from "../../assets/icons/lahaus.svg";
 import { useMediaQuery } from "@mui/material";
 interface IScale {
-  scaleZoom: string;
+  scaleZoom?: string;
 }
 
 export const Locations = ({ scaleZoom }: IScale) => {
