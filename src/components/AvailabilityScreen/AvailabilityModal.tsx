@@ -1,4 +1,4 @@
-import { Box, Grid, Stack } from "@mui/material";
+import { Box, Button, Grid, Stack } from "@mui/material";
 import { ModalStratto } from "../ComponentsUtilities";
 import { makeStyles } from "@mui/styles";
 import React, { useRef, useState } from "react";
@@ -28,6 +28,13 @@ const useStyles = makeStyles({
     fontSize: "24px",
     lineHeight: "29px",
   },
+  thTable: {
+    width: "20%",
+    padding: "4px 0",
+  },
+  thTableAll: {
+    width: "80%",
+  },
 });
 
 export default function AvailabilityModal() {
@@ -47,7 +54,7 @@ export default function AvailabilityModal() {
     >
       <ModalStratto>
         <div className={classes.contentModal}>
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             <Grid item xs={12} lg={8} xl={6} style={{}}>
               <div>
                 <>
@@ -230,6 +237,83 @@ export default function AvailabilityModal() {
                   <span className={classes.info}>37.64 m2</span>
                 </Box>
               </div>
+              <table className={classes.thTableAll}>
+                <tr>
+                  <th className={classes.thTable}>Número de unidad</th>
+                  <th className={classes.thTable}>Nivel</th>
+                  <th className={classes.thTable}>Renta Mensual</th>
+                </tr>
+                <tr>
+                  <td>Peter</td>
+                  <td>Griffin</td>
+                  <td>Griffin</td>
+                </tr>
+                <tr>
+                  <td>Lois</td>
+                  <td>Griffin</td>
+                  <td>Griffin</td>
+                </tr>
+                <tr>
+                  <td>Lois</td>
+                  <td>Griffin</td>
+                  <td>Griffin</td>
+                </tr>
+                <tr>
+                  <td>Lois</td>
+                  <td>Griffin</td>
+                  <td>Griffin</td>
+                </tr>
+                <tr>
+                  <td>Lois</td>
+                  <td>Griffin</td>
+                  <td>Griffin</td>
+                </tr>
+                <tr>
+                  <td>Lois</td>
+                  <td>Griffin</td>
+                  <td>Griffin</td>
+                </tr>
+                <tr>
+                  <td>Lois</td>
+                  <td>Griffin</td>
+                  <td>Griffin</td>
+                </tr>
+                <tr>
+                  <td>Lois</td>
+                  <td>Griffin</td>
+                  <td>Griffin</td>
+                </tr>
+              </table>
+
+              <Stack direction="row" sx={{ marginTop: "20px" }} spacing={2}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#56B0C0",
+                    width: "220px",
+                    height: "56px",
+                    borderRadius: "16px",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Reserva
+                </Button>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    color: "#56B0C0",
+                    border: "1px solid #56B0C0",
+                    width: "220px",
+                    height: "56px",
+                    borderRadius: "16px",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Agenda tu visita
+                </Button>
+              </Stack>
             </Grid>
           </Grid>
         </div>

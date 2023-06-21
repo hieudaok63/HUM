@@ -13,6 +13,23 @@
   }
 }
 
+th {
+  border: 1px solid #ebedff;
+  text-align: center;
+}
+td {
+  border-left: 1px solid #ebedff;
+  padding: 6px 0;
+}
+
+table {
+  width: 100%;
+  border-radius: 20px !important;
+  border-collapse: collapse;
+  border: 1px solid #ebedff;
+  text-align: center;
+}
+
 #L-E1:hover {
   cursor: pointer;
   opacity: 0.8;
